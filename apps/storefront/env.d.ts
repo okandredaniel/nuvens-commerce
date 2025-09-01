@@ -7,7 +7,9 @@ import type { HydrogenSessionData, HydrogenEnv } from '@shopify/hydrogen';
 import type { createAppLoadContext } from '~/lib/context';
 
 declare global {
-  interface Env extends HydrogenEnv {}
+  interface Env extends HydrogenEnv {
+    BRAND_ID?: string;
+  }
 }
 
 declare module 'react-router' {
