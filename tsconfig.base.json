@@ -19,6 +19,7 @@
       "@nuvens/i18n": ["packages/i18n/src"]
     },
 
-    "types": ["@shopify/oxygen-workers-types"]
+    "types": ["node"],
+    "typeRoots": ["./types", "./node_modules/@types"]
   }
 }

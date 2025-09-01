@@ -1,9 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", ".react-router/types/**/*", "env.d.ts"],
+  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", ".react-router/types/**/*", "types/**/*"],
   "compilerOptions": {
     "baseUrl": ".",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "module": "ES2022",
@@ -15,7 +14,7 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["@shopify/oxygen-workers-types", "react-router", "vite/client"],
+    "types": ["node", "@shopify/oxygen-workers-types", "react-router", "vite/client"],
     "paths": {
       "~/*": ["app/*"],
       "@nuvens/*": ["../../packages/*/src"],
