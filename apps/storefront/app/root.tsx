@@ -94,9 +94,14 @@ export function Layout({ children }: { children?: React.ReactNode }) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
 
-  // const cssVars = data?.brand?.tokens?.colors
-  //   ? Object.entries(data.brand.tokens.colors).map(([k, v]) => `--color-${k}: ${v};`)
-  //   : [];
+  const globalTokens: { colors: Record<string, string> } = {
+    colors: {},
+  };
+
+  const brandTokens = data?.brand?.tokens;
+
+  const colors = { ...globalTokens.colors, ...brandTokens?.colors };
+  const cssVars = Object.entries(colors).map(([key, value]) => `--color-${key}:${value};`);
 
   return (
     <html lang="en">
@@ -108,7 +113,7 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
-        {/* {cssVars.length > 0 && <style id="brand-vars">{`:root{${cssVars.join('')}}`}</style>} */}
+        {cssVars.length > 0 && <style id="brand-vars">{`:root{${cssVars.join('')}}`}</style>}
       </head>
       <body data-brand={data?.brand?.id}>
         {data ? (
