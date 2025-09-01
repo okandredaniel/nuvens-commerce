@@ -1,37 +1,29 @@
 {
-  "include": [
-    "./**/*.d.ts",
-    "./**/*.ts",
-    "./**/*.tsx",
-    ".react-router/types/**/*"
-  ],
+  "extends": "../../tsconfig.base.json",
+  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", ".react-router/types/**/*", "env.d.ts"],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
-    "isolatedModules": true,
-    "esModuleInterop": true,
+    "baseUrl": ".",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
     "module": "ES2022",
     "target": "ES2022",
     "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "types": [
-      "@shopify/oxygen-workers-types",
-      "react-router",
-      "vite/client"
-    ],
+    "types": ["@shopify/oxygen-workers-types", "react-router", "vite/client"],
     "paths": {
-      "~/*": [
-        "app/*"
-      ]
+      "~/*": ["app/*"],
+      "@nuvens/*": ["../../packages/*/src"],
+      "@nuvens/ui": ["../../packages/ui/src"],
+      "@nuvens/brand-tokens": ["../../packages/brand-tokens/src"],
+      "@nuvens/commerce": ["../../packages/commerce/src"],
+      "@nuvens/account": ["../../packages/account/src"],
+      "@nuvens/i18n": ["../../packages/i18n/src"]
     },
     "noEmit": true,
     "rootDirs": [".", "./.react-router/types"]

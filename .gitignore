@@ -1,0 +1,83 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+
+# Build / Output
+dist/
+build/
+public/build/
+.cache/
+.hydrogen/
+.vercel/
+.netlify/
+.next/
+out/
+coverage/
+.vite/
+
+# Oxygen local build artifacts
+.oxygen/
+.mini-oxygen/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+*.log.*
+logs/
+
+# Editor / IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*.swn
+*.swp
+.DS_Store
+Thumbs.db
+
+# Test / Coverage
+coverage/
+*.lcov
+
+# Misc
+*.tgz
+*.tar.gz
+*.zip
+*.tmp
+*.bak
+*.old
+
+# Storybook
+storybook-static/
+
+# Typescript
+*.tsbuildinfo
+
+# Playwright / Cypress
+playwright-report/
+test-results/
+cypress/videos/
+cypress/screenshots/
+
+# Hydrogen deploy tokens
+shopify.*
+
+# Cursor AI
+.cursor/
+
+
+#Shopify
+/.mf
+.shopify
+.react-router

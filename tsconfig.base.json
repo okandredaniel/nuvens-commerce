@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@nuvens/*": ["packages/*/src"],
+      "@nuvens/ui": ["packages/ui/src"],
+      "@nuvens/brand-tokens": ["packages/brand-tokens/src"],
+      "@nuvens/commerce": ["packages/commerce/src"],
+      "@nuvens/account": ["packages/account/src"],
+      "@nuvens/i18n": ["packages/i18n/src"]
+    },
+
+    "types": ["@shopify/oxygen-workers-types"]
+  }
+}
