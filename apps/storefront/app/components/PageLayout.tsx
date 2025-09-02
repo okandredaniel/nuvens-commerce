@@ -1,5 +1,9 @@
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 import { Aside } from '~/components/Aside';
+import { useRuntime } from '~/lib/runtime/useRuntime';
+import { CartAside } from './CartAside';
+import { Header } from './header/Header';
+import { MobileMenuAside } from './MobileMenuAside';
 
 export interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -18,19 +22,23 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
 }: PageLayoutProps) {
+  const runtime = useRuntime();
+  const brandId = runtime?.brand.id;
+
   return (
     <Aside.Provider>
-      {/* <CartAside cart={cart} /> */}
+      <CartAside cart={cart} />
       {/* <SearchAside /> */}
-      {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
-      {/* {header && (
+      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
+      {header && (
         <Header
           header={header}
           cart={cart}
           isLoggedIn={isLoggedIn}
           publicStoreDomain={publicStoreDomain}
         />
-      )} */}
+      )}
+      <h1>{brandId}</h1>
       <main>{children}</main>
       {/* <Footer footer={footer} header={header} publicStoreDomain={publicStoreDomain} /> */}
     </Aside.Provider>
