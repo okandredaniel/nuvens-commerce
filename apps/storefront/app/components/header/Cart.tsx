@@ -6,23 +6,23 @@ import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
 import type { HeaderProps } from './header.interfaces';
 
-export function CartButton({ cart, ring }: { cart: HeaderProps['cart']; ring: string }) {
+export function CartButton({ cart }: { cart: HeaderProps['cart'] }) {
   return (
-    <Suspense fallback={<CartBadge count={null} ring={ring} />}>
+    <Suspense fallback={<CartBadge count={null} />}>
       <Await resolve={cart}>
-        <CartResolved ring={ring} />
+        <CartResolved />
       </Await>
     </Suspense>
   );
 }
 
-function CartResolved({ ring }: { ring: string }) {
+function CartResolved() {
   const original = useAsyncValue() as CartApiQueryFragment | null;
   const cart = useOptimisticCart(original);
-  return <CartBadge count={cart?.totalQuantity ?? 0} ring={ring} />;
+  return <CartBadge count={cart?.totalQuantity ?? 0} />;
 }
 
-function CartBadge({ count, ring }: { count: number | null; ring: string }) {
+function CartBadge({ count }: { count: number | null }) {
   const { open } = useAside();
   const { publish, shop, cart, prevCart } = useAnalytics();
 
@@ -39,8 +39,7 @@ function CartBadge({ count, ring }: { count: number | null; ring: string }) {
           url: window.location.href || '',
         } as CartViewPayload);
       }}
-      className="relative inline-grid place-items-center size-10 rounded-full"
-      style={{ border: `2px solid ${ring}` }}
+      className="relative inline-grid place-items-center size-10 rounded-full border-1 border-zinc-300"
     >
       <FiShoppingCart className="text-black size-5" />
       {typeof count === 'number' ? (

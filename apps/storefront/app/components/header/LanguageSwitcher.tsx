@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router';
 import { LanguageOption } from './header.interfaces';
 
-export function LanguageSwitcher({ ring, options }: { ring: string; options: LanguageOption[] }) {
+export function LanguageSwitcher({ options }: { options: LanguageOption[] }) {
   if (!options?.length) return null;
 
   const [current, ...others] = options;
@@ -12,8 +12,7 @@ export function LanguageSwitcher({ ring, options }: { ring: string; options: Lan
         to={current.href}
         prefetch="intent"
         aria-label="Change language"
-        className="inline-grid place-items-center size-10 rounded-full text-xs font-semibold uppercase"
-        style={{ border: `2px solid ${ring}` }}
+        className="inline-grid place-items-center size-10 rounded-full text-xs font-semibold uppercase border-1 border-zinc-300"
       >
         {current.label ?? current.isoCode}
       </NavLink>
