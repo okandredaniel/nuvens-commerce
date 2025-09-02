@@ -1,13 +1,13 @@
+import type { HeaderQuery } from 'storefrontapi.generated';
 import { Aside } from './Aside';
 import { HeaderMenu } from './header/HeaderMenu';
-import { PageLayoutProps } from './PageLayout';
 
 export function MobileMenuAside({
   header,
   publicStoreDomain,
 }: {
-  header: PageLayoutProps['header'];
-  publicStoreDomain: PageLayoutProps['publicStoreDomain'];
+  header: HeaderQuery;
+  publicStoreDomain: string;
 }) {
   return (
     header.menu &&

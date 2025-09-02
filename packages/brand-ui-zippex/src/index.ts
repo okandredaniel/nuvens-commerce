@@ -1,1 +1,2 @@
-export * from './components/Brand';
+export * from './components';
+export * from './pages';

@@ -4,7 +4,7 @@ import { Aside } from './Aside';
 import { SEARCH_ENDPOINT, SearchFormPredictive } from './SearchFormPredictive';
 import { SearchResultsPredictive } from './SearchResultsPredictive';
 
-function SearchAside() {
+export function SearchAside() {
   const queriesDatalistId = useId();
   return (
     <Aside type="search" heading="SEARCH">

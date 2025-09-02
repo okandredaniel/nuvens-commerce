@@ -1,10 +1,12 @@
 import { Suspense } from 'react';
 import { Await } from 'react-router';
+import { CartApiQueryFragment } from 'storefrontapi.generated';
 import { Aside } from './Aside';
 import { CartMain } from './CartMain';
-import { PageLayoutProps } from './PageLayout';
 
-export function CartAside({ cart }: { cart: PageLayoutProps['cart'] }) {
+type CartPromise = Promise<CartApiQueryFragment | null>;
+
+export function CartAside({ cart }: { cart: CartPromise }) {
   return (
     <Aside type="cart" heading="CART">
       <Suspense fallback={<p>Loading cart ...</p>}>
