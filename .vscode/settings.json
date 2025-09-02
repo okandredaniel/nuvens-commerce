@@ -8,5 +8,5 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "cSpell.words": ["naturalex", "zippex"]
+  "cSpell.words": ["naturalex", "shopify", "zippex"]
 }
