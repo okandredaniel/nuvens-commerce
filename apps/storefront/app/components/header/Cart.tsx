@@ -41,7 +41,7 @@ function CartBadge({ count }: { count: number | null }) {
       }}
       className="relative inline-grid place-items-center size-10 rounded-full border-1 border-zinc-300"
     >
-      <FiShoppingCart className="text-black size-5" />
+      <FiShoppingCart className="size-5" />
       {typeof count === 'number' ? (
         <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-white/90 text-black text-[10px] font-semibold grid place-items-center">
           {count}

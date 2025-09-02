@@ -14,14 +14,14 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
   const languages = (data as unknown as { languages?: LanguageOption[] })?.languages;
 
   return (
-    <header className="w-full px-4 sm:px-6 py-3 bg-zinc-400">
-      <div className="mx-auto max-w-7xl grid grid-cols-4 items-center">
-        <div className="flex items-center gap-3">
+    <header className="w-full px-4 sm:px-6 py-3 bg-indigo-900 text-white">
+      <div className="mx-auto max-w-7xl flex items-center justify-between">
+        <div className="hidden xs:flex items-center gap-3">
           <MenuButton />
         </div>
 
         <div className="flex justify-center">
-          <NavLink prefetch="intent" to="/" end className="inline-flex items-center gap-2">
+          <NavLink prefetch="intent" to="/" end>
             <Brand />
           </NavLink>
         </div>
@@ -30,7 +30,7 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
           <HeaderMenu
             menu={menu}
             viewport="desktop"
-            primaryDomainUrl={header.shop.primaryDomain.url}
+            primaryDomainUrl={shop.primaryDomain.url}
             publicStoreDomain={publicStoreDomain}
           />
         ) : null}
