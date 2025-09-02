@@ -1,8 +1,8 @@
 import { Aside } from './Aside';
-import { HeaderMenu } from './Header';
+import { HeaderMenu } from './header/HeaderMenu';
 import { PageLayoutProps } from './PageLayout';
 
-function MobileMenuAside({
+export function MobileMenuAside({
   header,
   publicStoreDomain,
 }: {
