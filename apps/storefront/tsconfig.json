@@ -19,6 +19,7 @@
       "~/*": ["app/*"],
       "@nuvens/*": ["../../packages/*/src"],
       "@nuvens/ui": ["../../packages/ui/src"],
+      "@nuvens/brand-ui": ["app/brand-ui.generated.ts"],
       "@nuvens/brand-tokens": ["../../packages/brand-tokens/src"],
       "@nuvens/commerce": ["../../packages/commerce/src"],
       "@nuvens/account": ["../../packages/account/src"],

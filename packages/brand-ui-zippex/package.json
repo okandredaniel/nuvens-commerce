@@ -1,0 +1,6 @@
+{
+  "name": "@nuvens/brand-ui-zippex",
+  "version": "0.0.0",
+  "main": "src/index.ts",
+  "private": true
+}
