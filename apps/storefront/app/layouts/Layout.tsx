@@ -3,7 +3,6 @@ import { Links, Meta, Scripts, ScrollRestoration, useRouteLoaderData } from 'rea
 import { PageLayout } from '~/components/PageLayout';
 import { RootLoader } from '~/root';
 import appStyles from '~/styles/app.css?url';
-import resetStyles from '~/styles/reset.css?url';
 import tailwindCss from '~/styles/tailwind.css?url';
 
 export function Layout({ children }: { children?: React.ReactNode }) {
@@ -21,7 +20,6 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="stylesheet" href={tailwindCss} />
-        <link rel="stylesheet" href={resetStyles} />
         <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
