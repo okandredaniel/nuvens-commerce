@@ -11,7 +11,7 @@ export { ErrorBoundary } from '~/components/ErrorBoundary';
 export { Layout } from '~/layouts/Layout';
 
 export async function loader(args: LoaderFunctionArgs) {
-  const runtime = getRuntimeConfig(args); // env (filtrado), brand e i18n centralizados
+  const runtime = getRuntimeConfig(args);
   const deferredData = loadDeferredData(args);
   const criticalData = await loadCriticalData(args);
 
@@ -21,6 +21,7 @@ export async function loader(args: LoaderFunctionArgs) {
     ...runtime,
     ...deferredData,
     ...criticalData,
+    publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({ storefront, publicStorefrontId: env.PUBLIC_STOREFRONT_ID }),
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
