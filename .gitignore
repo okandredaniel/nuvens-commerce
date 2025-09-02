@@ -70,9 +70,6 @@ test-results/
 cypress/videos/
 cypress/screenshots/
 
-# Hydrogen deploy tokens
-shopify.*
-
 # Cursor AI
 .cursor/
 
