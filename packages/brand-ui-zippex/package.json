@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "main": "src/index.ts",
   "private": true,
-  "dependencies": {
-    "@shopify/remix-oxygen": "^3.0.0"
+  "peerDependencies": {
+    "@shopify/remix-oxygen": "^3.0.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "i18next": "^25",
+    "react-i18next": "^15"
   }
 }
