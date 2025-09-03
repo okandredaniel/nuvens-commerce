@@ -8,17 +8,17 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-
     "baseUrl": ".",
     "paths": {
       "@nuvens/*": ["packages/*/src"],
-      "@nuvens/ui": ["packages/ui/src"],
+      "@nuvens/ui-core": ["packages/ui-core/src/index.ts"],
+      "@nuvens/ui-core/*": ["packages/ui-core/src/*"],
+      "@nuvens/brand-ui": ["apps/storefront/app/brand-ui.generated.ts"],
       "@nuvens/brand-tokens": ["packages/brand-tokens/src"],
       "@nuvens/commerce": ["packages/commerce/src"],
       "@nuvens/account": ["packages/account/src"],
       "@nuvens/i18n": ["packages/i18n/src"]
     },
-
     "types": ["node"],
     "typeRoots": ["./node_modules/@types"]
   }
