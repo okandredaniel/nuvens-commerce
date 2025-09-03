@@ -1,6 +1,10 @@
 {
-  "name": "@nuvens/ui",
+  "name": "@nuvens/ui-core",
   "version": "0.0.0",
-  "main": "src/index.ts",
-  "private": true
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*"
+  }
 }
