@@ -1,29 +1,26 @@
-import type {CartApiQueryFragment} from 'storefrontapi.generated';
-import type {CartLayout} from '~/components/CartMain';
-import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
-import {useRef} from 'react';
-import {FetcherWithComponents} from 'react-router';
+import { CartForm, Money, type OptimisticCart } from '@shopify/hydrogen';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FetcherWithComponents } from 'react-router';
+import type { CartApiQueryFragment } from 'storefrontapi.generated';
+import type { CartLayout } from '~/components/CartMain';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   layout: CartLayout;
 };
 
-export function CartSummary({cart, layout}: CartSummaryProps) {
-  const className =
-    layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
+export function CartSummary({ cart, layout }: CartSummaryProps) {
+  const { t } = useTranslation('cart');
+  const className = layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <h4>Totals</h4>
+      <h4>{t('totalsTitle')}</h4>
       <dl className="cart-subtotal">
-        <dt>Subtotal</dt>
+        <dt>{t('subtotal')}</dt>
         <dd>
-          {cart.cost?.subtotalAmount?.amount ? (
-            <Money data={cart.cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
+          {cart.cost?.subtotalAmount?.amount ? <Money data={cart.cost?.subtotalAmount} /> : '-'}
         </dd>
       </dl>
       <CartDiscounts discountCodes={cart.discountCodes} />
@@ -32,13 +29,15 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
     </div>
   );
 }
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
+
+function CartCheckoutActions({ checkoutUrl }: { checkoutUrl?: string }) {
+  const { t } = useTranslation('cart');
   if (!checkoutUrl) return null;
 
   return (
     <div>
       <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+        <p>{t('continueToCheckout')}</p>
       </a>
       <br />
     </div>
@@ -50,33 +49,30 @@ function CartDiscounts({
 }: {
   discountCodes?: CartApiQueryFragment['discountCodes'];
 }) {
+  const { t } = useTranslation('cart');
   const codes: string[] =
-    discountCodes
-      ?.filter((discount) => discount.applicable)
-      ?.map(({code}) => code) || [];
+    discountCodes?.filter((discount) => discount.applicable)?.map(({ code }) => code) || [];
 
   return (
     <div>
-      {/* Have existing discount, display it with a remove option */}
       <dl hidden={!codes.length}>
         <div>
-          <dt>Discount(s)</dt>
+          <dt>{t('discountsTitle')}</dt>
           <UpdateDiscountForm>
             <div className="cart-discount">
               <code>{codes?.join(', ')}</code>
               &nbsp;
-              <button>Remove</button>
+              <button>{t('remove')}</button>
             </div>
           </UpdateDiscountForm>
         </div>
       </dl>
 
-      {/* Show an input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
         <div>
-          <input type="text" name="discountCode" placeholder="Discount code" />
+          <input type="text" name="discountCode" placeholder={t('discountInputPlaceholder')} />
           &nbsp;
-          <button type="submit">Apply</button>
+          <button type="submit">{t('apply')}</button>
         </div>
       </UpdateDiscountForm>
     </div>
@@ -108,17 +104,17 @@ function CartGiftCard({
 }: {
   giftCardCodes: CartApiQueryFragment['appliedGiftCards'] | undefined;
 }) {
+  const { t } = useTranslation('cart');
   const appliedGiftCardCodes = useRef<string[]>([]);
   const giftCardCodeInput = useRef<HTMLInputElement>(null);
-  const codes: string[] =
-    giftCardCodes?.map(({lastCharacters}) => `***${lastCharacters}`) || [];
+  const codes: string[] = giftCardCodes?.map(({ lastCharacters }) => `***${lastCharacters}`) || [];
 
   function saveAppliedCode(code: string) {
-    const formattedCode = code.replace(/\s/g, ''); // Remove spaces
+    const formattedCode = code.replace(/\s/g, '');
     if (!appliedGiftCardCodes.current.includes(formattedCode)) {
       appliedGiftCardCodes.current.push(formattedCode);
     }
-    giftCardCodeInput.current!.value = '';
+    if (giftCardCodeInput.current) giftCardCodeInput.current.value = '';
   }
 
   function removeAppliedCode() {
@@ -127,21 +123,19 @@ function CartGiftCard({
 
   return (
     <div>
-      {/* Have existing gift card applied, display it with a remove option */}
       <dl hidden={!codes.length}>
         <div>
-          <dt>Applied Gift Card(s)</dt>
+          <dt>{t('appliedGiftCardsTitle')}</dt>
           <UpdateGiftCardForm>
             <div className="cart-discount">
               <code>{codes?.join(', ')}</code>
               &nbsp;
-              <button onSubmit={() => removeAppliedCode}>Remove</button>
+              <button onClick={removeAppliedCode}>{t('remove')}</button>
             </div>
           </UpdateGiftCardForm>
         </div>
       </dl>
 
-      {/* Show an input to apply a discount */}
       <UpdateGiftCardForm
         giftCardCodes={appliedGiftCardCodes.current}
         saveAppliedCode={saveAppliedCode}
@@ -150,11 +144,11 @@ function CartGiftCard({
           <input
             type="text"
             name="giftCardCode"
-            placeholder="Gift card code"
+            placeholder={t('giftCardInputPlaceholder')}
             ref={giftCardCodeInput}
           />
           &nbsp;
-          <button type="submit">Apply</button>
+          <button type="submit">{t('apply')}</button>
         </div>
       </UpdateGiftCardForm>
     </div>
@@ -168,7 +162,6 @@ function UpdateGiftCardForm({
 }: {
   giftCardCodes?: string[];
   saveAppliedCode?: (code: string) => void;
-  removeAppliedCode?: () => void;
   children: React.ReactNode;
 }) {
   return (
