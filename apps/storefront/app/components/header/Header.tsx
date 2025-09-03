@@ -1,18 +1,15 @@
 import { Brand } from '@nuvens/brand-ui';
-import { useRouteLoaderData } from 'react-router';
-import type { RootLoader } from '~/root';
+import { useLanguageOptions } from '~/lib/i18n/useLanguageOptions';
 import { LocalizedNavLink } from '../LocalizedNavLink';
 import { CartButton } from './Cart';
-import type { HeaderProps, LanguageOption } from './header.interfaces';
+import type { HeaderProps } from './header.interfaces';
 import { HeaderMenu } from './HeaderMenu';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { MenuButton } from './MenuButton';
 
 export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
   const { shop, menu } = header;
-  const data = useRouteLoaderData<RootLoader>('root');
-
-  const languages = (data as unknown as { languages?: LanguageOption[] })?.languages;
+  const { options: languages, current } = useLanguageOptions();
 
   return (
     <header className="w-full px-4 sm:px-6 py-3 bg-indigo-900 text-white">
@@ -37,7 +34,7 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
         ) : null}
 
         <div className="flex items-center justify-end gap-3">
-          {languages && languages.length > 0 ? <LanguageSwitcher options={languages} /> : null}
+          {languages.length > 0 ? <LanguageSwitcher options={languages} current={current} /> : null}
           <CartButton cart={cart} />
         </div>
       </div>

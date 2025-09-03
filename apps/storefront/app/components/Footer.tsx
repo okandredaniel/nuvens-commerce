@@ -7,12 +7,18 @@ interface FooterProps {
   footer?: Promise<FooterQuery | null>;
   publicStoreDomain?: string;
   primaryDomainUrl?: string;
+  fallback?: React.ReactNode;
 }
 
-export function Footer({ footer, publicStoreDomain, primaryDomainUrl }: FooterProps) {
+export function Footer({
+  footer,
+  publicStoreDomain,
+  primaryDomainUrl,
+  fallback = null,
+}: FooterProps) {
   if (!footer) return null;
   return (
-    <Suspense>
+    <Suspense fallback={fallback}>
       <Await resolve={footer}>
         {(data) => {
           const menu = data?.menu;
@@ -36,10 +42,10 @@ function toPath(url: string, primaryDomainUrl?: string, publicStoreDomain?: stri
   try {
     const u = new URL(url);
     const host = u.host.toLowerCase();
-    const byPrimary = primaryDomainUrl && host === new URL(primaryDomainUrl).host.toLowerCase();
-    const byPublic = publicStoreDomain && host.includes(publicStoreDomain.toLowerCase());
-    const byShopify = host.includes('myshopify.com');
-    return byPrimary || byPublic || byShopify ? `${u.pathname}${u.search}` : url;
+    const isPrimary = primaryDomainUrl && host === new URL(primaryDomainUrl).host.toLowerCase();
+    const isPublic = publicStoreDomain && host.includes(publicStoreDomain.toLowerCase());
+    const isShopify = host.includes('myshopify.com');
+    return isPrimary || isPublic || isShopify ? `${u.pathname}${u.search}` : url;
   } catch {
     return url;
   }

@@ -5,7 +5,7 @@ import { Outlet } from 'react-router';
 import { loadCriticalData } from '~/lib/loader/critical.server';
 import { loadDeferredData } from '~/lib/loader/deferred.server';
 import { buildCanonical, buildHreflangs } from '~/lib/seo';
-import { mergeResources } from './lib/i18n/i18n';
+import { mergeResources, toLang } from './lib/i18n';
 import { getRuntimeConfig } from './lib/runtime/getRuntimeConfig.server';
 
 export type RootLoader = typeof loader;
@@ -31,10 +31,14 @@ export async function loader(args: LoaderFunctionArgs) {
   const { storefront, env } = args.context;
   const origin = new URL(args.request.url).origin;
 
-  const language = storefront.i18n.language.toLowerCase();
-  const country = storefront.i18n.country.toLowerCase();
-  const localeRegion = `${language}-${country}`;
-  const lang = language;
+  const firstSeg = new URL(args.request.url).pathname.split('/').filter(Boolean)[0] ?? '';
+  const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
+
+  const languageCtx = storefront.i18n.language.toLowerCase();
+  const countryCtx = storefront.i18n.country.toLowerCase();
+
+  const lang = toLang(urlLang ?? languageCtx);
+  const localeRegion = `${languageCtx}-${countryCtx}`;
 
   let brandI18n: any = null;
   try {
@@ -42,7 +46,7 @@ export async function loader(args: LoaderFunctionArgs) {
     brandI18n = (mod as any).brandI18n ?? null;
   } catch {}
 
-  const resources = mergeResources(lang, coreI18n as any, brandI18n as any);
+  const resources = mergeResources(lang, coreI18n?.resources, brandI18n?.resources);
 
   return {
     ...runtime,
@@ -59,7 +63,6 @@ export async function loader(args: LoaderFunctionArgs) {
       country: storefront.i18n.country,
       language: storefront.i18n.language,
     },
-
     localeRegion,
   };
 }

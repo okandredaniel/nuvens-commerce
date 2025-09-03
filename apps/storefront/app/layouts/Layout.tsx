@@ -9,6 +9,7 @@ import { Footer } from '~/components/Footer';
 import { Header } from '~/components/header/Header';
 import { MobileMenuAside } from '~/components/MobileMenuAside';
 import { SearchAside } from '~/components/SearchAside';
+import { I18nBridge } from '~/lib/i18n';
 import { createI18n } from '~/lib/i18n/createInstance';
 import { RootLoader } from '~/root';
 import appStyles from '~/styles/app.css?url';
@@ -45,6 +46,7 @@ export function Layout({ children }: { children?: React.ReactNode }) {
       </head>
       <body data-brand={data?.brand?.id}>
         <I18nextProvider i18n={i18n}>
+          <I18nBridge />
           {data ? (
             <Analytics.Provider cart={data?.cart} shop={data?.shop} consent={data?.consent}>
               <Aside.Provider>
