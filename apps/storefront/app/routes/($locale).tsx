@@ -1,15 +1,50 @@
-import type {LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { brandLocales, brandDefaultLocale } from '@nuvens/brand-ui';
 
-export async function loader({params, context}: LoaderFunctionArgs) {
-  const {language, country} = context.storefront.i18n;
+const SUPPORTED = new Set(
+  (brandLocales?.length ? brandLocales : [brandDefaultLocale]).map(
+    (l) => l.toLowerCase().split('-')[0],
+  ),
+);
+const DEFAULT = (brandDefaultLocale || 'en').toLowerCase().split('-')[0];
 
-  if (
-    params.locale &&
-    params.locale.toLowerCase() !== `${language}-${country}`.toLowerCase()
-  ) {
-    // If the locale URL param is defined, yet we still are still at the default locale
-    // then the the locale param must be invalid, send to the 404 page
-    throw new Response(null, {status: 404});
+export async function loader({ params, request }: LoaderFunctionArgs) {
+  const seg = params.locale?.toLowerCase();
+  if (!seg) return null;
+
+  const lang = seg.split('-')[0];
+
+  if (!SUPPORTED.has(lang)) {
+    throw new Response(null, { status: 404 });
+  }
+
+  if (lang === DEFAULT) {
+    const url = new URL(request.url);
+    const [, ...rest] = url.pathname.split('/').filter(Boolean);
+    url.pathname = '/' + rest.join('/');
+    const location = url.pathname + url.search;
+    return new Response(null, {
+      status: 307,
+      headers: {
+        Location: location,
+        'Cache-Control': 'private, no-store',
+      },
+    });
+  }
+
+  if (seg !== lang) {
+    const url = new URL(request.url);
+    const parts = url.pathname.split('/').filter(Boolean);
+    parts[0] = lang;
+    url.pathname = '/' + parts.join('/');
+    const location = url.pathname + url.search;
+    return new Response(null, {
+      status: 308,
+      headers: {
+        Location: location,
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    });
   }
 
   return null;

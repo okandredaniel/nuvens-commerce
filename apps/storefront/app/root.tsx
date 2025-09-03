@@ -1,15 +1,27 @@
 import { coreI18n } from '@nuvens/ui-core';
 import { getShopAnalytics } from '@shopify/hydrogen';
-import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet } from 'react-router';
-import { mergeResources, toLang } from '~/lib/i18n/i18n';
 import { loadCriticalData } from '~/lib/loader/critical.server';
 import { loadDeferredData } from '~/lib/loader/deferred.server';
+import { buildCanonical, buildHreflangs } from '~/lib/seo';
+import { mergeResources } from './lib/i18n/i18n';
 import { getRuntimeConfig } from './lib/runtime/getRuntimeConfig.server';
 
 export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';
 export { Layout } from '~/layouts/Layout';
+
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+  const base = data?.header?.shop?.primaryDomain?.url || data?.origin || '';
+  const canonical = buildCanonical(base, location.pathname, location.search);
+  const alts = buildHreflangs(base, location.pathname, location.search);
+
+  return [
+    { tagName: 'link', rel: 'canonical', href: canonical },
+    ...alts.map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
+  ];
+};
 
 export async function loader(args: LoaderFunctionArgs) {
   const runtime = getRuntimeConfig(args);
@@ -17,10 +29,12 @@ export async function loader(args: LoaderFunctionArgs) {
   const criticalData = await loadCriticalData(args);
 
   const { storefront, env } = args.context;
+  const origin = new URL(args.request.url).origin;
+
   const language = storefront.i18n.language.toLowerCase();
   const country = storefront.i18n.country.toLowerCase();
-  const locale = `${language}-${country}`;
-  const lang = toLang(locale);
+  const localeRegion = `${language}-${country}`;
+  const lang = language;
 
   let brandI18n: any = null;
   try {
@@ -28,13 +42,14 @@ export async function loader(args: LoaderFunctionArgs) {
     brandI18n = (mod as any).brandI18n ?? null;
   } catch {}
 
-  const resources = mergeResources(locale, coreI18n as any, brandI18n as any);
+  const resources = mergeResources(lang, coreI18n as any, brandI18n as any);
 
   return {
     ...runtime,
     ...deferredData,
     ...criticalData,
-    i18n: { locale, resources },
+    origin,
+    i18n: { locale: lang, resources },
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({ storefront, publicStorefrontId: env.PUBLIC_STOREFRONT_ID }),
     consent: {
@@ -44,6 +59,8 @@ export async function loader(args: LoaderFunctionArgs) {
       country: storefront.i18n.country,
       language: storefront.i18n.language,
     },
+
+    localeRegion,
   };
 }
 

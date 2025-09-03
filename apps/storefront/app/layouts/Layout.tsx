@@ -1,3 +1,4 @@
+import { brandDefaultLocale } from '@nuvens/brand-ui';
 import { Analytics, useNonce } from '@shopify/hydrogen';
 import { useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
@@ -16,7 +17,8 @@ import tailwindCss from '~/styles/tailwind.css?url';
 export function Layout({ children }: { children?: React.ReactNode }) {
   const nonce = useNonce();
   const data = useRouteLoaderData<RootLoader>('root');
-  const normalize = (tag?: string) => (tag?.split?.('-')[0] || 'en').toLowerCase();
+  const normalize = (tag?: string) =>
+    (tag?.split?.('-')[0] || brandDefaultLocale || 'en').toLowerCase();
   const locale = normalize(data?.i18n?.locale || data?.consent?.language);
   const i18n = useMemo(
     () => createI18n(locale, data?.i18n?.resources ?? {}),
