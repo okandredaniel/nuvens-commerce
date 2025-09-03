@@ -1,12 +1,12 @@
-import { defineConfig, loadEnv, Plugin } from 'vite';
 import { reactRouter } from '@react-router/dev/vite';
 import { hydrogen } from '@shopify/hydrogen/vite';
 import { oxygen } from '@shopify/mini-oxygen/vite';
 import tailwindcss from '@tailwindcss/vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import fs from 'node:fs';
+import { defineConfig, loadEnv, Plugin } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -71,13 +71,15 @@ export default defineConfig(({ mode }) => {
         '@nuvens/ui-core': path.resolve(__dirname, '../../packages/ui-core/src'),
         '@nuvens/brand-tokens': path.resolve(__dirname, '../../packages/brand-tokens/src'),
       },
+      dedupe: ['react', 'react-dom', 'i18next', 'react-i18next'],
     },
     build: {
       assetsInlineLimit: 0,
     },
     ssr: {
+      noExternal: ['i18next', 'react-i18next', 'html-parse-stringify', 'void-elements'],
       optimizeDeps: {
-        include: [],
+        include: ['react-i18next', 'i18next'],
       },
     },
   };
