@@ -1,0 +1,13 @@
+{
+  "emptyMessage": "Sembra che tu non abbia ancora aggiunto nulla. Iniziamo!",
+  "continueShopping": "Continua a fare acquisti →",
+  "totalsTitle": "Totali",
+  "subtotal": "Subtotale",
+  "discountsTitle": "Sconto/i",
+  "remove": "Rimuovi",
+  "discountInputPlaceholder": "Codice sconto",
+  "apply": "Applica",
+  "appliedGiftCardsTitle": "Buono/i regalo applicato/i",
+  "giftCardInputPlaceholder": "Codice buono regalo",
+  "continueToCheckout": "Procedi al checkout →"
+}

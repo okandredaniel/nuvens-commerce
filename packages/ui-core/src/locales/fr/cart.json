@@ -1,0 +1,13 @@
+{
+  "emptyMessage": "Il semble que vous n’ayez encore rien ajouté. Commençons !",
+  "continueShopping": "Poursuivre les achats →",
+  "totalsTitle": "Totaux",
+  "subtotal": "Sous-total",
+  "discountsTitle": "Remise(s)",
+  "remove": "Retirer",
+  "discountInputPlaceholder": "Code de réduction",
+  "apply": "Appliquer",
+  "appliedGiftCardsTitle": "Carte(s)-cadeau appliquée(s)",
+  "giftCardInputPlaceholder": "Code de carte-cadeau",
+  "continueToCheckout": "Passer à la caisse →"
+}
