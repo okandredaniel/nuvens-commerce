@@ -1,0 +1,7 @@
+{
+  "nav": {
+    "changeLanguage": "Cambiar idioma",
+    "currentLanguage": "Idioma actual: {{lang}}",
+    "switchTo": "Cambiar a {{lang}}"
+  }
+}
