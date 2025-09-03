@@ -1,44 +1,40 @@
-import {Link} from 'react-router';
-import {Image, Money} from '@shopify/hydrogen';
-import type {
-  ProductItemFragment,
-  CollectionItemFragment,
-  RecommendedProductFragment,
-} from 'storefrontapi.generated';
-import {useVariantUrl} from '~/lib/variants';
+import { Image, Money } from '@shopify/hydrogen';
+import type { CollectionItemFragment, ProductItemFragment } from 'storefrontapi.generated';
+import { useVariantUrl } from '~/lib/variants';
+import { LocalizedLink } from './LocalizedLink';
+
+type ProductLike = CollectionItemFragment | ProductItemFragment;
 
 export function ProductItem({
   product,
-  loading,
+  loading = 'lazy',
 }: {
-  product:
-    | CollectionItemFragment
-    | ProductItemFragment
-    | RecommendedProductFragment;
+  product: ProductLike;
   loading?: 'eager' | 'lazy';
 }) {
   const variantUrl = useVariantUrl(product.handle);
-  const image = product.featuredImage;
+  const image = product.featuredImage ?? null;
+  const price = product.priceRange?.minVariantPrice;
+
   return (
-    <Link
-      className="product-item"
-      key={product.id}
-      prefetch="intent"
-      to={variantUrl}
-    >
-      {image && (
+    <LocalizedLink className="product-item" prefetch="intent" to={variantUrl}>
+      {image ? (
         <Image
-          alt={image.altText || product.title}
-          aspectRatio="1/1"
+          alt={image.altText ?? product.title}
           data={image}
+          aspectRatio="1/1"
           loading={loading}
           sizes="(min-width: 45em) 400px, 100vw"
         />
-      )}
+      ) : null}
+
       <h4>{product.title}</h4>
-      <small>
-        <Money data={product.priceRange.minVariantPrice} />
-      </small>
-    </Link>
+
+      {price ? (
+        <small>
+          <Money data={price} />
+        </small>
+      ) : null}
+    </LocalizedLink>
   );
 }
