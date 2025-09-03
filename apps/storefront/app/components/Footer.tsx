@@ -1,35 +1,48 @@
-import {Suspense} from 'react';
-import {Await, NavLink} from 'react-router';
-import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
+import { Suspense } from 'react';
+import { Await } from 'react-router';
+import type { FooterQuery } from 'storefrontapi.generated';
+import { LocalizedNavLink } from '~/components/LocalizedNavLink';
 
 interface FooterProps {
-  footer: Promise<FooterQuery | null>;
-  header: HeaderQuery;
-  publicStoreDomain: string;
+  footer?: Promise<FooterQuery | null>;
+  publicStoreDomain?: string;
+  primaryDomainUrl?: string;
 }
 
-export function Footer({
-  footer: footerPromise,
-  header,
-  publicStoreDomain,
-}: FooterProps) {
+export function Footer({ footer, publicStoreDomain, primaryDomainUrl }: FooterProps) {
+  if (!footer) return null;
   return (
     <Suspense>
-      <Await resolve={footerPromise}>
-        {(footer) => (
-          <footer className="footer">
-            {footer?.menu && header.shop.primaryDomain?.url && (
+      <Await resolve={footer}>
+        {(data) => {
+          const menu = data?.menu;
+          if (!menu || !menu.items?.length) return null;
+          return (
+            <footer className="footer">
               <FooterMenu
-                menu={footer.menu}
-                primaryDomainUrl={header.shop.primaryDomain.url}
+                menu={menu}
                 publicStoreDomain={publicStoreDomain}
+                primaryDomainUrl={primaryDomainUrl}
               />
-            )}
-          </footer>
-        )}
+            </footer>
+          );
+        }}
       </Await>
     </Suspense>
   );
+}
+
+function toPath(url: string, primaryDomainUrl?: string, publicStoreDomain?: string) {
+  try {
+    const u = new URL(url);
+    const host = u.host.toLowerCase();
+    const byPrimary = primaryDomainUrl && host === new URL(primaryDomainUrl).host.toLowerCase();
+    const byPublic = publicStoreDomain && host.includes(publicStoreDomain.toLowerCase());
+    const byShopify = host.includes('myshopify.com');
+    return byPrimary || byPublic || byShopify ? `${u.pathname}${u.search}` : url;
+  } catch {
+    return url;
+  }
 }
 
 function FooterMenu({
@@ -37,93 +50,37 @@ function FooterMenu({
   primaryDomainUrl,
   publicStoreDomain,
 }: {
-  menu: FooterQuery['menu'];
-  primaryDomainUrl: FooterProps['header']['shop']['primaryDomain']['url'];
-  publicStoreDomain: string;
+  menu: NonNullable<FooterQuery['menu']>;
+  primaryDomainUrl?: string;
+  publicStoreDomain?: string;
 }) {
   return (
     <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
+      {menu.items.map((item) => {
         if (!item.url) return null;
-        // if the url is internal, we strip the domain
-        const url =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
-            ? new URL(item.url).pathname
-            : item.url;
-        const isExternal = !url.startsWith('/');
+
+        const href = toPath(item.url, primaryDomainUrl, publicStoreDomain);
+        const isExternal =
+          /^https?:\/\//i.test(href) ||
+          href.startsWith('mailto:') ||
+          href.startsWith('tel:') ||
+          href.startsWith('#') ||
+          !href.startsWith('/');
+
         return isExternal ? (
-          <a href={url} key={item.id} rel="noopener noreferrer" target="_blank">
+          <a href={href} key={item.id} rel="noopener noreferrer" target="_blank">
             {item.title}
           </a>
         ) : (
-          <NavLink
-            end
-            key={item.id}
-            prefetch="intent"
-            style={activeLinkStyle}
-            to={url}
-          >
+          <LocalizedNavLink end key={item.id} prefetch="intent" to={href} style={activeLinkStyle}>
             {item.title}
-          </NavLink>
+          </LocalizedNavLink>
         );
       })}
     </nav>
   );
 }
 
-const FALLBACK_FOOTER_MENU = {
-  id: 'gid://shopify/Menu/199655620664',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461633060920',
-      resourceId: 'gid://shopify/ShopPolicy/23358046264',
-      tags: [],
-      title: 'Privacy Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/privacy-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633093688',
-      resourceId: 'gid://shopify/ShopPolicy/23358013496',
-      tags: [],
-      title: 'Refund Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/refund-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633126456',
-      resourceId: 'gid://shopify/ShopPolicy/23358111800',
-      tags: [],
-      title: 'Shipping Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/shipping-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633159224',
-      resourceId: 'gid://shopify/ShopPolicy/23358079032',
-      tags: [],
-      title: 'Terms of Service',
-      type: 'SHOP_POLICY',
-      url: '/policies/terms-of-service',
-      items: [],
-    },
-  ],
-};
-
-function activeLinkStyle({
-  isActive,
-  isPending,
-}: {
-  isActive: boolean;
-  isPending: boolean;
-}) {
-  return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
-  };
+function activeLinkStyle({ isActive, isPending }: { isActive: boolean; isPending: boolean }) {
+  return { fontWeight: isActive ? 'bold' : undefined, color: isPending ? 'grey' : 'white' };
 }
