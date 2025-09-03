@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router';
 import { useAside } from '~/components/Aside';
+import { LocalizedNavLink } from '../LocalizedNavLink';
 import { HeaderProps, Viewport } from './header.interfaces';
 
 export function HeaderMenu({
@@ -33,7 +33,7 @@ export function HeaderMenu({
         const url = isInternal ? new URL(item.url).pathname : item.url;
 
         return (
-          <NavLink
+          <LocalizedNavLink
             className="text-sm md:text-base hover:opacity-80 transition-opacity"
             prefetch="intent"
             onClick={close}
@@ -42,7 +42,7 @@ export function HeaderMenu({
             end
           >
             {item.title}
-          </NavLink>
+          </LocalizedNavLink>
         );
       })}
     </nav>

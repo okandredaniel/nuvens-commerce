@@ -1,6 +1,7 @@
 import { Brand } from '@nuvens/brand-ui';
-import { NavLink, useRouteLoaderData } from 'react-router';
+import { useRouteLoaderData } from 'react-router';
 import type { RootLoader } from '~/root';
+import { LocalizedNavLink } from '../LocalizedNavLink';
 import { CartButton } from './Cart';
 import type { HeaderProps, LanguageOption } from './header.interfaces';
 import { HeaderMenu } from './HeaderMenu';
@@ -21,9 +22,9 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
         </div>
 
         <div className="flex justify-center">
-          <NavLink prefetch="intent" to="/" end>
+          <LocalizedNavLink prefetch="intent" to="/" end>
             <Brand />
-          </NavLink>
+          </LocalizedNavLink>
         </div>
 
         {menu?.items?.length ? (
