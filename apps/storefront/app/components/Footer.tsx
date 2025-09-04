@@ -1,3 +1,4 @@
+import { Container, cn } from '@nuvens/ui-core';
 import { Suspense } from 'react';
 import { Await } from 'react-router';
 import type { FooterQuery } from 'storefrontapi.generated';
@@ -17,19 +18,23 @@ export function Footer({
   fallback = null,
 }: FooterProps) {
   if (!footer) return null;
+
   return (
     <Suspense fallback={fallback}>
       <Await resolve={footer}>
         {(data) => {
           const menu = data?.menu;
           if (!menu || !menu.items?.length) return null;
+
           return (
-            <footer className="footer">
-              <FooterMenu
-                menu={menu}
-                publicStoreDomain={publicStoreDomain}
-                primaryDomainUrl={primaryDomainUrl}
-              />
+            <footer className="mt-auto bg-[color:var(--color-footer-bg,#111)] text-[color:var(--color-on-footer,#fff)]">
+              <Container className="py-6 md:py-10">
+                <FooterMenu
+                  menu={menu}
+                  publicStoreDomain={publicStoreDomain}
+                  primaryDomainUrl={primaryDomainUrl}
+                />
+              </Container>
             </footer>
           );
         }}
@@ -61,32 +66,44 @@ function FooterMenu({
   publicStoreDomain?: string;
 }) {
   return (
-    <nav className="footer-menu" role="navigation">
-      {menu.items.map((item) => {
-        if (!item.url) return null;
+    <nav role="navigation" aria-label="Footer">
+      <ul className="flex flex-wrap justify-center gap-3 sm:gap-4">
+        {menu.items.map((item) => {
+          if (!item?.url) return null;
 
-        const href = toPath(item.url, primaryDomainUrl, publicStoreDomain);
-        const isExternal =
-          /^https?:\/\//i.test(href) ||
-          href.startsWith('mailto:') ||
-          href.startsWith('tel:') ||
-          href.startsWith('#') ||
-          !href.startsWith('/');
+          const href = toPath(item.url, primaryDomainUrl, publicStoreDomain);
+          const isExternal =
+            /^https?:\/\//i.test(href) ||
+            href.startsWith('mailto:') ||
+            href.startsWith('tel:') ||
+            href.startsWith('#') ||
+            !href.startsWith('/');
 
-        return isExternal ? (
-          <a href={href} key={item.id} rel="noopener noreferrer" target="_blank">
-            {item.title}
-          </a>
-        ) : (
-          <LocalizedNavLink end key={item.id} prefetch="intent" to={href} style={activeLinkStyle}>
-            {item.title}
-          </LocalizedNavLink>
-        );
-      })}
+          const baseLink =
+            'min-w-fit text-sm transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary,#2563eb)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg,#111)]';
+
+          return (
+            <li key={item.id}>
+              {isExternal ? (
+                <a href={href} target="_blank" rel="noopener noreferrer" className={baseLink}>
+                  {item.title}
+                </a>
+              ) : (
+                <LocalizedNavLink
+                  to={href}
+                  end
+                  prefetch="intent"
+                  className={({ isActive, isPending }) =>
+                    cn(baseLink, isActive && 'font-semibold', isPending && 'opacity-70')
+                  }
+                >
+                  {item.title}
+                </LocalizedNavLink>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   );
-}
-
-function activeLinkStyle({ isActive, isPending }: { isActive: boolean; isPending: boolean }) {
-  return { fontWeight: isActive ? 'bold' : undefined, color: isPending ? 'grey' : 'white' };
 }

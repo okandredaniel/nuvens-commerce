@@ -1,3 +1,4 @@
+import { Container } from '@nuvens/ui-core';
 import {
   Analytics,
   getAdjacentAndFirstAvailableVariants,
@@ -7,6 +8,7 @@ import {
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { useTranslation } from 'react-i18next';
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { ProductForm } from '~/components/ProductForm';
 import { ProductImage } from '~/components/ProductImage';
@@ -15,13 +17,7 @@ import { redirectIfHandleIsLocalized } from '~/lib/redirect';
 import { buildCanonical } from '~/lib/seo';
 
 type RootLoaderData = {
-  header?: {
-    shop?: {
-      primaryDomain?: {
-        url?: string;
-      };
-    };
-  };
+  header?: { shop?: { primaryDomain?: { url?: string } } };
   origin?: string;
 };
 
@@ -30,78 +26,55 @@ export const meta: MetaFunction<typeof loader> = ({ data, location, matches }) =
   const base = rootData.header?.shop?.primaryDomain?.url || rootData.origin || '';
   const canonical = buildCanonical(base, `/products/${data?.product.handle || ''}`, '');
   return [
-    { title: `Hydrogen | ${data?.product.title ?? ''}` },
+    { title: data?.product?.seo?.title || data?.product?.title || '' },
+    {
+      name: 'description',
+      content: data?.product?.seo?.description || data?.product?.description || '',
+    },
     { rel: 'canonical', href: canonical },
   ];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
-  // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args);
-
-  // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
-
   return { ...deferredData, ...criticalData };
 }
 
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
 async function loadCriticalData({ context, params, request }: LoaderFunctionArgs) {
   const { handle } = params;
   const { storefront } = context;
 
-  if (!handle) {
-    throw new Error('Expected product handle to be defined');
-  }
+  if (!handle) throw new Error('Expected product handle to be defined');
 
   const [{ product }] = await Promise.all([
     storefront.query(PRODUCT_QUERY, {
       variables: { handle, selectedOptions: getSelectedProductOptions(request) },
     }),
-    // Add other queries here, so that they are loaded in parallel
   ]);
 
-  if (!product?.id) {
-    throw new Response(null, { status: 404 });
-  }
+  if (!product?.id) throw new Response(null, { status: 404 });
 
-  // The API handle might be localized, so redirect to the localized handle
   redirectIfHandleIsLocalized(request, { handle, data: product });
 
-  return {
-    product,
-  };
+  return { product };
 }
 
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
-function loadDeferredData({ context, params }: LoaderFunctionArgs) {
-  // Put any API calls that is not critical to be available on first page render
-  // For example: product reviews, product recommendations, social feeds.
-
+function loadDeferredData(_: LoaderFunctionArgs) {
   return {};
 }
 
 export default function Product() {
   const { product } = useLoaderData<typeof loader>();
+  const { t } = useTranslation(['product', 'common']);
 
-  // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
     getAdjacentAndFirstAvailableVariants(product),
   );
 
-  // Sets the search param to the selected variant without navigation
-  // only when no search params are set in the url
   useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
 
-  // Get the product options array
   const productOptions = getProductOptions({
     ...product,
     selectedOrFirstAvailableVariant: selectedVariant,
@@ -110,25 +83,42 @@ export default function Product() {
   const { title, descriptionHtml } = product;
 
   return (
-    <div className="product">
-      <ProductImage image={selectedVariant?.image} />
-      <div className="product-main">
-        <h1>{title}</h1>
-        <ProductPrice
-          price={selectedVariant?.price}
-          compareAtPrice={selectedVariant?.compareAtPrice}
-        />
-        <br />
-        <ProductForm productOptions={productOptions} selectedVariant={selectedVariant} />
-        <br />
-        <br />
-        <p>
-          <strong>Description</strong>
-        </p>
-        <br />
-        <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
-        <br />
+    <Container className="py-6 md:py-10">
+      <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div>
+          <ProductImage image={selectedVariant?.image} />
+        </div>
+
+        <aside className="lg:sticky lg:top-24">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{title}</h1>
+
+          <div className="mt-3">
+            <ProductPrice
+              price={selectedVariant?.price}
+              compareAtPrice={selectedVariant?.compareAtPrice}
+            />
+          </div>
+
+          <div className="mt-6">
+            <ProductForm productOptions={productOptions} selectedVariant={selectedVariant} />
+          </div>
+
+          {descriptionHtml ? (
+            <section className="mt-8">
+              <h2 className="mb-2 text-base font-semibold">
+                {t('description', { ns: 'product', defaultValue: 'Description' })}
+              </h2>
+              <div
+                className="prose prose-sm prose-neutral max-w-none
+                           [&_img]:rounded-lg
+                           dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+              />
+            </section>
+          ) : null}
+        </aside>
       </div>
+
       <Analytics.ProductView
         data={{
           products: [
@@ -144,44 +134,22 @@ export default function Product() {
           ],
         }}
       />
-    </div>
+    </Container>
   );
 }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
     availableForSale
-    compareAtPrice {
-      amount
-      currencyCode
-    }
+    compareAtPrice { amount currencyCode }
     id
-    image {
-      __typename
-      id
-      url
-      altText
-      width
-      height
-    }
-    price {
-      amount
-      currencyCode
-    }
-    product {
-      title
-      handle
-    }
-    selectedOptions {
-      name
-      value
-    }
+    image { __typename id url altText width height }
+    price { amount currencyCode }
+    product { title handle }
+    selectedOptions { name value }
     sku
     title
-    unitPrice {
-      amount
-      currencyCode
-    }
+    unitPrice { amount currencyCode }
   }
 ` as const;
 
@@ -199,29 +167,20 @@ const PRODUCT_FRAGMENT = `#graphql
       name
       optionValues {
         name
-        firstSelectableVariant {
-          ...ProductVariant
-        }
+        firstSelectableVariant { ...ProductVariant }
         swatch {
           color
-          image {
-            previewImage {
-              url
-            }
-          }
+          image { previewImage { url } }
         }
       }
     }
-    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
-      ...ProductVariant
-    }
-    adjacentVariants (selectedOptions: $selectedOptions) {
-      ...ProductVariant
-    }
-    seo {
-      description
-      title
-    }
+    selectedOrFirstAvailableVariant(
+      selectedOptions: $selectedOptions
+      ignoreUnknownOptions: true
+      caseInsensitiveMatch: true
+    ) { ...ProductVariant }
+    adjacentVariants (selectedOptions: $selectedOptions) { ...ProductVariant }
+    seo { description title }
   }
   ${PRODUCT_VARIANT_FRAGMENT}
 ` as const;
@@ -233,9 +192,7 @@ const PRODUCT_QUERY = `#graphql
     $language: LanguageCode
     $selectedOptions: [SelectedOptionInput!]!
   ) @inContext(country: $country, language: $language) {
-    product(handle: $handle) {
-      ...Product
-    }
+    product(handle: $handle) { ...Product }
   }
   ${PRODUCT_FRAGMENT}
 ` as const;

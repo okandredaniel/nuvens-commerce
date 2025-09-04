@@ -1,80 +1,99 @@
-import { CartForm, Money, type OptimisticCart } from '@shopify/hydrogen';
-import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { FetcherWithComponents } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import type { CartLayout } from '~/components/CartMain';
+import { CartForm, Money, type OptimisticCart } from '@shopify/hydrogen';
+import { Button, Input } from '@nuvens/ui-core';
+import { useTranslation } from 'react-i18next';
+
+export type CartLayout = 'page' | 'aside';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;
   layout: CartLayout;
 };
 
-export function CartSummary({ cart, layout }: CartSummaryProps) {
+export function CartSummary({ cart }: CartSummaryProps) {
   const { t } = useTranslation('cart');
-  const className = layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside';
-
   return (
-    <div aria-labelledby="cart-summary" className={className}>
-      <h4>{t('totalsTitle')}</h4>
-      <dl className="cart-subtotal">
-        <dt>{t('subtotal')}</dt>
-        <dd>
-          {cart.cost?.subtotalAmount?.amount ? <Money data={cart.cost?.subtotalAmount} /> : '-'}
-        </dd>
+    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+      <h4 className="text-base font-semibold">{t('summary.title', 'Summary')}</h4>
+      <dl className="mt-3 space-y-2">
+        <div className="flex items-center justify-between text-sm">
+          <dt className="opacity-70">{t('summary.subtotal', 'Subtotal')}</dt>
+          <dd className="font-medium">
+            {cart.cost?.subtotalAmount?.amount ? <Money data={cart.cost?.subtotalAmount} /> : '-'}
+          </dd>
+        </div>
       </dl>
-      <CartDiscounts discountCodes={cart.discountCodes} />
-      <CartGiftCard giftCardCodes={cart.appliedGiftCards} />
-      <CartCheckoutActions checkoutUrl={cart.checkoutUrl} />
     </div>
   );
 }
 
-function CartCheckoutActions({ checkoutUrl }: { checkoutUrl?: string }) {
+export function DiscountBox({ codes }: { codes?: CartApiQueryFragment['discountCodes'] }) {
   const { t } = useTranslation('cart');
-  if (!checkoutUrl) return null;
-
+  const applied = codes?.filter((d) => d.applicable).map((d) => d.code) || [];
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>{t('continueToCheckout')}</p>
-      </a>
-      <br />
+    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+      <div className="text-sm font-medium">{t('discount.title', 'Discounts')}</div>
+      {applied.length > 0 ? (
+        <div className="mt-3 text-sm">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border,#e5e7eb)] px-3 py-2">
+            <code className="opacity-80">{applied.join(', ')}</code>
+            <UpdateDiscountForm>
+              <Button type="submit" variant="ghost" size="sm">
+                {t('discount.remove', 'Remove')}
+              </Button>
+            </UpdateDiscountForm>
+          </div>
+        </div>
+      ) : null}
+      <UpdateDiscountForm discountCodes={applied}>
+        <form className="mt-3 flex items-center gap-2">
+          <Input name="discountCode" placeholder={t('discount.placeholder', 'Discount code')} />
+          <Button type="submit" variant="outline">
+            {t('discount.apply', 'Apply')}
+          </Button>
+        </form>
+      </UpdateDiscountForm>
     </div>
   );
 }
 
-function CartDiscounts({
-  discountCodes,
+export function GiftCardBox({
+  giftCards,
 }: {
-  discountCodes?: CartApiQueryFragment['discountCodes'];
+  giftCards: CartApiQueryFragment['appliedGiftCards'] | undefined;
 }) {
   const { t } = useTranslation('cart');
-  const codes: string[] =
-    discountCodes?.filter((discount) => discount.applicable)?.map(({ code }) => code) || [];
-
   return (
-    <div>
-      <dl hidden={!codes.length}>
-        <div>
-          <dt>{t('discountsTitle')}</dt>
-          <UpdateDiscountForm>
-            <div className="cart-discount">
-              <code>{codes?.join(', ')}</code>
-              &nbsp;
-              <button>{t('remove')}</button>
-            </div>
-          </UpdateDiscountForm>
+    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+      <div className="text-sm font-medium">{t('giftcard.title', 'Gift cards')}</div>
+      <UpdateGiftCardForm>
+        {(state) => (
+          <form className="mt-3 flex items-center gap-2">
+            <Input
+              name="giftCardCode"
+              defaultValue={state.lastEntered || ''}
+              placeholder={t('giftcard.placeholder', 'Gift card code')}
+            />
+            <Button type="submit" variant="outline">
+              {t('giftcard.apply', 'Apply')}
+            </Button>
+          </form>
+        )}
+      </UpdateGiftCardForm>
+      {giftCards?.length ? (
+        <div className="mt-3 text-sm">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border,#e5e7eb)] px-3 py-2">
+            <code className="opacity-80">
+              {giftCards.map((g) => `***${g.lastCharacters}`).join(', ')}
+            </code>
+            <UpdateGiftCardForm clear>
+              <Button type="submit" variant="ghost" size="sm">
+                {t('giftcard.remove', 'Remove')}
+              </Button>
+            </UpdateGiftCardForm>
+          </div>
         </div>
-      </dl>
-
-      <UpdateDiscountForm discountCodes={codes}>
-        <div>
-          <input type="text" name="discountCode" placeholder={t('discountInputPlaceholder')} />
-          &nbsp;
-          <button type="submit">{t('apply')}</button>
-        </div>
-      </UpdateDiscountForm>
+      ) : null}
     </div>
   );
 }
@@ -90,94 +109,37 @@ function UpdateDiscountForm({
     <CartForm
       route="/cart"
       action={CartForm.ACTIONS.DiscountCodesUpdate}
-      inputs={{
-        discountCodes: discountCodes || [],
-      }}
+      inputs={{ discountCodes: discountCodes || [] }}
     >
       {children}
     </CartForm>
   );
 }
 
-function CartGiftCard({
-  giftCardCodes,
-}: {
-  giftCardCodes: CartApiQueryFragment['appliedGiftCards'] | undefined;
-}) {
-  const { t } = useTranslation('cart');
-  const appliedGiftCardCodes = useRef<string[]>([]);
-  const giftCardCodeInput = useRef<HTMLInputElement>(null);
-  const codes: string[] = giftCardCodes?.map(({ lastCharacters }) => `***${lastCharacters}`) || [];
-
-  function saveAppliedCode(code: string) {
-    const formattedCode = code.replace(/\s/g, '');
-    if (!appliedGiftCardCodes.current.includes(formattedCode)) {
-      appliedGiftCardCodes.current.push(formattedCode);
-    }
-    if (giftCardCodeInput.current) giftCardCodeInput.current.value = '';
-  }
-
-  function removeAppliedCode() {
-    appliedGiftCardCodes.current = [];
-  }
-
-  return (
-    <div>
-      <dl hidden={!codes.length}>
-        <div>
-          <dt>{t('appliedGiftCardsTitle')}</dt>
-          <UpdateGiftCardForm>
-            <div className="cart-discount">
-              <code>{codes?.join(', ')}</code>
-              &nbsp;
-              <button onClick={removeAppliedCode}>{t('remove')}</button>
-            </div>
-          </UpdateGiftCardForm>
-        </div>
-      </dl>
-
-      <UpdateGiftCardForm
-        giftCardCodes={appliedGiftCardCodes.current}
-        saveAppliedCode={saveAppliedCode}
-      >
-        <div>
-          <input
-            type="text"
-            name="giftCardCode"
-            placeholder={t('giftCardInputPlaceholder')}
-            ref={giftCardCodeInput}
-          />
-          &nbsp;
-          <button type="submit">{t('apply')}</button>
-        </div>
-      </UpdateGiftCardForm>
-    </div>
-  );
-}
-
 function UpdateGiftCardForm({
-  giftCardCodes,
-  saveAppliedCode,
+  clear,
   children,
 }: {
-  giftCardCodes?: string[];
-  saveAppliedCode?: (code: string) => void;
-  children: React.ReactNode;
+  clear?: boolean;
+  children: ((state: { lastEntered?: string }) => React.ReactNode) | React.ReactNode;
 }) {
   return (
     <CartForm
       route="/cart"
       action={CartForm.ACTIONS.GiftCardCodesUpdate}
-      inputs={{
-        giftCardCodes: giftCardCodes || [],
-      }}
+      inputs={{ giftCardCodes: [] }}
     >
-      {(fetcher: FetcherWithComponents<any>) => {
-        const code = fetcher.formData?.get('giftCardCode');
-        if (code && saveAppliedCode) {
-          saveAppliedCode(code as string);
-        }
-        return children;
+      {(fetcher) => {
+        const code = fetcher.formData?.get('giftCardCode') as string | undefined;
+        const ui = typeof children === 'function' ? children({ lastEntered: code }) : children;
+        return clear ? (
+          <>
+            <input type="hidden" name="giftCardCode" value="" />
+            {ui}
+          </>
+        ) : (
+          ui
+        );
       }}
     </CartForm>
   );

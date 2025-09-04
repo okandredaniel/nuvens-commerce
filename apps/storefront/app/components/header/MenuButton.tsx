@@ -12,7 +12,7 @@ export function MenuButton() {
   return (
     <Tooltip.Root delayDuration={150}>
       <Tooltip.Trigger asChild>
-        <IconButton aria-label={openLabel} onClick={() => open('mobile')}>
+        <IconButton aria-label={openLabel} onClick={() => open('mobile')} variant="outline">
           <Menu className="h-5 w-5" />
         </IconButton>
       </Tooltip.Trigger>

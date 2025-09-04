@@ -37,6 +37,7 @@ function CartBadge({ count }: { count: number | null }) {
       <Tooltip.Trigger asChild>
         <IconButton
           aria-label={openLabel}
+          variant="outline"
           onClick={(e) => {
             e.preventDefault();
             open('cart');

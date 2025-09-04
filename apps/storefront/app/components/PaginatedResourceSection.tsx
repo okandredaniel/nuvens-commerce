@@ -1,39 +1,56 @@
+import { Button } from '@nuvens/ui-core';
+import { Pagination } from '@shopify/hydrogen';
 import * as React from 'react';
-import {Pagination} from '@shopify/hydrogen';
+import { useTranslation } from 'react-i18next';
 
-/**
- * <PaginatedResourceSection > is a component that encapsulate how the previous and next behaviors throughout your application.
- */
+type PaginationProps<NodesType> = {
+  connection: React.ComponentProps<typeof Pagination<NodesType>>['connection'];
+  children: React.FunctionComponent<{ node: NodesType; index: number }>;
+  resourcesClassName?: string;
+};
+
 export function PaginatedResourceSection<NodesType>({
   connection,
   children,
   resourcesClassName,
-}: {
-  connection: React.ComponentProps<typeof Pagination<NodesType>>['connection'];
-  children: React.FunctionComponent<{node: NodesType; index: number}>;
-  resourcesClassName?: string;
-}) {
+}: PaginationProps<NodesType>) {
+  const { t } = useTranslation('catalog');
+
   return (
     <Pagination connection={connection}>
-      {({nodes, isLoading, PreviousLink, NextLink}) => {
-        const resourcesMarkup = nodes.map((node, index) =>
-          children({node, index}),
-        );
+      {({ nodes, isLoading, PreviousLink, NextLink }) => {
+        const items = nodes.map((node, index) => children({ node, index }));
 
         return (
-          <div>
-            <PreviousLink>
-              {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
-            </PreviousLink>
+          <section aria-busy={isLoading} className="space-y-4">
+            <div className="flex justify-center">
+              <Button asChild variant="outline" size="sm">
+                <PreviousLink>
+                  {isLoading ? t('loading', 'Loading...') : t('loadPrevious', '↑ Load previous')}
+                </PreviousLink>
+              </Button>
+            </div>
+
             {resourcesClassName ? (
-              <div className={resourcesClassName}>{resourcesMarkup}</div>
+              <div className={resourcesClassName}>{items}</div>
             ) : (
-              resourcesMarkup
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
+                {items}
+              </div>
             )}
-            <NextLink>
-              {isLoading ? 'Loading...' : <span>Load more ↓</span>}
-            </NextLink>
-          </div>
+
+            <div className="flex justify-center">
+              <Button asChild variant="outline" size="sm">
+                <NextLink>
+                  {isLoading ? t('loading', 'Loading...') : t('loadMore', 'Load more ↓')}
+                </NextLink>
+              </Button>
+            </div>
+
+            <span className="sr-only" role="status">
+              {isLoading ? t('loading', 'Loading...') : t('idle', 'Idle')}
+            </span>
+          </section>
         );
       }}
     </Pagination>

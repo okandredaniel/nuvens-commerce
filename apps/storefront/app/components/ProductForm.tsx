@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router';
+import { useAside } from '@nuvens/ui-core';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
-import { AddToCartButton } from './AddToCartButton';
+import { Link, useNavigate } from 'react-router';
 import type { ProductFragment } from 'storefrontapi.generated';
-import { useAside } from '@nuvens/ui-core';
+import { AddToCartButton } from './AddToCartButton';
 
 export function ProductForm({
   productOptions,
@@ -14,16 +15,17 @@ export function ProductForm({
 }) {
   const navigate = useNavigate();
   const { open } = useAside();
+
   return (
-    <div className="product-form">
+    <div className="space-y-6">
       {productOptions.map((option) => {
-        // If there is only a single value in the option values, don't display the option
         if (option.optionValues.length === 1) return null;
 
         return (
-          <div className="product-options" key={option.name}>
-            <h5>{option.name}</h5>
-            <div className="product-options-grid">
+          <fieldset key={option.name} className="space-y-3">
+            <legend className="text-sm font-medium">{option.name}</legend>
+
+            <div className="flex flex-wrap gap-2">
               {option.optionValues.map((value) => {
                 const {
                   name,
@@ -36,76 +38,95 @@ export function ProductForm({
                   swatch,
                 } = value;
 
+                const base =
+                  'inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm transition';
+                const state = selected
+                  ? 'border-black ring-2 ring-black/10'
+                  : 'border-transparent hover:border-black/20';
+                const availability = available ? '' : 'opacity-40 cursor-not-allowed';
+                const disabled = !exists;
+
                 if (isDifferentProduct) {
-                  // SEO
-                  // When the variant is a combined listing child product
-                  // that leads to a different url, we need to render it
-                  // as an anchor tag
                   return (
-                    <Link
-                      className="product-options-item"
-                      key={option.name + name}
-                      prefetch="intent"
-                      preventScrollReset
-                      replace
-                      to={`/products/${handle}?${variantUriQuery}`}
-                      style={{
-                        border: selected ? '1px solid black' : '1px solid transparent',
-                        opacity: available ? 1 : 0.3,
-                      }}
-                    >
-                      <ProductOptionSwatch swatch={swatch} name={name} />
-                    </Link>
-                  );
-                } else {
-                  // SEO
-                  // When the variant is an update to the search param,
-                  // render it as a button with javascript navigating to
-                  // the variant so that SEO bots do not index these as
-                  // duplicated links
-                  return (
-                    <button
-                      type="button"
-                      className={`product-options-item${exists && !selected ? ' link' : ''}`}
-                      key={option.name + name}
-                      style={{
-                        border: selected ? '1px solid black' : '1px solid transparent',
-                        opacity: available ? 1 : 0.3,
-                      }}
-                      disabled={!exists}
-                      onClick={() => {
-                        if (!selected) {
-                          navigate(`?${variantUriQuery}`, {
-                            replace: true,
-                            preventScrollReset: true,
-                          });
-                        }
-                      }}
-                    >
-                      <ProductOptionSwatch swatch={swatch} name={name} />
-                    </button>
+                    <Tooltip.Root key={option.name + name}>
+                      <Tooltip.Trigger asChild>
+                        <Link
+                          prefetch="intent"
+                          preventScrollReset
+                          replace
+                          to={`/products/${handle}?${variantUriQuery}`}
+                          aria-current={selected ? 'true' : undefined}
+                          className={`${base} ${state} ${availability}`}
+                          aria-disabled={!available}
+                        >
+                          <ProductOptionSwatch swatch={swatch} name={name} />
+                          {!swatch?.color && !swatch?.image ? (
+                            <span className="ml-2">{name}</span>
+                          ) : null}
+                        </Link>
+                      </Tooltip.Trigger>
+                      <Tooltip.Portal>
+                        <Tooltip.Content
+                          sideOffset={8}
+                          className="z-50 rounded-md bg-[color:var(--color-popover,#111)] px-2 py-1 text-xs text-[color:var(--color-on-popover,#fff)] shadow"
+                        >
+                          {name}
+                          <Tooltip.Arrow className="fill-[color:var(--color-popover,#111)]" />
+                        </Tooltip.Content>
+                      </Tooltip.Portal>
+                    </Tooltip.Root>
                   );
                 }
+
+                return (
+                  <Tooltip.Root key={option.name + name}>
+                    <Tooltip.Trigger asChild>
+                      <button
+                        type="button"
+                        aria-pressed={selected}
+                        disabled={disabled}
+                        onClick={() => {
+                          if (!selected) {
+                            navigate(`?${variantUriQuery}`, {
+                              replace: true,
+                              preventScrollReset: true,
+                            });
+                          }
+                        }}
+                        className={`${base} ${state} ${availability}`}
+                        aria-label={name}
+                      >
+                        <ProductOptionSwatch swatch={swatch} name={name} />
+                        {!swatch?.color && !swatch?.image ? (
+                          <span className="ml-2">{name}</span>
+                        ) : null}
+                      </button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Portal>
+                      <Tooltip.Content
+                        sideOffset={8}
+                        className="z-50 rounded-md bg-[color:var(--color-popover,#111)] px-2 py-1 text-xs text-[color:var(--color-on-popover,#fff)] shadow"
+                      >
+                        {name}
+                        <Tooltip.Arrow className="fill-[color:var(--color-popover,#111)]" />
+                      </Tooltip.Content>
+                    </Tooltip.Portal>
+                  </Tooltip.Root>
+                );
               })}
             </div>
-            <br />
-          </div>
+          </fieldset>
         );
       })}
+
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}
-        onClick={() => {
-          open('cart');
-        }}
+        onClick={() => open('cart')}
+        variant="primary"
+        className="w-full"
         lines={
           selectedVariant
-            ? [
-                {
-                  merchandiseId: selectedVariant.id,
-                  quantity: 1,
-                  selectedVariant,
-                },
-              ]
+            ? [{ merchandiseId: selectedVariant.id, quantity: 1, selectedVariant }]
             : []
         }
       >
@@ -125,17 +146,17 @@ function ProductOptionSwatch({
   const image = swatch?.image?.previewImage?.url;
   const color = swatch?.color;
 
-  if (!image && !color) return name;
+  if (!image && !color) {
+    return <span className="truncate">{name}</span>;
+  }
 
   return (
-    <div
-      aria-label={name}
-      className="product-option-label-swatch"
-      style={{
-        backgroundColor: color || 'transparent',
-      }}
+    <span
+      aria-hidden
+      className="h-5 w-5 overflow-hidden rounded-full ring-1 ring-black/10"
+      style={{ backgroundColor: color || 'transparent' }}
     >
-      {!!image && <img src={image} alt={name} />}
-    </div>
+      {image ? <img src={image} alt="" className="h-full w-full object-cover" /> : null}
+    </span>
   );
 }
