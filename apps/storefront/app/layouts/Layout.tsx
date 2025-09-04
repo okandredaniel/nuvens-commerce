@@ -1,4 +1,5 @@
 import { brandDefaultLocale } from '@nuvens/brand-ui';
+import { coreTokens, tokensToCssVars } from '@nuvens/ui-core';
 import { useNonce } from '@shopify/hydrogen';
 import { useMemo } from 'react';
 import { Links, Meta, Scripts, ScrollRestoration, useRouteLoaderData } from 'react-router';
@@ -25,8 +26,12 @@ export function Layout({ children }: { children?: React.ReactNode }) {
     [locale, data?.i18n?.resources],
   );
 
-  const colors = { ...(data?.brand?.tokens?.colors ?? {}) };
-  const cssVars = Object.entries(colors).map(([k, v]) => `--color-${k}:${v};`);
+  const brandTokens = data?.brand?.tokens ?? {};
+  const mergedTokens = {
+    palette: { ...(coreTokens?.palette ?? {}), ...(brandTokens?.palette ?? {}) },
+    colors: { ...(coreTokens?.colors ?? {}), ...(brandTokens?.colors ?? {}) },
+  };
+  const cssVars = tokensToCssVars(mergedTokens);
 
   return (
     <html lang={locale}>
