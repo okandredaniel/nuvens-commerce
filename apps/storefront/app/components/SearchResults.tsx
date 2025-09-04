@@ -1,16 +1,14 @@
-import {Link} from 'react-router';
-import {Image, Money, Pagination} from '@shopify/hydrogen';
-import {urlWithTrackingParams, type RegularSearchReturn} from '~/lib/search';
+import { Button } from '@nuvens/ui-core';
+import { Image, Money, Pagination } from '@shopify/hydrogen';
+import { Link } from 'react-router';
+import { urlWithTrackingParams, type RegularSearchReturn } from '~/lib/search';
 
 type SearchItems = RegularSearchReturn['result']['items'];
-type PartialSearchResult<ItemType extends keyof SearchItems> = Pick<
-  SearchItems,
-  ItemType
-> &
+type PartialSearchResult<ItemType extends keyof SearchItems> = Pick<SearchItems, ItemType> &
   Pick<RegularSearchReturn, 'term'>;
 
 type SearchResultsProps = RegularSearchReturn & {
-  children: (args: SearchItems & {term: string}) => React.ReactNode;
+  children: (args: SearchItems & { term: string }) => React.ReactNode;
 };
 
 export function SearchResults({
@@ -18,11 +16,8 @@ export function SearchResults({
   result,
   children,
 }: Omit<SearchResultsProps, 'error' | 'type'>) {
-  if (!result?.total) {
-    return null;
-  }
-
-  return children({...result.items, term});
+  if (!result?.total) return null;
+  return children({ ...result.items, term });
 }
 
 SearchResults.Articles = SearchResultsArticles;
@@ -30,132 +25,178 @@ SearchResults.Pages = SearchResultsPages;
 SearchResults.Products = SearchResultsProducts;
 SearchResults.Empty = SearchResultsEmpty;
 
-function SearchResultsArticles({
-  term,
-  articles,
-}: PartialSearchResult<'articles'>) {
-  if (!articles?.nodes.length) {
-    return null;
-  }
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="space-y-3">
+      <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function ItemLink({
+  to,
+  children,
+  className = '',
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <Link
+      prefetch="intent"
+      to={to}
+      className={
+        'block rounded-lg px-3 py-2 transition hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary,#2563eb)] ' +
+        className
+      }
+    >
+      {children}
+    </Link>
+  );
+}
+
+function SearchResultsArticles({ term, articles }: PartialSearchResult<'articles'>) {
+  if (!articles?.nodes.length) return null;
 
   return (
-    <div className="search-result">
-      <h2>Articles</h2>
-      <div>
-        {articles?.nodes?.map((article) => {
-          const articleUrl = urlWithTrackingParams({
+    <Section title="Articles">
+      <ul className="divide-y divide-[color:var(--color-border,#e5e7eb)] rounded-xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]">
+        {articles.nodes.map((article) => {
+          const href = urlWithTrackingParams({
             baseUrl: `/blogs/${article.handle}`,
             trackingParams: article.trackingParameters,
             term,
           });
-
           return (
-            <div className="search-results-item" key={article.id}>
-              <Link prefetch="intent" to={articleUrl}>
-                {article.title}
-              </Link>
-            </div>
+            <li key={article.id} className="first:rounded-t-xl last:rounded-b-xl">
+              <ItemLink to={href}>
+                <p className="text-sm font-medium">{article.title}</p>
+              </ItemLink>
+            </li>
           );
         })}
-      </div>
-      <br />
-    </div>
+      </ul>
+    </Section>
   );
 }
 
-function SearchResultsPages({term, pages}: PartialSearchResult<'pages'>) {
-  if (!pages?.nodes.length) {
-    return null;
-  }
+function SearchResultsPages({ term, pages }: PartialSearchResult<'pages'>) {
+  if (!pages?.nodes.length) return null;
 
   return (
-    <div className="search-result">
-      <h2>Pages</h2>
-      <div>
-        {pages?.nodes?.map((page) => {
-          const pageUrl = urlWithTrackingParams({
+    <Section title="Pages">
+      <ul className="divide-y divide-[color:var(--color-border,#e5e7eb)] rounded-xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]">
+        {pages.nodes.map((page) => {
+          const href = urlWithTrackingParams({
             baseUrl: `/pages/${page.handle}`,
             trackingParams: page.trackingParameters,
             term,
           });
-
           return (
-            <div className="search-results-item" key={page.id}>
-              <Link prefetch="intent" to={pageUrl}>
-                {page.title}
-              </Link>
-            </div>
+            <li key={page.id} className="first:rounded-t-xl last:rounded-b-xl">
+              <ItemLink to={href}>
+                <p className="text-sm font-medium">{page.title}</p>
+              </ItemLink>
+            </li>
           );
         })}
-      </div>
-      <br />
-    </div>
+      </ul>
+    </Section>
   );
 }
 
-function SearchResultsProducts({
-  term,
-  products,
-}: PartialSearchResult<'products'>) {
-  if (!products?.nodes.length) {
-    return null;
-  }
+function SearchResultsProducts({ term, products }: PartialSearchResult<'products'>) {
+  if (!products?.nodes.length) return null;
 
   return (
-    <div className="search-result">
-      <h2>Products</h2>
+    <Section title="Products">
       <Pagination connection={products}>
-        {({nodes, isLoading, NextLink, PreviousLink}) => {
-          const ItemsMarkup = nodes.map((product) => {
-            const productUrl = urlWithTrackingParams({
-              baseUrl: `/products/${product.handle}`,
-              trackingParams: product.trackingParameters,
-              term,
-            });
-
-            const price = product?.selectedOrFirstAvailableVariant?.price;
-            const image = product?.selectedOrFirstAvailableVariant?.image;
-
-            return (
-              <div className="search-results-item" key={product.id}>
-                <Link prefetch="intent" to={productUrl}>
-                  {image && (
-                    <Image data={image} alt={product.title} width={50} />
-                  )}
-                  <div>
-                    <p>{product.title}</p>
-                    <small>{price && <Money data={price} />}</small>
-                  </div>
-                </Link>
-              </div>
-            );
-          });
-
+        {({ nodes, isLoading, NextLink, PreviousLink }) => {
           return (
-            <div>
-              <div>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
                 <PreviousLink>
-                  {isLoading ? 'Loading...' : <span>↑ Load previous</span>}
+                  <Button variant="outline" size="sm" disabled={isLoading}>
+                    {isLoading ? 'Loading…' : '↑ Load previous'}
+                  </Button>
                 </PreviousLink>
-              </div>
-              <div>
-                {ItemsMarkup}
-                <br />
-              </div>
-              <div>
                 <NextLink>
-                  {isLoading ? 'Loading...' : <span>Load more ↓</span>}
+                  <Button variant="outline" size="sm" disabled={isLoading}>
+                    {isLoading ? 'Loading…' : 'Load more ↓'}
+                  </Button>
+                </NextLink>
+              </div>
+
+              <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {nodes.map((product) => {
+                  const href = urlWithTrackingParams({
+                    baseUrl: `/products/${product.handle}`,
+                    trackingParams: product.trackingParameters,
+                    term,
+                  });
+                  const price = product?.selectedOrFirstAvailableVariant?.price;
+                  const image = product?.selectedOrFirstAvailableVariant?.image;
+
+                  return (
+                    <li key={product.id}>
+                      <ItemLink
+                        to={href}
+                        className="border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]"
+                      >
+                        <div className="flex items-center gap-3">
+                          {image ? (
+                            <Image
+                              data={image}
+                              alt={product.title}
+                              width={64}
+                              height={64}
+                              loading="lazy"
+                              className="h-16 w-16 shrink-0 rounded-md object-cover"
+                            />
+                          ) : (
+                            <div className="h-16 w-16 shrink-0 rounded-md bg-black/5" />
+                          )}
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-medium">{product.title}</p>
+                            {price ? (
+                              <small className="opacity-80">
+                                <Money data={price} />
+                              </small>
+                            ) : null}
+                          </div>
+                        </div>
+                      </ItemLink>
+                    </li>
+                  );
+                })}
+              </ul>
+
+              <div className="flex items-center justify-between">
+                <PreviousLink>
+                  <Button variant="outline" size="sm" disabled={isLoading}>
+                    {isLoading ? 'Loading…' : '↑ Load previous'}
+                  </Button>
+                </PreviousLink>
+                <NextLink>
+                  <Button variant="outline" size="sm" disabled={isLoading}>
+                    {isLoading ? 'Loading…' : 'Load more ↓'}
+                  </Button>
                 </NextLink>
               </div>
             </div>
           );
         }}
       </Pagination>
-      <br />
-    </div>
+    </Section>
   );
 }
 
 function SearchResultsEmpty() {
-  return <p>No results, try a different search.</p>;
+  return (
+    <div className="rounded-xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] px-4 py-6 text-sm opacity-80">
+      No results, try a different search.
+    </div>
+  );
 }
