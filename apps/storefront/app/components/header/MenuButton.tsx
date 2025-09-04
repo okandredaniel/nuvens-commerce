@@ -10,7 +10,7 @@ export function MenuButton() {
       onClick={() => open('mobile')}
       className="inline-grid place-items-center size-10 rounded-full border-1 border-zinc-300"
     >
-      <FiMenu className="text-black size-5" />
+      <FiMenu className="size-5" />
     </button>
   );
 }
