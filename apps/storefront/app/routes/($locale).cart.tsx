@@ -17,9 +17,7 @@ export default function Cart() {
 
   return (
     <Container>
-      <h1 className="mb-6 text-2xl md:text-3xl font-semibold tracking-tight">
-        {t('pageTitle', 'Cart')}
-      </h1>
+      <h1 className="mb-6 text-2xl md:text-3xl font-semibold tracking-tight">{t('pageTitle')}</h1>
       <CartMain layout="page" cart={cart} />
     </Container>
   );

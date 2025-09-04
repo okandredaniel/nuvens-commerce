@@ -29,8 +29,8 @@ function CartBadge({ count }: { count: number | null }) {
   const { open } = useAside();
   const { publish, shop, cart, prevCart } = useAnalytics();
   const { t } = useTranslation('common');
-  const label = t('nav.cart', 'Cart');
-  const openLabel = t('nav.openCart', 'Open cart');
+  const label = t('nav.cart');
+  const openLabel = t('nav.openCart');
 
   return (
     <Tooltip.Root delayDuration={150}>

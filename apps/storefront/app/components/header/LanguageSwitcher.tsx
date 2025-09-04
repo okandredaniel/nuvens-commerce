@@ -31,7 +31,7 @@ export function LanguageSwitcher({ options, current }: Props) {
     [options, idx, active],
   );
 
-  const labelChange = t('nav.changeLanguage', 'Change language');
+  const labelChange = t('nav.changeLanguage');
   const activeLabel = languageLabel(active.isoCode, i18n.language, active.label);
 
   return (

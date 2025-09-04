@@ -78,7 +78,7 @@ function CheckoutActions({ href, cartId }: { href?: string; cartId?: string }) {
   return (
     <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
       <Button asChild className="w-full">
-        <a href={url}>{t('summary.checkout', 'Continue to checkout')}</a>
+        <a href={url}>{t('summary.continueToCheckout')}</a>
       </Button>
     </div>
   );

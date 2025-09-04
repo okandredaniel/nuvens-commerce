@@ -106,7 +106,7 @@ export default function Product() {
           {descriptionHtml ? (
             <section className="mt-8">
               <h2 className="mb-2 text-base font-semibold">
-                {t('description', { ns: 'product', defaultValue: 'Description' })}
+                {t('description', { ns: 'product' })}
               </h2>
               <div
                 className="prose prose-sm prose-neutral max-w-none

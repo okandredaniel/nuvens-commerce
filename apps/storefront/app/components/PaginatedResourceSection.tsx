@@ -25,9 +25,7 @@ export function PaginatedResourceSection<NodesType>({
           <section aria-busy={isLoading} className="space-y-4">
             <div className="flex justify-center">
               <Button asChild variant="outline" size="sm">
-                <PreviousLink>
-                  {isLoading ? t('loading', 'Loading...') : t('loadPrevious', '↑ Load previous')}
-                </PreviousLink>
+                <PreviousLink>{isLoading ? t('loading') : t('loadPrevious')}</PreviousLink>
               </Button>
             </div>
 
@@ -41,14 +39,12 @@ export function PaginatedResourceSection<NodesType>({
 
             <div className="flex justify-center">
               <Button asChild variant="outline" size="sm">
-                <NextLink>
-                  {isLoading ? t('loading', 'Loading...') : t('loadMore', 'Load more ↓')}
-                </NextLink>
+                <NextLink>{isLoading ? t('loading') : t('loadMore')}</NextLink>
               </Button>
             </div>
 
             <span className="sr-only" role="status">
-              {isLoading ? t('loading', 'Loading...') : t('idle', 'Idle')}
+              {isLoading ? t('loading') : t('idle')}
             </span>
           </section>
         );

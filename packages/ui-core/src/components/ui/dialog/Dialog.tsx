@@ -34,7 +34,7 @@ export function DialogContent({ children, className, ...rest }: RD.DialogContent
       >
         {children}
         <RD.Close
-          aria-label={t('close', 'Close')}
+          aria-label={t('close')}
           className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white/70 text-black/70 outline-none transition hover:bg-white"
         >
           <X className="h-4 w-4" />

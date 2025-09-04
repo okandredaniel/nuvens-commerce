@@ -12,14 +12,12 @@ export function CartEmpty() {
 
   return (
     <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-8 text-center">
-      <h2 className="text-lg font-semibold">{t('empty.title', 'Your cart is empty')}</h2>
-      <p className="mt-2 text-sm opacity-70">
-        {t('empty.body', 'Browse our collections and find something you love.')}
-      </p>
+      <h2 className="text-lg font-semibold">{t('empty.title')}</h2>
+      <p className="mt-2 text-sm opacity-70">{t('empty.body')}</p>
       <div className="mt-6">
         <Button asChild variant="outline">
           <Link to={to} prefetch="viewport" onClick={close}>
-            {t('empty.cta', 'Continue shopping')}
+            {t('empty.cta')}
           </Link>
         </Button>
       </div>

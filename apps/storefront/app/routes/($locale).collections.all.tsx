@@ -33,9 +33,7 @@ export default function Products() {
 
   return (
     <Container className="py-6 md:py-10">
-      <h1 className="mb-6 text-2xl md:text-3xl font-semibold tracking-tight">
-        {t('title', { defaultValue: 'Products' })}
-      </h1>
+      <h1 className="mb-6 text-2xl md:text-3xl font-semibold tracking-tight">{t('title')}</h1>
 
       <PaginatedResourceSection
         connection={products}

@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 export function MenuButton() {
   const { open } = useAside();
   const { t } = useTranslation('common');
-  const label = t('nav.menu', 'Menu');
-  const openLabel = t('nav.openMenu', 'Open menu');
+  const label = t('nav.menu');
+  const openLabel = t('nav.openMenu');
 
   return (
     <Tooltip.Root delayDuration={150}>

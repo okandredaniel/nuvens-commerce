@@ -83,8 +83,8 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
   const decBtnRef = useRef<HTMLButtonElement>(null);
   const incBtnRef = useRef<HTMLButtonElement>(null);
 
-  const decreaseLabel = t('quantity.decrease', 'Decrease quantity');
-  const increaseLabel = t('quantity.increase', 'Increase quantity');
+  const decreaseLabel = t('quantity.decrease');
+  const increaseLabel = t('quantity.increase');
 
   return (
     <div className="flex items-center gap-2">
@@ -133,12 +133,12 @@ function RemoveLinesButton({ lineIds, disabled }: { lineIds: string[]; disabled:
         type="submit"
         size="sm"
         variant="ghost"
-        aria-label={t('remove', 'Remove')}
+        aria-label={t('remove')}
         disabled={disabled}
         className="text-[color:var(--color-danger,#dc2626)] hover:bg-[color:var(--color-danger,#dc2626)]/10"
       >
         <Trash2 className="mr-1 h-4 w-4" />
-        {t('remove', 'Remove')}
+        {t('remove')}
       </Button>
     </CartForm>
   );
