@@ -10,7 +10,6 @@ import { SearchAside } from '~/components/SearchAside';
 import { createI18n } from '~/lib/i18n/createInstance';
 import { Providers } from '~/providers/Providers';
 import { RootLoader } from '~/root';
-import appStyles from '~/styles/app.css?url';
 import tailwindCss from '~/styles/tailwind.css?url';
 
 export function Layout({ children }: { children?: React.ReactNode }) {
@@ -35,7 +34,6 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <link rel="stylesheet" href={tailwindCss} />
-        <link rel="stylesheet" href={appStyles} />
         <Meta />
         <Links />
         {cssVars.length > 0 && <style id="brand-vars">{`:root{${cssVars.join('')}}`}</style>}
