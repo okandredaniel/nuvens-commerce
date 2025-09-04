@@ -1,5 +1,6 @@
 import { brandDefaultLocale } from '@nuvens/brand-ui';
-import { Dropdown } from '@nuvens/ui-core';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import { Globe } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,58 +15,76 @@ export function LanguageSwitcher({ options, current }: Props) {
   const { pathname } = useLocation();
   if (!options?.length) return null;
 
-  const pathSeg = pathname.split('/').filter(Boolean)[0] ?? '';
-  const pathLang = /^[a-z]{2}$/i.test(pathSeg) ? pathSeg.toLowerCase() : undefined;
-  const defaultLang = toLang(String(brandDefaultLocale) || 'en');
-  const effectiveCurrent =
-    toLang(current) || pathLang || toLang(i18n.resolvedLanguage) || defaultLang;
+  const seg = pathname.split('/').filter(Boolean)[0] ?? '';
+  const pathLang = /^[a-z]{2}$/i.test(seg) ? seg.toLowerCase() : undefined;
+  const defLang = toLang(String(brandDefaultLocale) || 'en');
+  const effective = toLang(current) || pathLang || toLang(i18n.resolvedLanguage) || defLang;
 
   const idx = useMemo(
-    () => options.findIndex((o) => toLang(o.isoCode) === effectiveCurrent),
-    [options, effectiveCurrent],
+    () => options.findIndex((o) => toLang(o.isoCode) === effective),
+    [options, effective],
   );
-
   const active =
-    idx >= 0 ? options[idx] : options.find((o) => toLang(o.isoCode) === defaultLang) || options[0];
+    idx >= 0 ? options[idx] : options.find((o) => toLang(o.isoCode) === defLang) || options[0];
   const others = useMemo(
     () => options.filter((_, i) => i !== (idx >= 0 ? idx : options.indexOf(active))),
     [options, idx, active],
   );
 
+  const labelChange = t('nav.changeLanguage', 'Change language');
   const activeLabel = languageLabel(active.isoCode, i18n.language, active.label);
 
   return (
-    <Dropdown.Root>
-      <Dropdown.Trigger
-        className="inline-flex items-center gap-2 px-3 h-10 rounded-full text-xs font-semibold uppercase border border-zinc-300 bg-white/10 hover:bg-white/20 transition"
-        aria-label={t('nav.changeLanguage')}
-        title={t('nav.currentLanguage', { lang: activeLabel })}
-      >
-        <Globe className="h-4 w-4 text-sky-400" aria-hidden />
-        <span>{activeLabel}</span>
-      </Dropdown.Trigger>
+    <DropdownMenu.Root>
+      <Tooltip.Root>
+        <Tooltip.Trigger asChild>
+          <DropdownMenu.Trigger asChild>
+            <button
+              type="button"
+              aria-label={labelChange}
+              className="inline-flex items-center gap-2 px-3 h-10 rounded-full text-xs font-semibold uppercase border border-zinc-300 bg-white/10 hover:bg-white/20 transition"
+            >
+              <Globe className="h-4 w-4 text-sky-400" aria-hidden />
+              <span>{activeLabel}</span>
+            </button>
+          </DropdownMenu.Trigger>
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            sideOffset={8}
+            className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+          >
+            {labelChange}
+            <Tooltip.Arrow className="fill-[color:var(--color-popover,#111)]" />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+
       {others.length > 0 && (
-        <Dropdown.Content>
-          <Dropdown.Label className="px-3 py-2 text-xs uppercase opacity-60">
-            {t('nav.changeLanguage')}
-          </Dropdown.Label>
-          {others.map((o) => {
-            const label = languageLabel(o.isoCode, i18n.language, o.label);
-            return (
-              <Dropdown.Item key={o.isoCode} asChild>
-                <NavLink
-                  to={o.href}
-                  prefetch="intent"
-                  aria-label={t('nav.switchTo', { lang: label })}
-                  className="block px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-zinc-100"
-                >
-                  {t('nav.switchTo', { lang: label })}
-                </NavLink>
-              </Dropdown.Item>
-            );
-          })}
-        </Dropdown.Content>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            sideOffset={8}
+            className="z-50 min-w-44 rounded-xl border border-zinc-200 bg-white p-1 shadow-lg"
+          >
+            <div className="px-3 py-2 text-xs uppercase opacity-60">{labelChange}</div>
+            {others.map((o) => {
+              const label = languageLabel(o.isoCode, i18n.language, o.label);
+              return (
+                <DropdownMenu.Item key={o.isoCode} asChild>
+                  <NavLink
+                    to={o.href}
+                    prefetch="intent"
+                    aria-label={t('nav.switchTo', { lang: label })}
+                    className="block px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-zinc-100"
+                  >
+                    {t('nav.switchTo', { lang: label })}
+                  </NavLink>
+                </DropdownMenu.Item>
+              );
+            })}
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
       )}
-    </Dropdown.Root>
+    </DropdownMenu.Root>
   );
 }

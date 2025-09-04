@@ -1,50 +1,64 @@
 import * as RM from '@radix-ui/react-dropdown-menu';
+import { forwardRef } from 'react';
 
-export function DropdownRoot(props: RM.DropdownMenuProps) {
-  return <RM.Root {...props} />;
-}
+export const DropdownRoot = RM.Root;
 
-export function DropdownTrigger(props: RM.DropdownMenuTriggerProps) {
-  return <RM.Trigger {...props} />;
-}
+export const DropdownTrigger = forwardRef<HTMLButtonElement, RM.DropdownMenuTriggerProps>(
+  function DropdownTrigger(props, ref) {
+    return <RM.Trigger ref={ref} {...props} />;
+  },
+);
 
-export function DropdownContent({
-  className,
-  sideOffset = 8,
-  ...rest
-}: RM.DropdownMenuContentProps) {
-  return (
-    <RM.Portal>
-      <RM.Content
-        {...rest}
-        sideOffset={sideOffset}
-        className={`z-50 min-w-40 rounded-xl border border-black/10 bg-[var(--color-surface,#fff)] p-1 shadow-xl data-[side=bottom]:animate-in data-[side=bottom]:slide-in-from-top-1 ${className || ''}`}
+export const DropdownContent = forwardRef<HTMLDivElement, RM.DropdownMenuContentProps>(
+  function DropdownContent({ className, sideOffset = 8, ...rest }, ref) {
+    return (
+      <RM.Portal>
+        <RM.Content
+          ref={ref}
+          sideOffset={sideOffset}
+          className={`z-50 min-w-40 rounded-xl border border-black/10 bg-[var(--color-surface,#fff)] p-1 shadow-xl data-[side=bottom]:animate-in data-[side=bottom]:slide-in-from-top-1 ${className || ''}`}
+          {...rest}
+        />
+      </RM.Portal>
+    );
+  },
+);
+
+export const DropdownItem = forwardRef<HTMLDivElement, RM.DropdownMenuItemProps>(
+  function DropdownItem(props, ref) {
+    return (
+      <RM.Item
+        ref={ref}
+        className={`relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-black/5 ${props.className || ''}`}
+        {...props}
       />
-    </RM.Portal>
-  );
-}
+    );
+  },
+);
 
-export function DropdownItem(props: RM.DropdownMenuItemProps) {
-  return (
-    <RM.Item
-      {...props}
-      className={`relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-black/5 ${props.className || ''}`}
-    />
-  );
-}
+export const DropdownSeparator = forwardRef<HTMLDivElement, RM.DropdownMenuSeparatorProps>(
+  function DropdownSeparator(props, ref) {
+    return (
+      <RM.Separator
+        ref={ref}
+        className={`my-1 h-px bg-black/10 ${props.className || ''}`}
+        {...props}
+      />
+    );
+  },
+);
 
-export function DropdownSeparator(props: RM.DropdownMenuSeparatorProps) {
-  return <RM.Separator {...props} className={`my-1 h-px bg-black/10 ${props.className || ''}`} />;
-}
-
-export function DropdownLabel(props: RM.DropdownMenuLabelProps) {
-  return (
-    <RM.Label
-      {...props}
-      className={`px-3 py-2 text-xs uppercase opacity-60 ${props.className || ''}`}
-    />
-  );
-}
+export const DropdownLabel = forwardRef<HTMLDivElement, RM.DropdownMenuLabelProps>(
+  function DropdownLabel(props, ref) {
+    return (
+      <RM.Label
+        ref={ref}
+        className={`px-3 py-2 text-xs uppercase opacity-60 ${props.className || ''}`}
+        {...props}
+      />
+    );
+  },
+);
 
 export const Dropdown = {
   Root: DropdownRoot,

@@ -10,20 +10,18 @@ export function MenuButton() {
   const openLabel = t('nav.openMenu', 'Open menu');
 
   return (
-    <Tooltip.Provider>
-      <Tooltip.Root delayDuration={150}>
-        <Tooltip.Trigger asChild>
-          <IconButton aria-label={openLabel} onClick={() => open('mobile')}>
-            <Menu className="h-5 w-5" />
-          </IconButton>
-        </Tooltip.Trigger>
-        <Tooltip.Content
-          sideOffset={8}
-          className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
-        >
-          {label}
-        </Tooltip.Content>
-      </Tooltip.Root>
-    </Tooltip.Provider>
+    <Tooltip.Root delayDuration={150}>
+      <Tooltip.Trigger asChild>
+        <IconButton aria-label={openLabel} onClick={() => open('mobile')}>
+          <Menu className="h-5 w-5" />
+        </IconButton>
+      </Tooltip.Trigger>
+      <Tooltip.Content
+        sideOffset={8}
+        className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+      >
+        {label}
+      </Tooltip.Content>
+    </Tooltip.Root>
   );
 }

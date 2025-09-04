@@ -1,16 +1,14 @@
 import { brandDefaultLocale } from '@nuvens/brand-ui';
-import { Aside } from '@nuvens/ui-core';
-import { Analytics, useNonce } from '@shopify/hydrogen';
+import { useNonce } from '@shopify/hydrogen';
 import { useMemo } from 'react';
-import { I18nextProvider } from 'react-i18next';
 import { Links, Meta, Scripts, ScrollRestoration, useRouteLoaderData } from 'react-router';
 import { CartAside } from '~/components/CartAside';
 import { Footer } from '~/components/Footer';
 import { Header } from '~/components/header/Header';
 import { MobileMenuAside } from '~/components/MobileMenuAside';
 import { SearchAside } from '~/components/SearchAside';
-import { I18nBridge } from '~/lib/i18n';
 import { createI18n } from '~/lib/i18n/createInstance';
+import { Providers } from '~/providers/Providers';
 import { RootLoader } from '~/root';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from '~/styles/tailwind.css?url';
@@ -28,10 +26,8 @@ export function Layout({ children }: { children?: React.ReactNode }) {
     [locale, data?.i18n?.resources],
   );
 
-  const globalTokens: { colors: Record<string, string> } = { colors: {} };
-  const brandTokens = data?.brand?.tokens;
-  const colors = { ...globalTokens.colors, ...(brandTokens?.colors ?? {}) };
-  const cssVars = Object.entries(colors).map(([key, value]) => `--color-${key}:${value};`);
+  const colors = { ...(data?.brand?.tokens?.colors ?? {}) };
+  const cssVars = Object.entries(colors).map(([k, v]) => `--color-${k}:${v};`);
 
   return (
     <html lang={locale}>
@@ -45,39 +41,36 @@ export function Layout({ children }: { children?: React.ReactNode }) {
         {cssVars.length > 0 && <style id="brand-vars">{`:root{${cssVars.join('')}}`}</style>}
       </head>
       <body data-brand={data?.brand?.id}>
-        <I18nextProvider i18n={i18n}>
-          <I18nBridge />
+        <Providers
+          i18n={i18n}
+          analytics={{ cart: data?.cart, shop: data?.shop, consent: data?.consent }}
+        >
           {data ? (
-            <Analytics.Provider cart={data?.cart} shop={data?.shop} consent={data?.consent}>
-              <Aside.Provider>
-                <CartAside cart={data?.cart as any} />
-                <SearchAside />
-                {data?.header && data?.publicStoreDomain && (
-                  <MobileMenuAside
-                    header={data.header}
-                    publicStoreDomain={data.publicStoreDomain}
-                  />
-                )}
-                {data?.header && (
-                  <Header
-                    header={data.header}
-                    cart={data.cart as any}
-                    isLoggedIn={data.isLoggedIn as any}
-                    publicStoreDomain={data.publicStoreDomain as any}
-                  />
-                )}
-                <main>{children}</main>
-                <Footer
-                  footer={(data as any)?.footer}
-                  publicStoreDomain={data?.publicStoreDomain as any}
-                  primaryDomainUrl={data?.header?.shop?.primaryDomain?.url as any}
+            <>
+              <CartAside cart={data?.cart as any} />
+              <SearchAside />
+              {data?.header && data?.publicStoreDomain && (
+                <MobileMenuAside header={data.header} publicStoreDomain={data.publicStoreDomain} />
+              )}
+              {data?.header && (
+                <Header
+                  header={data.header}
+                  cart={data.cart as any}
+                  isLoggedIn={data.isLoggedIn as any}
+                  publicStoreDomain={data.publicStoreDomain as any}
                 />
-              </Aside.Provider>
-            </Analytics.Provider>
+              )}
+              <main>{children}</main>
+              <Footer
+                footer={(data as any)?.footer}
+                publicStoreDomain={data?.publicStoreDomain as any}
+                primaryDomainUrl={data?.header?.shop?.primaryDomain?.url as any}
+              />
+            </>
           ) : (
             children
           )}
-        </I18nextProvider>
+        </Providers>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />
       </body>

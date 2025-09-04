@@ -33,37 +33,35 @@ function CartBadge({ count }: { count: number | null }) {
   const openLabel = t('nav.openCart', 'Open cart');
 
   return (
-    <Tooltip.Provider>
-      <Tooltip.Root delayDuration={150}>
-        <Tooltip.Trigger asChild>
-          <IconButton
-            aria-label={openLabel}
-            onClick={(e) => {
-              e.preventDefault();
-              open('cart');
-              publish('cart_viewed', {
-                cart,
-                prevCart,
-                shop,
-                url: window.location.href || '',
-              } as CartViewPayload);
-            }}
-          >
-            <div className="relative">
-              <ShoppingCart className="h-5 w-5" />
-              {typeof count === 'number' ? (
-                <Badge className="absolute -top-4 -right-4">{count}</Badge>
-              ) : null}
-            </div>
-          </IconButton>
-        </Tooltip.Trigger>
-        <Tooltip.Content
-          sideOffset={8}
-          className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+    <Tooltip.Root delayDuration={150}>
+      <Tooltip.Trigger asChild>
+        <IconButton
+          aria-label={openLabel}
+          onClick={(e) => {
+            e.preventDefault();
+            open('cart');
+            publish('cart_viewed', {
+              cart,
+              prevCart,
+              shop,
+              url: window.location.href || '',
+            } as CartViewPayload);
+          }}
         >
-          {label}
-        </Tooltip.Content>
-      </Tooltip.Root>
-    </Tooltip.Provider>
+          <div className="relative">
+            <ShoppingCart className="h-5 w-5" />
+            {typeof count === 'number' ? (
+              <Badge className="absolute -top-4 -right-4">{count}</Badge>
+            ) : null}
+          </div>
+        </IconButton>
+      </Tooltip.Trigger>
+      <Tooltip.Content
+        sideOffset={8}
+        className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+      >
+        {label}
+      </Tooltip.Content>
+    </Tooltip.Root>
   );
 }
