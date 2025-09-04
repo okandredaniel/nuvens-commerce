@@ -14,5 +14,10 @@
     "react-dom": "^18",
     "i18next": "^25",
     "react-i18next": "^15"
+  },
+  "tailwind": {
+    "content": [
+      "./src/**/*.{ts,tsx,js,jsx,mdx}"
+    ]
   }
 }
