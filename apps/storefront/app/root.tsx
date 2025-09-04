@@ -16,7 +16,6 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   const base = data?.header?.shop?.primaryDomain?.url || data?.origin || '';
   const canonical = buildCanonical(base, location.pathname, location.search);
   const alts = buildHreflangs(base, location.pathname, location.search);
-
   return [
     { tagName: 'link', rel: 'canonical', href: canonical },
     ...alts.map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
@@ -41,9 +40,12 @@ export async function loader(args: LoaderFunctionArgs) {
   const localeRegion = `${languageCtx}-${countryCtx}`;
 
   let brandI18n: any = null;
+  let brand: any = null;
   try {
     const mod = await import('@nuvens/brand-ui');
+    const brandTokens = (mod as any).brandTokens;
     brandI18n = (mod as any).brandI18n ?? null;
+    brand = { id: process.env.BRAND_ID, tokens: brandTokens };
   } catch {}
 
   const resources = mergeResources(lang, coreI18n?.resources, brandI18n?.resources);
@@ -53,6 +55,7 @@ export async function loader(args: LoaderFunctionArgs) {
     ...deferredData,
     ...criticalData,
     origin,
+    brand,
     i18n: { locale: lang, resources },
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({ storefront, publicStorefrontId: env.PUBLIC_STOREFRONT_ID }),
