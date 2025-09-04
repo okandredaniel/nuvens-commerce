@@ -13,5 +13,8 @@ export const brandTokens = {
     'on-accent': '#0b1220',
 
     border: '#e5e7eb',
+
+    popover: '#4B6382',
+    'on-popover': '#ffffff',
   },
 };

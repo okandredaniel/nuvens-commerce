@@ -1,12 +1,16 @@
+import { Badge, IconButton } from '@nuvens/ui-core';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import { type CartViewPayload, useAnalytics, useOptimisticCart } from '@shopify/hydrogen';
+import { ShoppingCart } from 'lucide-react';
 import { Suspense } from 'react';
-import { FiShoppingCart } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 import { Await, useAsyncValue } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import { useAside } from '~/components/Aside';
-import type { HeaderProps } from './header.interfaces';
 
-export function CartButton({ cart }: { cart: HeaderProps['cart'] }) {
+type Props = { cart: Promise<CartApiQueryFragment | null> };
+
+export function CartButton({ cart }: Props) {
   return (
     <Suspense fallback={<CartBadge count={null} />}>
       <Await resolve={cart}>
@@ -25,28 +29,42 @@ function CartResolved() {
 function CartBadge({ count }: { count: number | null }) {
   const { open } = useAside();
   const { publish, shop, cart, prevCart } = useAnalytics();
+  const { t } = useTranslation('common');
+  const label = t('nav.cart', 'Cart');
+  const openLabel = t('nav.openCart', 'Open cart');
 
   return (
-    <button
-      aria-label="Open cart"
-      onClick={(e) => {
-        e.preventDefault();
-        open('cart');
-        publish('cart_viewed', {
-          cart,
-          prevCart,
-          shop,
-          url: window.location.href || '',
-        } as CartViewPayload);
-      }}
-      className="relative inline-grid place-items-center size-10 rounded-full border-1 border-zinc-300"
-    >
-      <FiShoppingCart className="size-5" />
-      {typeof count === 'number' ? (
-        <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full bg-white/90 text-black text-[10px] font-semibold grid place-items-center">
-          {count}
-        </span>
-      ) : null}
-    </button>
+    <Tooltip.Provider>
+      <Tooltip.Root delayDuration={150}>
+        <Tooltip.Trigger asChild>
+          <IconButton
+            aria-label={openLabel}
+            onClick={(e) => {
+              e.preventDefault();
+              open('cart');
+              publish('cart_viewed', {
+                cart,
+                prevCart,
+                shop,
+                url: window.location.href || '',
+              } as CartViewPayload);
+            }}
+          >
+            <div className="relative">
+              <ShoppingCart className="h-5 w-5" />
+              {typeof count === 'number' ? (
+                <Badge className="absolute -top-4 -right-4">{count}</Badge>
+              ) : null}
+            </div>
+          </IconButton>
+        </Tooltip.Trigger>
+        <Tooltip.Content
+          sideOffset={8}
+          className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+        >
+          {label}
+        </Tooltip.Content>
+      </Tooltip.Root>
+    </Tooltip.Provider>
   );
 }

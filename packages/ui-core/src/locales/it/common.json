@@ -2,6 +2,10 @@
   "nav": {
     "changeLanguage": "Cambia lingua",
     "currentLanguage": "Lingua attuale: {{lang}}",
-    "switchTo": "Passa a {{lang}}"
+    "switchTo": "Passa a {{lang}}",
+    "menu": "Menu",
+    "openMenu": "Apri il menu",
+    "cart": "Carrello",
+    "openCart": "Apri il carrello"
   }
 }
