@@ -1,8 +1,7 @@
-import { IconButton } from '@nuvens/ui-core';
+import { IconButton, useAside } from '@nuvens/ui-core';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Menu } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useAside } from '~/components/Aside';
 
 export function MenuButton() {
   const { open } = useAside();

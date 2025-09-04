@@ -1,4 +1,4 @@
-import { Badge, IconButton } from '@nuvens/ui-core';
+import { Badge, IconButton, useAside } from '@nuvens/ui-core';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type CartViewPayload, useAnalytics, useOptimisticCart } from '@shopify/hydrogen';
 import { ShoppingCart } from 'lucide-react';
@@ -6,7 +6,6 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Await, useAsyncValue } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { useAside } from '~/components/Aside';
 
 type Props = { cart: Promise<CartApiQueryFragment | null> };
 

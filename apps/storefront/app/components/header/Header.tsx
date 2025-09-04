@@ -13,31 +13,36 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
 
   return (
     <header className="relative isolate z-40 w-full bg-[var(--color-header-bg,#111)] text-[var(--color-on-header,#fff)]">
-      <div className="mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 py-3">
-        <div className="flex sm:hidden items-center">
-          <MenuButton />
-        </div>
-        <div className="hidden sm:flex w-10" />
-        <div className="flex justify-center">
-          <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
-            <Brand />
-          </LocalizedNavLink>
-        </div>
-        {menu?.items?.length ? (
-          <div className="hidden sm:block">
-            <HeaderMenu
-              menu={menu}
-              viewport="desktop"
-              primaryDomainUrl={shop.primaryDomain.url}
-              publicStoreDomain={publicStoreDomain}
-            />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3">
+        <div className="relative flex items-center gap-3">
+          <div className="sm:hidden">
+            <MenuButton />
           </div>
-        ) : (
-          <div className="hidden sm:block w-10" />
-        )}
-        <div className="flex items-center justify-end gap-3">
-          {languages.length > 0 ? <LanguageSwitcher options={languages} current={current} /> : null}
-          <CartButton cart={cart} />
+
+          <div className="absolute left-1/2 -translate-x-1/2 sm:static sm:translate-x-0">
+            <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
+              <Brand />
+            </LocalizedNavLink>
+          </div>
+
+          {menu?.items?.length ? (
+            <div className="hidden sm:flex flex-1">
+              <HeaderMenu
+                menu={menu}
+                primaryDomainUrl={shop.primaryDomain.url}
+                publicStoreDomain={publicStoreDomain}
+              />
+            </div>
+          ) : (
+            <div className="hidden sm:block flex-1" />
+          )}
+
+          <div className="ml-auto flex items-center gap-3">
+            {languages.length > 0 ? (
+              <LanguageSwitcher options={languages} current={current} />
+            ) : null}
+            <CartButton cart={cart} />
+          </div>
         </div>
       </div>
     </header>

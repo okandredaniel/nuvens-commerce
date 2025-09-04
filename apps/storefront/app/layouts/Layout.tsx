@@ -1,9 +1,9 @@
 import { brandDefaultLocale } from '@nuvens/brand-ui';
+import { Aside } from '@nuvens/ui-core';
 import { Analytics, useNonce } from '@shopify/hydrogen';
 import { useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Links, Meta, Scripts, ScrollRestoration, useRouteLoaderData } from 'react-router';
-import { Aside } from '~/components/Aside';
 import { CartAside } from '~/components/CartAside';
 import { Footer } from '~/components/Footer';
 import { Header } from '~/components/header/Header';

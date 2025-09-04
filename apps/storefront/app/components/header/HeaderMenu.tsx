@@ -1,50 +1,61 @@
-import { useAside } from '~/components/Aside';
+import { useAside } from '@nuvens/ui-core';
 import { LocalizedNavLink } from '../LocalizedNavLink';
-import { HeaderProps, Viewport } from './header.interfaces';
+import type { HeaderProps } from './header.interfaces';
 
 export function HeaderMenu({
   menu,
   primaryDomainUrl,
-  viewport,
   publicStoreDomain,
 }: {
   menu: HeaderProps['header']['menu'];
   primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
-  viewport: Viewport;
   publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
   if (!menu?.items?.length) return null;
 
-  const wrapper =
-    viewport === 'desktop' ? 'hidden md:flex gap-6 justify-center' : 'flex flex-col gap-4';
-
   const { close } = useAside();
 
   return (
-    <nav className={wrapper} role="navigation">
-      {menu.items.map((item) => {
-        if (!item?.id || !item?.title || !item?.url) return null;
+    <nav className="w-full" role="navigation" aria-label="Main">
+      <ul className="mx-auto flex flex-col items-start gap-4 md:items-center md:flex-row md:justify-center md:gap-6">
+        {menu.items.map((item) => {
+          if (!item?.id || !item?.title || !item?.url) return null;
 
-        const isInternal =
-          item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl);
+          const isInternal =
+            item.url.includes('myshopify.com') ||
+            item.url.includes(publicStoreDomain) ||
+            item.url.includes(primaryDomainUrl);
 
-        const url = isInternal ? new URL(item.url).pathname : item.url;
+          if (isInternal) {
+            const url = new URL(item.url).pathname;
+            return (
+              <li key={item.id}>
+                <LocalizedNavLink
+                  prefetch="intent"
+                  onClick={close}
+                  to={url}
+                  end
+                  className="px-2 py-1 md:text-base hover:opacity-80 transition-opacity"
+                >
+                  {item.title}
+                </LocalizedNavLink>
+              </li>
+            );
+          }
 
-        return (
-          <LocalizedNavLink
-            className="text-sm md:text-base hover:opacity-80 transition-opacity"
-            prefetch="intent"
-            onClick={close}
-            key={item.id}
-            to={url}
-            end
-          >
-            {item.title}
-          </LocalizedNavLink>
-        );
-      })}
+          return (
+            <li key={item.id}>
+              <a
+                href={item.url}
+                className="px-2 py-1 md:text-base hover:opacity-80 transition-opacity"
+                rel="noopener noreferrer"
+              >
+                {item.title}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
     </nav>
   );
 }

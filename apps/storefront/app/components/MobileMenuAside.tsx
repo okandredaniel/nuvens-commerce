@@ -1,5 +1,5 @@
+import { Aside } from '@nuvens/ui-core';
 import type { HeaderQuery } from 'storefrontapi.generated';
-import { Aside } from './Aside';
 import { HeaderMenu } from './header/HeaderMenu';
 
 export function MobileMenuAside({
@@ -15,7 +15,6 @@ export function MobileMenuAside({
       <Aside type="mobile" heading="MENU">
         <HeaderMenu
           menu={header.menu}
-          viewport="mobile"
           primaryDomainUrl={header.shop.primaryDomain.url}
           publicStoreDomain={publicStoreDomain}
         />

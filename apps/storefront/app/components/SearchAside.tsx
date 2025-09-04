@@ -1,13 +1,13 @@
+import { Aside } from '@nuvens/ui-core';
 import { useId } from 'react';
 import { Link } from 'react-router';
-import { Aside } from './Aside';
 import { SEARCH_ENDPOINT, SearchFormPredictive } from './SearchFormPredictive';
 import { SearchResultsPredictive } from './SearchResultsPredictive';
 
 export function SearchAside() {
   const queriesDatalistId = useId();
   return (
-    <Aside type="search" heading="SEARCH">
+    <Aside type="mobile" heading="SEARCH">
       <div className="predictive-search">
         <br />
         <SearchFormPredictive>
