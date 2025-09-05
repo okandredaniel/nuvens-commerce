@@ -2,6 +2,7 @@ import { useAside } from '@nuvens/ui-core';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router';
 import type { ProductFragment } from 'storefrontapi.generated';
 import { AddToCartButton } from './cart';
@@ -15,6 +16,7 @@ export function ProductForm({
 }) {
   const navigate = useNavigate();
   const { open } = useAside();
+  const { t } = useTranslation('product');
 
   return (
     <div className="space-y-6">
@@ -129,8 +131,9 @@ export function ProductForm({
             ? [{ merchandiseId: selectedVariant.id, quantity: 1, selectedVariant }]
             : []
         }
+        aria-label={selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
       >
-        {selectedVariant?.availableForSale ? 'Add to cart' : 'Sold out'}
+        {selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
       </AddToCartButton>
     </div>
   );

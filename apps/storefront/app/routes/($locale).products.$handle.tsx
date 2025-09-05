@@ -66,7 +66,7 @@ function loadDeferredData(_: LoaderFunctionArgs) {
 
 export default function Product() {
   const { product } = useLoaderData<typeof loader>();
-  const { t } = useTranslation(['product', 'common']);
+  const { t: tProduct } = useTranslation('product');
 
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
@@ -105,13 +105,9 @@ export default function Product() {
 
           {descriptionHtml ? (
             <section className="mt-8">
-              <h2 className="mb-2 text-base font-semibold">
-                {t('description', { ns: 'product' })}
-              </h2>
+              <h2 className="mb-2 text-base font-semibold">{tProduct('description')}</h2>
               <div
-                className="prose prose-sm prose-neutral max-w-none
-                           [&_img]:rounded-lg
-                           dark:prose-invert"
+                className="prose prose-sm prose-neutral max-w-none [&_img]:rounded-lg dark:prose-invert"
                 dangerouslySetInnerHTML={{ __html: descriptionHtml }}
               />
             </section>
