@@ -1,11 +1,24 @@
-import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
-import { Container } from '@nuvens/ui-core';
+import { pageTemplates } from '../pages';
+
+type LoaderData = {
+  page: {
+    id: string;
+    handle: string;
+    title: string;
+    body: string;
+    seo?: { title?: string | null; description?: string | null } | null;
+    templateMeta?: { value?: string | null } | null;
+  };
+  templateKey: string;
+};
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-  const title = data?.page?.title ?? 'Page';
-  return [{ title: `Hydrogen | ${title}` }];
+  const title = data?.page?.seo?.title || data?.page?.title || 'Page';
+  const desc = data?.page?.seo?.description || undefined;
+  return [{ title }, ...(desc ? [{ name: 'description', content: desc }] : [])];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -19,37 +32,33 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
   if (!handle) throw new Error('Missing page handle');
 
   const { storefront } = context;
-
-  const [{ page }] = await Promise.all([storefront.query(PAGE_QUERY, { variables: { handle } })]);
-
-  if (!page) {
-    throw new Response('Not Found', { status: 404 });
-  }
+  const { page } = await storefront.query(PAGE_QUERY, { variables: { handle } });
+  if (!page) throw new Response('Not Found', { status: 404 });
 
   redirectIfHandleIsLocalized(request, { handle, data: page });
 
-  return { page };
+  const normalize = (v?: string | null) =>
+    (v || '')
+      .toLowerCase()
+      .replace(/\.liquid$/i, '')
+      .replace(/[^a-z0-9_-]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+  const candidates = [normalize(page.templateMeta?.value), normalize(page.handle)].filter(Boolean);
+  const available = Object.keys(pageTemplates);
+  const templateKey = candidates.find((c) => available.includes(c)) || 'default';
+
+  return { page, templateKey } satisfies LoaderData;
 }
 
-function loadDeferredData({}: LoaderFunctionArgs) {
+function loadDeferredData(_: LoaderFunctionArgs) {
   return {};
 }
 
 export default function Page() {
-  const { page } = useLoaderData<typeof loader>();
-
-  return (
-    <Container className="py-8 md:py-12">
-      <header className="mb-6 md:mb-8">
-        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{page.title}</h1>
-      </header>
-
-      <main
-        className="space-y-4 leading-relaxed text-[color:var(--color-on-surface)]"
-        dangerouslySetInnerHTML={{ __html: page.body }}
-      />
-    </Container>
-  );
+  const { page, templateKey } = useLoaderData<typeof loader>();
+  const Template = pageTemplates[templateKey] || pageTemplates.default;
+  return <Template page={page} />;
 }
 
 const PAGE_QUERY = `#graphql
@@ -60,14 +69,12 @@ const PAGE_QUERY = `#graphql
   )
   @inContext(language: $language, country: $country) {
     page(handle: $handle) {
-      handle
       id
+      handle
       title
       body
-      seo {
-        description
-        title
-      }
+      seo { title description }
+      templateMeta: metafield(namespace: "app", key: "template") { value }
     }
   }
 ` as const;
