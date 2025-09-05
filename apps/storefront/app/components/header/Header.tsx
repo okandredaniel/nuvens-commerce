@@ -13,7 +13,7 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
   const { options: languages, current } = useLanguageOptions();
 
   return (
-    <header className="relative isolate z-40 w-full bg-[var(--color-header-bg,#111)] text-[var(--color-on-header,#fff)]">
+    <header className="relative isolate z-40 w-full bg-[var(--color-header-bg)] text-[var(--color-on-header)]">
       <Container className="flex items-center h-16">
         <div className="md:hidden">
           <MenuButton />

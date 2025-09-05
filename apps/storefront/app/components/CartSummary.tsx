@@ -14,7 +14,7 @@ export function CartSummary({ cart }: CartSummaryProps) {
   const { t } = useTranslation('cart');
 
   return (
-    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+    <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-4 sm:p-5">
       <h4 className="text-base font-semibold">{t('summary.title')}</h4>
       <dl className="mt-3 space-y-2">
         <div className="flex items-center justify-between text-sm">
@@ -35,11 +35,11 @@ export function DiscountBox({ codes }: { codes?: CartApiQueryFragment['discountC
   const applied = codes?.filter((d) => d.applicable).map((d) => d.code) || [];
 
   return (
-    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+    <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-4 sm:p-5">
       <div className="text-sm font-medium">{tCart('discount.title')}</div>
       {applied.length > 0 ? (
         <div className="mt-3 text-sm">
-          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border,#e5e7eb)] px-3 py-2">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] px-3 py-2">
             <code className="opacity-80">{applied.join(', ')}</code>
             <UpdateDiscountForm>
               <Button type="submit" variant="ghost" size="sm">
@@ -70,7 +70,7 @@ export function GiftCardBox({
   const { t: tCommon } = useTranslation('common');
 
   return (
-    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+    <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-4 sm:p-5">
       <div className="text-sm font-medium">{tCart('giftcard.title')}</div>
       <UpdateGiftCardForm>
         {(state) => (
@@ -88,7 +88,7 @@ export function GiftCardBox({
       </UpdateGiftCardForm>
       {giftCards?.length ? (
         <div className="mt-3 text-sm">
-          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border,#e5e7eb)] px-3 py-2">
+          <div className="flex items-center justify-between rounded-lg border border-[color:var(--color-border)] px-3 py-2">
             <code className="opacity-80">
               {giftCards.map((g) => `***${g.lastCharacters}`).join(', ')}
             </code>

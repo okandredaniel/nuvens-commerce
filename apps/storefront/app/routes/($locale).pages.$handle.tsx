@@ -45,7 +45,7 @@ export default function Page() {
       </header>
 
       <main
-        className="space-y-4 leading-relaxed text-[color:var(--color-on-surface,#111)]"
+        className="space-y-4 leading-relaxed text-[color:var(--color-on-surface)]"
         dangerouslySetInnerHTML={{ __html: page.body }}
       />
     </Container>

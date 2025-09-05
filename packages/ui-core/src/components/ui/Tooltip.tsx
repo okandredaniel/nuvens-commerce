@@ -15,8 +15,8 @@ export const Content = forwardRef<HTMLDivElement, RT.TooltipContentProps>(functi
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'rounded-lg border border-[color:var(--color-border,#e5e7eb)]',
-        'bg-[color:var(--color-surface,#fff)] text-[color:var(--color-on-surface,#111)]',
+        'rounded-lg border border-[color:var(--color-border)]',
+        'bg-[color:var(--color-surface)] text-[color:var(--color-on-surface)]',
         'px-2 py-1 text-xs shadow-md',
         className,
       )}

@@ -48,7 +48,7 @@ function ItemLink({
       prefetch="intent"
       to={to}
       className={
-        'block rounded-lg px-3 py-2 transition hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary,#2563eb)] ' +
+        'block rounded-lg px-3 py-2 transition hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] ' +
         className
       }
     >
@@ -62,7 +62,7 @@ function SearchResultsArticles({ term, articles }: PartialSearchResult<'articles
 
   return (
     <Section title="Articles">
-      <ul className="divide-y divide-[color:var(--color-border,#e5e7eb)] rounded-xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]">
+      <ul className="divide-y divide-[color:var(--color-border)] rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)]">
         {articles.nodes.map((article) => {
           const href = urlWithTrackingParams({
             baseUrl: `/blogs/${article.handle}`,
@@ -87,7 +87,7 @@ function SearchResultsPages({ term, pages }: PartialSearchResult<'pages'>) {
 
   return (
     <Section title="Pages">
-      <ul className="divide-y divide-[color:var(--color-border,#e5e7eb)] rounded-xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]">
+      <ul className="divide-y divide-[color:var(--color-border)] rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)]">
         {pages.nodes.map((page) => {
           const href = urlWithTrackingParams({
             baseUrl: `/pages/${page.handle}`,
@@ -143,7 +143,7 @@ function SearchResultsProducts({ term, products }: PartialSearchResult<'products
                     <li key={product.id}>
                       <ItemLink
                         to={href}
-                        className="border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]"
+                        className="border border-[color:var(--color-border)] bg-[color:var(--color-surface)]"
                       >
                         <div className="flex items-center gap-3">
                           {image ? (
@@ -195,7 +195,7 @@ function SearchResultsProducts({ term, products }: PartialSearchResult<'products
 
 function SearchResultsEmpty() {
   return (
-    <div className="rounded-xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] px-4 py-6 text-sm opacity-80">
+    <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] px-4 py-6 text-sm opacity-80">
       No results, try a different search.
     </div>
   );

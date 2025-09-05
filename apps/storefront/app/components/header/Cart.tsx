@@ -59,7 +59,7 @@ function CartBadge({ count }: { count: number | null }) {
       </Tooltip.Trigger>
       <Tooltip.Content
         sideOffset={8}
-        className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+        className="z-50 rounded-lg bg-[color:var(--color-popover)] text-[color:var(--color-on-popover)] px-2 py-1 text-xs shadow-md"
       >
         {label}
       </Tooltip.Content>

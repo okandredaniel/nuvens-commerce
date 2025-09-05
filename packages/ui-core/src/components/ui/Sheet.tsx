@@ -27,12 +27,12 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(function Sheet(
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px] data-[state=open]:animate-[overlay-in_200ms_ease-out] data-[state=closed]:animate-[overlay-out_150ms_ease-in]" />
         <Dialog.Content
           ref={ref}
-          className={`fixed inset-y-0 ${sideClass} z-[60] ${widthClass} bg-[color:var(--color-surface,#fff)] text-[color:var(--color-on-surface,#111)] shadow-2xl outline-none flex flex-col will-change-transform ${inAnim}`}
+          className={`fixed inset-y-0 ${sideClass} z-[60] ${widthClass} bg-[color:var(--color-surface)] text-[color:var(--color-on-surface)] shadow-2xl outline-none flex flex-col will-change-transform ${inAnim}`}
         >
           {title ? (
-            <div className="flex items-center justify-between gap-4 px-4 sm:px-5 py-3 border-b border-[color:var(--color-border,#e5e7eb)]">
+            <div className="flex items-center justify-between gap-4 px-4 sm:px-5 py-3 border-b border-[color:var(--color-border)]">
               <Dialog.Title className="text-base font-semibold">{title}</Dialog.Title>
-              <Dialog.Close className="h-8 w-8 grid place-items-center rounded-full border border-[color:var(--color-border,#e5e7eb)] hover:bg-black/5">
+              <Dialog.Close className="h-8 w-8 grid place-items-center rounded-full border border-[color:var(--color-border)] hover:bg-black/5">
                 ×
               </Dialog.Close>
             </div>

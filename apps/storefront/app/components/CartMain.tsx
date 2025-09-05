@@ -29,17 +29,14 @@ export function CartMain({ layout, cart: originalCart }: CartMainProps) {
   const items = cart?.lines?.nodes ?? [];
   const hasItems = (cart?.totalQuantity || 0) > 0;
   const shell =
-    'rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]';
+    'rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)]';
 
   if (!hasItems) return <CartEmpty />;
 
   return (
     <div className={layout === 'page' ? 'grid grid-cols-1 lg:grid-cols-3 gap-6' : 'space-y-5'}>
       <section className={layout === 'page' ? 'lg:col-span-2' : ''} aria-labelledby="cart-lines">
-        <ul
-          className={`divide-y divide-[color:var(--color-border,#e5e7eb)] ${shell}`}
-          aria-live="polite"
-        >
+        <ul className={`divide-y divide-[color:var(--color-border)] ${shell}`} aria-live="polite">
           {items.map((line) => (
             <li key={line.id} className="p-4 sm:p-5">
               <CartLineItem line={line} layout={layout} />
@@ -76,7 +73,7 @@ function CheckoutActions({ href, cartId }: { href?: string; cartId?: string }) {
   if (!url) return null;
 
   return (
-    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-4 sm:p-5">
+    <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-4 sm:p-5">
       <Button asChild className="w-full">
         <a href={url}>{t('checkout.cta')}</a>
       </Button>

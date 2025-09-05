@@ -11,7 +11,7 @@ export function CartEmpty() {
   const to = `${prefix}/collections`;
 
   return (
-    <div className="rounded-2xl border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] p-8 text-center">
+    <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-8 text-center">
       <h2 className="text-lg font-semibold">{t('empty.title')}</h2>
       <p className="mt-2 text-sm opacity-70">{t('empty.body')}</p>
       <div className="mt-6">

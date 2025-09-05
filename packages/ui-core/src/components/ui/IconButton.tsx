@@ -20,8 +20,8 @@ export const IconButton = forwardRef<HTMLButtonElement, Props>(function IconButt
 
   const variants: Record<ButtonVariant, string> = {
     solid:
-      'bg-[color:var(--color-surface,#fff)] border border-[color:var(--color-border,#e5e7eb)] hover:bg-black/5',
-    outline: 'bg-transparent border border-[color:var(--color-border,#e5e7eb)] hover:bg-black/5',
+      'bg-[color:var(--color-surface)] border border-[color:var(--color-border)] hover:bg-black/5',
+    outline: 'bg-transparent border border-[color:var(--color-border)] hover:bg-black/5',
     ghost: 'bg-transparent hover:bg-black/5',
   };
 
@@ -30,7 +30,7 @@ export const IconButton = forwardRef<HTMLButtonElement, Props>(function IconButt
       ref={ref}
       className={cn(
         'inline-grid place-items-center rounded-full transition outline-none text-inherit',
-        'focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary,#2563eb)] focus-visible:ring-offset-2',
+        'focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2',
         sizes[size],
         variants[variant],
         className,

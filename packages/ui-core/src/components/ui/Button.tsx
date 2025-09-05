@@ -10,10 +10,10 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    'bg-[color:var(--color-primary,#111)] text-[color:var(--color-on-primary,#fff)] hover:opacity-90 focus-visible:ring-[color:var(--color-primary,#111)]',
-  ghost: 'bg-transparent hover:bg-black/5 focus-visible:ring-[color:var(--color-border,#e5e7eb)]',
+    'bg-[color:var(--color-primary)] text-[color:var(--color-on-primary)] hover:opacity-90 focus-visible:ring-[color:var(--color-primary)]',
+  ghost: 'bg-transparent hover:bg-black/5 focus-visible:ring-[color:var(--color-border)]',
   outline:
-    'border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)] hover:bg-black/5 focus-visible:ring-[color:var(--color-border,#e5e7eb)]',
+    'border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-black/5 focus-visible:ring-[color:var(--color-border)]',
 };
 
 const sizes: Record<Size, string> = {

@@ -46,8 +46,8 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
     <div
       ref={ref}
       className={cn(
-        'inline-flex items-center rounded-full border border-[color:var(--color-border,#e5e7eb)]',
-        'bg-[color:var(--color-surface,#fff)] text-[color:var(--color-on-surface,#111)] p-1',
+        'inline-flex items-center rounded-full border border-[color:var(--color-border)]',
+        'bg-[color:var(--color-surface)] text-[color:var(--color-on-surface)] p-1',
         className,
       )}
     >

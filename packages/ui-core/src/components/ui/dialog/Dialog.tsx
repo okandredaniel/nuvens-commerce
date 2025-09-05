@@ -30,7 +30,7 @@ export function DialogContent({ children, className, ...rest }: RD.DialogContent
       <DialogOverlay />
       <RD.Content
         {...rest}
-        className={`fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-black/10 bg-[var(--color-surface,#fff)] p-6 shadow-xl focus:outline-none ${className || ''}`}
+        className={`fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-black/10 bg-[var(--color-surface)] p-6 shadow-xl focus:outline-none ${className || ''}`}
       >
         {children}
         <RD.Close

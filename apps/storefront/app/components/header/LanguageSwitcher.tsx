@@ -57,10 +57,10 @@ export function LanguageSwitcher({ options, current }: Props) {
         <Tooltip.Portal>
           <Tooltip.Content
             sideOffset={8}
-            className="z-50 rounded-lg bg-[color:var(--color-popover,#111)] text-[color:var(--color-on-popover,#fff)] px-2 py-1 text-xs shadow-md"
+            className="z-50 rounded-lg bg-[color:var(--color-popover)] text-[color:var(--color-on-popover)] px-2 py-1 text-xs shadow-md"
           >
             {labelChange}
-            <Tooltip.Arrow className="fill-[color:var(--color-popover,#111)]" />
+            <Tooltip.Arrow className="fill-[color:var(--color-popover)]" />
           </Tooltip.Content>
         </Tooltip.Portal>
       </Tooltip.Root>

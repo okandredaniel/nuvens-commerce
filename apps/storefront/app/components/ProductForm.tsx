@@ -68,10 +68,10 @@ export function ProductForm({
                       <Tooltip.Portal>
                         <Tooltip.Content
                           sideOffset={8}
-                          className="z-50 rounded-md bg-[color:var(--color-popover,#111)] px-2 py-1 text-xs text-[color:var(--color-on-popover,#fff)] shadow"
+                          className="z-50 rounded-md bg-[color:var(--color-popover)] px-2 py-1 text-xs text-[color:var(--color-on-popover)] shadow"
                         >
                           {name}
-                          <Tooltip.Arrow className="fill-[color:var(--color-popover,#111)]" />
+                          <Tooltip.Arrow className="fill-[color:var(--color-popover)]" />
                         </Tooltip.Content>
                       </Tooltip.Portal>
                     </Tooltip.Root>
@@ -105,10 +105,10 @@ export function ProductForm({
                     <Tooltip.Portal>
                       <Tooltip.Content
                         sideOffset={8}
-                        className="z-50 rounded-md bg-[color:var(--color-popover,#111)] px-2 py-1 text-xs text-[color:var(--color-on-popover,#fff)] shadow"
+                        className="z-50 rounded-md bg-[color:var(--color-popover)] px-2 py-1 text-xs text-[color:var(--color-on-popover)] shadow"
                       >
                         {name}
-                        <Tooltip.Arrow className="fill-[color:var(--color-popover,#111)]" />
+                        <Tooltip.Arrow className="fill-[color:var(--color-popover)]" />
                       </Tooltip.Content>
                     </Tooltip.Portal>
                   </Tooltip.Root>

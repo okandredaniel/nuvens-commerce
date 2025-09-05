@@ -55,27 +55,36 @@ export const coreTokens: DesignTokens = {
       '900': '#7f1d1d',
     },
   },
-  colors: {
-    'header-bg': '{palette.neutral.900}',
-    'on-header': '{palette.neutral.0}',
 
+  colors: {
+    // text & surfaces
+    text: '{palette.neutral.900}',
     surface: '{palette.neutral.0}',
     'on-surface': '{palette.neutral.900}',
 
+    // header & footer
+    'header-bg': '{palette.neutral.900}',
+    'on-header': '{palette.neutral.0}',
+    'footer-bg': '{palette.neutral.900}',
+    'on-footer': '{palette.neutral.0}',
+
+    // brand actions
     primary: '{palette.primary.700}',
     'on-primary': '{palette.neutral.0}',
-
     accent: '{palette.accent.500}',
     'on-accent': '{palette.neutral.900}',
 
+    // states & borders
     border: '{palette.neutral.200}',
+    muted: '{palette.neutral.500}',
+    'on-muted': '{palette.neutral.0}',
+    'muted-ghost': '{palette.neutral.100}',
 
+    // popovers / sheets
     popover: '{palette.neutral.900}',
     'on-popover': '{palette.neutral.0}',
 
-    muted: '{palette.neutral.500}',
-    'on-muted': '{palette.neutral.0}',
-
+    // feedback
     danger: '{palette.danger.600}',
     'on-danger': '{palette.neutral.0}',
   },

@@ -16,7 +16,7 @@ export const DropdownContent = forwardRef<HTMLDivElement, RM.DropdownMenuContent
         <RM.Content
           ref={ref}
           sideOffset={sideOffset}
-          className={`z-50 min-w-40 rounded-xl border border-black/10 bg-[var(--color-surface,#fff)] p-1 shadow-xl data-[side=bottom]:animate-in data-[side=bottom]:slide-in-from-top-1 ${className || ''}`}
+          className={`z-50 min-w-40 rounded-xl border border-black/10 bg-[var(--color-surface)] p-1 shadow-xl data-[side=bottom]:animate-in data-[side=bottom]:slide-in-from-top-1 ${className || ''}`}
           {...rest}
         />
       </RM.Portal>

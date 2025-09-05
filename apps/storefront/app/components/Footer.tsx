@@ -27,7 +27,7 @@ export function Footer({
           if (!menu || !menu.items?.length) return null;
 
           return (
-            <footer className="mt-auto bg-[color:var(--color-footer-bg,#111)] text-[color:var(--color-on-footer,#fff)]">
+            <footer className="mt-auto bg-[color:var(--color-footer-bg)] text-[color:var(--color-on-footer)]">
               <Container className="py-6 md:py-10">
                 <FooterMenu
                   menu={menu}
@@ -80,7 +80,7 @@ function FooterMenu({
             !href.startsWith('/');
 
           const baseLink =
-            'min-w-fit text-sm transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary,#2563eb)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg,#111)]';
+            'min-w-fit text-sm transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]';
 
           return (
             <li key={item.id}>
