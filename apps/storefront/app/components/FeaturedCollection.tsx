@@ -1,10 +1,11 @@
 import { Image } from '@shopify/hydrogen';
 import { Link } from 'react-router';
-import type { FeaturedCollectionFragment } from 'storefrontapi.generated';
+import type { CollectionFragment } from 'storefrontapi.generated';
 
-export function FeaturedCollection({ collection }: { collection: FeaturedCollectionFragment }) {
+export function FeaturedCollection({ collection }: { collection: CollectionFragment }) {
   if (!collection) return null;
-  const image = collection?.image;
+  const image = collection.image ?? null;
+
   return (
     <Link className="featured-collection" to={`/collections/${collection.handle}`}>
       {image && (

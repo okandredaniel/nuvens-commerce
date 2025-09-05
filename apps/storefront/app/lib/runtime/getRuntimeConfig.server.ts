@@ -21,7 +21,6 @@ export function getRuntimeConfig({ context }: LoaderFunctionArgs): RuntimeData {
   const i18n = {
     language: storefront.i18n.language,
     country: storefront.i18n.country,
-    pathPrefix: storefront.i18n.pathPrefix,
   };
 
   const languages = undefined;
