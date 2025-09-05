@@ -21,7 +21,7 @@
     "close": "Fermer"
   },
   "status": {
-        "applied": "Code appliqué",
+    "applied": "Code appliqué",
     "empty": "Aucun résultat",
     "invalid": "Invalide ou non applicable",
     "loading": "Chargement..."
@@ -32,4 +32,3 @@
     "decrease": "Diminuer la quantité"
   }
 }
-Ø
