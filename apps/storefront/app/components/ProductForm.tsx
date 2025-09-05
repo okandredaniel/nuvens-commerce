@@ -4,7 +4,7 @@ import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
 import { Link, useNavigate } from 'react-router';
 import type { ProductFragment } from 'storefrontapi.generated';
-import { AddToCartButton } from './AddToCartButton';
+import { AddToCartButton } from './cart';
 
 export function ProductForm({
   productOptions,

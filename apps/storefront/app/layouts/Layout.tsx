@@ -3,7 +3,7 @@ import { coreTokens, tokensToCssVars } from '@nuvens/ui-core';
 import { useNonce } from '@shopify/hydrogen';
 import { useMemo } from 'react';
 import { Links, Meta, Scripts, ScrollRestoration, useRouteLoaderData } from 'react-router';
-import { CartAside } from '~/components/CartAside';
+import { CartAside } from '~/components/cart';
 import { Footer } from '~/components/Footer';
 import { Header } from '~/components/header/Header';
 import { MobileMenuAside } from '~/components/MobileMenuAside';
