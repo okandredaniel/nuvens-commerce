@@ -50,12 +50,12 @@ export function DiscountBox({ codes }: { codes?: CartApiQueryFragment['discountC
         </div>
       ) : null}
       <UpdateDiscountForm discountCodes={applied}>
-        <form className="mt-3 flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-2">
           <Input name="discountCode" placeholder={tCart('discount.placeholder')} />
           <Button type="submit" variant="outline">
             {tCommon('actions.apply')}
           </Button>
-        </form>
+        </div>
       </UpdateDiscountForm>
     </div>
   );
@@ -74,7 +74,7 @@ export function GiftCardBox({
       <div className="text-sm font-medium">{tCart('giftcard.title')}</div>
       <UpdateGiftCardForm>
         {(state) => (
-          <form className="mt-3 flex items-center gap-2">
+          <div className="mt-3 flex items-center gap-2">
             <Input
               name="giftCardCode"
               defaultValue={state.lastEntered || ''}
@@ -83,7 +83,7 @@ export function GiftCardBox({
             <Button type="submit" variant="outline">
               {tCommon('actions.apply')}
             </Button>
-          </form>
+          </div>
         )}
       </UpdateGiftCardForm>
       {giftCards?.length ? (
