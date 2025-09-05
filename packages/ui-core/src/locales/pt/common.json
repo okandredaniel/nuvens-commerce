@@ -1,11 +1,33 @@
 {
   "nav": {
-    "changeLanguage": "Mudar idioma",
-    "currentLanguage": "Idioma atual: {{lang}}",
-    "switchTo": "Trocar para {{lang}}",
     "menu": "Menu",
-    "openMenu": "Abrir menu",
     "cart": "Carrinho",
+    "language": "Idioma",
+    "changeLanguage": "Alterar idioma",
+    "switchTo": "Mudar para {{value}}",
+    "openMenu": "Abrir menu",
     "openCart": "Abrir carrinho"
-  }
+  },
+  "a11y": {
+    "open": "Abrir {{target}}",
+    "current": "Atual {{target}}: {{value}}"
+  },
+  "actions": {
+    "apply": "Aplicar",
+    "remove": "Remover",
+    "continue": "Continuar",
+    "checkout": "Continuar para o checkout",
+    "cancel": "Cancelar",
+    "close": "Fechar"
+  },
+  "status": {
+    "loading": "Carregando…",
+    "empty": "Nenhum resultado"
+  },
+  "quantity": {
+    "label": "Quantidade",
+    "increase": "Aumentar quantidade",
+    "decrease": "Diminuir quantidade"
+  },
+  "loading": "Carregando"
 }

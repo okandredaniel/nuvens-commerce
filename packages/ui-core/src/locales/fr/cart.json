@@ -1,13 +1,23 @@
 {
-  "emptyMessage": "Il semble que vous n’ayez encore rien ajouté. Commençons !",
-  "continueShopping": "Poursuivre les achats →",
-  "totalsTitle": "Totaux",
-  "subtotal": "Sous-total",
-  "discountsTitle": "Remise(s)",
-  "remove": "Retirer",
-  "discountInputPlaceholder": "Code de réduction",
-  "apply": "Appliquer",
-  "appliedGiftCardsTitle": "Carte(s)-cadeau appliquée(s)",
-  "giftCardInputPlaceholder": "Code de carte-cadeau",
-  "continueToCheckout": "Passer à la caisse →"
+  "title": "Panier",
+  "empty": {
+    "title": "Votre panier est vide",
+    "body": "Parcourez nos collections et trouvez quelque chose qui vous plaira.",
+    "cta": "Continuer vos achats"
+  },
+  "summary": {
+    "title": "Récapitulatif",
+    "subtotal": "Sous-total"
+  },
+  "discount": {
+    "title": "Réductions",
+    "placeholder": "Code promo"
+  },
+  "giftcard": {
+    "title": "Cartes-cadeaux",
+    "placeholder": "Code de la carte cadeau"
+  },
+  "checkout": {
+    "cta": "Continuer vers le paiement"
+  }
 }

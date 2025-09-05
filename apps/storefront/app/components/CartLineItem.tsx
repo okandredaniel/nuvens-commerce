@@ -17,10 +17,10 @@ export function CartLineItem({ layout, line }: { layout: CartLayout; line: CartL
   const { product, title, image, selectedOptions } = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const { close } = useAside();
-  const { t } = useTranslation('cart');
+  const { t } = useTranslation(['common']);
 
   return (
-    <li key={id} className="flex gap-4 sm:gap-5">
+    <div className="flex gap-4 sm:gap-5">
       {image ? (
         <Link
           to={lineItemUrl}
@@ -54,7 +54,7 @@ export function CartLineItem({ layout, line }: { layout: CartLayout; line: CartL
         <ProductPrice price={cost?.totalAmount} />
 
         {selectedOptions?.length ? (
-          <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[color:var(--color-muted,#6b7280)]">
+          <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[color:var(--color-muted)]">
             {selectedOptions.map((o) => (
               <li key={o.name} className="truncate">
                 <span className="opacity-70">{o.name}:</span> {o.value}
@@ -63,17 +63,17 @@ export function CartLineItem({ layout, line }: { layout: CartLayout; line: CartL
           </ul>
         ) : null}
 
-        <div className="mt-3 flex items-center justify-between">
+        <div className="mt-3 flex items-center justify-between gap-1">
           <CartQuantityStepper line={line} />
           <RemoveLinesButton lineIds={[id]} disabled={!!isOptimistic} />
         </div>
       </div>
-    </li>
+    </div>
   );
 }
 
 function CartQuantityStepper({ line }: { line: CartLine }) {
-  const { t } = useTranslation('cart');
+  const { t } = useTranslation('common');
   if (!line || typeof line.quantity === 'undefined') return null;
 
   const { id: lineId, quantity = 1, isOptimistic } = line;
@@ -83,13 +83,10 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
   const decBtnRef = useRef<HTMLButtonElement>(null);
   const incBtnRef = useRef<HTMLButtonElement>(null);
 
-  const decreaseLabel = t('quantity.decrease');
-  const increaseLabel = t('quantity.increase');
-
   return (
     <div className="flex items-center gap-2">
       <CartForm
-        fetcherKey={getUpdateKey([lineId, 'dec'])}
+        fetcherKey={getKey('LinesUpdate', [lineId, 'dec'])}
         route="/cart"
         action={CartForm.ACTIONS.LinesUpdate}
         inputs={{ lines: [{ id: lineId, quantity: prevQuantity }] as CartLineUpdateInput[] }}
@@ -98,7 +95,7 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
       </CartForm>
 
       <CartForm
-        fetcherKey={getUpdateKey([lineId, 'inc'])}
+        fetcherKey={getKey('LinesUpdate', [lineId, 'inc'])}
         route="/cart"
         action={CartForm.ACTIONS.LinesUpdate}
         inputs={{ lines: [{ id: lineId, quantity: nextQuantity }] as CartLineUpdateInput[] }}
@@ -111,8 +108,8 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
         size="sm"
         decDisabled={quantity <= 1 || !!isOptimistic}
         incDisabled={!!isOptimistic}
-        decreaseLabel={decreaseLabel}
-        increaseLabel={increaseLabel}
+        decreaseLabel={t('quantity.decrease')}
+        increaseLabel={t('quantity.increase')}
         onDecrement={() => decBtnRef.current?.click()}
         onIncrement={() => incBtnRef.current?.click()}
       />
@@ -121,10 +118,11 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
 }
 
 function RemoveLinesButton({ lineIds, disabled }: { lineIds: string[]; disabled: boolean }) {
-  const { t } = useTranslation('cart');
+  const { t } = useTranslation('common');
+
   return (
     <CartForm
-      fetcherKey={getUpdateKey(lineIds)}
+      fetcherKey={getKey('LinesRemove', lineIds)}
       route="/cart"
       action={CartForm.ACTIONS.LinesRemove}
       inputs={{ lineIds }}
@@ -133,17 +131,17 @@ function RemoveLinesButton({ lineIds, disabled }: { lineIds: string[]; disabled:
         type="submit"
         size="sm"
         variant="ghost"
-        aria-label={t('remove')}
+        aria-label={t('actions.remove')}
         disabled={disabled}
-        className="text-[color:var(--color-danger,#dc2626)] hover:bg-[color:var(--color-danger,#dc2626)]/10"
+        className="text-[color:var(--color-danger)] hover:bg-[color:var(--color-danger)]/10"
       >
         <Trash2 className="mr-1 h-4 w-4" />
-        {t('remove')}
+        {t('actions.remove')}
       </Button>
     </CartForm>
   );
 }
 
-function getUpdateKey(parts: (string | number)[]) {
-  return [CartForm.ACTIONS.LinesUpdate, ...parts].join('-');
+function getKey(action: string, parts: (string | number)[]) {
+  return ['CartForm', action, ...parts].join('-');
 }

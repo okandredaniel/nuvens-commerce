@@ -1,13 +1,23 @@
 {
-  "emptyMessage": "Parece que aún no has agregado nada. ¡Empecemos!",
-  "continueShopping": "Seguir comprando →",
-  "totalsTitle": "Totales",
-  "subtotal": "Subtotal",
-  "discountsTitle": "Descuento(s)",
-  "remove": "Eliminar",
-  "discountInputPlaceholder": "Código de descuento",
-  "apply": "Aplicar",
-  "appliedGiftCardsTitle": "Tarjeta(s) de regalo aplicada(s)",
-  "giftCardInputPlaceholder": "Código de tarjeta de regalo",
-  "continueToCheckout": "Continuar al pago →"
+  "title": "Carrito",
+  "empty": {
+    "title": "Tu carrito está vacío",
+    "body": "Explora nuestras colecciones y encuentra algo que te encante.",
+    "cta": "Seguir comprando"
+  },
+  "summary": {
+    "title": "Resumen",
+    "subtotal": "Subtotal"
+  },
+  "discount": {
+    "title": "Descuentos",
+    "placeholder": "Código de descuento"
+  },
+  "giftcard": {
+    "title": "Tarjetas de regalo",
+    "placeholder": "Código de la tarjeta de regalo"
+  },
+  "checkout": {
+    "cta": "Continuar al pago"
+  }
 }

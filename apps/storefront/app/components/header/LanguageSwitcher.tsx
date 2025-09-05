@@ -33,6 +33,10 @@ export function LanguageSwitcher({ options, current }: Props) {
 
   const labelChange = t('nav.changeLanguage');
   const activeLabel = languageLabel(active.isoCode, i18n.language, active.label);
+  const a11yCurrent = t('a11y.current', {
+    target: t('nav.language').toLowerCase(),
+    value: activeLabel,
+  });
 
   return (
     <DropdownMenu.Root>
@@ -41,7 +45,8 @@ export function LanguageSwitcher({ options, current }: Props) {
           <DropdownMenu.Trigger asChild>
             <button
               type="button"
-              aria-label={labelChange}
+              aria-haspopup="menu"
+              aria-label={a11yCurrent}
               className="inline-flex items-center gap-2 px-3 h-10 rounded-full text-xs font-semibold uppercase border border-zinc-300 bg-white/10 hover:bg-white/20 transition"
             >
               <Globe className="h-4 w-4 text-sky-400" aria-hidden />
@@ -74,10 +79,10 @@ export function LanguageSwitcher({ options, current }: Props) {
                   <NavLink
                     to={o.href}
                     prefetch="intent"
-                    aria-label={t('nav.switchTo', { lang: label })}
+                    aria-label={t('nav.switchTo', { value: label })}
                     className="block px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-zinc-100"
                   >
-                    {t('nav.switchTo', { lang: label })}
+                    {t('nav.switchTo', { value: label })}
                   </NavLink>
                 </DropdownMenu.Item>
               );

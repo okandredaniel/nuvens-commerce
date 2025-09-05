@@ -1,13 +1,23 @@
 {
-  "emptyMessage": "Sembra che tu non abbia ancora aggiunto nulla. Iniziamo!",
-  "continueShopping": "Continua a fare acquisti →",
-  "totalsTitle": "Totali",
-  "subtotal": "Subtotale",
-  "discountsTitle": "Sconto/i",
-  "remove": "Rimuovi",
-  "discountInputPlaceholder": "Codice sconto",
-  "apply": "Applica",
-  "appliedGiftCardsTitle": "Buono/i regalo applicato/i",
-  "giftCardInputPlaceholder": "Codice buono regalo",
-  "continueToCheckout": "Procedi al checkout →"
+  "title": "Carrello",
+  "empty": {
+    "title": "Il tuo carrello è vuoto",
+    "body": "Scopri le nostre collezioni e trova qualcosa che ti piace.",
+    "cta": "Continua lo shopping"
+  },
+  "summary": {
+    "title": "Riepilogo",
+    "subtotal": "Subtotale"
+  },
+  "discount": {
+    "title": "Sconti",
+    "placeholder": "Codice sconto"
+  },
+  "giftcard": {
+    "title": "Carte regalo",
+    "placeholder": "Codice carta regalo"
+  },
+  "checkout": {
+    "cta": "Procedi al pagamento"
+  }
 }
