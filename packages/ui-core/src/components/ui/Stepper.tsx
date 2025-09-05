@@ -1,5 +1,6 @@
 import { Minus, Plus } from 'lucide-react';
 import { forwardRef } from 'react';
+import type { ButtonVariant, ControlSize } from '../../interfaces';
 import { cn } from '../../utils/cn';
 import { IconButton } from './IconButton';
 
@@ -12,11 +13,11 @@ type StepperProps = {
   onIncrement?: () => void;
   decDisabled?: boolean;
   incDisabled?: boolean;
-  size?: 'sm' | 'md';
+  size?: Extract<ControlSize, 'sm' | 'md'>;
   className?: string;
   decreaseLabel?: string;
   increaseLabel?: string;
-  buttonVariant?: 'ghost' | 'default';
+  buttonVariant?: ButtonVariant;
 };
 
 export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper(
@@ -37,22 +38,16 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
   },
   ref,
 ) {
-  const dec = () => {
-    if (onDecrement) return onDecrement();
-    if (onChange) onChange(Math.max(min, value - 1));
-  };
-  const inc = () => {
-    if (onIncrement) return onIncrement();
-    if (onChange) onChange(Math.min(max, value + 1));
-  };
-
+  const dec = () => (onDecrement ? onDecrement() : onChange?.(Math.max(min, value - 1)));
+  const inc = () => (onIncrement ? onIncrement() : onChange?.(Math.min(max, value + 1)));
   const iconSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
 
   return (
     <div
       ref={ref}
       className={cn(
-        'inline-flex items-center p-1 rounded-full border border-[color:var(--color-border,#e5e7eb)] bg-[color:var(--color-surface,#fff)]',
+        'inline-flex items-center rounded-full border border-[color:var(--color-border,#e5e7eb)]',
+        'bg-[color:var(--color-surface,#fff)] text-[color:var(--color-on-surface,#111)] p-1',
         className,
       )}
     >
@@ -61,7 +56,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
         aria-label={decreaseLabel}
         disabled={decDisabled}
         size={size === 'sm' ? 'sm' : 'md'}
-        variant="ghost"
+        variant={buttonVariant}
       >
         <Minus className={iconSize} />
       </IconButton>
@@ -73,7 +68,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
         aria-label={increaseLabel}
         disabled={incDisabled}
         size={size === 'sm' ? 'sm' : 'md'}
-        variant="ghost"
+        variant={buttonVariant}
       >
         <Plus className={iconSize} />
       </IconButton>

@@ -37,12 +37,14 @@
     "@radix-ui/react-navigation-menu": "^1.2.14",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "clsx": "^2.1.1",
     "html-parse-stringify": "^3.0.1",
     "i18next": "^25.5.0",
     "lucide-react": "^0.542.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.7.3",
+    "tailwind-merge": "^3.3.1",
     "void-elements": "^3.1.0"
   }
 }
