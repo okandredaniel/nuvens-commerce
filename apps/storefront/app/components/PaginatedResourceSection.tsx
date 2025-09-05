@@ -14,7 +14,7 @@ export function PaginatedResourceSection<NodesType>({
   children,
   resourcesClassName,
 }: PaginationProps<NodesType>) {
-  const { t } = useTranslation('catalog');
+  const { t: tCommon } = useTranslation('common');
 
   return (
     <Pagination connection={connection}>
@@ -25,7 +25,9 @@ export function PaginatedResourceSection<NodesType>({
           <section aria-busy={isLoading} className="space-y-4">
             <div className="flex justify-center">
               <Button asChild variant="outline" size="sm">
-                <PreviousLink>{isLoading ? t('status.loading') : t('loadPrevious')}</PreviousLink>
+                <PreviousLink>
+                  {isLoading ? tCommon('status.loading') : tCommon('pagination.loadPrevious')}
+                </PreviousLink>
               </Button>
             </div>
 
@@ -39,12 +41,14 @@ export function PaginatedResourceSection<NodesType>({
 
             <div className="flex justify-center">
               <Button asChild variant="outline" size="sm">
-                <NextLink>{isLoading ? t('status.loading') : t('loadMore')}</NextLink>
+                <NextLink>
+                  {isLoading ? tCommon('status.loading') : tCommon('pagination.loadMore')}
+                </NextLink>
               </Button>
             </div>
 
             <span className="sr-only" role="status">
-              {isLoading ? t('status.loading') : t('idle')}
+              {isLoading ? tCommon('status.loading') : tCommon('status.idle')}
             </span>
           </section>
         );

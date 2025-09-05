@@ -29,7 +29,7 @@ function loadDeferredData(_: LoaderFunctionArgs) {
 
 export default function Products() {
   const { products } = useLoaderData<typeof loader>();
-  const { t } = useTranslation(['products']);
+  const { t } = useTranslation('catalog');
 
   return (
     <Container className="py-6 md:py-10">

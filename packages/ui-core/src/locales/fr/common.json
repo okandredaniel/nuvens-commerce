@@ -23,6 +23,7 @@
   "status": {
     "applied": "Code appliqué",
     "empty": "Aucun résultat",
+    "idle": "Au repos",
     "invalid": "Invalide ou non applicable",
     "loading": "Chargement..."
   },
@@ -30,5 +31,10 @@
     "label": "Quantité",
     "increase": "Augmenter la quantité",
     "decrease": "Diminuer la quantité"
+  },
+  "pagination": {
+    "loadMore": "Charger plus",
+    "loadNext": "Charger les suivants",
+    "loadPrevious": "Charger les précédents"
   }
 }
