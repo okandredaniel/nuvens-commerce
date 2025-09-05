@@ -21,13 +21,14 @@
     "close": "Close"
   },
   "status": {
-    "loading": "Loading…",
-    "empty": "No results"
+    "applied": "Code applied",
+    "empty": "No results",
+    "invalid": "Invalid or not applicable",
+    "loading": "Loading..."
   },
   "quantity": {
     "label": "Quantity",
     "increase": "Increase quantity",
     "decrease": "Decrease quantity"
-  },
-  "loading": "Loading"
+  }
 }

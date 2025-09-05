@@ -21,13 +21,14 @@
     "close": "Chiudi"
   },
   "status": {
-    "loading": "Caricamento…",
-    "empty": "Nessun risultato"
+    "applied": "Codice applicato",
+    "empty": "Nessun risultato",
+    "invalid": "Non valido o non applicabile",
+    "loading": "Caricamento..."
   },
   "quantity": {
     "label": "Quantità",
     "increase": "Aumenta quantità",
     "decrease": "Diminuisci quantità"
-  },
-  "loading": "Caricamento"
+  }
 }

@@ -13,7 +13,9 @@ export function CartAside({ cart }: { cart: CartPromise }) {
 
   return (
     <Aside type="cart" heading={tCart('title')}>
-      <Suspense fallback={<p className="px-4 py-6 text-sm opacity-70">{tCommon('loading')}</p>}>
+      <Suspense
+        fallback={<p className="px-4 py-6 text-sm opacity-70">{tCommon('status.loading')}</p>}
+      >
         <Await resolve={cart}>{(resolved) => <CartMain cart={resolved} layout="aside" />}</Await>
       </Suspense>
     </Aside>

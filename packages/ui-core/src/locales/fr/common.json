@@ -1,33 +1,35 @@
 {
   "nav": {
     "menu": "Menu",
-    "cart": "Carrello",
-    "language": "Lingua",
-    "changeLanguage": "Cambiare lingua",
-    "switchTo": "Passa a {{value}}",
-    "openMenu": "Apri menu",
-    "openCart": "Apri carrello"
+    "cart": "Panier",
+    "language": "Langue",
+    "changeLanguage": "Changer de langue",
+    "switchTo": "Passer en {{value}}",
+    "openMenu": "Ouvrir le menu",
+    "openCart": "Ouvrir le panier"
   },
   "a11y": {
-    "open": "Apri {{target}}",
-    "current": "{{target}} attuale: {{value}}"
+    "open": "Ouvrir {{target}}",
+    "current": "{{target}} actuel : {{value}}"
   },
   "actions": {
-    "apply": "Applica",
-    "remove": "Rimuovi",
-    "continue": "Continua",
-    "checkout": "Procedi al pagamento",
-    "cancel": "Annulla",
-    "close": "Chiudi"
+    "apply": "Appliquer",
+    "remove": "Supprimer",
+    "continue": "Continuer",
+    "checkout": "Continuer vers le paiement",
+    "cancel": "Annuler",
+    "close": "Fermer"
   },
   "status": {
-    "loading": "Caricamento…",
-    "empty": "Nessun risultato"
+        "applied": "Code appliqué",
+    "empty": "Aucun résultat",
+    "invalid": "Invalide ou non applicable",
+    "loading": "Chargement..."
   },
   "quantity": {
-    "label": "Quantità",
-    "increase": "Aumenta quantità",
-    "decrease": "Diminuisci quantità"
-  },
-  "loading": "Caricamento"
+    "label": "Quantité",
+    "increase": "Augmenter la quantité",
+    "decrease": "Diminuer la quantité"
+  }
 }
+Ø
