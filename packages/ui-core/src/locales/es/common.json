@@ -16,9 +16,10 @@
     "apply": "Aplicar",
     "remove": "Eliminar",
     "continue": "Continuar",
-    "checkout": "Continuar al pago",
+    "checkout": "Continuar al checkout",
     "cancel": "Cancelar",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "send": "Enviar"
   },
   "status": {
     "applied": "Código aplicado",
@@ -34,7 +35,14 @@
   },
   "pagination": {
     "loadMore": "Cargar más",
-    "loadPrevious": "Cargar anteriores",
-    "loadNext": "Cargar siguientes"
+    "loadNext": "Cargar siguiente",
+    "loadPrevious": "Cargar anterior"
+  },
+  "form": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "consent": "Acepto ser contactado"
   }
 }

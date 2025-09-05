@@ -1,0 +1,33 @@
+{
+  "headline": "Contacte-nos",
+  "placeholders": {
+    "name": "O seu nome completo",
+    "email": "voce@exemplo.com",
+    "subject": "Como podemos ajudar?",
+    "message": "Escreva a sua mensagem..."
+  },
+  "consent": {
+    "help": "Usaremos as suas informações apenas para responder a este pedido."
+  },
+  "meta": {
+    "responseTime": "Normalmente respondemos dentro de 1–2 dias úteis."
+  },
+  "aside": {
+    "title": "Outras formas de nos contactar",
+    "email": "Email",
+    "phone": "Telefone",
+    "address": "Morada",
+    "hours": "Horário",
+    "hoursValue": "Seg–Sex · 9:00–18:00"
+  },
+  "a11y": {
+    "status": {
+      "sending": "A enviar…",
+      "sent": "Enviado"
+    }
+  },
+  "form": {
+    "success": "Obrigado — recebemos a sua mensagem.",
+    "error": "Não foi possível enviar a sua mensagem. Tente novamente."
+  }
+}

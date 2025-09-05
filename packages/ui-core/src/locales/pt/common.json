@@ -3,29 +3,30 @@
     "menu": "Menu",
     "cart": "Carrinho",
     "language": "Idioma",
-    "changeLanguage": "Alterar idioma",
+    "changeLanguage": "Mudar idioma",
     "switchTo": "Mudar para {{value}}",
     "openMenu": "Abrir menu",
     "openCart": "Abrir carrinho"
   },
   "a11y": {
     "open": "Abrir {{target}}",
-    "current": "Atual {{target}}: {{value}}"
+    "current": "{{target}} atual: {{value}}"
   },
   "actions": {
     "apply": "Aplicar",
     "remove": "Remover",
     "continue": "Continuar",
-    "checkout": "Continuar para o checkout",
+    "checkout": "Ir para o checkout",
     "cancel": "Cancelar",
-    "close": "Fechar"
+    "close": "Fechar",
+    "send": "Enviar"
   },
   "status": {
     "applied": "Código aplicado",
-    "empty": "Nenhum resultado",
+    "empty": "Sem resultados",
     "idle": "Inativo",
     "invalid": "Inválido ou não aplicável",
-    "loading": "Carregando..."
+    "loading": "A carregar..."
   },
   "quantity": {
     "label": "Quantidade",
@@ -34,7 +35,14 @@
   },
   "pagination": {
     "loadMore": "Carregar mais",
-    "loadNext": "Carregar próximos",
-    "loadPrevious": "Carregar anteriores"
+    "loadNext": "Carregar seguinte",
+    "loadPrevious": "Carregar anterior"
+  },
+  "form": {
+    "name": "Nome",
+    "email": "Email",
+    "subject": "Assunto",
+    "message": "Mensagem",
+    "consent": "Concordo em ser contactado"
   }
 }
