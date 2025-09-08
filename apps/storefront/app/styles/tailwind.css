@@ -1,6 +1,14 @@
 @import 'tailwindcss';
-@source "packages/ui-core/src/**/*.{ts,tsx,js,jsx,mdx}";
-@source "packages/brand-ui-*/src/**/*.{ts,tsx,js,jsx,mdx}";
+
+@source "../**/*.{ts,tsx,js,jsx,mdx,html}";
+
+@source "../../packages/ui-core/src/**/*.{ts,tsx,js,jsx,mdx}";
+@source "../../packages/ui-core/dist/**/*.{ts,tsx,js,jsx}";
+@source "../../packages/brand-ui-*/src/**/*.{ts,tsx,js,jsx,mdx}";
+@source "../../packages/brand-ui-*/dist/**/*.{ts,tsx,js,jsx}";
+
+@source "../../node_modules/@nuvens/ui-core/**/*.{js,jsx}";
+@source "../../node_modules/@nuvens/brand-ui*/**/*.{js,jsx}";
 
 @plugin "@tailwindcss/typography";
 
@@ -37,7 +45,6 @@
 .rte :where(blockquote) {
   @apply border-l-4 pl-4 italic text-[color:var(--color-muted)];
 }
-
 .rte-muted :where(p, li, blockquote) {
   color: var(--color-muted);
 }
@@ -58,7 +65,6 @@
     opacity: 0;
   }
 }
-
 @keyframes sheet-in-right {
   from {
     transform: translateX(100%);
@@ -75,7 +81,6 @@
     transform: translateX(100%);
   }
 }
-
 @keyframes sheet-in-left {
   from {
     transform: translateX(-100%);
