@@ -1,34 +1,50 @@
-import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {useLoaderData, Link} from 'react-router';
+import { Container } from '@nuvens/ui-core';
+import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { useLoaderData } from 'react-router';
+import { PoliciesHeader } from '~/components/policies/PoliciesHeader';
+import { PoliciesGrid, PolicyItem } from '~/components/policies/PolicyGrid';
 
-export async function loader({context}: LoaderFunctionArgs) {
-  const data = await context.storefront.query(POLICIES_QUERY);
-  const policies = Object.values(data.shop || {});
+type LoaderData = { policies: PolicyItem[] };
+
+function isPolicyItem(p: unknown): p is PolicyItem {
+  return !!p && typeof (p as any).id === 'string' && typeof (p as any).handle === 'string';
+}
+
+export async function loader({ context }: LoaderFunctionArgs) {
+  const data = await context.storefront.query(POLICIES_QUERY, {
+    variables: {
+      country: context.storefront.i18n?.country,
+      language: context.storefront.i18n?.language,
+    },
+  });
+
+  const shop = data?.shop;
+
+  const policies = [
+    shop?.privacyPolicy,
+    shop?.shippingPolicy,
+    shop?.termsOfService,
+    shop?.refundPolicy,
+    shop?.subscriptionPolicy,
+  ].filter(isPolicyItem);
 
   if (!policies.length) {
-    throw new Response('No policies found', {status: 404});
+    throw new Response('Not Found', { status: 404 });
   }
 
-  return {policies};
+  return { policies } satisfies LoaderData;
 }
 
 export default function Policies() {
-  const {policies} = useLoaderData<typeof loader>();
+  const { policies } = useLoaderData<typeof loader>();
 
   return (
-    <div className="policies">
-      <h1>Policies</h1>
-      <div>
-        {policies.map((policy) => {
-          if (!policy) return null;
-          return (
-            <fieldset key={policy.id}>
-              <Link to={`/policies/${policy.handle}`}>{policy.title}</Link>
-            </fieldset>
-          );
-        })}
-      </div>
-    </div>
+    <main id="content" role="main" className="bg-[color:var(--color-surface)]">
+      <Container className="py-8 md:py-12">
+        <PoliciesHeader />
+        <PoliciesGrid policies={policies} />
+      </Container>
+    </main>
   );
 }
 
@@ -41,23 +57,11 @@ const POLICIES_QUERY = `#graphql
   query Policies ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
     shop {
-      privacyPolicy {
-        ...PolicyItem
-      }
-      shippingPolicy {
-        ...PolicyItem
-      }
-      termsOfService {
-        ...PolicyItem
-      }
-      refundPolicy {
-        ...PolicyItem
-      }
-      subscriptionPolicy {
-        id
-        title
-        handle
-      }
+      privacyPolicy { ...PolicyItem }
+      shippingPolicy { ...PolicyItem }
+      termsOfService { ...PolicyItem }
+      refundPolicy { ...PolicyItem }
+      subscriptionPolicy { id title handle }
     }
   }
 ` as const;

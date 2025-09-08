@@ -1,64 +1,73 @@
-import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {Link, useLoaderData, type MetaFunction} from 'react-router';
-import {type Shop} from '@shopify/hydrogen/storefront-api-types';
+import { Button, Container } from '@nuvens/ui-core';
+import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
+import { ChevronLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Link, useLoaderData } from 'react-router';
+import { RichText } from '~/components/RichText';
+import {
+  buildPolicyQueryVars,
+  getPolicyKeyFromHandle,
+  type SelectedPolicyKey,
+} from '~/lib/policies';
 
-type SelectedPolicies = keyof Pick<
-  Shop,
-  'privacyPolicy' | 'shippingPolicy' | 'termsOfService' | 'refundPolicy'
->;
+type Policy = { id: string; title: string; handle: string; body: string; url: string };
+type LoaderData = { policy: Policy };
 
-export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Hydrogen | ${data?.policy.title ?? ''}`}];
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const title = data?.policy?.title ? `${data.policy.title}` : 'Policy';
+  return [{ title }];
 };
 
-export async function loader({params, context}: LoaderFunctionArgs) {
-  if (!params.handle) {
-    throw new Response('No handle was passed in', {status: 404});
-  }
+export async function loader({ params, context }: LoaderFunctionArgs) {
+  const handle = params.handle;
+  if (!handle) throw new Response('Missing policy handle', { status: 404 });
 
-  const policyName = params.handle.replace(
-    /-([a-z])/g,
-    (_: unknown, m1: string) => m1.toUpperCase(),
-  ) as SelectedPolicies;
+  const policyKey = getPolicyKeyFromHandle(handle) as SelectedPolicyKey | null;
+  if (!policyKey) throw new Response('Unknown policy', { status: 404 });
+
+  const vars = buildPolicyQueryVars(policyKey);
 
   const data = await context.storefront.query(POLICY_CONTENT_QUERY, {
     variables: {
-      privacyPolicy: false,
-      shippingPolicy: false,
-      termsOfService: false,
-      refundPolicy: false,
-      [policyName]: true,
+      ...vars,
       language: context.storefront.i18n?.language,
     },
   });
 
-  const policy = data.shop?.[policyName];
+  const policy = data?.shop?.[policyKey] as Policy | undefined;
+  if (!policy) throw new Response('Policy not found', { status: 404 });
 
-  if (!policy) {
-    throw new Response('Could not find the policy', {status: 404});
-  }
-
-  return {policy};
+  return { policy } satisfies LoaderData;
 }
 
-export default function Policy() {
-  const {policy} = useLoaderData<typeof loader>();
+export default function PolicyRoute() {
+  const { policy } = useLoaderData<typeof loader>();
+  const { t } = useTranslation('policies');
 
   return (
-    <div className="policy">
-      <br />
-      <br />
-      <div>
-        <Link to="/policies">← Back to Policies</Link>
-      </div>
-      <br />
-      <h1>{policy.title}</h1>
-      <div dangerouslySetInnerHTML={{__html: policy.body}} />
-    </div>
+    <main id="content" role="main" className="bg-[color:var(--color-surface)]">
+      <Container className="py-8 md:py-12">
+        <nav aria-label={t('breadcrumb.aria')} className="mb-6">
+          <Button asChild variant="outline" size="md" className="gap-2">
+            <Link to="/policies">
+              <ChevronLeft className="h-4 w-4" />
+              {t('breadcrumb.back')}
+            </Link>
+          </Button>
+        </nav>
+
+        <header className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-[color:var(--color-on-surface)]">
+            {policy.title}
+          </h1>
+        </header>
+
+        <RichText html={policy.body} />
+      </Container>
+    </main>
   );
 }
 
-// NOTE: https://shopify.dev/docs/api/storefront/latest/objects/Shop
 const POLICY_CONTENT_QUERY = `#graphql
   fragment Policy on ShopPolicy {
     body
@@ -76,18 +85,10 @@ const POLICY_CONTENT_QUERY = `#graphql
     $termsOfService: Boolean!
   ) @inContext(language: $language, country: $country) {
     shop {
-      privacyPolicy @include(if: $privacyPolicy) {
-        ...Policy
-      }
-      shippingPolicy @include(if: $shippingPolicy) {
-        ...Policy
-      }
-      termsOfService @include(if: $termsOfService) {
-        ...Policy
-      }
-      refundPolicy @include(if: $refundPolicy) {
-        ...Policy
-      }
+      privacyPolicy @include(if: $privacyPolicy) { ...Policy }
+      shippingPolicy @include(if: $shippingPolicy) { ...Policy }
+      termsOfService @include(if: $termsOfService) { ...Policy }
+      refundPolicy @include(if: $refundPolicy) { ...Policy }
     }
   }
 ` as const;
