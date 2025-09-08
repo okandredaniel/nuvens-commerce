@@ -1,6 +1,5 @@
 import { Container } from '@nuvens/ui-core';
 import { useTranslation } from 'react-i18next';
-import { Newsletter } from '~/components/Newsletter';
 import { ChannelsGrid } from './contact/ChannelsGrid';
 import { CompanyInfo } from './contact/CompanyInfo';
 import { Hero } from './contact/Hero';
@@ -50,9 +49,6 @@ export function ContactSupportTemplate({ page }: PageTemplateProps) {
           <ReturnsPortal />
         </div>
       </Container>
-      <div className="pt-8">
-        <Newsletter />
-      </div>
     </main>
   );
 }
