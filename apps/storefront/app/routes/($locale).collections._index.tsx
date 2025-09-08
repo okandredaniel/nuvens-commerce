@@ -3,7 +3,7 @@ import { getPaginationVariables, Image } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
-import type { CollectionFragment } from 'storefrontapi.generated';
+import type { CollectionCardFragment } from 'storefrontapi.generated';
 import { LocalizedLink } from '~/components/LocalizedLink';
 import { PaginatedResourceSection } from '~/components/PaginatedResourceSection';
 import { PAGE_SIZE } from '~/lib/constants';
@@ -47,7 +47,13 @@ export default function CollectionsRoute() {
   );
 }
 
-function CollectionCard({ collection, index }: { collection: CollectionFragment; index: number }) {
+function CollectionCard({
+  collection,
+  index,
+}: {
+  collection: CollectionCardFragment;
+  index: number;
+}) {
   return (
     <LocalizedLink
       to={`/collections/${collection.handle}`}

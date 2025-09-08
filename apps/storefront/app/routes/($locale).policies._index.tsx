@@ -1,14 +1,32 @@
 import { Container } from '@nuvens/ui-core';
-import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useLoaderData } from 'react-router';
 import { PoliciesHeader } from '~/components/policies/PoliciesHeader';
-import { PoliciesGrid, PolicyItem } from '~/components/policies/PolicyGrid';
+import { PoliciesGrid, type PolicyItem } from '~/components/policies/PolicyGrid';
+import { POLICIES_QUERY } from '~/lib/fragments';
 
 type LoaderData = { policies: PolicyItem[] };
 
 function isPolicyItem(p: unknown): p is PolicyItem {
-  return !!p && typeof (p as any).id === 'string' && typeof (p as any).handle === 'string';
+  return (
+    !!p &&
+    typeof (p as any).id === 'string' &&
+    typeof (p as any).handle === 'string' &&
+    typeof (p as any).title === 'string'
+  );
 }
+
+export const meta: MetaFunction<typeof loader> = () => [
+  { title: 'Policies' },
+  {
+    name: 'description',
+    content: 'Learn how we handle privacy, shipping, returns, subscriptions, and more.',
+  },
+];
+
+export const headers: HeadersFunction = () => {
+  return { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=3600' };
+};
 
 export async function loader({ context }: LoaderFunctionArgs) {
   const data = await context.storefront.query(POLICIES_QUERY, {
@@ -39,29 +57,16 @@ export default function Policies() {
   const { policies } = useLoaderData<typeof loader>();
 
   return (
-    <main id="content" role="main" className="bg-[color:var(--color-surface)]">
+    <main
+      id="content"
+      role="main"
+      aria-labelledby="policies-heading"
+      className="bg-[color:var(--color-surface)]"
+    >
       <Container className="py-8 md:py-12">
-        <PoliciesHeader />
+        <PoliciesHeader headingId="policies-heading" />
         <PoliciesGrid policies={policies} />
       </Container>
     </main>
   );
 }
-
-const POLICIES_QUERY = `#graphql
-  fragment PolicyItem on ShopPolicy {
-    id
-    title
-    handle
-  }
-  query Policies ($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    shop {
-      privacyPolicy { ...PolicyItem }
-      shippingPolicy { ...PolicyItem }
-      termsOfService { ...PolicyItem }
-      refundPolicy { ...PolicyItem }
-      subscriptionPolicy { id title handle }
-    }
-  }
-` as const;

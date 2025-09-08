@@ -1,9 +1,9 @@
-export type SelectedPolicyKey =
-  | 'privacyPolicy'
-  | 'shippingPolicy'
-  | 'termsOfService'
-  | 'refundPolicy'
-  | 'subscriptionPolicy';
+import type { Shop } from '@shopify/hydrogen/storefront-api-types';
+
+export type SelectedPolicyKey = keyof Pick<
+  Shop,
+  'privacyPolicy' | 'shippingPolicy' | 'termsOfService' | 'refundPolicy' | 'subscriptionPolicy'
+>;
 
 export const HANDLE_TO_POLICY_KEY: Record<string, SelectedPolicyKey> = {
   'privacy-policy': 'privacyPolicy',

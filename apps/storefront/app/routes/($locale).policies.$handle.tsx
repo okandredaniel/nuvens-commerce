@@ -4,6 +4,7 @@ import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLoaderData } from 'react-router';
 import { RichText } from '~/components/RichText';
+import { POLICY_CONTENT_QUERY } from '~/lib/fragments';
 import {
   buildPolicyQueryVars,
   getPolicyKeyFromHandle,
@@ -34,7 +35,8 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
     },
   });
 
-  const policy = data?.shop?.[policyKey] as Policy | undefined;
+  const shop = (data as any).shop as Partial<Record<SelectedPolicyKey, Policy | null>>;
+  const policy = shop?.[policyKey] ?? null;
   if (!policy) throw new Response('Policy not found', { status: 404 });
 
   return { policy } satisfies LoaderData;
@@ -67,28 +69,3 @@ export default function PolicyRoute() {
     </main>
   );
 }
-
-const POLICY_CONTENT_QUERY = `#graphql
-  fragment Policy on ShopPolicy {
-    body
-    handle
-    id
-    title
-    url
-  }
-  query Policy(
-    $country: CountryCode
-    $language: LanguageCode
-    $privacyPolicy: Boolean!
-    $refundPolicy: Boolean!
-    $shippingPolicy: Boolean!
-    $termsOfService: Boolean!
-  ) @inContext(language: $language, country: $country) {
-    shop {
-      privacyPolicy @include(if: $privacyPolicy) { ...Policy }
-      shippingPolicy @include(if: $shippingPolicy) { ...Policy }
-      termsOfService @include(if: $termsOfService) { ...Policy }
-      refundPolicy @include(if: $refundPolicy) { ...Policy }
-    }
-  }
-` as const;

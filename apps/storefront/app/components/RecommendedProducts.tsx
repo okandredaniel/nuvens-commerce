@@ -1,11 +1,11 @@
 import { Suspense } from 'react';
 import { Await } from 'react-router';
-import type { ProductItemFragment } from 'storefrontapi.generated';
+import type { ProductCardFragment } from 'storefrontapi.generated';
 import { ProductItem } from '~/components/ProductItem';
 
 type RecommendedProductsData = {
   products: {
-    nodes: ProductItemFragment[];
+    nodes: ProductCardFragment[];
   };
 };
 
