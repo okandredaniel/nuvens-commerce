@@ -1,8 +1,8 @@
+import { cn } from '@nuvens/ui-core';
 import { NavLink as RRNavLink, type NavLinkProps as RRNavLinkProps } from 'react-router';
 import { useLocalizedHref } from '~/hooks/useLocalizedHref';
 
-export function LocalizedNavLink(props: RRNavLinkProps) {
+export function LocalizedNavLink({ to, className, ...rest }: RRNavLinkProps) {
   const localize = useLocalizedHref();
-  const { to, ...rest } = props;
-  return <RRNavLink to={localize(to)} {...rest} />;
+  return <RRNavLink to={localize(to)} className={cn('inline-block', className)} {...rest} />;
 }
