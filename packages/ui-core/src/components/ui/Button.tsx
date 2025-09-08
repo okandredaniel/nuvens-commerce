@@ -21,18 +21,26 @@ const sizes: Record<Size, string> = {
   md: 'h-10 px-4 text-sm',
 };
 
-export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+type CommonProps = {
   variant?: Variant;
   size?: Size;
   asChild?: boolean;
+  className?: string;
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { className, variant = 'primary', size = 'md', asChild, type, ...props },
-  ref,
-) {
-  const Comp: any = asChild ? Slot : 'button';
-  const merged = cn(base, variants[variant], sizes[size], className);
-  const finalType = !asChild ? type || 'button' : undefined;
-  return <Comp ref={ref} className={merged} type={finalType} {...props} />;
-});
+type ButtonAsButton = CommonProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined };
+
+type ButtonAsLink = CommonProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+
+export type ButtonProps = ButtonAsButton | ButtonAsLink;
+
+export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+  function Button({ className, variant = 'primary', size = 'md', asChild, type, ...props }, ref) {
+    const isLink = typeof (props as any).href === 'string';
+    const Comp: any = asChild ? Slot : isLink ? 'a' : 'button';
+    const merged = cn(base, variants[variant], sizes[size], className);
+    const finalType = !asChild && !isLink ? type || 'button' : undefined;
+    return <Comp ref={ref as any} className={merged} type={finalType} {...(props as any)} />;
+  },
+);

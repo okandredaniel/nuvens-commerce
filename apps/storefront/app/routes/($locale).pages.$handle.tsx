@@ -13,6 +13,7 @@ type LoaderData = {
     templateMeta?: { value?: string | null } | null;
   };
   templateKey: string;
+  contactAction: string;
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -48,7 +49,12 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
   const available = Object.keys(pageTemplates);
   const templateKey = candidates.find((c) => available.includes(c)) || 'default';
 
-  return { page, templateKey } satisfies LoaderData;
+  const domain = String(
+    (context.env as Record<string, unknown>)?.PUBLIC_STORE_DOMAIN || '',
+  ).replace(/^https?:\/\//, '');
+  const contactAction = domain ? `https://${domain}/contact#ContactForm` : '';
+
+  return { page, templateKey, contactAction } satisfies LoaderData;
 }
 
 function loadDeferredData(_: LoaderFunctionArgs) {
@@ -56,9 +62,9 @@ function loadDeferredData(_: LoaderFunctionArgs) {
 }
 
 export default function Page() {
-  const { page, templateKey } = useLoaderData<typeof loader>();
+  const { page, templateKey, contactAction } = useLoaderData<typeof loader>();
   const Template = pageTemplates[templateKey] || pageTemplates.default;
-  return <Template page={page} />;
+  return <Template page={page} contactAction={contactAction} />;
 }
 
 const PAGE_QUERY = `#graphql

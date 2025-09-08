@@ -72,7 +72,7 @@ export const coreTokens: DesignTokens = {
     primary: '{palette.primary.700}',
     'on-primary': '{palette.neutral.0}',
     accent: '{palette.accent.500}',
-    'on-accent': '{palette.neutral.900}',
+    'on-accent': '{palette.neutral.50}',
 
     // states & borders
     border: '{palette.neutral.200}',
