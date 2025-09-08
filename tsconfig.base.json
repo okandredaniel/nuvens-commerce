@@ -15,8 +15,6 @@
       "@nuvens/ui-core/*": ["packages/ui-core/src/*"],
       "@nuvens/brand-ui": ["apps/storefront/app/brand-ui.generated.ts"],
       "@nuvens/brand-tokens": ["packages/brand-tokens/src"],
-      "@nuvens/commerce": ["packages/commerce/src"],
-      "@nuvens/account": ["packages/account/src"],
       "@nuvens/i18n": ["packages/i18n/src"]
     },
     "types": ["node"],
