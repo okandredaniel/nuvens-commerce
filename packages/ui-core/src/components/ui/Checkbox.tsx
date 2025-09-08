@@ -58,7 +58,7 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(funct
         )}
         {...props}
       >
-        <RadixCheckbox.Indicator className="text-[color:var(--color-on-primary)]">
+        <RadixCheckbox.Indicator>
           <Check className="h-4 w-4" aria-hidden />
         </RadixCheckbox.Indicator>
       </RadixCheckbox.Root>
