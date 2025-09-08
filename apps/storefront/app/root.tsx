@@ -19,8 +19,9 @@ async function queryHeader(args: LoaderFunctionArgs) {
 }
 
 function queryFooter(args: LoaderFunctionArgs) {
-  const { storefront } = args.context;
-  return storefront.query<FooterQuery>(FOOTER_QUERY, { variables: { footerMenuHandle: 'footer' } });
+  const { storefront, env } = args.context;
+  const handle = env.FOOTER_MENU_HANDLE;
+  return storefront.query<FooterQuery>(FOOTER_QUERY, { variables: { footerMenuHandle: handle } });
 }
 
 export async function loadCriticalData(args: LoaderFunctionArgs) {

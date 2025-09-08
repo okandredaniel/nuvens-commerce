@@ -2,13 +2,15 @@
 /// <reference types="react-router" />
 /// <reference types="@shopify/oxygen-workers-types" />
 
+import type { HydrogenEnv, HydrogenSessionData } from '@shopify/hydrogen';
 import '@total-typescript/ts-reset';
-import type { HydrogenSessionData, HydrogenEnv } from '@shopify/hydrogen';
 import type { createAppLoadContext } from '~/lib/context';
 
 declare global {
   interface Env extends HydrogenEnv {
     BRAND_ID?: string;
+    HEADER_MENU_HANDLE?: string;
+    FOOTER_MENU_HANDLE?: string;
   }
 }
 

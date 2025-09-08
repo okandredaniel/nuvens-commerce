@@ -1,9 +1,9 @@
-// NOTE: https://shopify.dev/docs/api/storefront/latest/queries/cart
 export const CART_QUERY_FRAGMENT = `#graphql
   fragment Money on MoneyV2 {
     currencyCode
     amount
   }
+
   fragment CartLine on CartLine {
     id
     quantity
@@ -12,26 +12,16 @@ export const CART_QUERY_FRAGMENT = `#graphql
       value
     }
     cost {
-      totalAmount {
-        ...Money
-      }
-      amountPerQuantity {
-        ...Money
-      }
-      compareAtAmountPerQuantity {
-        ...Money
-      }
+      totalAmount { ...Money }
+      amountPerQuantity { ...Money }
+      compareAtAmountPerQuantity { ...Money }
     }
     merchandise {
       ... on ProductVariant {
         id
         availableForSale
-        compareAtPrice {
-          ...Money
-        }
-        price {
-          ...Money
-        }
+        compareAtPrice { ...Money }
+        price { ...Money }
         requiresShipping
         title
         image {
@@ -40,7 +30,6 @@ export const CART_QUERY_FRAGMENT = `#graphql
           altText
           width
           height
-
         }
         product {
           handle
@@ -55,6 +44,7 @@ export const CART_QUERY_FRAGMENT = `#graphql
       }
     }
   }
+
   fragment CartLineComponent on ComponentizableCartLine {
     id
     quantity
@@ -63,26 +53,16 @@ export const CART_QUERY_FRAGMENT = `#graphql
       value
     }
     cost {
-      totalAmount {
-        ...Money
-      }
-      amountPerQuantity {
-        ...Money
-      }
-      compareAtAmountPerQuantity {
-        ...Money
-      }
+      totalAmount { ...Money }
+      amountPerQuantity { ...Money }
+      compareAtAmountPerQuantity { ...Money }
     }
     merchandise {
       ... on ProductVariant {
         id
         availableForSale
-        compareAtPrice {
-          ...Money
-        }
-        price {
-          ...Money
-        }
+        compareAtPrice { ...Money }
+        price { ...Money }
         requiresShipping
         title
         image {
@@ -105,17 +85,19 @@ export const CART_QUERY_FRAGMENT = `#graphql
       }
     }
   }
+
   fragment CartApiQuery on Cart {
     updatedAt
     id
-    appliedGiftCards {
-      lastCharacters
-      amountUsed {
-        ...Money
-      }
-    }
     checkoutUrl
     totalQuantity
+    note
+
+    appliedGiftCards {
+      lastCharacters
+      amountUsed { ...Money }
+    }
+
     buyerIdentity {
       countryCode
       customer {
@@ -128,33 +110,27 @@ export const CART_QUERY_FRAGMENT = `#graphql
       email
       phone
     }
+
     lines(first: $numCartLines) {
-      nodes {
-        ...CartLine
-      }
-      nodes {
-        ...CartLineComponent
-      }
+      nodes { ...CartLine }
     }
+
+    componentizableCartLines(first: $numCartLines) {
+      nodes { ...CartLineComponent }
+    }
+
     cost {
-      subtotalAmount {
-        ...Money
-      }
-      totalAmount {
-        ...Money
-      }
-      totalDutyAmount {
-        ...Money
-      }
-      totalTaxAmount {
-        ...Money
-      }
+      subtotalAmount { ...Money }
+      totalAmount { ...Money }
+      totalDutyAmount { ...Money }
+      totalTaxAmount { ...Money }
     }
-    note
+
     attributes {
       key
       value
     }
+
     discountCodes {
       code
       applicable
@@ -171,20 +147,19 @@ const MENU_FRAGMENT = `#graphql
     type
     url
   }
+
   fragment ChildMenuItem on MenuItem {
     ...MenuItem
   }
+
   fragment ParentMenuItem on MenuItem {
     ...MenuItem
-    items {
-      ...ChildMenuItem
-    }
+    items { ...ChildMenuItem }
   }
+
   fragment Menu on Menu {
     id
-    items {
-      ...ParentMenuItem
-    }
+    items { ...ParentMenuItem }
   }
 ` as const;
 
@@ -193,28 +168,21 @@ export const HEADER_QUERY = `#graphql
     id
     name
     description
-    primaryDomain {
-      url
-    }
+    primaryDomain { url }
     brand {
       logo {
-        image {
-          url
-        }
+        image { url }
       }
     }
   }
+
   query Header(
     $country: CountryCode
     $headerMenuHandle: String!
     $language: LanguageCode
   ) @inContext(language: $language, country: $country) {
-    shop {
-      ...Shop
-    }
-    menu(handle: $headerMenuHandle) {
-      ...Menu
-    }
+    shop { ...Shop }
+    menu(handle: $headerMenuHandle) { ...Menu }
   }
   ${MENU_FRAGMENT}
 ` as const;
@@ -225,9 +193,7 @@ export const FOOTER_QUERY = `#graphql
     $footerMenuHandle: String!
     $language: LanguageCode
   ) @inContext(language: $language, country: $country) {
-    menu(handle: $footerMenuHandle) {
-      ...Menu
-    }
+    menu(handle: $footerMenuHandle) { ...Menu }
   }
   ${MENU_FRAGMENT}
 ` as const;
