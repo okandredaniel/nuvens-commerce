@@ -1,20 +1,23 @@
 import { Brand } from '@nuvens/brand-ui';
 import { Container } from '@nuvens/ui-core';
 import { useLanguageOptions } from '~/lib/i18n/useLanguageOptions';
+import { useStore } from '~/providers';
 import { LocalizedNavLink } from '../LocalizedNavLink';
 import { CartButton } from './Cart';
-import type { HeaderProps } from './header.interfaces';
 import { HeaderMenu } from './HeaderMenu';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { MenuButton } from './MenuButton';
 
-export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
-  const { shop, menu } = header;
+export function Header() {
+  const { header, publicStoreDomain } = useStore();
   const { options: languages, current } = useLanguageOptions();
+
+  if (!header) return null;
+  const { shop, menu } = header;
 
   return (
     <header className="relative isolate z-40 w-full bg-[var(--color-header-bg)] text-[var(--color-on-header)]">
-      <Container className="flex items-center h-16">
+      <Container className="flex h-16 items-center">
         <div className="md:hidden">
           <MenuButton />
         </div>
@@ -26,20 +29,20 @@ export function Header({ header, cart, publicStoreDomain }: HeaderProps) {
         </div>
 
         {menu?.items?.length ? (
-          <div className="hidden md:flex flex-1">
+          <div className="hidden flex-1 md:flex">
             <HeaderMenu
               menu={menu}
               primaryDomainUrl={shop.primaryDomain.url}
-              publicStoreDomain={publicStoreDomain}
+              publicStoreDomain={publicStoreDomain as string}
             />
           </div>
         ) : (
-          <div className="hidden md:block flex-1" />
+          <div className="hidden flex-1 md:block" />
         )}
 
         <div className="ml-auto flex items-center gap-3">
           {languages.length > 0 ? <LanguageSwitcher options={languages} current={current} /> : null}
-          <CartButton cart={cart} />
+          <CartButton />
         </div>
       </Container>
     </header>

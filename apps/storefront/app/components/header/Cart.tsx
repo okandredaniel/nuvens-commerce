@@ -6,13 +6,13 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Await, useAsyncValue } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
+import { useCart } from '~/providers';
 
-type Props = { cart: Promise<CartApiQueryFragment | null> };
-
-export function CartButton({ cart }: Props) {
+export function CartButton() {
+  const { cart: cartPromise } = useCart() as { cart: Promise<CartApiQueryFragment | null> };
   return (
     <Suspense fallback={<CartBadge count={null} />}>
-      <Await resolve={cart}>
+      <Await resolve={cartPromise}>
         <CartResolved />
       </Await>
     </Suspense>
@@ -37,6 +37,7 @@ function CartBadge({ count }: { count: number | null }) {
       <Tooltip.Trigger asChild>
         <IconButton
           aria-label={openLabel}
+          title={openLabel}
           variant="outline"
           onClick={(e) => {
             e.preventDefault();
@@ -45,21 +46,23 @@ function CartBadge({ count }: { count: number | null }) {
               cart,
               prevCart,
               shop,
-              url: window.location.href || '',
+              url: typeof window !== 'undefined' ? window.location.href : '',
             } as CartViewPayload);
           }}
         >
           <div className="relative">
             <ShoppingCart className="h-5 w-5" />
-            {typeof count === 'number' ? (
-              <Badge className="absolute -top-4 -right-4">{count}</Badge>
+            {typeof count === 'number' && count > 0 ? (
+              <Badge className="absolute -top-3 -right-3 min-w-[1.25rem] h-5 px-1.5 text-[10px] leading-5 text-center">
+                {count}
+              </Badge>
             ) : null}
           </div>
         </IconButton>
       </Tooltip.Trigger>
       <Tooltip.Content
         sideOffset={8}
-        className="z-50 rounded-lg bg-[color:var(--color-popover)] text-[color:var(--color-on-popover)] px-2 py-1 text-xs shadow-md"
+        className="z-50 rounded-lg bg-[color:var(--color-popover)] px-2 py-1 text-xs text-[color:var(--color-on-popover)] shadow-md"
       >
         {label}
       </Tooltip.Content>
