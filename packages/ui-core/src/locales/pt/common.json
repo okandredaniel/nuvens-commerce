@@ -3,7 +3,7 @@
     "menu": "Menu",
     "cart": "Carrinho",
     "language": "Idioma",
-    "changeLanguage": "Mudar idioma",
+    "changeLanguage": "Alterar idioma",
     "switchTo": "Mudar para {{value}}",
     "openMenu": "Abrir menu",
     "openCart": "Abrir carrinho"
@@ -19,7 +19,8 @@
     "checkout": "Ir para o checkout",
     "cancel": "Cancelar",
     "close": "Fechar",
-    "send": "Enviar"
+    "send": "Enviar",
+    "home": "Ir para a página inicial"
   },
   "status": {
     "applied": "Código aplicado",
@@ -44,5 +45,8 @@
     "subject": "Assunto",
     "message": "Mensagem",
     "consent": "Concordo em ser contactado"
+  },
+  "errors": {
+    "title": "Algo deu errado"
   }
 }

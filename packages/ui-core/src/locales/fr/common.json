@@ -4,7 +4,7 @@
     "cart": "Panier",
     "language": "Langue",
     "changeLanguage": "Changer de langue",
-    "switchTo": "Passer à {{value}}",
+    "switchTo": "Passer en {{value}}",
     "openMenu": "Ouvrir le menu",
     "openCart": "Ouvrir le panier"
   },
@@ -14,18 +14,19 @@
   },
   "actions": {
     "apply": "Appliquer",
-    "remove": "Retirer",
+    "remove": "Supprimer",
     "continue": "Continuer",
-    "checkout": "Continuer vers le paiement",
+    "checkout": "Passer au paiement",
     "cancel": "Annuler",
     "close": "Fermer",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "home": "Aller à l’accueil"
   },
   "status": {
     "applied": "Code appliqué",
     "empty": "Aucun résultat",
     "idle": "Inactif",
-    "invalid": "Invalide ou non applicable",
+    "invalid": "Non valide ou non applicable",
     "loading": "Chargement..."
   },
   "quantity": {
@@ -41,8 +42,11 @@
   "form": {
     "name": "Nom",
     "email": "E-mail",
-    "subject": "Sujet",
+    "subject": "Objet",
     "message": "Message",
-    "consent": "J'accepte d'être contacté(e)"
+    "consent": "J’accepte d’être contacté"
+  },
+  "errors": {
+    "title": "Une erreur s’est produite"
   }
 }

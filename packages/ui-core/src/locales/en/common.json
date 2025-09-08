@@ -19,7 +19,8 @@
     "checkout": "Continue to checkout",
     "cancel": "Cancel",
     "close": "Close",
-    "send": "Send"
+    "send": "Send",
+    "home": "Go to Homepage"
   },
   "status": {
     "applied": "Code applied",
@@ -44,5 +45,8 @@
     "subject": "Subject",
     "message": "Message",
     "consent": "I agree to be contacted"
+  },
+  "errors": {
+    "title": "Something went wrong"
   }
 }

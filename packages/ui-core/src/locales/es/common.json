@@ -16,10 +16,11 @@
     "apply": "Aplicar",
     "remove": "Eliminar",
     "continue": "Continuar",
-    "checkout": "Continuar al checkout",
+    "checkout": "Continuar al pago",
     "cancel": "Cancelar",
     "close": "Cerrar",
-    "send": "Enviar"
+    "send": "Enviar",
+    "home": "Ir a la página de inicio"
   },
   "status": {
     "applied": "Código aplicado",
@@ -44,5 +45,8 @@
     "subject": "Asunto",
     "message": "Mensaje",
     "consent": "Acepto ser contactado"
+  },
+  "errors": {
+    "title": "Algo salió mal"
   }
 }

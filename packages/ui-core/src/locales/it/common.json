@@ -19,7 +19,8 @@
     "checkout": "Procedi al checkout",
     "cancel": "Annulla",
     "close": "Chiudi",
-    "send": "Invia"
+    "send": "Invia",
+    "home": "Vai alla home"
   },
   "status": {
     "applied": "Codice applicato",
@@ -31,7 +32,7 @@
   "quantity": {
     "label": "Quantità",
     "increase": "Aumenta quantità",
-    "decrease": "Diminuisci quantità"
+    "decrease": "Riduci quantità"
   },
   "pagination": {
     "loadMore": "Carica altro",
@@ -43,6 +44,9 @@
     "email": "Email",
     "subject": "Oggetto",
     "message": "Messaggio",
-    "consent": "Accetto di essere contattato/a"
+    "consent": "Acconsento a essere contattato"
+  },
+  "errors": {
+    "title": "Si è verificato un errore"
   }
 }
