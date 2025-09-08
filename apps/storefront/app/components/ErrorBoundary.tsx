@@ -1,26 +1,19 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router';
+import { ErrorView } from './error/ErrorView';
+import { NotFoundView } from './error/NotFound';
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  let errorMessage = 'Unknown error';
-  let errorStatus = 500;
+  const isResponse = isRouteErrorResponse(error);
+  const status = isResponse ? (error as any).status : 500;
 
-  if (isRouteErrorResponse(error)) {
-    errorMessage = (error as any)?.data?.message ?? (error as any).data;
-    errorStatus = (error as any).status;
-  } else if (error instanceof Error) {
-    errorMessage = error.message;
+  if (status === 404) {
+    return <NotFoundView />;
   }
 
-  return (
-    <div className="route-error">
-      <h1>Oops</h1>
-      <h2>{errorStatus}</h2>
-      {errorMessage && (
-        <fieldset>
-          <pre>{errorMessage}</pre>
-        </fieldset>
-      )}
-    </div>
-  );
+  const message =
+    (isResponse && ((error as any)?.data?.message ?? (error as any)?.data)) ||
+    (error instanceof Error ? error.message : '');
+
+  return <ErrorView status={status} message={message} />;
 }
