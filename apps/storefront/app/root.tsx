@@ -2,15 +2,41 @@ import { coreI18n } from '@nuvens/ui-core';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet } from 'react-router';
-import { loadCriticalData } from '~/lib/loader/critical.server';
-import { loadDeferredData } from '~/lib/loader/deferred.server';
+import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
+import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { buildCanonical, buildHreflangs } from '~/lib/seo';
 import { mergeResources, toLang } from './lib/i18n';
-import { getRuntimeConfig } from './lib/runtime/getRuntimeConfig.server';
 
 export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';
 export { Layout } from '~/layouts/Layout';
+
+async function queryHeader(args: LoaderFunctionArgs) {
+  const { storefront } = args.context;
+  return storefront.query<HeaderQuery>(HEADER_QUERY, {
+    variables: { headerMenuHandle: 'main-menu' },
+  });
+}
+
+function queryFooter(args: LoaderFunctionArgs) {
+  const { storefront } = args.context;
+  return storefront.query<FooterQuery>(FOOTER_QUERY, { variables: { footerMenuHandle: 'footer' } });
+}
+
+export async function loadCriticalData(args: LoaderFunctionArgs) {
+  const header = await queryHeader(args);
+  return { header };
+}
+
+export function loadDeferredData(args: LoaderFunctionArgs) {
+  const { context } = args;
+  const footer = queryFooter(args);
+  return {
+    cart: context.cart.get(),
+    isLoggedIn: context.customerAccount.isLoggedIn(),
+    footer,
+  };
+}
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   const base = data?.header?.shop?.primaryDomain?.url || data?.origin || '';
@@ -23,19 +49,14 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 };
 
 export async function loader(args: LoaderFunctionArgs) {
-  const runtime = getRuntimeConfig(args);
-  const deferredData = loadDeferredData(args);
-  const criticalData = await loadCriticalData(args);
-
-  const { storefront, env } = args.context;
   const origin = new URL(args.request.url).origin;
+  const { storefront, env } = args.context;
 
   const firstSeg = new URL(args.request.url).pathname.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
 
   const languageCtx = storefront.i18n.language.toLowerCase();
   const countryCtx = storefront.i18n.country.toLowerCase();
-
   const lang = toLang(urlLang ?? languageCtx);
   const localeRegion = `${languageCtx}-${countryCtx}`;
 
@@ -48,10 +69,11 @@ export async function loader(args: LoaderFunctionArgs) {
     brand = { id: process.env.BRAND_ID, tokens: brandTokens };
   } catch {}
 
+  const deferredData = loadDeferredData(args);
+  const criticalData = await loadCriticalData(args);
   const resources = mergeResources(lang, coreI18n?.resources, brandI18n?.resources);
 
   return {
-    ...runtime,
     ...deferredData,
     ...criticalData,
     origin,
