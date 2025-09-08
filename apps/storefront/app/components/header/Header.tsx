@@ -22,11 +22,9 @@ export function Header() {
           <MenuButton />
         </div>
 
-        <div className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-          <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
-            <Brand />
-          </LocalizedNavLink>
-        </div>
+        <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home" className="m-auto">
+          <Brand />
+        </LocalizedNavLink>
 
         {menu?.items?.length ? (
           <div className="hidden flex-1 md:flex">
@@ -40,7 +38,7 @@ export function Header() {
           <div className="hidden flex-1 md:block" />
         )}
 
-        <div className="ml-auto flex items-center gap-3">
+        <div className="md:ml-auto flex items-center gap-3">
           {languages.length > 0 ? <LanguageSwitcher options={languages} current={current} /> : null}
           <CartButton />
         </div>
