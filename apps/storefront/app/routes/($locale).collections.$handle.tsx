@@ -1,134 +1,74 @@
-import {redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {useLoaderData, type MetaFunction} from 'react-router';
-import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
-import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
-import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-import {ProductItem} from '~/components/ProductItem';
+import { Container } from '@nuvens/ui-core';
+import { getPaginationVariables } from '@shopify/hydrogen';
+import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
+import { useTranslation } from 'react-i18next';
+import { useLoaderData } from 'react-router';
+import { PaginatedResourceSection } from '~/components/PaginatedResourceSection';
+import { ProductItem } from '~/components/ProductItem';
+import { PAGE_SIZE } from '~/lib/constants';
+import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments/catalog';
 
-export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const title = data?.collection?.title ? `Collections | ${data.collection.title}` : 'Collections';
+  return [{ title }];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
-  // Start fetching non-critical data without blocking time to first byte
-  const deferredData = loadDeferredData(args);
-
-  // Await the critical data required to render initial state of the page
+  const deferredData = {};
   const criticalData = await loadCriticalData(args);
-
-  return {...deferredData, ...criticalData};
+  return { ...deferredData, ...criticalData };
 }
 
-/**
- * Load data necessary for rendering content above the fold. This is the critical data
- * needed to render the page. If it's unavailable, the whole page should 400 or 500 error.
- */
-async function loadCriticalData({
-  context,
-  params,
-  request,
-}: LoaderFunctionArgs) {
-  const {handle} = params;
-  const {storefront} = context;
-  const paginationVariables = getPaginationVariables(request, {
-    pageBy: 8,
-  });
-
+async function loadCriticalData({ context, params, request }: LoaderFunctionArgs) {
+  const { storefront } = context;
+  const handle = params.handle;
   if (!handle) {
-    throw redirect('/collections');
+    throw new Response('Missing collection handle', { status: 404 });
   }
+  const pagination = getPaginationVariables(request, { pageBy: PAGE_SIZE });
 
-  const [{collection}] = await Promise.all([
-    storefront.query(COLLECTION_QUERY, {
-      variables: {handle, ...paginationVariables},
-      // Add other queries here, so that they are loaded in parallel
-    }),
+  const [{ collection }] = await Promise.all([
+    storefront.query(COLLECTION_QUERY, { variables: { handle, ...pagination } }),
   ]);
 
   if (!collection) {
-    throw new Response(`Collection ${handle} not found`, {
-      status: 404,
-    });
+    throw new Response(`Collection ${handle} not found`, { status: 404 });
   }
 
-  // The API handle might be localized, so redirect to the localized handle
-  redirectIfHandleIsLocalized(request, {handle, data: collection});
-
-  return {
-    collection,
-  };
+  return { collection };
 }
 
-/**
- * Load data for rendering content below the fold. This data is deferred and will be
- * fetched after the initial page load. If it's unavailable, the page should still 200.
- * Make sure to not throw any errors here, as it will cause the page to 500.
- */
-function loadDeferredData({context}: LoaderFunctionArgs) {
-  return {};
-}
-
-export default function Collection() {
-  const {collection} = useLoaderData<typeof loader>();
+export default function CollectionRoute() {
+  const { collection } = useLoaderData<typeof loader>();
+  const { t } = useTranslation('catalog');
 
   return (
-    <div className="collection">
-      <h1>{collection.title}</h1>
-      <p className="collection-description">{collection.description}</p>
+    <Container className="py-6 md:py-10">
+      <header className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">{collection.title}</h1>
+        {collection.description ? (
+          <p className="mt-2 text-[color:var(--color-muted)]">{collection.description}</p>
+        ) : null}
+      </header>
+
       <PaginatedResourceSection
         connection={collection.products}
-        resourcesClassName="products-grid"
+        resourcesClassName="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4"
       >
-        {({node: product, index}) => (
+        {({ node: product, index }: any) => (
           <ProductItem
             key={product.id}
             product={product}
-            loading={index < 8 ? 'eager' : undefined}
+            loading={index < PAGE_SIZE ? 'eager' : 'lazy'}
           />
         )}
       </PaginatedResourceSection>
-      <Analytics.CollectionView
-        data={{
-          collection: {
-            id: collection.id,
-            handle: collection.handle,
-          },
-        }}
-      />
-    </div>
+    </Container>
   );
 }
 
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment ProductItem on Product {
-    id
-    handle
-    title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
-    priceRange {
-      minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
-        ...MoneyProductItem
-      }
-    }
-  }
-` as const;
-
-// NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
 const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
+  ${PRODUCT_CARD_FRAGMENT}
   query Collection(
     $handle: String!
     $country: CountryCode
@@ -143,21 +83,9 @@ const COLLECTION_QUERY = `#graphql
       handle
       title
       description
-      products(
-        first: $first,
-        last: $last,
-        before: $startCursor,
-        after: $endCursor
-      ) {
-        nodes {
-          ...ProductItem
-        }
-        pageInfo {
-          hasPreviousPage
-          hasNextPage
-          endCursor
-          startCursor
-        }
+      products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
+        nodes { ...ProductCard }
+        pageInfo { hasPreviousPage hasNextPage startCursor endCursor }
       }
     }
   }

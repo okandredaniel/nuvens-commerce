@@ -19,15 +19,8 @@ export function ProductItem({
   return (
     <LocalizedLink
       to={variantUrl}
-      prefetch="intent"
       aria-label={product.title}
-      className="
-        group block rounded-2xl border border-[color:var(--color-border)]
-        bg-[color:var(--color-surface)]
-        transition-shadow focus-visible:outline-none
-        focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]
-        focus-visible:ring-offset-2
-      "
+      className="group block rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2"
     >
       <div className="overflow-hidden rounded-t-2xl">
         <div className="relative aspect-square bg-[color:var(--color-muted-ghost)]">
