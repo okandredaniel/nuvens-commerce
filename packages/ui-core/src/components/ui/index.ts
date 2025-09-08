@@ -1,6 +1,7 @@
 export * from './Aside';
 export * from './Badge';
 export * from './Button';
+export * from './Card';
 export * from './Checkbox';
 export * from './Container';
 export * from './dialog';
