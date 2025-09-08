@@ -1,8 +1,9 @@
 import { Link as RRLink, type LinkProps as RRLinkProps } from 'react-router';
 import { useLocalizedHref } from '~/hooks/useLocalizedHref';
 
-export function LocalizedLink(props: RRLinkProps) {
+type Props = Omit<RRLinkProps, 'prefetch'>;
+
+export function LocalizedLink({ to, ...rest }: Props) {
   const localize = useLocalizedHref();
-  const { to, ...rest } = props;
   return <RRLink to={localize(to)} {...rest} />;
 }
