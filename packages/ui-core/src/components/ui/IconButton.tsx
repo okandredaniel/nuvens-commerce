@@ -29,7 +29,7 @@ export const IconButton = forwardRef<HTMLButtonElement, Props>(function IconButt
     <button
       ref={ref}
       className={cn(
-        'inline-grid place-items-center rounded-full transition outline-none text-inherit',
+        'flex items-center justify-center rounded-full transition outline-none text-inherit',
         'focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] focus-visible:ring-offset-2',
         sizes[size],
         variants[variant],
