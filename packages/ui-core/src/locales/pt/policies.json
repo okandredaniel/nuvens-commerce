@@ -1,0 +1,13 @@
+{
+  "page": {
+    "title": "Políticas",
+    "subtitle": "Saiba como tratamos privacidade, envios, devoluções, assinaturas e mais."
+  },
+  "breadcrumb": {
+    "aria": "Navegação",
+    "back": "Voltar para Políticas"
+  },
+  "cards": {
+    "read": "Leia a versão completa de {{title}}."
+  }
+}

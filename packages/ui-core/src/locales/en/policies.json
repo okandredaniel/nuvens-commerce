@@ -1,0 +1,13 @@
+{
+  "page": {
+    "title": "Policies",
+    "subtitle": "Learn how we handle privacy, shipping, returns, subscriptions, and more."
+  },
+  "breadcrumb": {
+    "aria": "Breadcrumb",
+    "back": "Back to Policies"
+  },
+  "cards": {
+    "read": "Read the full {{title}}."
+  }
+}
