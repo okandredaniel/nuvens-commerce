@@ -4,10 +4,10 @@ import { Analytics } from '@shopify/hydrogen';
 import { I18nextProvider } from 'react-i18next';
 import { useRouteLoaderData } from 'react-router';
 import { I18nBridge, mergeResources, toLang } from '~/lib/i18n';
+import { registerI18nBundles } from '~/lib/i18n/autoBundles';
 import { createI18n } from '~/lib/i18n/createInstance';
 import type { RootLoader } from '~/root';
 import { ProvidersMap, useBrand, useShallowMemo } from './AppContexts';
-import { registerI18nBundles } from '~/lib/i18n/autoBundles';
 
 type ProvidersProps = { children?: React.ReactNode };
 
