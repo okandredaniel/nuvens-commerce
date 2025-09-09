@@ -48,5 +48,6 @@
   },
   "errors": {
     "title": "Une erreur s’est produite"
-  }
+  },
+  "copyright": "© {{year}} {{brand}}. Tous droits réservés."
 }
