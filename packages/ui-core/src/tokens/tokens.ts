@@ -73,4 +73,9 @@ export const coreTokens: DesignTokens = {
     danger: '{palette.danger.600}',
     'on-danger': '{palette.neutral.0}',
   },
+  shape: {
+    button: {
+      radius: '0.5rem',
+    },
+  },
 };

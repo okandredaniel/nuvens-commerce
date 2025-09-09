@@ -2,11 +2,11 @@ import { Slot } from '@radix-ui/react-slot';
 import { forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 
-type Variant = 'primary' | 'ghost' | 'outline';
+type Variant = 'primary' | 'ghost' | 'outline' | 'white';
 type Size = 'sm' | 'md';
 
 const base =
-  'inline-flex items-center justify-center rounded-lg font-semibold transition text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+  'inline-flex items-center justify-center font-semibold transition text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none rounded-[var(--shape-button-radius)]';
 
 const variants: Record<Variant, string> = {
   primary:
@@ -14,6 +14,8 @@ const variants: Record<Variant, string> = {
   ghost: 'bg-transparent hover:bg-black/5 focus-visible:ring-[color:var(--color-border)]',
   outline:
     'border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-black/5 focus-visible:ring-[color:var(--color-border)]',
+  white:
+    'bg-white text-black hover:bg-white/90 focus-visible:ring-white focus-visible:ring-offset-black/20',
 };
 
 const sizes: Record<Size, string> = {

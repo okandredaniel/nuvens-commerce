@@ -35,4 +35,9 @@ export const brandTokens = {
     'footer-bg': '{palette.primary.600}',
     'on-footer': '{palette.neutral.0}',
   },
+  shape: {
+    button: {
+      radius: '9999px',
+    },
+  },
 } as const;

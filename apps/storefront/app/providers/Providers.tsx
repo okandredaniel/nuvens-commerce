@@ -1,4 +1,4 @@
-import { Aside, coreI18n, coreTokens, tokensToCssVars } from '@nuvens/ui-core';
+import { Aside, coreI18n, coreTokens, mergeTokens, tokensToCssVars } from '@nuvens/ui-core';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Analytics } from '@shopify/hydrogen';
 import { I18nextProvider } from 'react-i18next';
@@ -19,10 +19,7 @@ export function Providers({ children }: ProvidersProps) {
   const i18n = createI18n(lang, resources ?? {});
 
   const brandTokens = (data as any)?.brand?.tokens ?? {};
-  const mergedTokens = {
-    palette: { ...(coreTokens?.palette ?? {}), ...(brandTokens?.palette ?? {}) },
-    colors: { ...(coreTokens?.colors ?? {}), ...(brandTokens?.colors ?? {}) },
-  };
+  const mergedTokens = mergeTokens(coreTokens ?? {}, brandTokens ?? {});
   const cssVars = tokensToCssVars(mergedTokens).join('');
 
   const storeValue = useShallowMemo({
