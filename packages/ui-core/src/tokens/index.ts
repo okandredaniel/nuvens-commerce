@@ -1,3 +1,2 @@
-export { coreTokens } from './tokens';
-export { getBrandTokensById, registerBrandTokens, registry } from './registry';
-export { mergeTokens, tokensToCssVars } from './utils';
+export * from './tokens';
+export * from './utils';

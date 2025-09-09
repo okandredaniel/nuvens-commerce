@@ -1,4 +1,5 @@
-import { getBrandTokensById, type BrandId } from '@nuvens/ui-core';
+import { brandTokens } from '@nuvens/brand-ui';
+import { type BrandId } from '@nuvens/ui-core';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { RuntimeData } from './types';
 
@@ -7,8 +8,6 @@ export function getRuntimeConfig({ context }: LoaderFunctionArgs): RuntimeData {
 
   const brandId = env.BRAND_ID as BrandId | undefined;
   if (!brandId) throw new Error('BRAND_ID is invalid or missing');
-
-  const tokens = getBrandTokensById(brandId);
 
   const runtimeEnv = {
     BRAND_ID: env.BRAND_ID,
@@ -24,7 +23,7 @@ export function getRuntimeConfig({ context }: LoaderFunctionArgs): RuntimeData {
 
   return {
     env: runtimeEnv,
-    brand: { id: brandId, tokens },
+    brand: { id: brandId, tokens: brandTokens },
     i18n,
     languages: undefined,
   };
