@@ -1,3 +1,4 @@
+export * from './adapters';
 export * from './components';
 export * from './i18n';
 export * from './interfaces';
