@@ -12,7 +12,6 @@
     "codegen": "shopify hydrogen codegen"
   },
   "dependencies": {
-    "@nuvens/brand-tokens": "workspace:*",
     "@nuvens/ui-core": "workspace:*",
     "@shopify/hydrogen": "2025.5.0",
     "@shopify/hydrogen-react": "^2025.5.0",

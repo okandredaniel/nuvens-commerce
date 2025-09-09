@@ -1,44 +1,76 @@
-import type { DesignTokens } from '.';
+import { DesignTokens } from '../types';
 
-const REF_RE = /^\{([\w.-]+)\}$/;
-const toVar = (ref: string) => `var(--${ref.replace(/\./g, '-').replace(/[^a-zA-Z0-9-_]/g, '')})`;
-
-export function tokensToCssVars(tokens: DesignTokens): string[] {
-  const out: string[] = [];
-
-  for (const fam of Object.keys(tokens.palette || {})) {
-    const shades = tokens.palette[fam]!;
-    for (const shade of Object.keys(shades)) {
-      out.push(`--palette-${fam}-${shade}:${shades[shade]};`);
-    }
-  }
-
-  for (const name of Object.keys(tokens.colors || {})) {
-    const raw = tokens.colors[name]!;
-    const ref = typeof raw === 'string' ? raw.match(REF_RE)?.[1] : null;
-    out.push(`--color-${name}:${ref ? toVar(ref) : raw};`);
-  }
-
-  return out;
-}
-
-export function mergeTokens(base: DesignTokens, override?: Partial<DesignTokens>): DesignTokens {
-  const merged: DesignTokens = {
-    palette: { ...(base.palette || {}) },
-    colors: { ...(base.colors || {}) },
-  };
-  if (!override) return merged;
-
-  if (override.palette) {
-    for (const fam of Object.keys(override.palette)) {
-      merged.palette[fam] = {
-        ...(merged.palette[fam] || {}),
-        ...override.palette[fam]!,
-      };
-    }
-  }
-  if (override.colors) {
-    merged.colors = { ...merged.colors, ...override.colors };
-  }
-  return merged;
-}
+export const coreTokens: DesignTokens = {
+  palette: {
+    neutral: {
+      '0': '#ffffff',
+      '50': '#fafafa',
+      '100': '#f5f5f5',
+      '200': '#e5e7eb',
+      '300': '#d1d5db',
+      '400': '#9ca3af',
+      '500': '#6b7280',
+      '600': '#4b5563',
+      '700': '#374151',
+      '800': '#1f2937',
+      '900': '#111827',
+    },
+    primary: {
+      '50': '#fafafa',
+      '100': '#f5f5f5',
+      '200': '#e5e7eb',
+      '300': '#d1d5db',
+      '400': '#9ca3af',
+      '500': '#6b7280',
+      '600': '#4b5563',
+      '700': '#374151',
+      '800': '#1f2937',
+      '900': '#111827',
+    },
+    accent: {
+      '50': '#fafafa',
+      '100': '#f5f5f5',
+      '200': '#e5e7eb',
+      '300': '#d1d5db',
+      '400': '#9ca3af',
+      '500': '#6b7280',
+      '600': '#4b5563',
+      '700': '#374151',
+      '800': '#1f2937',
+      '900': '#111827',
+    },
+    danger: {
+      '50': '#fef2f2',
+      '100': '#fee2e2',
+      '200': '#fecaca',
+      '300': '#fca5a5',
+      '400': '#f87171',
+      '500': '#ef4444',
+      '600': '#dc2626',
+      '700': '#b91c1c',
+      '800': '#991b1b',
+      '900': '#7f1d1d',
+    },
+  },
+  colors: {
+    text: '{palette.neutral.900}',
+    surface: '{palette.neutral.0}',
+    'on-surface': '{palette.neutral.900}',
+    'header-bg': '{palette.neutral.900}',
+    'on-header': '{palette.neutral.0}',
+    'footer-bg': '{palette.neutral.900}',
+    'on-footer': '{palette.neutral.0}',
+    primary: '{palette.primary.700}',
+    'on-primary': '{palette.neutral.0}',
+    accent: '{palette.accent.500}',
+    'on-accent': '{palette.neutral.50}',
+    border: '{palette.neutral.200}',
+    muted: '{palette.neutral.500}',
+    'on-muted': '{palette.neutral.0}',
+    'muted-ghost': '{palette.neutral.100}',
+    popover: '{palette.neutral.900}',
+    'on-popover': '{palette.neutral.0}',
+    danger: '{palette.danger.600}',
+    'on-danger': '{palette.neutral.0}',
+  },
+};

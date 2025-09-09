@@ -1,4 +1,4 @@
-import { getBrandTokensById, type BrandId } from '@nuvens/brand-tokens';
+import { getBrandTokensById, type BrandId } from '@nuvens/ui-core';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { RuntimeData } from './types';
 

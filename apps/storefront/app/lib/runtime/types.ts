@@ -1,4 +1,4 @@
-import { BrandId, TokensInterface } from '@nuvens/brand-tokens';
+import { BrandId, TokensInterface } from '@nuvens/ui-core';
 import type { LanguageOption } from '~/components/header/header.interfaces';
 
 export type RuntimeEnv = {
