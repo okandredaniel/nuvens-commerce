@@ -1,4 +1,4 @@
-import { Button, Container, Link } from '@nuvens/ui-core';
+import { Button, Container, Heading, Link } from '@nuvens/ui-core';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaStar } from 'react-icons/fa';
@@ -46,13 +46,14 @@ export function Hero() {
     >
       <Container className="pt-32 pb-16 md:py-16 md:pt-40 md:pb-20">
         <div className="relative flex flex-col items-center gap-6">
-          <h1
+          <Heading
+            as="h1"
             id="hero-title"
-            className="text-3xl md:text-8xl font-bold will-change-transform -mb-14 sm:-mb-24 text-center"
+            className="text-3xl md:text-8xl will-change-transform -mb-14 sm:-mb-24 text-center text-inherit"
             style={{ transform: `translateY(-${titleY}px)` }}
           >
             {t('title')}
-          </h1>
+          </Heading>
 
           <div className="flex flex-col items-center gap-6" style={{ marginTop: `-${imgY}px` }}>
             <div className="-mx-8 md:mx-0">
