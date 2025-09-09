@@ -1,6 +1,6 @@
 import { Aside } from '@nuvens/ui-core';
 import { useStore } from '~/providers';
-import { HeaderMenu } from './header/HeaderMenu';
+import { HeaderMenu } from './header';
 
 export function MobileMenuAside() {
   const { header, publicStoreDomain } = useStore();
