@@ -1,5 +1,5 @@
 import { Slot } from '@radix-ui/react-slot';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 
 type Variant = 'primary' | 'ghost' | 'outline' | 'white';
@@ -30,19 +30,46 @@ type CommonProps = {
   className?: string;
 };
 
-type ButtonAsButton = CommonProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined };
+type PolymorphicProps<E extends React.ElementType> = CommonProps &
+  Omit<React.ComponentPropsWithoutRef<E>, 'size' | 'color' | 'className'> & {
+    as?: E;
+  };
 
-type ButtonAsLink = CommonProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
+type ButtonComponent = <E extends React.ElementType = 'button'>(
+  props: PolymorphicProps<E> & { ref?: React.Ref<Element> },
+) => React.ReactElement | null;
 
-export type ButtonProps = ButtonAsButton | ButtonAsLink;
+function hasHref(x: unknown): x is { href: string } {
+  return !!x && typeof (x as any).href === 'string';
+}
 
-export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  function Button({ className, variant = 'primary', size = 'md', asChild, type, ...props }, ref) {
-    const isLink = typeof (props as any).href === 'string';
-    const Comp: any = asChild ? Slot : isLink ? 'a' : 'button';
-    const merged = cn(base, variants[variant], sizes[size], className);
-    const finalType = !asChild && !isLink ? type || 'button' : undefined;
-    return <Comp ref={ref as any} className={merged} type={finalType} {...(props as any)} />;
-  },
-);
+export const Button = forwardRef(function Button<E extends React.ElementType = 'button'>(
+  props: PolymorphicProps<E>,
+  ref: React.ForwardedRef<Element>,
+) {
+  const {
+    as,
+    asChild,
+    className,
+    variant = 'primary',
+    size = 'md',
+    type,
+    rel,
+    target,
+    ...rest
+  } = props;
+
+  let Comp: React.ElementType = 'button';
+  if (asChild) Comp = Slot;
+  else if (as) Comp = as;
+  else if (hasHref(rest)) Comp = 'a';
+
+  const merged = cn(base, variants[variant], sizes[size], className);
+  const isNativeButton = !asChild && (Comp === 'button' || as === 'button');
+  const finalType = isNativeButton ? (type ?? 'button') : undefined;
+  const finalRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;
+
+  return (
+    <Comp ref={ref as any} className={merged} type={finalType} rel={finalRel} {...(rest as any)} />
+  );
+}) as ButtonComponent;

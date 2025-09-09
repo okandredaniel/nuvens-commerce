@@ -100,11 +100,10 @@ export function QuickActions() {
 
                 <div className="mt-auto">
                   <Button
-                    href={href}
                     style={toneStyle}
                     className="w-full bg-[color:var(--qa-color)] text-[color:var(--qa-on)] hover:bg-[color:var(--qa-color)]/90"
                   >
-                    {cta}
+                    <a href={href}>{cta}</a>
                   </Button>
                 </div>
               </div>

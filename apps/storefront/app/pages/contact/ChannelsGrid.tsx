@@ -73,13 +73,16 @@ export function ChannelsGrid() {
               </div>
 
               <Button
-                href={href}
-                target={key === 'whatsapp' ? '_blank' : undefined}
-                rel={key === 'whatsapp' ? 'noopener noreferrer' : undefined}
                 variant={variant as any}
                 className="w-full py-3 text-base font-medium mt-auto"
               >
-                {label}
+                <a
+                  href={href}
+                  target={key === 'whatsapp' ? '_blank' : undefined}
+                  rel={key === 'whatsapp' ? 'noopener noreferrer' : undefined}
+                >
+                  {label}
+                </a>
               </Button>
             </div>
           );
