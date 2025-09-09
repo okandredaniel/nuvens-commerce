@@ -1,7 +1,6 @@
 export * from './components';
-export * from './i18n/config';
-export { coreI18n } from './i18n/core';
+export * from './i18n';
 export * from './interfaces';
 export * from './tokens';
 export * from './types';
-export * from './utils/cn';
+export * from './utils';
