@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { HomePage, homeLoader } from '@nuvens/brand-ui';
+import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 export async function loader(args: LoaderFunctionArgs) {
   if (typeof homeLoader === 'function') {
@@ -7,6 +7,8 @@ export async function loader(args: LoaderFunctionArgs) {
   }
   return null;
 }
+
+export const handle = { header: 'transparent' as const };
 
 export default function Index() {
   return <HomePage />;
