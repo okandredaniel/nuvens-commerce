@@ -2,13 +2,10 @@
 
 @source "../**/*.{ts,tsx,js,jsx,mdx,html}";
 
-@source "../../packages/ui-core/src/**/*.{ts,tsx,js,jsx,mdx}";
-@source "../../packages/ui-core/dist/**/*.{ts,tsx,js,jsx}";
-@source "../../packages/brand-ui-*/src/**/*.{ts,tsx,js,jsx,mdx}";
-@source "../../packages/brand-ui-*/dist/**/*.{ts,tsx,js,jsx}";
-
-@source "../../node_modules/@nuvens/ui-core/**/*.{js,jsx}";
-@source "../../node_modules/@nuvens/brand-ui*/**/*.{js,jsx}";
+@source "../../../../packages/ui-core/src/**/*.{ts,tsx,js,jsx,mdx}";
+@source "../../../../packages/ui-core/dist/**/*.{ts,tsx,js,jsx}";
+@source "../../../../packages/brand-ui-*/src/**/*.{ts,tsx,js,jsx,mdx}";
+@source "../../../../packages/brand-ui-*/dist/**/*.{ts,tsx,js,jsx}";
 
 @plugin "@tailwindcss/typography";
 
