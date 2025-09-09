@@ -16,7 +16,7 @@
       "@nuvens/brand-ui": ["apps/storefront/app/brand-ui.generated.ts"],
       "@nuvens/i18n": ["packages/i18n/src"]
     },
-    "types": ["node"],
-    "typeRoots": ["./node_modules/@types"]
-  }
+    "types": ["node"]
+  },
+  "include": ["types/**/*.d.ts"]
 }
