@@ -2,7 +2,7 @@
   "name": "nuvens-commerce",
   "private": true,
   "scripts": {
-    "dev": "shopify hydrogen dev --path apps/storefront --codegen --host",
+    "dev": "shopify hydrogen dev --path apps/storefront --codegen",
     "build": "shopify hydrogen build --path apps/storefront --codegen",
     "preview": "shopify hydrogen preview --path apps/storefront --build",
     "typecheck": "pnpm -r typecheck",
