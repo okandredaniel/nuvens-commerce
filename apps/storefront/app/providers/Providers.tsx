@@ -7,6 +7,7 @@ import { I18nBridge, mergeResources, toLang } from '~/lib/i18n';
 import { createI18n } from '~/lib/i18n/createInstance';
 import type { RootLoader } from '~/root';
 import { ProvidersMap, useBrand, useShallowMemo } from './AppContexts';
+import { registerI18nBundles } from '~/lib/i18n/autoBundles';
 
 type ProvidersProps = { children?: React.ReactNode };
 
@@ -17,9 +18,11 @@ export function Providers({ children }: ProvidersProps) {
   const lang = toLang((languageCtx || 'en').toLowerCase());
   const resources = mergeResources(lang, coreI18n?.resources, data?.i18n?.resources);
   const i18n = createI18n(lang, resources ?? {});
+  registerI18nBundles(i18n);
+  if (import.meta.env.DEV) (globalThis as any).__i18n = i18n;
 
   const brandTokens = (data as any)?.brand?.tokens ?? {};
-  const mergedTokens = mergeTokens(coreTokens ?? {}, brandTokens ?? {});
+  const mergedTokens = mergeTokens(coreTokens, brandTokens);
   const cssVars = tokensToCssVars(mergedTokens).join('');
 
   const storeValue = useShallowMemo({
