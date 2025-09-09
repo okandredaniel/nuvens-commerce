@@ -6,6 +6,7 @@ export * from './Checkbox';
 export * from './Container';
 export * from './dialog';
 export * from './dropdown';
+export * from './Heading';
 export * from './IconButton';
 export * from './Input';
 export * from './Label';
