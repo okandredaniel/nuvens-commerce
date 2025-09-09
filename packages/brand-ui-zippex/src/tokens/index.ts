@@ -14,6 +14,19 @@ const brandPalette = {
 export const brandTokens = {
   palette: {
     primary: brandPalette,
+    neutral: {
+      0: '#FFFFFF',
+      50: '#EDEFF2',
+      100: '#D2D8E0',
+      200: '#B7C1CD',
+      300: '#9CA9BA',
+      400: '#8192A8',
+      500: '#4B6382',
+      600: '#445975',
+      700: '#3C4F68',
+      800: '#34455B',
+      900: '#2D3B4E',
+    },
   },
   colors: {
     // header & footer
