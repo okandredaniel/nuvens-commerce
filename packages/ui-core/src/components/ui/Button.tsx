@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { cn } from '../../utils/cn';
 
 type Variant = 'primary' | 'ghost' | 'outline' | 'white';
-type Size = 'sm' | 'md';
+type Size = 'sm' | 'md' | 'lg';
 
 const base =
   'inline-flex items-center justify-center font-semibold transition text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none rounded-[var(--shape-button-radius)]';
@@ -21,6 +21,7 @@ const variants: Record<Variant, string> = {
 const sizes: Record<Size, string> = {
   sm: 'h-9 px-3 text-sm',
   md: 'h-10 px-4 text-sm',
+  lg: 'h-12 px-6 text-base',
 };
 
 type CommonProps = {
