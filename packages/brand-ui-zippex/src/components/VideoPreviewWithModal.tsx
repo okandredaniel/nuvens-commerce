@@ -23,7 +23,7 @@ export function VideoPreviewWithModal({
 
   const embedUrl = useMemo(
     () =>
-      `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`,
+      `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`,
     [youtubeId],
   );
 
@@ -71,8 +71,9 @@ export function VideoPreviewWithModal({
               className="absolute inset-0 h-full w-full"
               src={embedUrl}
               title="YouTube video"
-              allow="autoplay; encrypted-media; picture-in-picture"
+              allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
               allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
             />
           </div>
           <Dialog.Close className="absolute right-3 top-3 rounded-md bg-white/10 px-3 py-1 text-sm text-white backdrop-blur-md transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
