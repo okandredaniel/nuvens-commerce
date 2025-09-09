@@ -2,7 +2,7 @@
   "name": "nuvens-commerce",
   "private": true,
   "scripts": {
-    "dev": "shopify hydrogen dev --path apps/storefront --codegen",
+    "dev": "shopify hydrogen dev --path apps/storefront --codegen --host",
     "build": "shopify hydrogen build --path apps/storefront --codegen",
     "preview": "shopify hydrogen preview --path apps/storefront --build",
     "typecheck": "pnpm -r typecheck",
@@ -48,6 +48,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-i18next": "^15.7.3",
+    "react-icons": "^5.5.0",
     "tailwind-merge": "^3.3.1",
     "void-elements": "^3.1.0"
   }
