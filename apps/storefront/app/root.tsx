@@ -11,27 +11,41 @@ export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';
 export { Layout } from '~/layouts/Layout';
 
-async function queryHeader(args: LoaderFunctionArgs) {
+async function queryHeader(args: LoaderFunctionArgs, language: string, country: string) {
   const { storefront } = args.context;
   return storefront.query<HeaderQuery>(HEADER_QUERY, {
-    variables: { headerMenuHandle: 'main-menu' },
+    variables: {
+      headerMenuHandle: 'main-menu',
+      language: language.toUpperCase(),
+      country: country.toUpperCase(),
+    } as any,
   });
 }
 
-function queryFooter(args: LoaderFunctionArgs) {
+function queryFooter(args: LoaderFunctionArgs, language: string, country: string) {
   const { storefront, env } = args.context;
   const handle = env.FOOTER_MENU_HANDLE;
-  return storefront.query<FooterQuery>(FOOTER_QUERY, { variables: { footerMenuHandle: handle } });
+  return storefront.query<FooterQuery>(FOOTER_QUERY, {
+    variables: {
+      footerMenuHandle: handle,
+      language: language.toUpperCase(),
+      country: country.toUpperCase(),
+    } as any,
+  });
 }
 
-export async function loadCriticalData(args: LoaderFunctionArgs) {
-  const header = await queryHeader(args);
+export async function loadCriticalData(
+  args: LoaderFunctionArgs,
+  language: string,
+  country: string,
+) {
+  const header = await queryHeader(args, language, country);
   return { header };
 }
 
-export function loadDeferredData(args: LoaderFunctionArgs) {
+export function loadDeferredData(args: LoaderFunctionArgs, language: string, country: string) {
+  const footer = queryFooter(args, language, country);
   const { context } = args;
-  const footer = queryFooter(args);
   return {
     cart: context.cart.get(),
     isLoggedIn: context.customerAccount.isLoggedIn(),
@@ -58,7 +72,9 @@ export async function loader(args: LoaderFunctionArgs) {
 
   const languageCtx = storefront.i18n.language.toLowerCase();
   const countryCtx = storefront.i18n.country.toLowerCase();
+
   const lang = toLang(urlLang ?? languageCtx);
+  const country = countryCtx;
   const localeRegion = `${languageCtx}-${countryCtx}`;
 
   let brandI18n: any = null;
@@ -70,8 +86,8 @@ export async function loader(args: LoaderFunctionArgs) {
     brand = { id: process.env.BRAND_ID, tokens: brandTokens };
   } catch {}
 
-  const deferredData = loadDeferredData(args);
-  const criticalData = await loadCriticalData(args);
+  const deferredData = loadDeferredData(args, lang, country);
+  const criticalData = await loadCriticalData(args, lang, country);
   const resources = mergeResources(lang, coreI18n?.resources, brandI18n?.resources);
 
   return {
