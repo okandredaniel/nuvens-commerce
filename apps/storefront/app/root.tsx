@@ -11,6 +11,14 @@ export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';
 export { Layout } from '~/layouts/Layout';
 
+type I18nNamespaces = Record<string, unknown>;
+type I18nResources = Record<string, I18nNamespaces>;
+
+function asResources(x: unknown): I18nResources {
+  if (!x || typeof x !== 'object') return {};
+  return x as I18nResources;
+}
+
 async function queryHeader(args: LoaderFunctionArgs, language: string, country: string) {
   const { storefront } = args.context;
   return storefront.query<HeaderQuery>(HEADER_QUERY, {
@@ -81,14 +89,23 @@ export async function loader(args: LoaderFunctionArgs) {
   let brand: any = null;
   try {
     const mod = await import('@nuvens/brand-ui');
-    const brandTokens = (mod as any).brandTokens;
     brandI18n = (mod as any).brandI18n ?? null;
+    const brandTokens = (mod as any).brandTokens;
     brand = { id: process.env.BRAND_ID, tokens: brandTokens };
   } catch {}
 
   const deferredData = loadDeferredData(args, lang, country);
   const criticalData = await loadCriticalData(args, lang, country);
-  const resources = mergeResources(lang, coreI18n?.resources, brandI18n?.resources);
+
+  const coreRes = asResources(coreI18n?.resources);
+  const brandRes = asResources(brandI18n?.resources);
+
+  const langs = Array.from(new Set([...Object.keys(coreRes), ...Object.keys(brandRes)]));
+
+  const resources: I18nResources = langs.reduce((acc, l) => {
+    const merged = mergeResources(l, coreRes, brandRes) as I18nNamespaces;
+    return { ...acc, [l]: merged };
+  }, {});
 
   return {
     ...deferredData,
