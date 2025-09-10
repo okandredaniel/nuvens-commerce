@@ -46,12 +46,16 @@ export function Footer() {
           </Await>
         </Suspense>
 
-        <div className="flex flex-col items-center justify-between gap-6 border-t border-[color:var(--color-on-footer)]/10 py-8 md:flex-row md:gap-8">
-          <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
-            <Brand />
-          </LocalizedNavLink>
+        <div className="grid md:grid-cols-3 items-end gap-6 border-t border-[color:var(--color-on-footer)]/10 py-8 md:flex-row md:gap-8">
+          <div className="text-center">
+            <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
+              <Brand />
+            </LocalizedNavLink>
+          </div>
 
-          <p className="text-sm opacity-70">{t('copyright', { year, brand: brandName })}</p>
+          <div className="text-sm opacity-70 text-center">
+            {t('copyright', { year, brand: brandName })}
+          </div>
 
           <FooterPayments />
         </div>
