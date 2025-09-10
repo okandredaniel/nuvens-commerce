@@ -21,7 +21,9 @@ export function Footer() {
   return (
     <footer className="mt-auto bg-[color:var(--color-footer-bg)] text-[color:var(--color-on-footer)]">
       <div className="bg-[color:var(--palette-neutral-900)]/20 py-12 md:py-16">
-        <Newsletter />
+        <Container>
+          <Newsletter />
+        </Container>
       </div>
 
       <Container className="max-w-[120rem]">

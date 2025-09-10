@@ -37,7 +37,7 @@ export function VideoPreviewWithModal({
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <div className={cn('relative w-full pt-[40%] overflow-hidden rounded-4xl', className)}>
+      <div className={cn('relative w-full pt-[45%] md:pt-[40%]', className)}>
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
@@ -55,7 +55,7 @@ export function VideoPreviewWithModal({
             <button
               type="button"
               aria-label={ariaLabel}
-              className="pointer-events-auto inline-flex h-32 w-32 items-center justify-center rounded-full bg-white/20 backdrop-blur ring-1 ring-white/40 shadow-2xl transition hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="pointer-events-auto inline-flex h-16 w-16 md:h-32 md:w-32 items-center justify-center rounded-full bg-white/20 backdrop-blur ring-1 ring-white/40 shadow-2xl transition hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               <Play className="h-10 w-10 text-white drop-shadow" />
             </button>

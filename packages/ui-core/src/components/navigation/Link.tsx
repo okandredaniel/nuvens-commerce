@@ -1,11 +1,15 @@
 import { CoreLinkProps, CoreNavLinkProps, useCoreAdapter } from '../../adapters';
+import { cn } from '../../utils';
 
-export function Link(props: CoreLinkProps) {
-  const { Link } = useCoreAdapter();
-  return <Link {...props} />;
+const base =
+  'inline-flex py-1 px-2 underline text-[var(--palette-primary-500)] hover:text-[var(--palette-primary-600)]';
+
+export function Link({ className, ...props }: CoreLinkProps) {
+  const { Link: AdapterLink } = useCoreAdapter();
+  return <AdapterLink className={cn(base, className)} {...props} />;
 }
 
-export function NavLink(props: CoreNavLinkProps) {
-  const { NavLink } = useCoreAdapter();
-  return <NavLink {...props} />;
+export function NavLink({ className, ...props }: CoreNavLinkProps) {
+  const { NavLink: AdapterNavLink } = useCoreAdapter();
+  return <AdapterNavLink className={cn(base, className)} {...props} />;
 }
