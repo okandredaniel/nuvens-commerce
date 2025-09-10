@@ -30,6 +30,7 @@ export const brandTokens = {
   },
   colors: {
     // header & footer
+    'brand-primary': '{palette.primary.600}',
     'header-bg': '{palette.primary.600}',
     'on-header': '{palette.neutral.0}',
     'footer-bg': '{palette.primary.600}',
