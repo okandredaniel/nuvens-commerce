@@ -2,49 +2,6 @@ import { storefrontRedirect } from '@shopify/hydrogen';
 import { createRequestHandler } from '@shopify/remix-oxygen';
 import { createAppLoadContext } from '~/lib/context';
 
-function ensureDirective(csp: string, directive: string, values: string[]) {
-  const re = new RegExp(`(?:^|;)\\s*${directive}\\s+([^;]+)`, 'i');
-  if (re.test(csp)) {
-    return csp.replace(re, (_, current: string) => {
-      const set = new Set(current.trim().split(/\s+/).concat(values));
-      return `${directive} ${Array.from(set).join(' ')}`;
-    });
-  }
-  return (csp ? `${csp}; ` : '') + `${directive} ${values.join(' ')}`;
-}
-
-function withYouTubeCSPHeaders(response: Response) {
-  let csp = response.headers.get('Content-Security-Policy') ?? '';
-  csp = ensureDirective(csp, 'frame-src', [
-    `'self'`,
-    'https://www.youtube.com',
-    'https://www.youtube-nocookie.com',
-  ]);
-  csp = ensureDirective(csp, 'img-src', [
-    `'self'`,
-    'data:',
-    'https://i.ytimg.com',
-    'https://*.ytimg.com',
-  ]);
-  csp = ensureDirective(csp, 'media-src', [`'self'`, 'https://*.googlevideo.com']);
-  csp = ensureDirective(csp, 'connect-src', [
-    `'self'`,
-    'https://www.youtube.com',
-    'https://*.googlevideo.com',
-  ]);
-  response.headers.set('Content-Security-Policy', csp);
-  if (!response.headers.has('Referrer-Policy')) {
-    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  }
-  if (!response.headers.has('Permissions-Policy')) {
-    response.headers.set(
-      'Permissions-Policy',
-      'autoplay=(self "https://www.youtube.com" "https://www.youtube-nocookie.com")',
-    );
-  }
-  return response;
-}
-
 export default {
   async fetch(request: Request, env: Env, executionContext: ExecutionContext): Promise<Response> {
     try {
@@ -70,8 +27,6 @@ export default {
           storefront: appLoadContext.storefront,
         });
       }
-
-      response = withYouTubeCSPHeaders(response);
 
       return response;
     } catch (error) {
