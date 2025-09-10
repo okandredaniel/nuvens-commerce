@@ -90,6 +90,7 @@ export default defineConfig(({ mode }) => {
         'void-elements',
         '@radix-ui/react-dialog',
         '@radix-ui/react-dropdown-menu',
+        'keen-slider/react',
       ],
     },
     ssr: {
@@ -101,6 +102,7 @@ export default defineConfig(({ mode }) => {
         '@radix-ui/react-dropdown-menu',
         '@nuvens/ui-core',
         '@nuvens/brand-ui',
+        'keen-slider',
       ],
     },
   };

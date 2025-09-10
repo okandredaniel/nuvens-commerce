@@ -1,3 +1,4 @@
+import carousel from './carousel.json';
 import cart from './cart.json';
 import catalog from './catalog.json';
 import collections from './collections.json';
@@ -10,6 +11,7 @@ import product from './product.json';
 import support from './support.json';
 
 export default {
+  carousel,
   cart,
   catalog,
   collections,
