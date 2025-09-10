@@ -1,0 +1,71 @@
+{
+  "intro": {
+    "title": "One mattress. Many possibilities.",
+    "lead": "Yes, it's the real deal. Zippex adapts to everyone thanks to its modular layers you can rearrange as you like."
+  },
+  "cta": { "buy": "I want my mattress" },
+  "video": { "title": "Presentation video" },
+  "comfort": {
+    "title": "Comfort, reinvented.",
+    "subtitle": "Feel the difference.",
+    "items": [
+      "Modular layers with zippers",
+      "Patented Zippex technology",
+      "Designed and made in Europe"
+    ],
+    "imageAlt": "Couple lying on a Zippex bed"
+  },
+  "promise": {
+    "title": "Our promise",
+    "aria": "Zippex promise carousel",
+    "items": [
+      {
+        "title": "An innovative sleep experience",
+        "body": "We studied, tested and selected the best materials to completely rethink your comfort."
+      },
+      {
+        "title": "Made in Europe",
+        "body": "Each Zippex mattress is carefully crafted from durable materials, conceived and assembled in Europe."
+      },
+      {
+        "title": "Fair quality, fair price",
+        "body": "No marketing fluff or hidden fees. Zippex gets straight to the point to offer you the best at the right price."
+      },
+      {
+        "title": "Satisfied or your money back",
+        "body": "Free fast delivery, 120-night trial and 10-year warranty."
+      }
+    ]
+  },
+  "reviews": {
+    "title": "The reviews speak for themselves.",
+    "summary": "Over 1,500 five-star reviews!*",
+    "ratingLabel": "Rating {rating}",
+    "cta": "See all our reviews"
+  },
+  "support": {
+    "title": "Support",
+    "items": [
+      {
+        "title": "Fair quality, fair price",
+        "body": "No marketing fluff or hidden fees. Zippex gets straight to the point to offer you the best at the right price.",
+        "cta": "Start chat"
+      },
+      {
+        "title": "Send us an email",
+        "body": "Having issues? We’ll reply quickly.",
+        "cta": "Send an email"
+      },
+      {
+        "title": "Check our FAQ",
+        "body": "If you have questions, please check the Frequently Asked Questions.",
+        "cta": "See the FAQ"
+      },
+      {
+        "title": "Need help?",
+        "body": "Call us for personalised assistance.",
+        "cta": "Call now"
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "intro": {
+    "title": "Un solo colchón. Muchas posibilidades.",
+    "lead": "Sí, va en serio. Zippex se adapta a cada persona gracias a sus capas modulares que puedes reordenar como quieras."
+  },
+  "cta": { "buy": "Quiero mi colchón" },
+  "video": { "title": "Vídeo de presentación" },
+  "comfort": {
+    "title": "El confort, reinventado.",
+    "subtitle": "Siente la diferencia.",
+    "items": [
+      "Capas modulares con cremallera",
+      "Tecnología Zippex patentada",
+      "Diseñado y fabricado en Europa"
+    ],
+    "imageAlt": "Pareja tumbada en una cama Zippex"
+  },
+  "promise": {
+    "title": "Nuestra promesa",
+    "aria": "Carrusel de promesas de Zippex",
+    "items": [
+      {
+        "title": "Una experiencia de descanso innovadora",
+        "body": "Hemos estudiado, probado y seleccionado los mejores materiales para replantear por completo tu confort."
+      },
+      {
+        "title": "Fabricado en Europa",
+        "body": "Cada colchón Zippex se elabora con cuidado a partir de materiales duraderos, concebido y ensamblado en Europa."
+      },
+      {
+        "title": "Calidad justa, precio justo",
+        "body": "Sin humo de marketing ni cargos ocultos. Zippex va al grano para ofrecerte lo mejor al precio adecuado."
+      },
+      {
+        "title": "Satisfecho o reembolso",
+        "body": "Envío rápido gratuito, 120 noches de prueba y 10 años de garantía."
+      }
+    ]
+  },
+  "reviews": {
+    "title": "Las opiniones hablan por sí solas.",
+    "summary": "¡Más de 1.500 opiniones de 5 estrellas!*",
+    "ratingLabel": "Puntuación {rating}",
+    "cta": "Ver todas las opiniones"
+  },
+  "support": {
+    "title": "Soporte",
+    "items": [
+      {
+        "title": "Calidad justa, precio justo",
+        "body": "Sin humo de marketing ni cargos ocultos. Zippex va al grano para ofrecerte lo mejor al precio adecuado.",
+        "cta": "Iniciar el chat"
+      },
+      {
+        "title": "Envíanos un correo",
+        "body": "¿Problemas? Te responderemos rápido.",
+        "cta": "Enviar un correo"
+      },
+      {
+        "title": "Consulta nuestras preguntas frecuentes",
+        "body": "Si tienes dudas, consulta las Preguntas Frecuentes.",
+        "cta": "Ver preguntas frecuentes"
+      },
+      {
+        "title": "¿Necesitas ayuda?",
+        "body": "Llámanos para una asistencia personalizada.",
+        "cta": "Llamar ahora"
+      }
+    ]
+  }
+}

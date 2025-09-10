@@ -1,0 +1,71 @@
+{
+  "intro": {
+    "title": "Un seul matelas. Plusieurs possibilités.",
+    "lead": "Oui c’est du sérieux. Zippex s’adapte à chacun grâce à ses couches modulables que vous pouvez repositionner selon vos envies."
+  },
+  "cta": { "buy": "Je veux mon matelas" },
+  "video": { "title": "Vidéo de présentation" },
+  "comfort": {
+    "title": "Le confort, réinventé.",
+    "subtitle": "Ressentez la différence.",
+    "items": [
+      "Couches modulables par zip",
+      "Technologie brevetée Zippex",
+      "Conçu et fabriqué en Europe"
+    ],
+    "imageAlt": "Couple allongé sur un lit Zippex"
+  },
+  "promise": {
+    "title": "Notre promesse",
+    "aria": "Carrousel des promesses Zippex",
+    "items": [
+      {
+        "title": "Une expérience de sommeil innovante",
+        "body": "Nous avons étudié, testé et sélectionné les meilleurs matériaux pour repenser entièrement votre confort."
+      },
+      {
+        "title": "Fabriqué en Europe",
+        "body": "Chaque matelas Zippex est conçu avec soin à partir de matériaux durables, pensé et assemblé en Europe."
+      },
+      {
+        "title": "Qualité juste, prix juste",
+        "body": "Pas de blabla marketing ni de frais cachés. Zippex va à l’essentiel pour vous offrir le meilleur au bon prix."
+      },
+      {
+        "title": "Satisfait ou remboursé",
+        "body": "Livraison rapide offerte, 120 nuits d’essai et 10 ans de garantie."
+      }
+    ]
+  },
+  "reviews": {
+    "title": "Les avis parlent d’eux-mêmes.",
+    "summary": "Plus de 1.500 avis 5 étoiles !*",
+    "ratingLabel": "Note {rating}",
+    "cta": "Voir tous nos avis"
+  },
+  "support": {
+    "title": "Support",
+    "items": [
+      {
+        "title": "Qualité juste, prix juste",
+        "body": "Pas de blabla marketing ni de frais cachés. Zippex va à l’essentiel pour vous offrir le meilleur au bon prix.",
+        "cta": "Lancer le chat"
+      },
+      {
+        "title": "Envoyez-nous un e-mail",
+        "body": "Des problèmes ? Nous vous répondrons rapidement.",
+        "cta": "Envoyer un e-mail"
+      },
+      {
+        "title": "Consultez notre FAQ",
+        "body": "Si vous avez des questions, veuillez consulter la Foire aux questions.",
+        "cta": "Voir la FAQ"
+      },
+      {
+        "title": "Besoin d’aide ?",
+        "body": "Appelez‑nous pour une assistance personnalisée.",
+        "cta": "Appeler maintenant"
+      }
+    ]
+  }
+}
