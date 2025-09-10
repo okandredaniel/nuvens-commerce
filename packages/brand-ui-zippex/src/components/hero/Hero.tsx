@@ -62,7 +62,6 @@ export function Hero() {
                 alt={t('imageAlt')}
                 className="w-full h-80 md:h-auto max-w-[1500px] pointer-events-none relative z-10 will-change-transform object-cover"
                 loading="eager"
-                fetchPriority="high"
                 decoding="sync"
               />
             </div>
