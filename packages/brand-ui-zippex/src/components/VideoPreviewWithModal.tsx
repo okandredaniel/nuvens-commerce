@@ -64,8 +64,8 @@ export function VideoPreviewWithModal({
       </div>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[60] bg-black/60 data-[state=open]:animate-overlay-in data-[state=closed]:animate-overlay-out" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-[61] w-[92vw] max-w-5xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-black shadow-xl focus:outline-none">
+        <Dialog.Overlay className="fixed inset-0 z-[60] bg-[color:var(--palette-primary-600)]/40 backdrop-blur-xs data-[state=open]:animate-overlay-in data-[state=closed]:animate-overlay-out" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-[61] w-[92vw] max-w-6xl -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-black shadow-xl focus:outline-none">
           <div className="relative w-full pt-[56.25%]">
             <iframe
               className="absolute inset-0 h-full w-full"
