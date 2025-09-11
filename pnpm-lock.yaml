@@ -224,13 +224,13 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(typescript@5.9.2)(vite@6.3.5(@types/node@24.3.0)(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.1))
 
-  packages/brand-ui-cosmos: {}
+  packages/brand-cosmos: {}
 
-  packages/brand-ui-naturalex: {}
+  packages/brand-naturalex: {}
 
-  packages/brand-ui-wooly: {}
+  packages/brand-wooly: {}
 
-  packages/brand-ui-zippex:
+  packages/brand-zippex:
     dependencies:
       '@nuvens/ui-core':
         specifier: workspace:*

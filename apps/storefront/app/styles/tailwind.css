@@ -4,8 +4,8 @@
 
 @source "../../../../packages/ui-core/src/**/*.{ts,tsx,js,jsx,mdx}";
 @source "../../../../packages/ui-core/dist/**/*.{ts,tsx,js,jsx}";
-@source "../../../../packages/brand-ui-*/src/**/*.{ts,tsx,js,jsx,mdx}";
-@source "../../../../packages/brand-ui-*/dist/**/*.{ts,tsx,js,jsx}";
+@source "../../../../packages/brand-*/src/**/*.{ts,tsx,js,jsx,mdx}";
+@source "../../../../packages/brand-*/dist/**/*.{ts,tsx,js,jsx}";
 
 @plugin "@tailwindcss/typography";
 

@@ -5,7 +5,7 @@
 ## 1) Project Overview
 
 - **Stack:** Shopify Hydrogen (Remix), TypeScript, React, Tailwind CSS, Radix UI, lucide-react.
-- **Mono-repo:** `apps/storefront` (Hydrogen app) + `packages/ui-core` (neutral tokens & base components) + `packages/brand-ui-*` (brand tokens/resources).
+- **Mono-repo:** `apps/storefront` (Hydrogen app) + `packages/ui-core` (neutral tokens & base components) + `packages/brand-*` (brand tokens/resources).
 
 ## 2) Runtime, Hosting & Environments
 
@@ -34,7 +34,7 @@
 
 - **Model:** `DesignTokens = { palette: Record<string,Record<string,string>>; colors: Record<string,string> }`.
 - **Core tokens:** neutral palettes + semantic mapping (e.g., `surface`, `primary`, `accent`, `danger`, `border`).
-- **Brand tokens:** each `brand-ui-*` defines palette and maps semantics.
+- **Brand tokens:** each `brand-*` defines palette and maps semantics.
 - **CSS vars:** generated once and injected at `:root`; classes use only CSS variables (no hex fallbacks).
 
 ## 6) UI Core

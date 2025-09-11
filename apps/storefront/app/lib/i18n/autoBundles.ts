@@ -3,7 +3,7 @@ import type { i18n as I18nInstance } from 'i18next';
 
 const localBundles = import.meta.glob<I18nBundle>('../../../**/*.i18n.{ts,js}', { eager: true });
 const brandBundles = import.meta.glob<I18nBundle>(
-  '../../../../../packages/brand-ui-*/src/**/*.i18n.{ts,js}',
+  '../../../../../packages/brand-*/src/**/*.i18n.{ts,js}',
   { eager: true },
 );
 
