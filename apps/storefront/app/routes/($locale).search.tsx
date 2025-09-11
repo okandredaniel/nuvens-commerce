@@ -4,6 +4,7 @@ import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { SearchForm } from '~/components/SearchForm';
 import { SearchResults } from '~/components/SearchResults';
+import { guardedLoader } from '~/lib/routing/policy';
 import {
   getEmptyPredictiveSearchResult,
   type PredictiveSearchReturn,
@@ -12,7 +13,7 @@ import {
 
 export const meta: MetaFunction = () => [{ title: 'Hydrogen | Search' }];
 
-export async function loader({ request, context }: LoaderFunctionArgs) {
+export const loader = guardedLoader(async ({ request, context }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const isPredictive = url.searchParams.has('predictive');
 
@@ -36,7 +37,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
           error: message,
         } satisfies RegularSearchReturn);
   }
-}
+});
 
 export default function SearchPage() {
   const { type, term, result, error } = useLoaderData<typeof loader>();

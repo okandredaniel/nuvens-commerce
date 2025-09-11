@@ -7,34 +7,28 @@ import { PaginatedResourceSection } from '~/components/PaginatedResourceSection'
 import { ProductItem } from '~/components/ProductItem';
 import { PAGE_SIZE } from '~/lib/constants';
 import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments/catalog';
+import { guardedLoader } from '~/lib/routing/policy';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const title = data?.collection?.title ? `Collections | ${data.collection.title}` : 'Collections';
   return [{ title }];
 };
 
-export async function loader(args: LoaderFunctionArgs) {
+export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const deferredData = {};
   const criticalData = await loadCriticalData(args);
   return { ...deferredData, ...criticalData };
-}
+});
 
 async function loadCriticalData({ context, params, request }: LoaderFunctionArgs) {
   const { storefront } = context;
   const handle = params.handle;
-  if (!handle) {
-    throw new Response('Missing collection handle', { status: 404 });
-  }
+  if (!handle) throw new Response('Missing collection handle', { status: 404 });
   const pagination = getPaginationVariables(request, { pageBy: PAGE_SIZE });
-
   const [{ collection }] = await Promise.all([
     storefront.query(COLLECTION_QUERY, { variables: { handle, ...pagination } }),
   ]);
-
-  if (!collection) {
-    throw new Response(`Collection ${handle} not found`, { status: 404 });
-  }
-
+  if (!collection) throw new Response(`Collection ${handle} not found`, { status: 404 });
   return { collection };
 }
 

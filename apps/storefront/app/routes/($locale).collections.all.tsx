@@ -5,14 +5,15 @@ import { useTranslation } from 'react-i18next';
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { PaginatedResourceSection } from '~/components/PaginatedResourceSection';
 import { ProductItem } from '~/components/ProductItem';
+import { guardedLoader } from '~/lib/routing/policy';
 
 export const meta: MetaFunction<typeof loader> = () => [{ title: 'Products' }];
 
-export async function loader(args: LoaderFunctionArgs) {
+export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const deferredData = loadDeferredData(args);
   const criticalData = await loadCriticalData(args);
   return { ...deferredData, ...criticalData };
-}
+});
 
 async function loadCriticalData({ context, request }: LoaderFunctionArgs) {
   const { storefront } = context;

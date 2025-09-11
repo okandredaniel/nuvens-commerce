@@ -1,5 +1,6 @@
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
+import { guardedLoader } from '~/lib/routing/policy';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
 import { pageTemplates } from '../pages';
 
@@ -21,11 +22,11 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title }, ...(desc ? [{ name: 'description', content: desc }] : [])];
 };
 
-export async function loader(args: LoaderFunctionArgs) {
+export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const critical = await loadCriticalData(args);
   const deferred = loadDeferredData(args);
   return { ...deferred, ...critical };
-}
+});
 
 async function loadCriticalData({ context, request, params }: LoaderFunctionArgs) {
   const handle = params.handle;
