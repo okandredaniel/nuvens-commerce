@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { defineConfig, loadEnv, Plugin } from 'vite';
+import { defineConfig, loadEnv, type Plugin } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -95,7 +95,7 @@ export default defineConfig(({ mode }) => {
     },
     ssr: {
       optimizeDeps: {
-        include: ['html-parse-stringify', 'void-elements'],
+        include: ['path-to-regexp', 'html-parse-stringify', 'void-elements'],
       },
       noExternal: [
         '@radix-ui/react-dialog',
