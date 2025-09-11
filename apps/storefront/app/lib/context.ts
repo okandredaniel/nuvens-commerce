@@ -17,7 +17,7 @@ export async function createAppLoadContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
-  const { getLocaleFromRequest } = await import('~/lib/i18n/storefront.server');
+  const { getLocaleFromRequest } = await import('~/i18n/storefront.server');
 
   return createHydrogenContext({
     env,

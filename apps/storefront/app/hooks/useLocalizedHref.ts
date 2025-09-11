@@ -1,6 +1,6 @@
 import type { To } from 'react-router';
 import { useLocation, useRouteLoaderData } from 'react-router';
-import { localizeTo } from '~/lib/i18n';
+import { localizeTo } from '~/i18n/localize';
 import type { RootLoader } from '~/root';
 
 export function useLocalizedHref() {
