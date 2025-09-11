@@ -28,11 +28,16 @@ export function HomePage() {
         </Container>
       </section>
 
-      <section aria-labelledby="video-heading" className="md:px-24 overflow-hidden md:rounded-4xl">
+      <section aria-labelledby="video-heading" className="md:px-24">
         <h2 id="video-heading" className="sr-only">
           {t('video.title')}
         </h2>
-        <VideoPreviewWithModal previewSrc="/zippex-cambio-de-nucleos.mov" youtubeId="m_lfbLhKIMI" />
+        <div className="overflow-hidden md:rounded-4xl">
+          <VideoPreviewWithModal
+            previewSrc="/zippex-cambio-de-nucleos.mov"
+            youtubeId="m_lfbLhKIMI"
+          />
+        </div>
       </section>
 
       <section aria-labelledby="comfort-heading" className="py-16">
