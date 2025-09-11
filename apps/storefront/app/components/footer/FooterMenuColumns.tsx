@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui-core';
+import { cn } from '@nuvens/ui';
 import type { FooterQuery } from 'storefrontapi.generated';
 import { LocalizedNavLink } from '~/components/LocalizedNavLink';
 

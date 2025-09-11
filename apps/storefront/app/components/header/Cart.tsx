@@ -1,4 +1,4 @@
-import { Badge, IconButton, useAside } from '@nuvens/ui-core';
+import { Badge, IconButton, useAside } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type CartViewPayload, useAnalytics, useOptimisticCart } from '@shopify/hydrogen';
 import { ShoppingCart } from 'lucide-react';

@@ -6,7 +6,7 @@ import {
   urlWithTrackingParams,
   type PredictiveSearchReturn,
 } from '~/lib/search';
-import { useAside } from '@nuvens/ui-core';
+import { useAside } from '@nuvens/ui';
 
 type PredictiveSearchItems = PredictiveSearchReturn['result']['items'];
 

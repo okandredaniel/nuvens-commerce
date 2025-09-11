@@ -1,4 +1,4 @@
-import { Button } from '@nuvens/ui-core';
+import { Button } from '@nuvens/ui';
 import { Pagination } from '@shopify/hydrogen';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';

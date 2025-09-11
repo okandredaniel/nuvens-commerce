@@ -5,7 +5,7 @@ import type { EntryContext } from 'react-router';
 import { ServerRouter } from 'react-router';
 import { createHydrogenCSP } from './csp/policy';
 import { applySecurityHeaders } from './server/headers';
-import { registerUiCoreAdapter } from './ui-core.adapter';
+import { registerUiCoreAdapter } from './core.adapter';
 
 registerUiCoreAdapter();
 

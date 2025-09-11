@@ -1,4 +1,4 @@
-import { useAside } from '@nuvens/ui-core';
+import { useAside } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';

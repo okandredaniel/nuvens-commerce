@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui-core';
+import { cn } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 
 type PoliciesHeaderProps = {

@@ -5,7 +5,8 @@ import { Globe } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router';
-import { languageLabel, toLang } from '~/lib/i18n';
+import { languageLabel } from '~/i18n/languageLabel';
+import { toLang } from '~/i18n/localize';
 import type { LanguageOption } from './header.interfaces';
 
 type Props = { options: LanguageOption[]; current?: string };

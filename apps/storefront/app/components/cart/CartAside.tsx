@@ -1,4 +1,4 @@
-import { Aside } from '@nuvens/ui-core';
+import { Aside } from '@nuvens/ui';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Await } from 'react-router';

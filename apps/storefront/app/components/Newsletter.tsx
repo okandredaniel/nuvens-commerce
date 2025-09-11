@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, Label } from '@nuvens/ui-core';
+import { Button, Checkbox, Input, Label } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 
 export function Newsletter() {

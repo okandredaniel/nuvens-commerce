@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui-core';
+import { cn } from '@nuvens/ui';
 
 export function RichText({ html, className }: { html: string; className?: string }) {
   if (!html) return null;

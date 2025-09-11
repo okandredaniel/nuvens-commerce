@@ -1,7 +1,7 @@
 import { Brand } from '@nuvens/brand-ui';
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 import { useEffect, useRef, useState } from 'react';
-import { useLanguageOptions } from '~/lib/i18n/useLanguageOptions';
+import { useLanguageOptions } from '~/i18n/useLanguageOptions';
 import { useStore } from '~/providers';
 import { LocalizedNavLink } from '../LocalizedNavLink';
 import { CartButton } from './Cart';

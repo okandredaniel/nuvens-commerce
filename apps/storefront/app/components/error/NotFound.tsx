@@ -1,4 +1,4 @@
-import { Button, Container } from '@nuvens/ui-core';
+import { Button, Container } from '@nuvens/ui';
 import { ArrowLeft, Home, MessageCircle, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';

@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui-core';
+import { Container, Heading } from '@nuvens/ui';
 import { type HeadersFunction, type MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
@@ -16,9 +16,11 @@ export default function Cart() {
   const { t } = useTranslation('cart');
 
   return (
-    <Container>
-      <h1 className="mb-6 text-2xl md:text-3xl font-semibold tracking-tight">{t('pageTitle')}</h1>
-      <CartMain layout="page" cart={cart} />
-    </Container>
+    <section className="py-8">
+      <Container>
+        <Heading className="mb-8">{t('title')}</Heading>
+        <CartMain layout="page" cart={cart} />
+      </Container>
+    </section>
   );
 }

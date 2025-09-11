@@ -1,4 +1,4 @@
-import { Button } from '@nuvens/ui-core';
+import { Button } from '@nuvens/ui';
 import { RefreshCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

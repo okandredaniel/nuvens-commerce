@@ -1,4 +1,4 @@
-import { Button } from '@nuvens/ui-core';
+import { Button } from '@nuvens/ui';
 import type { OptimisticCart } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
 import { useRouteLoaderData } from 'react-router';

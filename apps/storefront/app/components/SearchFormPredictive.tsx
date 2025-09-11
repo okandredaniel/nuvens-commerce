@@ -1,7 +1,7 @@
 import { useFetcher, useNavigate, type FormProps, type Fetcher } from 'react-router';
 import React, { useRef, useEffect } from 'react';
 import type { PredictiveSearchReturn } from '~/lib/search';
-import { useAside } from '@nuvens/ui-core';
+import { useAside } from '@nuvens/ui';
 
 type SearchFormPredictiveChildren = (args: {
   fetchResults: (event: React.ChangeEvent<HTMLInputElement>) => void;

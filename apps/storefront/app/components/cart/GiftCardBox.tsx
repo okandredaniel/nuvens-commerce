@@ -1,4 +1,4 @@
-import { Button, Input } from '@nuvens/ui-core';
+import { Button, Input } from '@nuvens/ui';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import { useTranslation } from 'react-i18next';
 import { useRef } from 'react';

@@ -1,4 +1,4 @@
-import { Aside } from '@nuvens/ui-core';
+import { Aside } from '@nuvens/ui';
 import { useStore } from '~/providers';
 import { HeaderMenu } from './header';
 

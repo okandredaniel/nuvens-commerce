@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui-core';
+import { cn } from '@nuvens/ui';
 import { NavLink as RRNavLink, type NavLinkProps as RRNavLinkProps } from 'react-router';
 import { useLocalizedHref } from '~/hooks/useLocalizedHref';
 

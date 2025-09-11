@@ -1,4 +1,4 @@
-import { Button, Input } from '@nuvens/ui-core';
+import { Button, Input } from '@nuvens/ui';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { FetcherWithComponents } from 'react-router';

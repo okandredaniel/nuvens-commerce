@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 
 type Page = { id: string; handle: string; title: string; body: string };
 

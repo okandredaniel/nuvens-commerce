@@ -1,4 +1,4 @@
-import { Aside } from '@nuvens/ui-core';
+import { Aside } from '@nuvens/ui';
 import { useId } from 'react';
 import { Link } from 'react-router';
 import { SEARCH_ENDPOINT, SearchFormPredictive } from './SearchFormPredictive';

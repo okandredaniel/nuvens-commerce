@@ -1,4 +1,4 @@
-import { Button, useAside } from '@nuvens/ui-core';
+import { Button, useAside } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
 

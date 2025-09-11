@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 import { ChannelsGrid } from './contact/ChannelsGrid';
 import { CompanyInfo } from './contact/CompanyInfo';

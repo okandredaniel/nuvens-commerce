@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui-core';
+import { cn } from '@nuvens/ui';
 import { useOptimisticCart } from '@shopify/hydrogen';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import type { CartLayout } from './cart.interface';

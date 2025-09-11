@@ -1,4 +1,4 @@
-import { Button } from '@nuvens/ui-core';
+import { Button } from '@nuvens/ui';
 import { CartForm, type OptimisticCartLineInput } from '@shopify/hydrogen';
 import { Loader2 } from 'lucide-react';
 import type { ComponentProps } from 'react';

@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';

@@ -1,5 +1,5 @@
 import { Brand } from '@nuvens/brand-ui';
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Await } from 'react-router';

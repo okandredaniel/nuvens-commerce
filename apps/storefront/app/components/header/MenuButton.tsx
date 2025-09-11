@@ -1,4 +1,4 @@
-import { IconButton, useAside } from '@nuvens/ui-core';
+import { IconButton, useAside } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Menu } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

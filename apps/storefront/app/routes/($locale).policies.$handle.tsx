@@ -1,4 +1,4 @@
-import { Button, Container } from '@nuvens/ui-core';
+import { Button, Container } from '@nuvens/ui';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

@@ -1,4 +1,4 @@
-import { useAside } from '@nuvens/ui-core';
+import { useAside } from '@nuvens/ui';
 import { LocalizedNavLink } from '../LocalizedNavLink';
 import type { HeaderProps } from './header.interfaces';
 

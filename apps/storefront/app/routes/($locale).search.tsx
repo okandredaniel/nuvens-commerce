@@ -1,4 +1,4 @@
-import { Button, Container, Input } from '@nuvens/ui-core';
+import { Button, Container, Input } from '@nuvens/ui';
 import { Analytics, getPaginationVariables } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';

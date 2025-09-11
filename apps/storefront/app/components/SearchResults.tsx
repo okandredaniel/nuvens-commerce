@@ -1,4 +1,4 @@
-import { Button } from '@nuvens/ui-core';
+import { Button } from '@nuvens/ui';
 import { Image, Money, Pagination } from '@shopify/hydrogen';
 import { Link } from 'react-router';
 import { urlWithTrackingParams, type RegularSearchReturn } from '~/lib/search';

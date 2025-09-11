@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useLoaderData } from 'react-router';
 import { PoliciesHeader } from '~/components/policies/PoliciesHeader';

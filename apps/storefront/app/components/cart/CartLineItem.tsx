@@ -1,4 +1,4 @@
-import { Button, Stepper, useAside } from '@nuvens/ui-core';
+import { Button, Stepper, useAside } from '@nuvens/ui';
 import { CartForm, Image, type OptimisticCartLine } from '@shopify/hydrogen';
 import type { CartLineUpdateInput } from '@shopify/hydrogen/storefront-api-types';
 import { Trash2 } from 'lucide-react';

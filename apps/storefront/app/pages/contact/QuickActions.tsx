@@ -1,4 +1,4 @@
-import { Button } from '@nuvens/ui-core';
+import { Button } from '@nuvens/ui';
 import { HelpCircle, RefreshCw, Search, type LucideIcon } from 'lucide-react';
 import type { CSSProperties } from 'react';
 import { useMemo } from 'react';
