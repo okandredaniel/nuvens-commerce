@@ -1,5 +1,5 @@
 import { routeAccessPolicy } from '@nuvens/brand-ui';
-import { evaluateRouteAccess, stripLocale } from '@nuvens/ui-core';
+import { evaluateRouteAccess, stripLocale } from '@nuvens/core';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 function normalizedPathFromRequest(request: Request) {
