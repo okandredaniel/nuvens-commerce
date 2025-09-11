@@ -1,0 +1,7 @@
+{
+  "label": "Carousel",
+  "previous": "Previous slide",
+  "next": "Next slide",
+  "goTo": "Go to slide {{index}}",
+  "status": "Slide {{current}} of {{total}}"
+}

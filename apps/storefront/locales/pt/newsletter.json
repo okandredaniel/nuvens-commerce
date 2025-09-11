@@ -1,0 +1,14 @@
+{
+  "title": "Subscreva a nossa newsletter para ofertas exclusivas",
+  "emailLabel": "Email",
+  "emailPlaceholder": "o.seu@email.com",
+  "cta": "Subscrever",
+  "consent": "Li e aceito a política de privacidade.",
+  "disclaimer": {
+    "part1": "Os seus dados pessoais são tratados em conformidade com a nossa",
+    "privacy": "política de privacidade",
+    "part2": ". Pode cancelar a subscrição a qualquer momento."
+  },
+  "action": "",
+  "privacy": { "href": "/policies/privacy-policy" }
+}

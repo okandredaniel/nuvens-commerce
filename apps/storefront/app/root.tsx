@@ -1,4 +1,4 @@
-import { coreI18n, evaluateRouteAccess, stripLocale } from '@nuvens/ui-core';
+import { coreI18n, evaluateRouteAccess, stripLocale } from '@nuvens/core';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet, useRouteLoaderData } from 'react-router';
@@ -6,7 +6,8 @@ import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 import { NotFoundView } from '~/components/error/NotFound';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { buildCanonical, buildHreflangs } from '~/lib/seo';
-import { mergeResources, toLang } from './lib/i18n';
+import { toLang } from './i18n/localize';
+import { getAppResources, getBrandBundleResources } from './i18n/resources';
 
 export const headers: HeadersFunction = () => ({
   'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400',
@@ -114,15 +115,28 @@ export async function loader(args: LoaderFunctionArgs) {
   const deferredData = loadDeferredData(args, lang, country);
   const criticalData = await loadCriticalData(args, lang, country);
 
-  const coreRes = asResources(coreI18n?.resources);
-  const brandRes = asResources(brandI18n?.resources);
+  const appRes = getAppResources(lang);
+  const brandBundleRes = getBrandBundleResources(lang);
 
-  const langs = Array.from(new Set([...Object.keys(coreRes), ...Object.keys(brandRes)]));
+  const coreRes = asResources(coreI18n?.resources)?.[lang] ?? {};
+  const brandStaticRes = asResources(brandI18n?.resources)?.[lang] ?? {};
 
-  const resources: I18nResources = langs.reduce((acc, l) => {
-    const merged = mergeResources(l, coreRes, brandRes) as I18nNamespaces;
-    return { ...acc, [l]: merged };
-  }, {});
+  const nsSet = new Set([
+    ...Object.keys(coreRes),
+    ...Object.keys(brandStaticRes),
+    ...Object.keys(brandBundleRes),
+    ...Object.keys(appRes),
+  ]);
+
+  const resources: Record<string, any> = {};
+  for (const ns of nsSet) {
+    resources[ns] = {
+      ...(coreRes as any)[ns],
+      ...(brandStaticRes as any)[ns],
+      ...(brandBundleRes as any)[ns],
+      ...(appRes as any)[ns],
+    };
+  }
 
   return {
     ...deferredData,

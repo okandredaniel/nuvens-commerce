@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "badge": "Assistenza 24/7 disponibile",
+    "title": "Hai bisogno di aiuto? Siamo qui per te!",
+    "subtitle": "Ottieni l’assistenza di cui hai bisogno, quando ne hai bisogno. Il nostro team è pronto ad aiutarti."
+  },
+  "quickActions": {
+    "title": "Azioni rapide",
+    "subtitle": "Inizia dalle attività di assistenza più comuni",
+    "track": {
+      "title": "Traccia il tuo ordine",
+      "desc": "Inserisci il numero d’ordine per aggiornamenti in tempo reale",
+      "cta": "Traccia ordine"
+    },
+    "returns": {
+      "title": "Avvia un reso",
+      "desc": "Resi facili entro 30 giorni dall’acquisto",
+      "cta": "Restituisci articolo"
+    },
+    "help": {
+      "title": "Ottieni aiuto",
+      "desc": "Consulta le FAQ e le risorse utili",
+      "cta": "Vedi FAQ"
+    }
+  },
+  "selfService": {
+    "title": "Opzioni self-service",
+    "subtitle": "Trova rapidamente risposte con le nostre risorse self-service complete",
+    "faq": { "title": "Domande frequenti", "desc": "Risposte rapide alle domande comuni" },
+    "returns": { "title": "Resi e cambi", "desc": "Resi semplici entro 30 giorni" },
+    "warranty": { "title": "Informazioni sulla garanzia", "desc": "Copertura e come richiederla" },
+    "products": { "title": "Guide ai prodotti", "desc": "Guide di configurazione e tutorial" },
+    "help": { "title": "Centro assistenza", "desc": "Consulta la nostra base di conoscenza" },
+    "stores": { "title": "Negozi", "desc": "Trova un negozio vicino a te" }
+  },
+  "channels": {
+    "title": "Contattaci",
+    "subtitle": "Scegli il modo che preferisci per contattare il nostro team di supporto",
+    "chat": { "title": "Chat", "desc": "Chatta dal vivo con il nostro team.", "href": "" },
+    "whatsapp": { "title": "WhatsApp", "desc": "Supporto rapido su WhatsApp.", "href": "" },
+    "email": {
+      "title": "Email",
+      "desc": "Scrivici — rispondiamo entro 24–48 h.",
+      "href": "mailto:hello@example.com"
+    },
+    "phone": { "title": "Telefono", "desc": "Lun–Ven, 10:00–17:00.", "href": "tel:+33980806025" },
+    "actions": {
+      "openChat": "Apri chat",
+      "openWhatsApp": "Apri WhatsApp",
+      "emailUs": "Invia email",
+      "callUs": "Chiama"
+    }
+  },
+  "hours": { "title": "Orari del servizio clienti", "value": "Lun–Ven · 10:00–17:00" },
+  "sla": { "response": "Tempo medio di risposta: 24–48 ore lavorative." },
+  "company": {
+    "title": "Informazioni sull’azienda",
+    "name": "Nome azienda: Matt Sleeps B.V.",
+    "street": "Via e numero: Hannie Dankbaarpassage 14",
+    "cityZip": "CAP e città: 1053 RT Amsterdam",
+    "kvk": "Camera di Commercio: 64147681",
+    "phone": "Telefono: +33 (0) 9 80 80 60 25"
+  },
+  "returns": {
+    "title": "Hai bisogno di effettuare un reso?",
+    "desc": "Ci dispiace che tu non sia soddisfatto al 100%. Avvia il reso online in pochi passaggi.",
+    "cta": "Vai al portale resi",
+    "portal": { "href": "/returns-portal" }
+  },
+  "links": {
+    "faq": { "href": "/pages/faq" },
+    "tracking": { "href": "/apps/tracking" },
+    "returns": { "href": "/pages/returns" },
+    "warranty": { "href": "/pages/warranty" },
+    "products": { "href": "/collections/all-products" },
+    "help": { "href": "/pages/help" },
+    "stores": { "href": "/pages/stores" }
+  }
+}

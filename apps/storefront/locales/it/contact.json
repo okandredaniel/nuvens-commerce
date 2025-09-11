@@ -1,0 +1,33 @@
+{
+  "headline": "Contattaci",
+  "placeholders": {
+    "name": "Il tuo nome completo",
+    "email": "tu@esempio.com",
+    "subject": "Come possiamo aiutarti?",
+    "message": "Scrivi il tuo messaggio..."
+  },
+  "consent": {
+    "help": "Useremo le tue informazioni solo per rispondere a questa richiesta."
+  },
+  "meta": {
+    "responseTime": "Di solito rispondiamo entro 1–2 giorni lavorativi."
+  },
+  "aside": {
+    "title": "Altri modi per contattarci",
+    "email": "Email",
+    "phone": "Telefono",
+    "address": "Indirizzo",
+    "hours": "Orari",
+    "hoursValue": "Lun–Ven · 9:00–18:00"
+  },
+  "a11y": {
+    "status": {
+      "sending": "Invio…",
+      "sent": "Inviato"
+    }
+  },
+  "form": {
+    "success": "Grazie — abbiamo ricevuto il tuo messaggio.",
+    "error": "Non siamo riusciti a inviare il tuo messaggio. Riprova."
+  }
+}

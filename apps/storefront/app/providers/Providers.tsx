@@ -1,11 +1,12 @@
-import { Aside, coreI18n, coreTokens, mergeTokens, tokensToCssVars } from '@nuvens/ui-core';
+import { coreI18n } from '@nuvens/core';
+import { Aside, coreTokens, mergeTokens, tokensToCssVars } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Analytics } from '@shopify/hydrogen';
 import { I18nextProvider } from 'react-i18next';
 import { useRouteLoaderData } from 'react-router';
-import { I18nBridge, mergeResources, toLang } from '~/lib/i18n';
-import { registerI18nBundles } from '~/lib/i18n/autoBundles';
-import { createI18n } from '~/lib/i18n/createInstance';
+import { createI18n } from '~/i18n/createInstance';
+import { toLang } from '~/i18n/localize';
+import { getAppResources } from '~/i18n/resources';
 import type { RootLoader } from '~/root';
 import { ProvidersMap, useBrand, useShallowMemo } from './AppContexts';
 
@@ -16,9 +17,22 @@ export function Providers({ children }: ProvidersProps) {
 
   const languageCtx = data?.i18n?.locale ?? data?.consent?.language ?? 'en';
   const lang = toLang((languageCtx || 'en').toLowerCase());
-  const resources = mergeResources(lang, coreI18n?.resources, data?.i18n?.resources);
-  const i18n = createI18n(lang, resources ?? {});
-  registerI18nBundles(i18n);
+
+  const appRes = getAppResources(lang);
+  const coreRes = (coreI18n?.resources?.[lang] ?? {}) as Record<string, any>;
+  const serverRes = (data?.i18n?.resources ?? {}) as Record<string, any>;
+
+  const nsSet = new Set([
+    ...Object.keys(coreRes),
+    ...Object.keys(serverRes),
+    ...Object.keys(appRes),
+  ]);
+  const merged: Record<string, any> = {};
+  for (const ns of nsSet) {
+    merged[ns] = { ...(coreRes[ns] ?? {}), ...(serverRes[ns] ?? {}), ...(appRes[ns] ?? {}) };
+  }
+
+  const i18n = createI18n(lang, merged);
   if (import.meta.env.DEV) (globalThis as any).__i18n = i18n;
 
   const brandTokens = (data as any)?.brand?.tokens ?? {};
@@ -37,7 +51,6 @@ export function Providers({ children }: ProvidersProps) {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <I18nBridge />
       <Tooltip.Provider delayDuration={150} skipDelayDuration={300}>
         <Analytics.Provider
           cart={(data as any)?.cart}

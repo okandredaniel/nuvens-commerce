@@ -1,0 +1,23 @@
+{
+  "title": "Carrito",
+  "empty": {
+    "title": "Tu carrito está vacío",
+    "body": "Explora nuestras colecciones y encuentra algo que te encante.",
+    "cta": "Seguir comprando"
+  },
+  "summary": {
+    "title": "Resumen",
+    "subtotal": "Subtotal"
+  },
+  "discount": {
+    "title": "Descuentos",
+    "placeholder": "Código de descuento"
+  },
+  "giftcard": {
+    "title": "Tarjetas de regalo",
+    "placeholder": "Código de la tarjeta de regalo"
+  },
+  "checkout": {
+    "cta": "Continuar al pago"
+  }
+}

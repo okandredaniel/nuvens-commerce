@@ -1,0 +1,23 @@
+{
+  "title": "Carrello",
+  "empty": {
+    "title": "Il tuo carrello è vuoto",
+    "body": "Scopri le nostre collezioni e trova qualcosa che ti piace.",
+    "cta": "Continua lo shopping"
+  },
+  "summary": {
+    "title": "Riepilogo",
+    "subtotal": "Subtotale"
+  },
+  "discount": {
+    "title": "Sconti",
+    "placeholder": "Codice sconto"
+  },
+  "giftcard": {
+    "title": "Carte regalo",
+    "placeholder": "Codice carta regalo"
+  },
+  "checkout": {
+    "cta": "Procedi al pagamento"
+  }
+}
