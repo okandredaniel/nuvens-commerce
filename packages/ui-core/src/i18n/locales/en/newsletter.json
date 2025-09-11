@@ -1,0 +1,14 @@
+{
+  "title": "Subscribe to our newsletter for exclusive offers",
+  "emailLabel": "Email",
+  "emailPlaceholder": "you@example.com",
+  "cta": "Subscribe",
+  "consent": "I have read and accept the privacy policy.",
+  "disclaimer": {
+    "part1": "Your personal data is handled in accordance with our",
+    "privacy": "privacy policy",
+    "part2": ". You can unsubscribe at any time."
+  },
+  "action": "",
+  "privacy": { "href": "/policies/privacy-policy" }
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Ops! Página não encontrada",
+  "subtitle": "A página que você procura pode ter sido removida, teve o nome alterado ou está temporariamente indisponível.",
+  "actions": {
+    "home": "Ir para a página inicial"
+  },
+  "cards": {
+    "contact": { "title": "Falar com o suporte", "desc": "Obtenha ajuda do nosso time" },
+    "search": { "title": "Buscar no site", "desc": "Encontre o que você procura" },
+    "back": { "title": "Voltar", "desc": "Retornar à página anterior" }
+  },
+  "links": {
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço",
+    "help": "Central de Ajuda"
+  }
+}

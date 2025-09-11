@@ -1,15 +1,4 @@
-export type Resources = Record<string, Record<string, any>>;
-
-export enum Language {
-  English = 'en',
-  French = 'fr',
-  Portuguese = 'pt',
-  Spanish = 'es',
-  German = 'de',
-  Italian = 'it',
-}
-
-export type CountryMap = Record<Language, string>;
+import { type CountryMap, Language } from './i18n.interface';
 
 const getDefaultRegion = (lang: Language): string => new Intl.Locale(lang).maximize().region!;
 

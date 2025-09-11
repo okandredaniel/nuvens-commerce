@@ -1,0 +1,8 @@
+{
+  "title": "Colecciones",
+  "description": "Explora nuestras colecciones de productos",
+  "empty": {
+    "title": "No se encontraron colecciones",
+    "subtitle": "Intenta ajustar los filtros o vuelve más tarde."
+  }
+}

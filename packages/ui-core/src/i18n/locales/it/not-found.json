@@ -1,0 +1,17 @@
+{
+  "title": "Ops! Pagina non trovata",
+  "subtitle": "La pagina che stai cercando potrebbe essere stata rimossa, rinominata o temporaneamente non disponibile.",
+  "actions": {
+    "home": "Vai alla home page"
+  },
+  "cards": {
+    "contact": { "title": "Contatta il supporto", "desc": "Ricevi aiuto dal nostro team" },
+    "search": { "title": "Cerca nel sito", "desc": "Trova ciò che stai cercando" },
+    "back": { "title": "Torna indietro", "desc": "Ritorna alla pagina precedente" }
+  },
+  "links": {
+    "privacy": "Informativa sulla privacy",
+    "terms": "Termini di servizio",
+    "help": "Centro assistenza"
+  }
+}

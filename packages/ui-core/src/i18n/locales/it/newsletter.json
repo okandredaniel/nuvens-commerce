@@ -1,0 +1,14 @@
+{
+  "title": "Iscriviti alla nostra newsletter per offerte esclusive",
+  "emailLabel": "Email",
+  "emailPlaceholder": "tu@esempio.com",
+  "cta": "Iscriviti",
+  "consent": "Ho letto e accetto l’informativa sulla privacy.",
+  "disclaimer": {
+    "part1": "I tuoi dati personali sono trattati in conformità con la nostra",
+    "privacy": "informativa sulla privacy",
+    "part2": ". Puoi annullare l’iscrizione in qualsiasi momento."
+  },
+  "action": "",
+  "privacy": { "href": "/policies/privacy-policy" }
+}

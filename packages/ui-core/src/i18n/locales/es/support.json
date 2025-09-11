@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "badge": "Soporte 24/7 disponible",
+    "title": "¿Necesitas ayuda? ¡Estamos aquí para ti!",
+    "subtitle": "Obtén el soporte que necesitas, cuando lo necesites. Nuestro equipo está listo para ayudarte."
+  },
+  "quickActions": {
+    "title": "Acciones rápidas",
+    "subtitle": "Comienza con las tareas de soporte más comunes",
+    "track": {
+      "title": "Seguir pedido",
+      "desc": "Introduce tu número de pedido para actualizaciones en tiempo real",
+      "cta": "Seguir pedido"
+    },
+    "returns": {
+      "title": "Iniciar una devolución",
+      "desc": "Devoluciones fáciles dentro de los 30 días de la compra",
+      "cta": "Devolver artículo"
+    },
+    "help": {
+      "title": "Obtener ayuda",
+      "desc": "Explora las preguntas frecuentes y recursos útiles",
+      "cta": "Ver FAQ"
+    }
+  },
+  "selfService": {
+    "title": "Opciones de autoservicio",
+    "subtitle": "Encuentra respuestas rápidamente con nuestros completos recursos de autoservicio",
+    "faq": { "title": "Preguntas frecuentes", "desc": "Respuestas rápidas a preguntas comunes" },
+    "returns": { "title": "Devoluciones y cambios", "desc": "Devoluciones sencillas en 30 días" },
+    "warranty": { "title": "Información de garantía", "desc": "Cobertura y cómo tramitarla" },
+    "products": { "title": "Guías de producto", "desc": "Guías de configuración y tutoriales" },
+    "help": { "title": "Centro de ayuda", "desc": "Explora nuestra base de conocimiento" },
+    "stores": { "title": "Tiendas", "desc": "Encuentra una tienda cercana" }
+  },
+  "channels": {
+    "title": "Contáctanos",
+    "subtitle": "Elige tu forma preferida de contactar con nuestro equipo de soporte",
+    "chat": { "title": "Chat", "desc": "Habla en directo con nuestro equipo.", "href": "" },
+    "whatsapp": { "title": "WhatsApp", "desc": "Soporte rápido por WhatsApp.", "href": "" },
+    "email": {
+      "title": "Correo",
+      "desc": "Escríbenos — respondemos en 24–48 h.",
+      "href": "mailto:hello@example.com"
+    },
+    "phone": { "title": "Teléfono", "desc": "Lun–Vie, 10:00–17:00.", "href": "tel:+33980806025" },
+    "actions": {
+      "openChat": "Abrir chat",
+      "openWhatsApp": "Abrir WhatsApp",
+      "emailUs": "Enviar correo",
+      "callUs": "Llamar"
+    }
+  },
+  "hours": { "title": "Horario de atención", "value": "Lun–Vie · 10:00–17:00" },
+  "sla": { "response": "Tiempo medio de respuesta: 24–48 horas laborables." },
+  "company": {
+    "title": "Información de la empresa",
+    "name": "Nombre de la empresa: Matt Sleeps B.V.",
+    "street": "Calle y número: Hannie Dankbaarpassage 14",
+    "cityZip": "Código postal y ciudad: 1053 RT Amsterdam",
+    "kvk": "Cámara de Comercio: 64147681",
+    "phone": "Teléfono: +33 (0) 9 80 80 60 25"
+  },
+  "returns": {
+    "title": "¿Necesitas hacer una devolución?",
+    "desc": "Sentimos que no estés 100 % satisfecho. Inicia tu devolución online en pocos pasos.",
+    "cta": "Ir al portal de devoluciones",
+    "portal": { "href": "/returns-portal" }
+  },
+  "links": {
+    "faq": { "href": "/pages/faq" },
+    "tracking": { "href": "/apps/tracking" },
+    "returns": { "href": "/pages/returns" },
+    "warranty": { "href": "/pages/warranty" },
+    "products": { "href": "/collections/all-products" },
+    "help": { "href": "/pages/help" },
+    "stores": { "href": "/pages/stores" }
+  }
+}

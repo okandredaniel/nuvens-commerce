@@ -1,0 +1,23 @@
+{
+  "title": "Panier",
+  "empty": {
+    "title": "Votre panier est vide",
+    "body": "Parcourez nos collections et trouvez quelque chose qui vous plaira.",
+    "cta": "Continuer vos achats"
+  },
+  "summary": {
+    "title": "Récapitulatif",
+    "subtotal": "Sous-total"
+  },
+  "discount": {
+    "title": "Réductions",
+    "placeholder": "Code promo"
+  },
+  "giftcard": {
+    "title": "Cartes-cadeaux",
+    "placeholder": "Code de la carte cadeau"
+  },
+  "checkout": {
+    "cta": "Continuer vers le paiement"
+  }
+}

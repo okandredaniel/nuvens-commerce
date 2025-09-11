@@ -1,0 +1,17 @@
+{
+  "title": "¡Ups! Página no encontrada",
+  "subtitle": "Es posible que la página que buscas haya sido eliminada, haya cambiado de nombre o no esté disponible temporalmente.",
+  "actions": {
+    "home": "Ir a la página principal"
+  },
+  "cards": {
+    "contact": { "title": "Contactar soporte", "desc": "Obtén ayuda de nuestro equipo" },
+    "search": { "title": "Buscar en el sitio", "desc": "Encuentra lo que estás buscando" },
+    "back": { "title": "Volver", "desc": "Regresar a la página anterior" }
+  },
+  "links": {
+    "privacy": "Política de Privacidad",
+    "terms": "Términos del Servicio",
+    "help": "Centro de Ayuda"
+  }
+}

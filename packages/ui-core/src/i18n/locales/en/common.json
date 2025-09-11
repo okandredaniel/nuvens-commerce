@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "menu": "Menu",
+    "cart": "Cart",
+    "language": "Language",
+    "changeLanguage": "Change language",
+    "switchTo": "Switch to {{value}}",
+    "openMenu": "Open menu",
+    "openCart": "Open cart"
+  },
+  "a11y": {
+    "open": "Open {{target}}",
+    "current": "Current {{target}}: {{value}}"
+  },
+  "actions": {
+    "apply": "Apply",
+    "remove": "Remove",
+    "continue": "Continue",
+    "checkout": "Continue to checkout",
+    "cancel": "Cancel",
+    "close": "Close",
+    "send": "Send",
+    "home": "Go to Homepage"
+  },
+  "status": {
+    "applied": "Code applied",
+    "empty": "No results",
+    "idle": "Idle",
+    "invalid": "Invalid or not applicable",
+    "loading": "Loading..."
+  },
+  "quantity": {
+    "label": "Quantity",
+    "increase": "Increase quantity",
+    "decrease": "Decrease quantity"
+  },
+  "pagination": {
+    "loadMore": "Load more",
+    "loadNext": "Load next",
+    "loadPrevious": "Load previous"
+  },
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "consent": "I agree to be contacted"
+  },
+  "errors": {
+    "title": "Something went wrong"
+  },
+  "copyright": "© {{year}} {{brand}}. All rights reserved."
+}

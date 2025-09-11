@@ -1,0 +1,7 @@
+{
+  "label": "Carrousel",
+  "previous": "Diapositive précédente",
+  "next": "Diapositive suivante",
+  "goTo": "Aller à la diapositive {{index}}",
+  "status": "Diapositive {{current}} sur {{total}}"
+}

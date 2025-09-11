@@ -1,0 +1,17 @@
+{
+  "title": "Oops! Page Not Found",
+  "subtitle": "The page you’re looking for might have been removed, had its name changed, or is temporarily unavailable.",
+  "actions": {
+    "home": "Go to Homepage"
+  },
+  "cards": {
+    "contact": { "title": "Contact Support", "desc": "Get help from our team" },
+    "search": { "title": "Search Site", "desc": "Find what you’re looking for" },
+    "back": { "title": "Go Back", "desc": "Return to the previous page" }
+  },
+  "links": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "help": "Help Center"
+  }
+}
