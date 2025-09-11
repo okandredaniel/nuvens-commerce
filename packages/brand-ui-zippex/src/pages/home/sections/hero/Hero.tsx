@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaStar } from 'react-icons/fa';
 import heroImageUrl from './assets/zippex-hero-couple.png';
+import heroPatternUrl from './assets/seamless-wavy-line-pattern.webp';
 
 export function Hero() {
   const { t } = useTranslation('zippex-hero');
@@ -42,8 +43,15 @@ export function Hero() {
         from-[color:var(--palette-neutral-600)]
         to-[color:var(--palette-primary-600)]
         w-full overflow-hidden
+        relative
       "
     >
+      <div
+        className="absolute t-0 l-0 w-full h-full z-0 mix-blend-difference opacity-25"
+        style={{
+          backgroundImage: `url(${heroPatternUrl})`,
+        }}
+      />
       <Container className="pt-32 pb-16 md:py-16 md:pt-40 md:pb-20">
         <div className="relative flex flex-col items-center gap-6">
           <Heading
