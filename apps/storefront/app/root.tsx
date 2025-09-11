@@ -1,6 +1,12 @@
 import { coreI18n, evaluateRouteAccess, stripLocale } from '@nuvens/core';
 import { getShopAnalytics } from '@shopify/hydrogen';
-import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
+import type {
+  HeadersFunction,
+  LinksFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@shopify/remix-oxygen';
+import keenStyles from 'keen-slider/keen-slider.min.css?url';
 import { Outlet, useRouteLoaderData } from 'react-router';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 import { NotFoundView } from '~/components/error/NotFound';
@@ -12,6 +18,8 @@ import { getAppResources, getBrandBundleResources } from './i18n/resources';
 export const headers: HeadersFunction = () => ({
   'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400',
 });
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: keenStyles }];
 
 export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';

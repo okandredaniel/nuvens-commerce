@@ -69,12 +69,34 @@ export function Carousel({
 }: CarouselProps) {
   const { t } = useTranslation('carousel');
   const rootRef = React.useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = React.useState(false);
   const [current, setCurrent] = React.useState(0);
   const [last, setLast] = React.useState(0);
-  const [bleedL, setBleedL] = React.useState(0);
-  const [bleedR, setBleedR] = React.useState(0);
-  const [edgeL, setEdgeL] = React.useState(0);
-  const [edgeR, setEdgeR] = React.useState(0);
+  const [layout, setLayout] = React.useState({
+    bleedL: 0,
+    bleedR: 0,
+    edgeL: 0,
+    edgeR: 0,
+  });
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const scheduleUpdate = React.useRef<number | null>(null);
+  const requestUpdate = React.useCallback(() => {
+    if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
+    scheduleUpdate.current = requestAnimationFrame(() => {
+      scheduleUpdate.current = null;
+      instanceRef.current?.update();
+    });
+  }, []);
+
+  React.useEffect(() => {
+    return () => {
+      if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
+    };
+  }, []);
 
   React.useEffect(() => {
     const el = rootRef.current;
@@ -82,15 +104,18 @@ export function Carousel({
     const ro = new ResizeObserver((entries) => {
       for (const e of entries) {
         const w = e.contentRect.width;
-        setBleedL(resolveAt(bleedLeft, w, 0));
-        setBleedR(resolveAt(bleedRight, w, 0));
-        setEdgeL(resolveAt(edgeLeft, w, 0));
-        setEdgeR(resolveAt(edgeRight, w, 0));
+        setLayout({
+          bleedL: resolveAt(bleedLeft, w, 0),
+          bleedR: resolveAt(bleedRight, w, 0),
+          edgeL: resolveAt(edgeLeft, w, 0),
+          edgeR: resolveAt(edgeRight, w, 0),
+        });
       }
+      requestUpdate();
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [bleedLeft, bleedRight, edgeLeft, edgeRight]);
+  }, [bleedLeft, bleedRight, edgeLeft, edgeRight, requestUpdate]);
 
   const baseSpv = resolveAt(slidesPerView, 0, 1);
   const baseGap = resolveAt(gap, 0, 16);
@@ -98,6 +123,9 @@ export function Carousel({
     () => buildBreakpoints(slidesPerView, gap),
     [slidesPerView, gap],
   );
+
+  const childrenArray = React.useMemo(() => React.Children.toArray(children), [children]);
+  const slidesCount = childrenArray.length;
 
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
     initial: 0,
@@ -115,25 +143,52 @@ export function Carousel({
     detailsChanged(s) {
       setLast(s.track.details.maxIdx);
     },
+    updated(s) {
+      setCurrent(s.track.details.rel);
+      setLast(s.track.details.maxIdx);
+    },
   });
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'ArrowRight') instanceRef.current?.next();
-    if (e.key === 'ArrowLeft') instanceRef.current?.prev();
-    if (e.key === 'Home') instanceRef.current?.moveToIdx(0);
-    if (e.key === 'End') instanceRef.current?.moveToIdx(last);
-  };
+  React.useEffect(() => {
+    if (!mounted) return;
+    requestUpdate();
+  }, [mounted, slidesCount, baseSpv, baseGap, breakpoints, requestUpdate]);
+
+  const onKeyDown = React.useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        instanceRef.current?.next();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        instanceRef.current?.prev();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        instanceRef.current?.moveToIdx(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        instanceRef.current?.moveToIdx(last);
+      }
+    },
+    [instanceRef, last],
+  );
+
+  const dotsCount = Math.max(last + 1, slidesCount || 1);
+  const showNav = nav && mounted && last > 0;
+  const showDots = dots && dotsCount > 1;
 
   return (
     <div
       ref={rootRef}
       className={cn('relative', className)}
-      style={{
-        ['--bleed-left' as any]: `${bleedL}px`,
-        ['--bleed-right' as any]: `${bleedR}px`,
-        ['--edge-left' as any]: `${edgeL}px`,
-        ['--edge-right' as any]: `${edgeR}px`,
-      }}
+      style={
+        {
+          ['--bleed-left' as any]: `${layout.bleedL}px`,
+          ['--bleed-right' as any]: `${layout.bleedR}px`,
+          ['--edge-left' as any]: `${layout.edgeL}px`,
+          ['--edge-right' as any]: `${layout.edgeR}px`,
+        } as React.CSSProperties
+      }
       role="region"
       aria-roledescription="carousel"
       aria-label={ariaLabel ?? t('label')}
@@ -148,22 +203,44 @@ export function Carousel({
           marginRight: 'calc(var(--bleed-right) * -1)',
         }}
       >
-        <div
-          ref={sliderRef}
-          className="keen-slider"
-          style={{
-            paddingLeft: 'var(--edge-left)',
-            paddingRight: 'var(--edge-right)',
-          }}
-          aria-live="polite"
-        >
-          {React.Children.map(children, (child) => (
-            <div className="keen-slider__slide">{child}</div>
-          ))}
-        </div>
+        {mounted ? (
+          <div
+            key={`${slidesCount}-${baseSpv}-${baseGap}`}
+            ref={sliderRef}
+            className="keen-slider"
+            style={{
+              paddingLeft: 'var(--edge-left)',
+              paddingRight: 'var(--edge-right)',
+            }}
+            aria-live="polite"
+          >
+            {childrenArray.map((child, i) => (
+              <div key={i} className="keen-slider__slide">
+                {child as React.ReactNode}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div
+            className="grid"
+            style={{
+              gridAutoFlow: 'column',
+              gap: `${baseGap}px`,
+              paddingLeft: 'var(--edge-left)',
+              paddingRight: 'var(--edge-right)',
+              overflow: 'hidden',
+            }}
+          >
+            {childrenArray.map((child, i) => (
+              <div key={i} className="w-full">
+                {child as React.ReactNode}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {nav && (
+      {showNav && (
         <>
           <IconButton
             type="button"
@@ -186,18 +263,26 @@ export function Carousel({
         </>
       )}
 
-      {dots && (
+      {showDots && (
         <div className="flex justify-center mt-4">
-          <div className="flex bg-white/20 p-2 rounded-full gap-2">
-            {Array.from({ length: last + 1 }).map((_, i) => (
+          <div
+            className="flex bg-white/20 p-2 rounded-full gap-2"
+            role="tablist"
+            aria-label={t('label')}
+          >
+            {Array.from({ length: dotsCount }).map((_, i) => (
               <button
                 key={i}
                 type="button"
+                role="tab"
+                aria-selected={i === current}
                 aria-label={t('goTo', { index: i + 1 })}
-                onClick={() => instanceRef.current?.moveToIdx(i)}
+                onClick={() => mounted && instanceRef.current?.moveToIdx(i)}
                 className={cn(
                   'h-2 rounded-full',
-                  i === current ? 'w-5 bg-[color:var(--palette-primary-600)]' : 'w-2 bg-white',
+                  i === current && mounted
+                    ? 'w-5 bg-[color:var(--palette-primary-600)]'
+                    : 'w-2 bg-white',
                 )}
               />
             ))}
@@ -205,8 +290,8 @@ export function Carousel({
         </div>
       )}
 
-      <span className="sr-only" aria-live="polite">
-        {t('status', { current: current + 1, total: last + 1 })}
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {t('status', { current: current + 1, total: dotsCount })}
       </span>
     </div>
   );

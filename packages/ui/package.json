@@ -8,11 +8,19 @@
   "exports": {
     ".": "./src/index.ts"
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css",
+    "keen-slider/keen-slider.min.css"
+  ],
   "peerDependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "@radix-ui/react-dialog": "^1.0.0"
+    "@radix-ui/react-dialog": "^1.0.0",
+    "@radix-ui/react-slot": "^1.0.0",
+    "i18next": "^25",
+    "react-i18next": "^15",
+    "keen-slider": "^6",
+    "lucide-react": "^0.542.0"
   },
   "devDependencies": {
     "typescript": "^5.5",
