@@ -1,11 +1,16 @@
-import { coreI18n } from '@nuvens/ui-core';
+import { coreI18n, evaluateRouteAccess, stripLocale } from '@nuvens/ui-core';
 import { getShopAnalytics } from '@shopify/hydrogen';
-import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
-import { Outlet } from 'react-router';
+import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
+import { Outlet, useRouteLoaderData } from 'react-router';
 import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
+import { NotFoundView } from '~/components/error/NotFound';
 import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { buildCanonical, buildHreflangs } from '~/lib/seo';
 import { mergeResources, toLang } from './lib/i18n';
+
+export const headers: HeadersFunction = () => ({
+  'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400',
+});
 
 export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';
@@ -75,7 +80,19 @@ export async function loader(args: LoaderFunctionArgs) {
   const origin = new URL(args.request.url).origin;
   const { storefront, env } = args.context;
 
-  const firstSeg = new URL(args.request.url).pathname.split('/').filter(Boolean)[0] ?? '';
+  const currentPath = new URL(args.request.url).pathname || '/';
+  const { path: pathWithoutLocale } = stripLocale(currentPath);
+
+  let brandPolicy: any = null;
+  try {
+    const mod = await import('@nuvens/brand-ui');
+    brandPolicy = (mod as any).routeAccessPolicy ?? null;
+  } catch {}
+
+  const routeBlocked =
+    !!brandPolicy && evaluateRouteAccess(brandPolicy, pathWithoutLocale).allowed === false;
+
+  const firstSeg = currentPath.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
 
   const languageCtx = storefront.i18n.language.toLowerCase();
@@ -123,9 +140,12 @@ export async function loader(args: LoaderFunctionArgs) {
       language: storefront.i18n.language,
     },
     localeRegion,
+    routeBlocked,
   };
 }
 
 export default function App() {
+  const data = useRouteLoaderData<RootLoader>('root') as any;
+  if (data?.routeBlocked) return <NotFoundView />;
   return <Outlet />;
 }
