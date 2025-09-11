@@ -12,7 +12,8 @@
     "codegen": "shopify hydrogen codegen"
   },
   "dependencies": {
-    "@nuvens/ui-core": "workspace:*",
+    "@nuvens/core": "workspace:*",
+    "@nuvens/ui": "workspace:*",
     "@shopify/hydrogen": "2025.5.0",
     "@shopify/hydrogen-react": "^2025.5.0",
     "@shopify/remix-oxygen": "^3.0.0",

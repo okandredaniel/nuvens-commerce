@@ -62,8 +62,8 @@ export default defineConfig(({ mode }) => {
       alias: {
         '~': path.resolve(__dirname, 'app'),
         '@nuvens/brand-ui': path.resolve(__dirname, 'app/brand-ui.generated.ts'),
-        '@nuvens/ui-core': path.resolve(__dirname, '../../packages/ui-core/src'),
-        '@nuvens/brand-tokens': path.resolve(__dirname, '../../packages/brand-tokens/src'),
+        '@nuvens/core': path.resolve(__dirname, '../../packages/core/src'),
+        '@nuvens/ui': path.resolve(__dirname, '../../packages/ui/src'),
       },
       dedupe: ['react', 'react-dom', 'i18next', 'react-i18next'],
     },
@@ -100,7 +100,8 @@ export default defineConfig(({ mode }) => {
       noExternal: [
         '@radix-ui/react-dialog',
         '@radix-ui/react-dropdown-menu',
-        '@nuvens/ui-core',
+        '@nuvens/core',
+        '@nuvens/ui',
         '@nuvens/brand-ui',
         'keen-slider',
       ],
