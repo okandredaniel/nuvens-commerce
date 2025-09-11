@@ -1,5 +1,6 @@
-import type { BrandId, DesignTokens } from '@nuvens/ui-core';
+import type { DesignTokens } from '@nuvens/ui';
 import type { LanguageOption } from '~/components/header/header.interfaces';
+import type { BrandId } from '~/interfaces/brand.interface';
 
 export type RuntimeEnv = {
   BRAND_ID?: string;
