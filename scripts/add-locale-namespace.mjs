@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const REPO_ROOT = process.cwd();
-const LOCALES_ROOT = path.join(REPO_ROOT, 'packages/ui-core/src/locales');
+const LOCALES_ROOT = path.join(REPO_ROOT, 'packages/core/src/locales');
 
 const ns = (process.argv[2] || '').trim();
 if (!ns) {

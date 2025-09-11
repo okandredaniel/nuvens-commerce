@@ -91,9 +91,9 @@ pnpm locale:add
 
 ---
 
-## UI Core
+## UI
 
-Available from `@nuvens/ui-core`:
+Available from `@nuvens/ui`:
 
 ```
 Aside.tsx

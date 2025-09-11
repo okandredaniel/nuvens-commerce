@@ -5,7 +5,7 @@
 ## 1) Project Overview
 
 - **Stack:** Shopify Hydrogen (Remix), TypeScript, React, Tailwind CSS, Radix UI, lucide-react.
-- **Mono-repo:** `apps/storefront` (Hydrogen app) + `packages/ui-core` (neutral tokens & base components) + `packages/brand-*` (brand tokens/resources).
+- **Mono-repo:** `apps/storefront` (Hydrogen app) + `packages/core`/`packages/ui` (neutral tokens & base components) + `packages/brand-*` (brand tokens/resources).
 
 ## 2) Runtime, Hosting & Environments
 
@@ -21,7 +21,7 @@
 - **CI/CD:** GitHub Actions → workflows: lint · typecheck · unit/e2e · build · deploy (preview/staging/prod).
 - **Workspaces:** `@nuvens/*` aliases; app composes core + brand packages.
 - **TypeScript:** root base config; brand packages export tokens/resources; app composes.
-- **Export surface:** `@nuvens/ui-core` exposes a single public entry (`src/index.ts`); internal subpath imports are avoided to reduce cyclic-import risk. TS `paths` simplified to point only to the root entry.
+- **Export surface:** `@nuvens/core` or `@nuvens/ui` exposes a single public entry (`src/index.ts`); internal subpath imports are avoided to reduce cyclic-import risk. TS `paths` simplified to point only to the root entry.
 
 ## 4) Internationalization
 
@@ -93,22 +93,22 @@
 
 ## 14) Decision Log (ADR Summary)
 
-|  ID | Decision                                                            | Status  | Date       | Context                                                                                             |
-| --: | ------------------------------------------------------------------- | ------- | ---------- | --------------------------------------------------------------------------------------------------- |
-| 001 | Enforce CSP centrally; allow YouTube `nocookie` embeds              | Decided | 2025-09-10 | Security headers centralized; enables modal playback.                                               |
-| 002 | No i18n silent fallbacks                                            | Decided | 2025-09-10 | Surface missing keys early in dev.                                                                  |
-| 003 | Tokens → CSS vars; single injection of merged core + brand          | Decided | 2025-09-10 | Consistent theming; low runtime cost.                                                               |
-| 004 | Use `cn` (tailwind-merge) for class conflict resolution             | Decided | 2025-09-10 | Guarantees consumer overrides.                                                                      |
-| 005 | Single Stepper in UI core                                           | Decided | 2025-09-10 | Avoids drift across cart/product.                                                                   |
-| 006 | Remove hex fallbacks from class strings                             | Decided | 2025-09-10 | Ensures all theming via CSS variables.                                                              |
-| 007 | Cart feedback UX for discount/gift card                             | Decided | 2025-09-10 | Clear async states and errors.                                                                      |
-| 008 | CMS catch-all uses `app.template` and handle heuristics             | Decided | 2025-09-10 | Avoids `templateSuffix` 404s; reliable fallback.                                                    |
-| 009 | Per-brand **RouteAccessPolicy** (default-deny allowlist)            | Decided | 2025-09-11 | Block Shopify routes not used by single-product brands; normalize patterns; explicit SPA/SSR guard. |
-| 010 | **Guarded loader** in app routes                                    | Decided | 2025-09-11 | Route loaders assert policy and throw 404 → ErrorBoundary renders full Layout on blocked routes.    |
-| 011 | Server returns **404 for `.data`** requests on blocked routes       | Decided | 2025-09-11 | Avoid “successful” data responses that keep SPA alive; no redirects; consistent crawler semantics.  |
-| 012 | Consolidate `@nuvens/ui-core` public API to a **single root entry** | Decided | 2025-09-11 | Remove nested barrels and subpath imports; simplify TS `paths`; reduce cyclic import risk.          |
-| 013 | i18n resource **normalization + merge** at root                     | Decided | 2025-09-11 | Merge core + brand resources per language; remove namespace checks; safer typing.                   |
-| 014 | Root sets **cache headers** for shared chrome                       | Decided | 2025-09-11 | Keep header/footer available on error pages without extra latency.                                  |
+|  ID | Decision                                                                          | Status  | Date       | Context                                                                                             |
+| --: | --------------------------------------------------------------------------------- | ------- | ---------- | --------------------------------------------------------------------------------------------------- |
+| 001 | Enforce CSP centrally; allow YouTube `nocookie` embeds                            | Decided | 2025-09-10 | Security headers centralized; enables modal playback.                                               |
+| 002 | No i18n silent fallbacks                                                          | Decided | 2025-09-10 | Surface missing keys early in dev.                                                                  |
+| 003 | Tokens → CSS vars; single injection of merged core + brand                        | Decided | 2025-09-10 | Consistent theming; low runtime cost.                                                               |
+| 004 | Use `cn` (tailwind-merge) for class conflict resolution                           | Decided | 2025-09-10 | Guarantees consumer overrides.                                                                      |
+| 005 | Single Stepper in UI core                                                         | Decided | 2025-09-10 | Avoids drift across cart/product.                                                                   |
+| 006 | Remove hex fallbacks from class strings                                           | Decided | 2025-09-10 | Ensures all theming via CSS variables.                                                              |
+| 007 | Cart feedback UX for discount/gift card                                           | Decided | 2025-09-10 | Clear async states and errors.                                                                      |
+| 008 | CMS catch-all uses `app.template` and handle heuristics                           | Decided | 2025-09-10 | Avoids `templateSuffix` 404s; reliable fallback.                                                    |
+| 009 | Per-brand **RouteAccessPolicy** (default-deny allowlist)                          | Decided | 2025-09-11 | Block Shopify routes not used by single-product brands; normalize patterns; explicit SPA/SSR guard. |
+| 010 | **Guarded loader** in app routes                                                  | Decided | 2025-09-11 | Route loaders assert policy and throw 404 → ErrorBoundary renders full Layout on blocked routes.    |
+| 011 | Server returns **404 for `.data`** requests on blocked routes                     | Decided | 2025-09-11 | Avoid “successful” data responses that keep SPA alive; no redirects; consistent crawler semantics.  |
+| 012 | Consolidate `@nuvens/core` and `@nuvens/ui` public API to a **single root entry** | Decided | 2025-09-11 | Remove nested barrels and subpath imports; simplify TS `paths`; reduce cyclic import risk.          |
+| 013 | i18n resource **normalization + merge** at root                                   | Decided | 2025-09-11 | Merge core + brand resources per language; remove namespace checks; safer typing.                   |
+| 014 | Root sets **cache headers** for shared chrome                                     | Decided | 2025-09-11 | Keep header/footer available on error pages without extra latency.                                  |
 
 ## 15) Backlog (Future Work)
 
@@ -118,7 +118,7 @@
 
 - **\[DX]** Dependency automation with Renovate/Dependabot; license allowlist & SPDX checks.
 
-- **\[DX]** UI-core preview with Storybook/Ladle + visual regression (Chromatic/Playwright snapshots).
+- **\[DX]** UI preview with Storybook/Ladle + visual regression (Chromatic/Playwright snapshots).
 
 - **\[Perf]** Persisted GraphQL queries + ETags + SWR edge caching; cache keys by locale/brand.
 
