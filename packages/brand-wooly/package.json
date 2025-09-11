@@ -1,5 +1,5 @@
 {
-  "name": "@nuvens/brand-ui-wooly",
+  "name": "@nuvens/brand-wooly",
   "version": "0.0.0",
   "main": "src/index.ts",
   "private": true
