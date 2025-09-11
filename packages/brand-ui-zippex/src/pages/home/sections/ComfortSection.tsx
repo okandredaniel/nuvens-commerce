@@ -1,4 +1,4 @@
-import { Heading } from '@nuvens/ui-core';
+import { Button, Heading } from '@nuvens/ui-core';
 import { Image } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
 import couple from '../../home/assets/couple-lying-on-a-zippex-bed.png';
@@ -26,12 +26,9 @@ export function ComfortSection({ headingId }: { headingId: string }) {
             <li>{t('comfort.items.2')}</li>
           </ul>
           <div>
-            <a
-              className="inline-flex items-center justify-center rounded-xl px-6 py-3 text-[color:var(--palette-neutral-900)] bg-white"
-              href="/collections/all"
-            >
-              {t('cta.buy')}
-            </a>
+            <Button variant="white">
+              <a href="/collections/all">{t('cta.buy')}</a>
+            </Button>
           </div>
         </div>
         <div className="pl-16">
