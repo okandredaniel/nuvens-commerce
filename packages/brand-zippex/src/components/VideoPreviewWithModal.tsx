@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui-core';
+import { cn } from '@nuvens/ui';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Play } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
@@ -37,7 +37,7 @@ export function VideoPreviewWithModal({
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <div className={cn('relative w-full pt-[45%] md:pt-[40%]', className)}>
+      <div className={cn('bg-slate-100 relative w-full pt-[45%] md:pt-[40%]', className)}>
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"

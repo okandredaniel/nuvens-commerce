@@ -1,4 +1,4 @@
-import { Heading, Link } from '@nuvens/ui-core';
+import { Heading, Link } from '@nuvens/ui';
 import { Headphones, Mail, MessageSquare, PhoneCall } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

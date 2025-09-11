@@ -1,4 +1,4 @@
-import { Button, Container, Heading, Link } from '@nuvens/ui-core';
+import { Button, Container, Heading, Link } from '@nuvens/ui';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaStar } from 'react-icons/fa';

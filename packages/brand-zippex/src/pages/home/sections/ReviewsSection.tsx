@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, Heading } from '@nuvens/ui-core';
+import { Button, Card, CardContent, Heading } from '@nuvens/ui';
 import { Image } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
 import { FaStar } from 'react-icons/fa';

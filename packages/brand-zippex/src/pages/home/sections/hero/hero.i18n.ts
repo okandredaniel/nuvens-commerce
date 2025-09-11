@@ -1,4 +1,4 @@
-import type { I18nBundle } from '@nuvens/ui-core';
+import { I18nBundle } from '@nuvens/core';
 
 export default {
   ns: 'zippex-hero',

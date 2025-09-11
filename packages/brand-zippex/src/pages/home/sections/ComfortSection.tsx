@@ -1,4 +1,4 @@
-import { Button, Heading } from '@nuvens/ui-core';
+import { Button, Heading } from '@nuvens/ui';
 import { Image } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
 import couple from '../../home/assets/couple-lying-on-a-zippex-bed.png';

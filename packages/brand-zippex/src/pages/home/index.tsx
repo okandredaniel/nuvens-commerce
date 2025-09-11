@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui-core';
+import { Container } from '@nuvens/ui';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { VideoPreviewWithModal } from '../../components';

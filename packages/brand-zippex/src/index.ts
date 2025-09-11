@@ -1,4 +1,4 @@
-import { defaultCountryByLocale, Language } from '@nuvens/ui-core';
+import { defaultCountryByLocale, Language } from '@nuvens/core';
 import { brandCountryOverrides } from './i18n';
 
 export * from './components';

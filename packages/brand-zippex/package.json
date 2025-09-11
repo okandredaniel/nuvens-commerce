@@ -6,7 +6,8 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
-    "@nuvens/ui-core": "workspace:*"
+    "@nuvens/core": "workspace:*",
+    "@nuvens/ui": "workspace:*"
   },
   "peerDependencies": {
     "@shopify/remix-oxygen": "^3.0.0",

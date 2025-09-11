@@ -1,4 +1,4 @@
-import { Language } from '@nuvens/ui-core';
+import { Language } from '@nuvens/core';
 
 export const brandLocales = [Language.French, Language.English, Language.Spanish] as const;
 export type BrandLocale = (typeof brandLocales)[number];

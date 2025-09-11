@@ -1,4 +1,4 @@
-import { Card, CardContent, Carousel, CarouselSlide, Heading } from '@nuvens/ui-core';
+import { Card, CardContent, Carousel, CarouselSlide, Heading } from '@nuvens/ui';
 import { DollarSign, Globe, Moon, ThumbsUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

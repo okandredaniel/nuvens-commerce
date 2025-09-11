@@ -1,4 +1,4 @@
-import { Button, Heading } from '@nuvens/ui-core';
+import { Button, Heading } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 
 export function IntroCta({ headingId }: { headingId: string }) {

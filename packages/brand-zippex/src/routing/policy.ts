@@ -1,4 +1,4 @@
-import type { RouteAccessPolicy } from '@nuvens/ui-core';
+import type { RouteAccessPolicy } from '@nuvens/core';
 
 export const routeAccessPolicy: RouteAccessPolicy = {
   default: 'deny',
