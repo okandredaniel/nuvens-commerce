@@ -1,5 +1,5 @@
 {
-  "name": "@nuvens/brand-ui-cosmos",
+  "name": "@nuvens/brand-cosmos",
   "version": "0.0.0",
   "main": "src/index.ts",
   "private": true
