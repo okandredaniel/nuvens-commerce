@@ -1,6 +1,7 @@
 import type { CartQueryDataReturn } from '@shopify/hydrogen';
 import { CartForm } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, data, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { guardedLoader } from '../routing/policy';
 
 export async function cartAction({ request, context }: ActionFunctionArgs) {
   const { cart } = context;
@@ -66,7 +67,7 @@ export async function cartAction({ request, context }: ActionFunctionArgs) {
   );
 }
 
-export async function cartLoader({ context }: LoaderFunctionArgs) {
+export const cartLoader = guardedLoader(async ({ context }: LoaderFunctionArgs) => {
   const { cart } = context;
   return await cart.get();
-}
+});

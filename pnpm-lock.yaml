@@ -126,6 +126,9 @@ importers:
       globals:
         specifier: ^15.15.0
         version: 15.15.0
+      npm-dedupe:
+        specifier: ^2.0.0
+        version: 2.0.0
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -155,7 +158,7 @@ importers:
         version: 2.12.6(graphql@16.11.0)
       i18next:
         specifier: ^25.4.2
-        version: 25.4.2(typescript@5.9.2)
+        version: 25.5.0(typescript@5.9.2)
       isbot:
         specifier: ^5.1.30
         version: 5.1.30
@@ -167,7 +170,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-i18next:
         specifier: ^15.7.3
-        version: 15.7.3(i18next@25.4.2(typescript@5.9.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.2)
+        version: 15.7.3(i18next@25.5.0(typescript@5.9.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.2)
       react-router:
         specifier: 7.6.0
         version: 7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -240,7 +243,7 @@ importers:
         version: 3.0.0(@shopify/oxygen-workers-types@4.2.0)(react-router@7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       i18next:
         specifier: ^25
-        version: 25.4.2(typescript@5.9.2)
+        version: 25.5.0(typescript@5.9.2)
       react:
         specifier: ^18
         version: 18.3.1
@@ -249,13 +252,16 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-i18next:
         specifier: ^15
-        version: 15.7.3(i18next@25.4.2(typescript@5.9.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.2)
+        version: 15.7.3(i18next@25.5.0(typescript@5.9.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.2)
 
   packages/ui-core:
     dependencies:
       '@radix-ui/react-dialog':
         specifier: ^1.0.0
         version: 1.1.15(@types/react-dom@18.3.7(@types/react@18.3.24))(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      path-to-regexp:
+        specifier: ^6.2.1
+        version: 6.3.0
       react:
         specifier: ^18
         version: 18.3.1
@@ -3214,14 +3220,6 @@ packages:
     resolution: {integrity: sha512-rQLskxnM/5OCldHo+wNXbpVgDn5A17CUoKX+7Sokwaknlq7CdSnphy0W39GU8dw59XiCXmFXDg4fRuckQRKewQ==}
     engines: {node: '>=12.20.0'}
 
-  i18next@25.4.2:
-    resolution: {integrity: sha512-gD4T25a6ovNXsfXY1TwHXXXLnD/K2t99jyYMCSimSCBnBRJVQr5j+VAaU83RJCPzrTGhVQ6dqIga66xO2rtd5g==}
-    peerDependencies:
-      typescript: ^5
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-
   i18next@25.5.0:
     resolution: {integrity: sha512-Mm2CgIq0revRFbBvfzqW9kDw1r44M4VDWC+YNRx9vTo5bU/iogSdEAC2HEonDA4czEce/iSbAkK90Tw7UrRZKA==}
     peerDependencies:
@@ -3831,6 +3829,9 @@ packages:
     resolution: {integrity: sha512-3pKJwH184Xo/lnH6oyP1q2pMd7HcypqqmRs91/6/i2CGtWwIKGCkOOMTm/zXbgTEWHw1uNpNi/igc3ePOYHb6w==}
     engines: {node: '>=0.10.0'}
 
+  npm-dedupe@2.0.0:
+    resolution: {integrity: sha512-w2w8vqnw/4IkqGecbtJy2jt6Ar3OdzCmszjiB6edAcQL9cMMOvf2Jiv35cDDzKF2cWg/N/1+acj7TGOPgnmkdQ==}
+
   npm-install-checks@6.3.0:
     resolution: {integrity: sha512-W29RiK/xtpCGqn6f3ixfRYGk+zRyr+Ew9F2E20BfXxT5/euLdA/Nm7fO7OeTGuAmTs30cpgInyJ0cYe708YTZw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -3986,6 +3987,9 @@ packages:
   path-scurry@1.11.1:
     resolution: {integrity: sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA==}
     engines: {node: '>=16 || 14 >=14.18'}
+
+  path-to-regexp@6.3.0:
+    resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
 
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
@@ -8269,12 +8273,6 @@ snapshots:
 
   human-signals@3.0.1: {}
 
-  i18next@25.4.2(typescript@5.9.2):
-    dependencies:
-      '@babel/runtime': 7.28.3
-    optionalDependencies:
-      typescript: 5.9.2
-
   i18next@25.5.0(typescript@5.9.2):
     dependencies:
       '@babel/runtime': 7.28.3
@@ -8832,6 +8830,8 @@ snapshots:
     dependencies:
       remove-trailing-separator: 1.1.0
 
+  npm-dedupe@2.0.0: {}
+
   npm-install-checks@6.3.0:
     dependencies:
       semver: 7.7.2
@@ -9019,6 +9019,8 @@ snapshots:
       lru-cache: 10.4.3
       minipass: 7.1.2
 
+  path-to-regexp@6.3.0: {}
+
   path-type@4.0.0: {}
 
   pathe@1.1.2: {}
@@ -9102,16 +9104,6 @@ snapshots:
       loose-envify: 1.4.0
       react: 18.3.1
       scheduler: 0.23.2
-
-  react-i18next@15.7.3(i18next@25.4.2(typescript@5.9.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.2):
-    dependencies:
-      '@babel/runtime': 7.28.3
-      html-parse-stringify: 3.0.1
-      i18next: 25.4.2(typescript@5.9.2)
-      react: 18.3.1
-    optionalDependencies:
-      react-dom: 18.3.1(react@18.3.1)
-      typescript: 5.9.2
 
   react-i18next@15.7.3(i18next@25.5.0(typescript@5.9.2))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.2):
     dependencies:

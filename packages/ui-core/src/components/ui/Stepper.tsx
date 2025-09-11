@@ -1,6 +1,6 @@
 import { Minus, Plus } from 'lucide-react';
 import { forwardRef } from 'react';
-import type { ButtonVariant, ControlSize } from '../../interfaces';
+import type { ButtonVariant, ControlSize } from '../../interfaces/ui.interface';
 import { cn } from '../../utils/cn';
 import { IconButton } from './IconButton';
 

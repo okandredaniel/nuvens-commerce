@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import { useVariantUrl } from '~/lib/variants';
-import { CartLayout } from '.';
 import { ProductPrice } from '../ProductPrice';
+import type { CartLayout } from './cart.interface';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 

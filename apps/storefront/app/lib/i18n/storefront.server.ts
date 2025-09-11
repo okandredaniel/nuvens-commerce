@@ -1,5 +1,6 @@
 import type { I18nBase } from '@shopify/hydrogen';
-import { CountryCode, LanguageCode } from '@shopify/hydrogen/storefront-api-types';
+import type { LanguageCode } from '@shopify/hydrogen-react/storefront-api-types';
+import type { CountryCode } from '@shopify/hydrogen/customer-account-api-types';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { toLang } from './localize';
 

@@ -1,4 +1,4 @@
-import { DesignTokens } from '../types';
+import type { DesignTokens } from '../interfaces/tokens.interface';
 
 export const coreTokens: DesignTokens = {
   palette: {

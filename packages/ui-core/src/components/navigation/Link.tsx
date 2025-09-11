@@ -1,5 +1,6 @@
-import { CoreLinkProps, CoreNavLinkProps, useCoreAdapter } from '../../adapters';
-import { cn } from '../../utils';
+import type { CoreLinkProps, CoreNavLinkProps } from '../../adapters/adapters.interface';
+import { useCoreAdapter } from '../../adapters/core-adapter';
+import { cn } from '../../utils/cn';
 
 const base =
   'inline-flex py-1 px-2 underline text-[var(--palette-primary-500)] hover:text-[var(--palette-primary-600)]';

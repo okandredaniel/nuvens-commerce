@@ -1,7 +1,0 @@
-{
-  "label": "Carrossel",
-  "previous": "Slide anterior",
-  "next": "Próximo slide",
-  "goTo": "Ir para o slide {{index}}",
-  "status": "Slide {{current}} de {{total}}"
-}

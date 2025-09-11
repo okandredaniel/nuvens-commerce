@@ -1,23 +1,14 @@
-import type { AnchorHTMLAttributes, ComponentType, ReactNode } from 'react';
+import type { CoreAdapter, CoreLinkProps, CoreNavLinkProps } from './adapters.interface';
+
+import type { ReactNode } from 'react';
 import { createContext, useContext } from 'react';
-
-export type CoreLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
-  to: string;
-};
-export type CoreNavLinkProps = CoreLinkProps & { end?: boolean; prefetch?: 'intent' | 'none' };
-
-export type CoreAdapter = {
-  Link?: ComponentType<CoreLinkProps>;
-  NavLink?: ComponentType<CoreNavLinkProps>;
-  track?: (event: string, payload?: unknown) => void;
-  getLocale?: () => string;
-};
 
 const DefaultLink = ({ to, children, ...rest }: CoreLinkProps) => (
   <a href={to} {...rest}>
     {children}
   </a>
 );
+
 const DefaultNavLink = ({ end: _end, prefetch: _prefetch, ...rest }: CoreNavLinkProps) => (
   <DefaultLink {...rest} />
 );

@@ -1,7 +1,7 @@
 import { Money, type OptimisticCart } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { CartLayout } from '.';
+import type { CartLayout } from './cart.interface';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment | null>;

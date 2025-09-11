@@ -1,4 +1,4 @@
-import type { DesignTokens } from '../types';
+import type { DesignTokens } from '../interfaces/tokens.interface';
 
 const REF_RE = /^\{([\w.-]+)\}$/;
 const sanitize = (s: string) => s.replace(/\./g, '-').replace(/[^a-zA-Z0-9-_]/g, '');

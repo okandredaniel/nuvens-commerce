@@ -1,8 +1,9 @@
 import { cn } from '@nuvens/ui-core';
 import { useOptimisticCart } from '@shopify/hydrogen';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { CartLayout, CartLineItem } from '.';
+import type { CartLayout } from './cart.interface';
 import { CartEmpty } from './CartEmpty';
+import { CartLineItem } from './CartLineItem';
 import { CartSummaryPanel } from './CartSummaryPanel';
 
 type Props = {
