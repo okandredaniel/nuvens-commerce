@@ -3,8 +3,9 @@ import * as Tooltip from '@radix-ui/react-tooltip';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import type { ProductFragment } from 'storefrontapi.generated';
+import { LocalizedLink } from '~/components/LocalizedLink';
 import { AddToCartButton } from './cart';
 
 export function ProductForm({
@@ -27,7 +28,7 @@ export function ProductForm({
           <fieldset key={option.name} className="space-y-3">
             <legend className="text-sm font-medium">{option.name}</legend>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" role="group" aria-label={option.name}>
               {option.optionValues.map((value) => {
                 const {
                   name,
@@ -41,31 +42,30 @@ export function ProductForm({
                 } = value;
 
                 const base =
-                  'inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm transition';
+                  'inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]';
                 const state = selected
-                  ? 'border-black ring-2 ring-black/10'
-                  : 'border-transparent hover:border-black/20';
+                  ? 'border-[color:var(--color-on-surface)] ring-2 ring-[color:var(--color-on-surface)]/10'
+                  : 'border-[color:var(--color-border)] hover:border-[color:var(--color-on-surface)]/30';
                 const availability = available ? '' : 'opacity-40 cursor-not-allowed';
                 const disabled = !exists;
 
                 if (isDifferentProduct) {
                   return (
-                    <Tooltip.Root key={option.name + name}>
+                    <Tooltip.Root key={option.name + name} delayDuration={150}>
                       <Tooltip.Trigger asChild>
-                        <Link
-                          prefetch="intent"
+                        <LocalizedLink
                           preventScrollReset
                           replace
                           to={`/products/${handle}?${variantUriQuery}`}
                           aria-current={selected ? 'true' : undefined}
-                          className={`${base} ${state} ${availability}`}
                           aria-disabled={!available}
+                          className={`${base} ${state} ${availability}`}
                         >
-                          <ProductOptionSwatch swatch={swatch} name={name} />
+                          <ProductOptionSwatch swatch={swatch} />
                           {!swatch?.color && !swatch?.image ? (
                             <span className="ml-2">{name}</span>
                           ) : null}
-                        </Link>
+                        </LocalizedLink>
                       </Tooltip.Trigger>
                       <Tooltip.Portal>
                         <Tooltip.Content
@@ -81,7 +81,7 @@ export function ProductForm({
                 }
 
                 return (
-                  <Tooltip.Root key={option.name + name}>
+                  <Tooltip.Root key={option.name + name} delayDuration={150}>
                     <Tooltip.Trigger asChild>
                       <button
                         type="button"
@@ -98,10 +98,8 @@ export function ProductForm({
                         className={`${base} ${state} ${availability}`}
                         aria-label={name}
                       >
-                        <ProductOptionSwatch swatch={swatch} name={name} />
-                        {!swatch?.color && !swatch?.image ? (
-                          <span className="ml-2">{name}</span>
-                        ) : null}
+                        <ProductOptionSwatch swatch={swatch} />
+                        {!swatch?.color && !swatch?.image ? name : null}
                       </button>
                     </Tooltip.Trigger>
                     <Tooltip.Portal>
@@ -139,19 +137,11 @@ export function ProductForm({
   );
 }
 
-function ProductOptionSwatch({
-  swatch,
-  name,
-}: {
-  swatch?: Maybe<ProductOptionValueSwatch> | undefined;
-  name: string;
-}) {
+function ProductOptionSwatch({ swatch }: { swatch?: Maybe<ProductOptionValueSwatch> | undefined }) {
   const image = swatch?.image?.previewImage?.url;
   const color = swatch?.color;
 
-  if (!image && !color) {
-    return <span className="truncate">{name}</span>;
-  }
+  if (!image && !color) return null;
 
   return (
     <span
