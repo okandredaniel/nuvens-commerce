@@ -4,7 +4,7 @@ export const routeAccessPolicy: RouteAccessPolicy = {
   default: 'deny',
   expose: [
     '/',
-    '/product/:handle',
+    '/products/:handle',
     '/cart',
     '/pages',
     '/pages/:handle',
