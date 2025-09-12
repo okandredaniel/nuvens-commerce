@@ -9,7 +9,8 @@ import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import { useCart } from '~/providers';
 
 export function CartButton() {
-  const { cart: cartPromise } = useCart() as { cart: Promise<CartApiQueryFragment | null> };
+  const { cart: cartPromise } = useCart();
+  if (!cartPromise) return <CartBadge count={null} />;
   return (
     <Suspense fallback={<CartBadge count={null} />}>
       <Await resolve={cartPromise}>
