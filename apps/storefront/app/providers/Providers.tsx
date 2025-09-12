@@ -13,7 +13,7 @@ import { ProvidersMap, useBrand, useShallowMemo } from './AppContexts';
 type ProvidersProps = { children?: React.ReactNode };
 
 export function Providers({ children }: ProvidersProps) {
-  const data = useRouteLoaderData<RootLoader>('root');
+  const data = useRouteLoaderData<RootLoader>('root') as any;
 
   const languageCtx = data?.i18n?.locale ?? data?.consent?.language ?? 'en';
   const lang = toLang((languageCtx || 'en').toLowerCase());
@@ -45,7 +45,9 @@ export function Providers({ children }: ProvidersProps) {
     footer: (data as any)?.footer,
     header: (data as any)?.header ?? null,
   });
-  const cartValue = useShallowMemo({ cart: (data as any)?.cart });
+
+  const cartPromise = (data as any)?.cart ?? null;
+  const cartValue = useShallowMemo({ cart: cartPromise });
   const userValue = useShallowMemo({ isLoggedIn: !!(data as any)?.isLoggedIn });
   const brandValue = useShallowMemo({ brandId: (data as any)?.brand?.id, cssVars });
 
@@ -53,7 +55,7 @@ export function Providers({ children }: ProvidersProps) {
     <I18nextProvider i18n={i18n}>
       <Tooltip.Provider delayDuration={150} skipDelayDuration={300}>
         <Analytics.Provider
-          cart={(data as any)?.cart}
+          cart={cartPromise}
           shop={(data as any)?.shop}
           consent={(data as any)?.consent}
         >
