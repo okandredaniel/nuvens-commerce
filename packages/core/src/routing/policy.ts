@@ -19,7 +19,7 @@ export function prefixLocale(path: string, locale?: string): string {
   return `/${locale}${clean}`;
 }
 
-function someMatch(path: string, patterns: string[] | undefined): boolean {
+function someMatch(path: string, patterns: readonly string[] | undefined): boolean {
   if (!patterns || patterns.length === 0) return false;
   for (const p of patterns) {
     try {
