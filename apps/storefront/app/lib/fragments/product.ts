@@ -1,28 +1,44 @@
+export const PRODUCT_GALLERY_IMAGE_FRAGMENT = `#graphql
+  fragment ProductGalleryImage on Image {
+    __typename
+    id
+    url
+    altText
+    width
+    height
+  }
+` as const;
+
 export const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
-    availableForSale
-    compareAtPrice { amount currencyCode }
     id
-    image { __typename id url altText width height }
-    price { amount currencyCode }
-    product { title handle }
-    selectedOptions { name value }
-    sku
     title
+    availableForSale
+    sku
+    image { ...ProductGalleryImage }
+    price { amount currencyCode }
+    compareAtPrice { amount currencyCode }
     unitPrice { amount currencyCode }
+    selectedOptions { name value }
+    product { handle title }
   }
+  ${PRODUCT_GALLERY_IMAGE_FRAGMENT}
 ` as const;
 
 export const PRODUCT_FRAGMENT = `#graphql
   fragment Product on Product {
     id
+    handle
     title
     vendor
-    handle
     descriptionHtml
     description
+    seo { title description }
+
+    # Required by Hydrogen's getProductOptions
     encodedVariantExistence
     encodedVariantAvailability
+
     options {
       name
       optionValues {
@@ -34,23 +50,28 @@ export const PRODUCT_FRAGMENT = `#graphql
         }
       }
     }
+
     selectedOrFirstAvailableVariant(
       selectedOptions: $selectedOptions
       ignoreUnknownOptions: true
       caseInsensitiveMatch: true
     ) { ...ProductVariant }
-    adjacentVariants (selectedOptions: $selectedOptions) { ...ProductVariant }
-    seo { description title }
+
+    adjacentVariants(selectedOptions: $selectedOptions) { ...ProductVariant }
+
+    images(first: 20) {
+      nodes { ...ProductGalleryImage }
+    }
   }
   ${PRODUCT_VARIANT_FRAGMENT}
 ` as const;
 
 export const PRODUCT_QUERY = `#graphql
   query Product(
-    $country: CountryCode
     $handle: String!
-    $language: LanguageCode
     $selectedOptions: [SelectedOptionInput!]!
+    $country: CountryCode
+    $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
     product(handle: $handle) { ...Product }
   }

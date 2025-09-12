@@ -11,7 +11,7 @@ import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
 import { ProductForm } from '~/components/ProductForm';
-import { ProductImage } from '~/components/ProductImage';
+import { ProductGallery } from '~/components/ProductGallery';
 import { ProductPrice } from '~/components/ProductPrice';
 import { RichText } from '~/components/RichText';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
@@ -51,9 +51,11 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
   const { storefront } = context;
   if (!handle) throw new Error('Expected product handle to be defined');
 
+  const selectedOptions = getSelectedProductOptions(request) || [];
+
   const [{ product }] = await Promise.all([
     storefront.query(PRODUCT_QUERY, {
-      variables: { handle, selectedOptions: getSelectedProductOptions(request) },
+      variables: { handle, selectedOptions },
     }),
   ]);
 
@@ -88,7 +90,7 @@ export default function ProductRoute() {
     <Container className="py-6 md:py-10">
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
         <section aria-label={tProduct('media', 'Product media')}>
-          <ProductImage image={selectedVariant?.image} />
+          <ProductGallery product={product} variantImage={selectedVariant?.image} />
         </section>
 
         <aside className="lg:sticky lg:top-24" aria-labelledby="product-title">
