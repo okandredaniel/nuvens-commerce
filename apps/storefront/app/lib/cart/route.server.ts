@@ -3,6 +3,13 @@ import { CartForm } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, data, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { guardedLoader } from '../routing/policy';
 
+function privateNoStoreHeaders() {
+  const h = new Headers();
+  h.set('Cache-Control', 'no-store');
+  h.append('Vary', 'Cookie');
+  return h;
+}
+
 export async function cartAction({ request, context }: ActionFunctionArgs) {
   const { cart } = context;
   const formData = await request.formData();
@@ -49,6 +56,8 @@ export async function cartAction({ request, context }: ActionFunctionArgs) {
 
   const cartId = result?.cart?.id;
   const headers = cartId ? cart.setCartId(result.cart.id) : new Headers();
+  const extra = privateNoStoreHeaders();
+  extra.forEach((v, k) => headers.append(k, v));
 
   const redirectTo = formData.get('redirectTo');
   if (typeof redirectTo === 'string') {
@@ -68,6 +77,6 @@ export async function cartAction({ request, context }: ActionFunctionArgs) {
 }
 
 export const cartLoader = guardedLoader(async ({ context }: LoaderFunctionArgs) => {
-  const { cart } = context;
-  return await cart.get();
+  const result = await context.cart.get();
+  return data(result, { headers: privateNoStoreHeaders() });
 });
