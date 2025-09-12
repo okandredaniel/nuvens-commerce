@@ -1,4 +1,5 @@
 import { coreI18n, evaluateRouteAccess, stripLocale } from '@nuvens/core';
+import type { ShouldRevalidateFunction } from '@remix-run/router';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type {
   HeadersFunction,
@@ -16,7 +17,8 @@ import { toLang } from './i18n/localize';
 import { getAppResources, getBrandBundleResources } from './i18n/resources';
 
 export const headers: HeadersFunction = () => ({
-  'Cache-Control': 'public, max-age=60, s-maxage=300, stale-while-revalidate=86400',
+  'Cache-Control': 'private, no-store',
+  Vary: 'Cookie',
 });
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: keenStyles }];
@@ -85,12 +87,37 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   ];
 };
 
+function resolvePathname(req: Request) {
+  const url = new URL(req.url);
+  let pathname = url.pathname || '/';
+  const isData = pathname.endsWith('.data') || url.searchParams.has('_data');
+  if (isData) {
+    const ref = req.headers.get('referer');
+    if (ref) {
+      try {
+        pathname = new URL(ref).pathname || '/';
+      } catch {
+        pathname = '/';
+      }
+    } else {
+      pathname = '/';
+    }
+  }
+  return pathname;
+}
+
+export const shouldRevalidate: ShouldRevalidateFunction = ({ currentUrl, nextUrl, formMethod }) => {
+  if (formMethod && formMethod !== 'GET') return true;
+  if (currentUrl.pathname !== nextUrl.pathname) return true;
+  return false;
+};
+
 export async function loader(args: LoaderFunctionArgs) {
   const origin = new URL(args.request.url).origin;
   const { storefront, env } = args.context;
 
-  const currentPath = new URL(args.request.url).pathname || '/';
-  const { path: pathWithoutLocale } = stripLocale(currentPath);
+  const realPath = resolvePathname(args.request);
+  const { path: pathWithoutLocale } = stripLocale(realPath);
 
   let brandPolicy: any = null;
   try {
@@ -101,7 +128,7 @@ export async function loader(args: LoaderFunctionArgs) {
   const routeBlocked =
     !!brandPolicy && evaluateRouteAccess(brandPolicy, pathWithoutLocale).allowed === false;
 
-  const firstSeg = currentPath.split('/').filter(Boolean)[0] ?? '';
+  const firstSeg = realPath.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
 
   const languageCtx = storefront.i18n.language.toLowerCase();
