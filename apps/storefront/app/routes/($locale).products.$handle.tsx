@@ -9,7 +9,7 @@ import {
 } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { CircleCheckBig } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
 import { ProductForm } from '~/components/ProductForm';
@@ -80,6 +80,13 @@ export default function ProductRoute() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
+  const maxQty = useMemo(() => {
+    const v = Number.parseInt((selectedVariant as any)?.metafield?.value ?? '', 10);
+    const p = Number.parseInt((product as any)?.metafield?.value ?? '', 10);
+    const candidate = Number.isFinite(v) && v > 0 ? v : Number.isFinite(p) && p > 0 ? p : NaN;
+    return Number.isFinite(candidate) ? candidate : 10;
+  }, [product, selectedVariant]);
+
   useEffect(() => {
     function handler(e: Event) {
       const detail = (e as CustomEvent).detail as { variantId?: string; quantity?: number };
@@ -149,12 +156,16 @@ export default function ProductRoute() {
             </li>
             <li className="flex gap-2">
               <CircleCheckBig className="text-[#00C7D5]" />
-              Conçu aux Pays-Bas avec des étudiants de la TU Delft et fabriqué en Europe
+              Conçu aux Pays-Bas com des étudiants de la TU Delft et fabriqué en Europe
             </li>
           </ul>
 
           <div className="mt-6">
-            <ProductForm productOptions={productOptions} selectedVariant={selectedVariant} />
+            <ProductForm
+              productOptions={productOptions}
+              selectedVariant={selectedVariant}
+              maxQty={maxQty}
+            />
           </div>
         </aside>
       </div>

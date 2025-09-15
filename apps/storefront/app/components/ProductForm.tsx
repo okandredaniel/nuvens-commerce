@@ -13,9 +13,11 @@ import { AddToCartButton } from './cart';
 export function ProductForm({
   productOptions,
   selectedVariant,
+  maxQty = 99,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+  maxQty?: number;
 }) {
   const navigate = useNavigate();
   const { open } = useAside();
@@ -27,7 +29,7 @@ export function ProductForm({
   }
 
   function inc() {
-    setQty((q) => Math.min(99, q + 1));
+    setQty((q) => Math.min(maxQty, q + 1));
   }
 
   return (
@@ -144,11 +146,12 @@ export function ProductForm({
             type="number"
             inputMode="numeric"
             min={1}
-            max={99}
+            max={maxQty}
             value={qty}
             onChange={(e) => {
               const v = parseInt(e.target.value || '1', 10);
-              setQty(isNaN(v) ? 1 : Math.min(99, Math.max(1, v)));
+              const clamped = isNaN(v) ? 1 : Math.min(maxQty, Math.max(1, v));
+              setQty(clamped);
             }}
             className="w-full sm:w-12 text-center text-sm outline-none bg-transparent appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             aria-label={t('quantity') as string}
@@ -169,13 +172,19 @@ export function ProductForm({
           disabled={!selectedVariant || !selectedVariant.availableForSale}
           lines={
             selectedVariant
-              ? [{ merchandiseId: selectedVariant.id, quantity: qty, selectedVariant }]
+              ? [
+                  {
+                    merchandiseId: selectedVariant.id,
+                    quantity: Math.min(qty, maxQty),
+                    selectedVariant,
+                  },
+                ]
               : []
           }
           onClick={() => {
             window.dispatchEvent(
               new CustomEvent('analytics:add_to_cart', {
-                detail: { variantId: selectedVariant?.id, quantity: qty },
+                detail: { variantId: selectedVariant?.id, quantity: Math.min(qty, maxQty) },
               }),
             );
             open('cart');
