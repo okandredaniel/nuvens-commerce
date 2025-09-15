@@ -9,6 +9,10 @@
 
 @plugin "@tailwindcss/typography";
 
+body {
+  color: var(--color-text);
+}
+
 .rte {
   @apply prose max-w-none;
   @apply prose-headings:font-semibold prose-a:underline prose-img:rounded-2xl;

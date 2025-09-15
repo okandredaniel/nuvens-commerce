@@ -2,6 +2,8 @@ import { useAside } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
+import { Minus, Plus } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import type { ProductFragment } from 'storefrontapi.generated';
@@ -18,6 +20,15 @@ export function ProductForm({
   const navigate = useNavigate();
   const { open } = useAside();
   const { t } = useTranslation('product');
+  const [qty, setQty] = useState(1);
+
+  function dec() {
+    setQty((q) => Math.max(1, q - 1));
+  }
+
+  function inc() {
+    setQty((q) => Math.min(99, q + 1));
+  }
 
   return (
     <div className="space-y-6">
@@ -119,20 +130,60 @@ export function ProductForm({
         );
       })}
 
-      <AddToCartButton
-        disabled={!selectedVariant || !selectedVariant.availableForSale}
-        onClick={() => open('cart')}
-        variant="primary"
-        className="w-full"
-        lines={
-          selectedVariant
-            ? [{ merchandiseId: selectedVariant.id, quantity: 1, selectedVariant }]
-            : []
-        }
-        aria-label={selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
-      >
-        {selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
-      </AddToCartButton>
+      <div className="flex gap-3">
+        <div className="flex rounded-lg border border-[color:var(--color-border)] bg-white">
+          <button
+            type="button"
+            onClick={dec}
+            aria-label={t('decrease') as string}
+            className="px-3 py-2 text-sm leading-none hover:bg-black/5"
+          >
+            <Minus />
+          </button>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={99}
+            value={qty}
+            onChange={(e) => {
+              const v = parseInt(e.target.value || '1', 10);
+              setQty(isNaN(v) ? 1 : Math.min(99, Math.max(1, v)));
+            }}
+            className="w-full sm:w-12 text-center text-sm outline-none bg-transparent appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            aria-label={t('quantity') as string}
+          />
+          <button
+            type="button"
+            onClick={inc}
+            aria-label={t('increase') as string}
+            className="px-3 py-2 text-sm leading-none hover:bg-black/5"
+          >
+            <Plus />
+          </button>
+        </div>
+
+        <AddToCartButton
+          analytics={{}}
+          ariaLabel={selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
+          disabled={!selectedVariant || !selectedVariant.availableForSale}
+          lines={
+            selectedVariant
+              ? [{ merchandiseId: selectedVariant.id, quantity: qty, selectedVariant }]
+              : []
+          }
+          onClick={() => {
+            window.dispatchEvent(
+              new CustomEvent('analytics:add_to_cart', {
+                detail: { variantId: selectedVariant?.id, quantity: qty },
+              }),
+            );
+            open('cart');
+          }}
+        >
+          {selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
+        </AddToCartButton>
+      </div>
     </div>
   );
 }
@@ -140,7 +191,6 @@ export function ProductForm({
 function ProductOptionSwatch({ swatch }: { swatch?: Maybe<ProductOptionValueSwatch> | undefined }) {
   const image = swatch?.image?.previewImage?.url;
   const color = swatch?.color;
-
   if (!image && !color) return null;
 
   return (

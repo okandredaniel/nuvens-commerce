@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui';
+import { Container, Heading } from '@nuvens/ui';
 import {
   Analytics,
   getAdjacentAndFirstAvailableVariants,
@@ -8,6 +8,8 @@ import {
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
+import { CircleCheckBig } from 'lucide-react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
 import { ProductForm } from '~/components/ProductForm';
@@ -28,7 +30,6 @@ export const meta: MetaFunction<typeof loader> = ({ data, location, matches }) =
   const base = rootData.header?.shop?.primaryDomain?.url || rootData.origin || '';
   const title = data?.product?.seo?.title || data?.product?.title || '';
   const description = data?.product?.seo?.description || data?.product?.description || '';
-
   return [
     { title },
     { name: 'description', content: description },
@@ -50,19 +51,12 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
   const { handle } = params;
   const { storefront } = context;
   if (!handle) throw new Error('Expected product handle to be defined');
-
   const selectedOptions = getSelectedProductOptions(request) || [];
-
   const [{ product }] = await Promise.all([
-    storefront.query(PRODUCT_QUERY, {
-      variables: { handle, selectedOptions },
-    }),
+    storefront.query(PRODUCT_QUERY, { variables: { handle, selectedOptions } }),
   ]);
-
   if (!product?.id) throw new Response(null, { status: 404 });
-
   redirectIfHandleIsLocalized(request, { handle, data: product });
-
   return { product };
 }
 
@@ -86,6 +80,29 @@ export default function ProductRoute() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
+  useEffect(() => {
+    function handler(e: Event) {
+      const detail = (e as CustomEvent).detail as { variantId?: string; quantity?: number };
+      const payload = {
+        productId: product.id,
+        productTitle: product.title,
+        vendor: product.vendor,
+        variantId: detail?.variantId || selectedVariant?.id || '',
+        quantity: detail?.quantity ?? 1,
+        price: selectedVariant?.price?.amount || '0',
+      };
+      (window as any).dataLayer?.push?.({ event: 'add_to_cart', ...payload });
+    }
+    window.addEventListener('analytics:add_to_cart', handler as EventListener);
+    return () => window.removeEventListener('analytics:add_to_cart', handler as EventListener);
+  }, [
+    product.id,
+    product.title,
+    product.vendor,
+    selectedVariant?.id,
+    selectedVariant?.price?.amount,
+  ]);
+
   return (
     <Container className="py-6 md:py-10">
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
@@ -94,19 +111,15 @@ export default function ProductRoute() {
         </section>
 
         <aside className="lg:sticky lg:top-24" aria-labelledby="product-title">
-          <h1 id="product-title" className="text-2xl md:text-3xl font-semibold tracking-tight">
+          <Heading id="product-title" as="h1">
             {product.title}
-          </h1>
+          </Heading>
 
           <div className="mt-3" role="status" aria-live="polite">
             <ProductPrice
               price={selectedVariant?.price}
               compareAtPrice={selectedVariant?.compareAtPrice}
             />
-          </div>
-
-          <div className="mt-6">
-            <ProductForm productOptions={productOptions} selectedVariant={selectedVariant} />
           </div>
 
           {product.descriptionHtml ? (
@@ -120,6 +133,29 @@ export default function ProductRoute() {
               />
             </section>
           ) : null}
+
+          <ul className="flex flex-col gap-4 my-8">
+            <li className="flex gap-2">
+              <CircleCheckBig className="text-[#00C7D5]" />
+              Élu meilleur matelas 9 fois de suite par l’association de consommateurs
+            </li>
+            <li className="flex gap-2">
+              <CircleCheckBig className="text-[#00C7D5]" />
+              Convient à toutes les morphologies, positions de sommeil et types de sommiers
+            </li>
+            <li className="flex gap-2">
+              <CircleCheckBig className="text-[#00C7D5]" />
+              Entièrement modulable – 6 niveaux de confort en un seul matelas
+            </li>
+            <li className="flex gap-2">
+              <CircleCheckBig className="text-[#00C7D5]" />
+              Conçu aux Pays-Bas avec des étudiants de la TU Delft et fabriqué en Europe
+            </li>
+          </ul>
+
+          <div className="mt-6">
+            <ProductForm productOptions={productOptions} selectedVariant={selectedVariant} />
+          </div>
         </aside>
       </div>
 
