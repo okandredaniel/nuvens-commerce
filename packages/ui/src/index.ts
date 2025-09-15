@@ -1,5 +1,6 @@
 // components
 export * from './components/navigation/Link';
+export * from './components/ui/Accordion';
 export * from './components/ui/Aside';
 export * from './components/ui/Badge';
 export * from './components/ui/Button';
