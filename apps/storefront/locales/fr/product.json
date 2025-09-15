@@ -5,5 +5,9 @@
   "price": {
     "from": "À partir de",
     "save_percent": "Économisez {{value}}%"
+  },
+  "rating": {
+    "aria": "{{value}} sur 5",
+    "see_all": "Voir tous les avis"
   }
 }

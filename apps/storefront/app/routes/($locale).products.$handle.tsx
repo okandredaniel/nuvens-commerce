@@ -15,6 +15,7 @@ import { useLoaderData } from 'react-router';
 import { ProductForm } from '~/components/ProductForm';
 import { ProductGallery } from '~/components/ProductGallery';
 import { ProductPrice } from '~/components/ProductPrice';
+import ProductRating from '~/components/ProductRating';
 import { RichText } from '~/components/RichText';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
 import { buildCanonical } from '~/lib/seo';
@@ -113,7 +114,7 @@ export default function ProductRoute() {
   return (
     <Container className="py-6 md:py-10">
       <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <section aria-label={tProduct('media', 'Product media')}>
+        <section aria-label={tProduct('media')}>
           <ProductGallery product={product} variantImage={selectedVariant?.image} />
         </section>
 
@@ -121,6 +122,8 @@ export default function ProductRoute() {
           <Heading id="product-title" as="h1">
             {product.title}
           </Heading>
+
+          <ProductRating rating={4.5} count={73} />
 
           <div className="mt-3" role="status" aria-live="polite">
             <ProductPrice
