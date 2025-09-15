@@ -1,5 +1,9 @@
 {
   "description": "Descripción",
   "addToCart": "Añadir al carrito",
-  "soldOut": "Agotado"
+  "soldOut": "Agotado",
+  "price": {
+    "from": "Desde",
+    "save_percent": "Ahorra {{value}}%"
+  }
 }

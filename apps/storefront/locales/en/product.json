@@ -1,5 +1,9 @@
 {
   "description": "Description",
   "addToCart": "Add to cart",
-  "soldOut": "Sold out"
+  "soldOut": "Sold out",
+  "price": {
+    "from": "From",
+    "save_percent": "Save {{value}}%"
+  }
 }

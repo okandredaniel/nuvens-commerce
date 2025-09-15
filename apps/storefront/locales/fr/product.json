@@ -1,5 +1,9 @@
 {
   "description": "Description",
   "addToCart": "Ajouter au panier",
-  "soldOut": "Rupture de stock"
+  "soldOut": "Rupture de stock",
+  "price": {
+    "from": "À partir de",
+    "save_percent": "Économisez {{value}}%"
+  }
 }
