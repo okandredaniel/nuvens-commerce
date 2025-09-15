@@ -14,7 +14,7 @@ export const Container = forwardRef<HTMLElement, Props>(function Container(
   return (
     <Comp
       ref={ref as any}
-      className={cn('w-full mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl', className)}
+      className={cn('container mx-auto px-4 sm:px-6 lg:px-8', className)}
       {...rest}
     />
   );
