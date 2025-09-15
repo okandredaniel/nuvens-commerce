@@ -133,12 +133,12 @@ export function ProductForm({
       })}
 
       <div className="flex gap-3">
-        <div className="flex rounded-lg border border-[color:var(--color-border)] bg-white">
+        <div className="flex items-center justify-center rounded-full p-1 border border-[color:var(--color-border)] bg-white">
           <button
             type="button"
             onClick={dec}
             aria-label={t('decrease') as string}
-            className="px-3 py-2 text-sm leading-none hover:bg-black/5"
+            className="w-11 h-11 flex items-center justify-center rounded-full text-sm leading-none hover:bg-black/5"
           >
             <Minus />
           </button>
@@ -153,21 +153,20 @@ export function ProductForm({
               const clamped = isNaN(v) ? 1 : Math.min(maxQty, Math.max(1, v));
               setQty(clamped);
             }}
-            className="w-full sm:w-12 text-center text-sm outline-none bg-transparent appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="w-full h-full sm:w-12 text-center text-sm outline-none bg-transparent appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             aria-label={t('quantity') as string}
           />
           <button
             type="button"
             onClick={inc}
             aria-label={t('increase') as string}
-            className="px-3 py-2 text-sm leading-none hover:bg-black/5"
+            className="w-11 h-11 flex items-center justify-center rounded-full text-sm leading-none hover:bg-black/5"
           >
             <Plus />
           </button>
         </div>
 
         <AddToCartButton
-          analytics={{}}
           ariaLabel={selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}
           disabled={!selectedVariant || !selectedVariant.availableForSale}
           lines={

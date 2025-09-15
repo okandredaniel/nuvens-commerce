@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import type { FetcherWithComponents } from 'react-router';
 
 type Props = {
-  analytics: unknown;
   ariaLabel: string;
   children: React.ReactNode;
   disabled: boolean;
@@ -13,14 +12,7 @@ type Props = {
   onClick: () => void;
 };
 
-export function AddToCartButton({
-  analytics,
-  ariaLabel,
-  children,
-  disabled,
-  lines,
-  onClick,
-}: Props) {
+export function AddToCartButton({ ariaLabel, children, disabled, lines, onClick }: Props) {
   const [justAdded, setJustAdded] = useState(false);
   const prevState = useRef<'idle' | 'loading' | 'submitting'>('idle');
   const successTimer = useRef<number | null>(null);
@@ -58,7 +50,6 @@ export function AddToCartButton({
 
           return (
             <>
-              <input name="analytics" type="hidden" value={JSON.stringify(analytics)} />
               <Button
                 type="submit"
                 onClick={handleOnClick}
