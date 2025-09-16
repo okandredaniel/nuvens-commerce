@@ -6,7 +6,6 @@ import { Footer } from '~/components/footer';
 import { Header } from '~/components/header';
 import { MobileMenuAside } from '~/components/MobileMenuAside';
 import { BrandStyleTag, Providers } from '~/providers/Providers';
-import tailwindCss from '~/styles/tailwind.css?url';
 
 type HeaderPref = 'transparent' | 'solid';
 type RouteHandle = { header?: HeaderPref };
@@ -32,7 +31,6 @@ export function Layout({ children }: { children?: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="stylesheet" href={tailwindCss} />
         <Meta />
         <Links />
       </head>
