@@ -1,6 +1,7 @@
 import { Button, useAside } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
+import { useRoutingPolicy } from '~/providers/AppContexts';
 
 export function CartEmpty() {
   const { t } = useTranslation('cart');
@@ -8,7 +9,8 @@ export function CartEmpty() {
   const { pathname } = useLocation();
   const seg = pathname.split('/').filter(Boolean)[0] ?? '';
   const prefix = /^[A-Za-z]{2}-[A-Za-z]{2}$/.test(seg) ? `/${seg.toLowerCase()}` : '';
-  const to = `${prefix}/collections`;
+  const { recommendedFallback } = useRoutingPolicy();
+  const to = `${prefix}${recommendedFallback}`;
 
   return (
     <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-8 text-center">

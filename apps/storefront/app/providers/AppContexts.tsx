@@ -1,11 +1,22 @@
 import { createContext, useContext, useMemo } from 'react';
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
+import {
+  getRecommendedPath,
+  isAllowedNavigable,
+  resolvePolicyPath,
+} from '~/lib/routing/policyClient';
 
 type StoreCtx = {
   publicStoreDomain?: string;
   primaryDomainUrl?: string;
   footer?: Promise<FooterQuery | null> | null;
   header?: HeaderQuery | null;
+  routing?: {
+    isAllowed: (path: string) => boolean;
+    resolvePolicyPath: (path: string) => string;
+    recommendedFallback: string;
+    candidates?: string[];
+  };
 };
 
 type CartCtx = {
@@ -49,6 +60,19 @@ export function useBrand() {
 }
 
 export function useShallowMemo<T extends Record<string, any>>(obj: T) {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => obj, Object.values(obj));
+}
+
+export function useRoutingPolicy(
+  candidates: string[] = ['/', '/collections', '/pages', '/policies'],
+) {
+  const store = useStore();
+  const provided = store.routing;
+  const recommended =
+    provided?.recommendedFallback ?? getRecommendedPath(provided?.candidates ?? candidates);
+  return {
+    isAllowed: provided?.isAllowed ?? isAllowedNavigable,
+    resolvePolicyPath: provided?.resolvePolicyPath ?? resolvePolicyPath,
+    recommendedFallback: recommended,
+  };
 }
