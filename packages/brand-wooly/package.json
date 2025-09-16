@@ -1,6 +1,23 @@
 {
   "name": "@nuvens/brand-wooly",
   "version": "0.0.0",
+  "private": true,
+  "type": "module",
   "main": "src/index.ts",
-  "private": true
+  "types": "src/index.ts",
+  "dependencies": {
+    "@nuvens/core": "workspace:*",
+    "@nuvens/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "i18next": "^25",
+    "react-i18next": "^15"
+  },
+  "tailwind": {
+    "content": [
+      "./src/**/*.{ts,tsx,js,jsx,mdx}"
+    ]
+  }
 }
