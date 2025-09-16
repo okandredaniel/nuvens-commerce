@@ -15,7 +15,7 @@ type Props<T extends HeadingTag = 'h2'> = {
   className?: string;
 } & Omit<React.ComponentPropsWithoutRef<T>, 'className'>;
 
-const base = 'block tracking-tight antialiased';
+const base = 'block tracking-tight antialiased font-bold';
 const tones: Record<Tone, string> = {
   default: 'text-[color:var(--heading-color,var(--color-on-surface))]',
   muted: 'text-[color:var(--color-muted)]',
@@ -52,15 +52,9 @@ function HeadingInner<T extends HeadingTag = 'h2'>(
   const Tag = (as || 'h2') as HeadingTag;
   const visual = size || defaultSizeByTag[Tag];
   const cls = cn(base, sizes[visual], alignments[align], tones[tone], className);
-  const mergedStyle = {
-    fontFamily: 'var(--font-heading, inherit)',
-    fontWeight: 'var(--heading-weight, 600)',
-    letterSpacing: 'var(--heading-letter-spacing, -0.01em)',
-    ...style,
-  } as React.CSSProperties;
 
   return (
-    <Tag ref={ref as any} className={cls} style={mergedStyle} {...(rest as any)}>
+    <Tag ref={ref as any} className={cls} {...(rest as any)}>
       {children}
     </Tag>
   );
