@@ -1,9 +1,9 @@
+import { type ImageProps } from '@nuvens/core';
 import { Button, Heading } from '@nuvens/ui';
-import { Image } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
-import couple from '../../home/assets/couple-lying-on-a-zippex-bed.png';
+import couple from '../assets/couple-lying-on-a-zippex-bed.png';
 
-export function ComfortSection({ headingId }: { headingId: string }) {
+export function ComfortSection({ headingId, Image }: { headingId: string; Image: ImageProps }) {
   const { t } = useTranslation('home');
   return (
     <div>

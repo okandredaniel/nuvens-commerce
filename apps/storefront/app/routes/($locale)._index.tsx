@@ -1,15 +1,8 @@
-import { HomePage, homeLoader } from '@nuvens/brand-ui';
-import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
-
-export async function loader(args: LoaderFunctionArgs) {
-  if (typeof homeLoader === 'function') {
-    return homeLoader(args);
-  }
-  return null;
-}
+import { HomePage } from '@nuvens/brand-ui';
+import { Image } from '@shopify/hydrogen';
 
 export const handle = { header: 'transparent' as const };
 
 export default function Index() {
-  return <HomePage />;
+  return <HomePage slots={{ Image }} />;
 }

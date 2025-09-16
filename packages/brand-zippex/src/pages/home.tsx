@@ -1,22 +1,18 @@
-import { Container } from '@nuvens/ui';
-import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { type ImageProps } from '@nuvens/core';
+import { Container, VideoPreviewWithModal } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
-import { VideoPreviewWithModal } from '../../components';
-import {
-  ComfortSection,
-  Hero,
-  IntroCta,
-  PromisesCarousel,
-  ReviewsSection,
-  SupportSection,
-} from './sections';
+import { ComfortSection } from '../blocks/ComfortSection';
+import { Hero } from '../blocks/hero';
+import { IntroCta } from '../blocks/IntroCta';
+import { PromisesCarousel } from '../blocks/PromisesCarousel';
+import { ReviewsSection } from '../blocks/ReviewsSection';
+import { SupportSection } from '../blocks/SupportSection';
 
-export async function homeLoader(_: LoaderFunctionArgs) {
-  return null;
-}
+type HomePageProps = { slots: { Image: ImageProps } };
 
-export function HomePage() {
+export function HomePage({ slots }: HomePageProps) {
   const { t } = useTranslation('home');
+  const { Image } = slots;
 
   return (
     <>
@@ -42,7 +38,7 @@ export function HomePage() {
 
       <section aria-labelledby="comfort-heading" className="py-16">
         <Container>
-          <ComfortSection headingId="comfort-heading" />
+          <ComfortSection headingId="comfort-heading" Image={Image} />
         </Container>
       </section>
 

@@ -32,5 +32,4 @@ export * from './tokens/utils';
 export * from './utils/cn';
 
 // assets
-import placeholderImage from './assets/placeholder.svg';
-export { placeholderImage };
+export * from './assets';

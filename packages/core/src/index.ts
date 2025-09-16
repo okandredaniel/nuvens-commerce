@@ -13,7 +13,7 @@ export * from './routing/policy';
 export type { RestrictedResponse, RouteAccessPolicy } from './routing/routing.interface';
 
 // interfaces
-export type { ProductTemplateProps, ProductTemplateSlots } from './types/product';
+export type { ImageProps, ProductTemplateProps, ProductTemplateSlots } from './types/product';
 
 // mock
 export * from './mocks/pdp';

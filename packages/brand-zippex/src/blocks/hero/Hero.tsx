@@ -85,7 +85,7 @@ export function Hero() {
             </div>
 
             <Button variant="white" size="lg" asChild>
-              <Link to="/collections/all">{t('cta')}</Link>
+              <Link to="/products/matelas-zippex">{t('cta')}</Link>
             </Button>
           </div>
         </div>

@@ -1,8 +1,7 @@
-import { Button, Card, CardContent, Heading } from '@nuvens/ui';
-import { Image } from '@shopify/hydrogen';
+import { type ImageProps } from '@nuvens/core';
+import { Button, Card, CardContent, Heading, trustpilotLogo } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 import { FaStar } from 'react-icons/fa';
-import trustpilot from '../../../../../../shared-assets/trustpilot-logo.png';
 
 function Stars({ count = 5 }: { count?: number }) {
   return (
@@ -29,8 +28,9 @@ const reviews = [
   },
 ];
 
-export function ReviewsSection({ headingId }: { headingId: string }) {
+export function ReviewsSection({ headingId, Image }: { headingId: string; Image: ImageProps }) {
   const { t } = useTranslation('home');
+
   return (
     <div>
       <div className="flex flex-col items-center gap-2">
@@ -54,7 +54,7 @@ export function ReviewsSection({ headingId }: { headingId: string }) {
             <CardContent>
               <div className="flex justify-between">
                 <Image
-                  src={trustpilot}
+                  src={trustpilotLogo}
                   alt="Trustpilot"
                   width={100}
                   sizes="(min-width:1024px) 560px, (min-width:768px) 50vw, 100vw"
