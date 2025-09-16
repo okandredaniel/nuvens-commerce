@@ -15,17 +15,14 @@ import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
 import { buildCanonical, buildHreflangs } from '~/lib/seo';
 import { toLang } from './i18n/localize';
 import { getAppResources, getBrandBundleResources } from './i18n/resources';
-import tailwindStyles from './styles/tailwind.css?url';
+import './styles/tailwind.css';
 
 export const headers: HeadersFunction = () => ({
   'Cache-Control': 'private, no-store',
   Vary: 'Cookie',
 });
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: tailwindStyles },
-  { rel: 'stylesheet', href: keenStyles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: keenStyles }];
 
 export type RootLoader = typeof loader;
 export { ErrorBoundary } from '~/components/ErrorBoundary';

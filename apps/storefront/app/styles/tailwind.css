@@ -1,13 +1,22 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 
 @source "../**/*.{ts,tsx,js,jsx,mdx,html}";
-
+@source "../../../../packages/core/src/**/*.{ts,tsx,js,jsx,mdx}";
 @source "../../../../packages/ui/src/**/*.{ts,tsx,js,jsx,mdx}";
-@source "../../../../packages/ui/dist/**/*.{ts,tsx,js,jsx}";
 @source "../../../../packages/brand-*/src/**/*.{ts,tsx,js,jsx,mdx}";
-@source "../../../../packages/brand-*/dist/**/*.{ts,tsx,js,jsx}";
 
-@plugin "@tailwindcss/typography";
+@theme {
+  --color-background: var(--color-surface, hsl(0 0% 100%));
+  --color-foreground: var(--color-foreground, hsl(224 71% 4%));
+  --color-muted: var(--color-muted, hsl(210 40% 96.1%));
+  --color-muted-foreground: var(--color-muted-foreground, hsl(215 16% 47%));
+  --color-primary: var(--color-brand-primary, hsl(222 47% 11%));
+  --color-primary-foreground: var(--color-on-primary, hsl(0 0% 100%));
+  --color-accent: var(--color-brand-accent, hsl(210 40% 96.1%));
+  --color-accent-foreground: var(--color-on-accent, hsl(222 47% 11%));
+  --color-border: var(--color-border, hsl(214 32% 91%));
+}
 
 body {
   color: var(--color-text);

@@ -3,7 +3,9 @@
   "private": true,
   "version": "2025.5.1",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "shopify hydrogen build --codegen",
     "dev": "shopify hydrogen dev --codegen",
@@ -45,11 +47,5 @@
     "typescript": "^5.9.2",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^4.3.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "browserslist": [
-    "defaults"
-  ]
+  }
 }
