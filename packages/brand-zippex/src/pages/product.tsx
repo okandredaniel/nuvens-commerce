@@ -120,7 +120,7 @@ export function ProductPage({
 
       <section className="py-16">
         <Container>
-          <ReviewsSection headingId="reviews-heading" />
+          <ReviewsSection headingId="reviews-heading" Image={Image} />
         </Container>
       </section>
 

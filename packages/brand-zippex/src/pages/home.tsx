@@ -53,7 +53,7 @@ export function HomePage({ slots }: HomePageProps) {
 
       <section aria-labelledby="reviews-heading" className="py-16">
         <Container>
-          <ReviewsSection headingId="reviews-heading" />
+          <ReviewsSection headingId="reviews-heading" Image={Image} />
         </Container>
       </section>
 
