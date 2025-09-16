@@ -18,6 +18,7 @@ export * from './components/ui/Sheet';
 export * from './components/ui/Stepper';
 export * from './components/ui/Textarea';
 export * from './components/ui/Tooltip';
+export * from './components/ui/VideoPreviewWithModal';
 
 // interfaces
 export type { DesignTokens, Palette, SemanticColors } from './interfaces/tokens.interface';
@@ -29,3 +30,7 @@ export * from './tokens/utils';
 
 // utils
 export * from './utils/cn';
+
+// assets
+import placeholderImage from './assets/placeholder.svg';
+export { placeholderImage };
