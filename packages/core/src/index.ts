@@ -11,3 +11,9 @@ export type { BundleResources, CountryMap, I18nBundle, Resources } from './i18n/
 // routing
 export * from './routing/policy';
 export type { RestrictedResponse, RouteAccessPolicy } from './routing/routing.interface';
+
+// interfaces
+export type { ProductTemplateProps, ProductTemplateSlots } from './types/product';
+
+// mock
+export * from './mocks/pdp';
