@@ -9,5 +9,15 @@
   "rating": {
     "aria": "{{value}} out of 5",
     "see_all": "See all reviews"
+  },
+  "media": "Media",
+  "videoHeading": "How it fits your needs",
+  "trusted": {
+    "heading": "Trusted by"
+  },
+  "detailsHeading": "More details",
+  "reviewsHeading": "Reviews",
+  "support": {
+    "heading": "We’re here to help"
   }
 }

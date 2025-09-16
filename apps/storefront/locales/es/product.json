@@ -8,6 +8,16 @@
   },
   "rating": {
     "aria": "{{value}} de 5",
-    "see_all": "Ver todas las opiniones"
+    "see_all": "Ver todas las reseñas"
+  },
+  "media": "Multimedia",
+  "videoHeading": "Cómo se adapta a tus necesidades",
+  "trusted": {
+    "heading": "Con la confianza de"
+  },
+  "detailsHeading": "Más detalles",
+  "reviewsHeading": "Reseñas",
+  "support": {
+    "heading": "Estamos aquí para ayudarte"
   }
 }

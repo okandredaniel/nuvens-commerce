@@ -1,0 +1,32 @@
+{
+  "why": {
+    "heading": "Por qué Zippex",
+    "items": {
+      "sixFirmness": "6 niveles de firmeza en un solo colchón",
+      "customers": "Más de 400.000 clientes satisfechos",
+      "dualAdjust": "Ajustable de forma independiente en cada lado",
+      "tryFree": "Prueba sin riesgo — no cuesta nada probarlo",
+      "deliveryReturns": "Envío y devoluciones gratis",
+      "splitPayment": "Paga en 3 cuotas sin interés"
+    }
+  },
+  "personalize": {
+    "eyebrow": "Personaliza tu colchón",
+    "title": "Innovación dentro de Zippex",
+    "cta": "Configura tu colchón y descubre nuestros consejos"
+  },
+  "comfort": {
+    "imageAlt": "Persona durmiendo cómodamente en un colchón Zippex",
+    "title": "¿No estás seguro de cuál elegir?",
+    "text": "Encuentra el tamaño y la configuración ideales en pocos clics.",
+    "cta": "Quiero mi colchón"
+  },
+  "aside": {
+    "bullets": {
+      "consumerChoice": "Elegido mejor colchón 9 veces por la asociación de consumidores",
+      "fitsAll": "Se adapta a todos los tipos de cuerpo, posiciones de sueño y somieres",
+      "sixInOne": "Totalmente modular — seis niveles de confort en un solo colchón",
+      "designedAndMade": "Diseñado en los Países Bajos con estudiantes de TU Delft y fabricado en Europa"
+    }
+  }
+}

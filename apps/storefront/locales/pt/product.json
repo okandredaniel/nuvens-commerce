@@ -3,11 +3,21 @@
   "addToCart": "Adicionar ao carrinho",
   "soldOut": "Esgotado",
   "price": {
-    "from": "A partir de",
+    "from": "Desde",
     "save_percent": "Poupe {{value}}%"
   },
   "rating": {
     "aria": "{{value}} de 5",
     "see_all": "Ver todas as avaliações"
+  },
+  "media": "Multimédia",
+  "videoHeading": "Como se adapta às suas necessidades",
+  "trusted": {
+    "heading": "Marcas que confiam em nós"
+  },
+  "detailsHeading": "Mais detalhes",
+  "reviewsHeading": "Avaliações",
+  "support": {
+    "heading": "Estamos aqui para ajudar"
   }
 }

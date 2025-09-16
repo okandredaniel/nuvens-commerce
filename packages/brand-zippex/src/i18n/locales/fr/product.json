@@ -1,0 +1,32 @@
+{
+  "why": {
+    "heading": "Pourquoi Zippex",
+    "items": {
+      "sixFirmness": "6 niveaux de fermeté dans un seul matelas",
+      "customers": "Plus de 400 000 clients satisfaits",
+      "dualAdjust": "Réglable indépendamment de chaque côté",
+      "tryFree": "Essai sans risque — ça ne coûte rien d’essayer",
+      "deliveryReturns": "Livraison et retours gratuits",
+      "splitPayment": "Payez en 3 fois sans frais"
+    }
+  },
+  "personalize": {
+    "eyebrow": "Personnalisez votre matelas",
+    "title": "L’innovation au cœur de Zippex",
+    "cta": "Configurez votre matelas et découvrez nos conseils"
+  },
+  "comfort": {
+    "imageAlt": "Personne dormant confortablement sur un matelas Zippex",
+    "title": "Vous n’êtes pas sûr du bon choix ?",
+    "text": "Trouvez la taille et la configuration idéales en quelques clics.",
+    "cta": "Je veux mon matelas"
+  },
+  "aside": {
+    "bullets": {
+      "consumerChoice": "Élu meilleur matelas 9 fois par l’association de consommateurs",
+      "fitsAll": "Convient à toutes les morphologies, positions de sommeil et types de sommiers",
+      "sixInOne": "Entièrement modulaire — six niveaux de confort en un seul matelas",
+      "designedAndMade": "Conçu aux Pays-Bas avec des étudiants de la TU Delft et fabriqué en Europe"
+    }
+  }
+}

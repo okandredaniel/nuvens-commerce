@@ -1,7 +1,7 @@
 {
   "description": "Description",
   "addToCart": "Ajouter au panier",
-  "soldOut": "Rupture de stock",
+  "soldOut": "En rupture de stock",
   "price": {
     "from": "À partir de",
     "save_percent": "Économisez {{value}}%"
@@ -9,5 +9,15 @@
   "rating": {
     "aria": "{{value}} sur 5",
     "see_all": "Voir tous les avis"
+  },
+  "media": "Médias",
+  "videoHeading": "Comment répondre à vos besoins",
+  "trusted": {
+    "heading": "Ils nous font confiance"
+  },
+  "detailsHeading": "Plus de détails",
+  "reviewsHeading": "Avis",
+  "support": {
+    "heading": "Nous sommes là pour vous aider"
   }
 }

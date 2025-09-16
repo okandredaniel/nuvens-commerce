@@ -9,5 +9,15 @@
   "rating": {
     "aria": "{{value}} su 5",
     "see_all": "Vedi tutte le recensioni"
+  },
+  "media": "Media",
+  "videoHeading": "Come soddisfa le tue esigenze",
+  "trusted": {
+    "heading": "Scelto da"
+  },
+  "detailsHeading": "Altri dettagli",
+  "reviewsHeading": "Recensioni",
+  "support": {
+    "heading": "Siamo qui per aiutarti"
   }
 }

@@ -1,0 +1,32 @@
+{
+  "why": {
+    "heading": "Why Zippex",
+    "items": {
+      "sixFirmness": "6 firmness levels in one mattress",
+      "customers": "Over 400,000 satisfied customers",
+      "dualAdjust": "Independently adjustable on each side",
+      "tryFree": "Risk-free trial — it costs nothing to try",
+      "deliveryReturns": "Free delivery & returns",
+      "splitPayment": "Pay in 3 interest-free installments"
+    }
+  },
+  "personalize": {
+    "eyebrow": "Personalize your mattress",
+    "title": "Innovation inside Zippex",
+    "cta": "Configure your mattress and see our tips"
+  },
+  "comfort": {
+    "imageAlt": "Person sleeping comfortably on a Zippex mattress",
+    "title": "Not sure which one is right?",
+    "text": "Find your ideal size and configuration in just a few clicks.",
+    "cta": "I want my mattress"
+  },
+  "aside": {
+    "bullets": {
+      "consumerChoice": "Voted best mattress 9 times by the consumer association",
+      "fitsAll": "Fits all body types, sleep positions and bed bases",
+      "sixInOne": "Fully modular — six comfort levels in one mattress",
+      "designedAndMade": "Designed in the Netherlands with TU Delft students and made in Europe"
+    }
+  }
+}

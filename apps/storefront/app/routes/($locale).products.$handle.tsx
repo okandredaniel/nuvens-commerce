@@ -1,25 +1,26 @@
-import { Container, Heading } from '@nuvens/ui';
+import { ProductPage } from '@nuvens/brand-ui';
+import { getPdpMetaMock, type ProductTemplateSlots } from '@nuvens/core';
 import {
   Analytics,
   getAdjacentAndFirstAvailableVariants,
   getProductOptions,
   getSelectedProductOptions,
+  Image,
   useOptimisticVariant,
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
-import { CircleCheckBig } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useRouteLoaderData } from 'react-router';
 import { ProductForm } from '~/components/ProductForm';
 import { ProductGallery } from '~/components/ProductGallery';
 import { ProductPrice } from '~/components/ProductPrice';
 import ProductRating from '~/components/ProductRating';
 import { RichText } from '~/components/RichText';
+import { PRODUCT_QUERY } from '~/lib/fragments';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
 import { buildCanonical } from '~/lib/seo';
-import { PRODUCT_QUERY } from '../lib/fragments';
+import type { RootLoader } from '~/root';
 
 type RootLoaderData = {
   header?: { shop?: { primaryDomain?: { url?: string } } };
@@ -42,13 +43,7 @@ export const meta: MetaFunction<typeof loader> = ({ data, location, matches }) =
   ];
 };
 
-export async function loader(args: LoaderFunctionArgs) {
-  const deferredData = loadDeferredData(args);
-  const criticalData = await loadCriticalData(args);
-  return { ...deferredData, ...criticalData };
-}
-
-async function loadCriticalData({ context, params, request }: LoaderFunctionArgs) {
+export async function loader({ context, params, request }: LoaderFunctionArgs) {
   const { handle } = params;
   const { storefront } = context;
   if (!handle) throw new Error('Expected product handle to be defined');
@@ -61,20 +56,17 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
   return { product };
 }
 
-function loadDeferredData(_: LoaderFunctionArgs) {
-  return {};
-}
-
 export default function ProductRoute() {
   const { product } = useLoaderData<typeof loader>();
-  const { t: tProduct } = useTranslation('product');
 
   const selectedVariant = useOptimisticVariant(
     product.selectedOrFirstAvailableVariant,
     getAdjacentAndFirstAvailableVariants(product),
   );
-
   useSelectedOptionInUrlParam(selectedVariant.selectedOptions);
+
+  const data = useRouteLoaderData<RootLoader>('root') as any;
+  const meta = getPdpMetaMock(data?.i18n?.locale, (product as any)?.handle);
 
   const productOptions = getProductOptions({
     ...product,
@@ -111,68 +103,25 @@ export default function ProductRoute() {
     selectedVariant?.price?.amount,
   ]);
 
+  const slots: ProductTemplateSlots = {
+    ProductGallery,
+    ProductPrice,
+    ProductForm,
+    ProductRating,
+    RichText,
+    Image,
+  };
+
   return (
-    <Container className="py-6 md:py-10">
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <section aria-label={tProduct('media')}>
-          <ProductGallery product={product} variantImage={selectedVariant?.image} />
-        </section>
-
-        <aside className="lg:sticky lg:top-24" aria-labelledby="product-title">
-          <Heading id="product-title" as="h1">
-            {product.title}
-          </Heading>
-
-          <ProductRating rating={4.5} count={73} />
-
-          <div className="mt-3" role="status" aria-live="polite">
-            <ProductPrice
-              price={selectedVariant?.price}
-              compareAtPrice={selectedVariant?.compareAtPrice}
-            />
-          </div>
-
-          {product.descriptionHtml ? (
-            <section className="mt-8" aria-labelledby="product-description-heading">
-              <h2 id="product-description-heading" className="mb-2 text-base font-semibold">
-                {tProduct('description')}
-              </h2>
-              <RichText
-                html={product.descriptionHtml}
-                className="prose prose-sm prose-neutral max-w-none [&_img]:rounded-lg dark:prose-invert"
-              />
-            </section>
-          ) : null}
-
-          <ul className="flex flex-col gap-4 my-8">
-            <li className="flex gap-2">
-              <CircleCheckBig className="text-[#00C7D5]" />
-              Élu meilleur matelas 9 fois de suite par l’association de consommateurs
-            </li>
-            <li className="flex gap-2">
-              <CircleCheckBig className="text-[#00C7D5]" />
-              Convient à toutes les morphologies, positions de sommeil et types de sommiers
-            </li>
-            <li className="flex gap-2">
-              <CircleCheckBig className="text-[#00C7D5]" />
-              Entièrement modulable – 6 niveaux de confort en un seul matelas
-            </li>
-            <li className="flex gap-2">
-              <CircleCheckBig className="text-[#00C7D5]" />
-              Conçu aux Pays-Bas com des étudiants de la TU Delft et fabriqué en Europe
-            </li>
-          </ul>
-
-          <div className="mt-6">
-            <ProductForm
-              productOptions={productOptions}
-              selectedVariant={selectedVariant}
-              maxQty={maxQty}
-            />
-          </div>
-        </aside>
-      </div>
-
+    <>
+      <ProductPage
+        product={product}
+        selectedVariant={selectedVariant}
+        productOptions={productOptions}
+        maxQty={maxQty}
+        slots={slots}
+        meta={meta}
+      />
       <Analytics.ProductView
         data={{
           products: [
@@ -188,6 +137,6 @@ export default function ProductRoute() {
           ],
         }}
       />
-    </Container>
+    </>
   );
 }
