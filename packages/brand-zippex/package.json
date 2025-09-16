@@ -10,8 +10,6 @@
     "@nuvens/ui": "workspace:*"
   },
   "peerDependencies": {
-    "@shopify/remix-oxygen": "^3.0.0",
-    "@shopify/hydrogen": "^2025.5.0",
     "react": "^18",
     "react-dom": "^18",
     "i18next": "^25",
