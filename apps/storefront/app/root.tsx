@@ -1,11 +1,12 @@
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { toLang } from '@/i18n/localize';
+import { getAppResources, getBrandBundleResources } from '@/i18n/resources';
 import { Layout } from '@/layouts/Layout';
+import { buildMetaLinks } from '@/lib/seo';
+import { getRuntimeConfig } from '@/server/runtime/getRuntimeConfig';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet } from 'react-router';
-import { toLang } from './i18n/localize';
-import { getAppResources, getBrandBundleResources } from './i18n/resources';
-import { buildMetaLinks } from './lib/seo';
 import { getBrandContext } from './server/brand';
 import { loadCriticalData, loadDeferredData } from './server/data/loaders';
 import { headers } from './server/http/headers';
@@ -18,11 +19,12 @@ export { ErrorBoundary, headers, Layout, links };
 
 export async function loader(args: LoaderFunctionArgs) {
   const origin = new URL(args.request.url).origin;
-  const { storefront, env } = args.context;
+  const { storefront } = args.context;
+  const cfg = getRuntimeConfig(args);
 
   const realPath = resolvePathname(args.request);
 
-  const { brandI18n, brand } = await getBrandContext({ BRAND_ID: env.BRAND_ID });
+  const { brandI18n, brand } = await getBrandContext({ BRAND_ID: cfg.env.BRAND_ID });
 
   const firstSeg = realPath.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
@@ -47,11 +49,11 @@ export async function loader(args: LoaderFunctionArgs) {
     origin,
     brand,
     i18n: { locale: lang, resources },
-    publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
-    shop: getShopAnalytics({ storefront, publicStorefrontId: env.PUBLIC_STOREFRONT_ID }),
+    publicStoreDomain: cfg.env.PUBLIC_STORE_DOMAIN,
+    shop: getShopAnalytics({ storefront, publicStorefrontId: cfg.env.PUBLIC_STOREFRONT_ID }),
     consent: {
-      checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
-      storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
+      checkoutDomain: cfg.env.PUBLIC_CHECKOUT_DOMAIN,
+      storefrontAccessToken: cfg.env.PUBLIC_STOREFRONT_API_TOKEN,
       withPrivacyBanner: false,
       country: storefront.i18n.country,
       language: storefront.i18n.language,
