@@ -1,4 +1,4 @@
-import { evaluateRouteAccess, stripLocale } from '@nuvens/core';
+import { evaluateRouteAccess } from '@nuvens/core';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet, useRouteLoaderData } from 'react-router';
@@ -7,6 +7,7 @@ import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { Layout } from '~/layouts/Layout';
 import { toLang } from './i18n/localize';
 import { getAppResources, getBrandBundleResources } from './i18n/resources';
+import { resolvePolicyPath } from './lib/routing/paths';
 import { getBrandContext } from './server/brand';
 import { loadCriticalData, loadDeferredData } from './server/data/loaders';
 import { headers } from './server/http/headers';
@@ -25,10 +26,10 @@ export async function loader(args: LoaderFunctionArgs) {
   const { storefront, env } = args.context;
 
   const realPath = resolvePathname(args.request);
-  const { path: pathWithoutLocale } = stripLocale(realPath);
+  const policyPath = resolvePolicyPath(realPath);
 
-  const { policy, brandI18n, brand } = await getBrandContext();
-  const routeBlocked = !!policy && evaluateRouteAccess(policy, pathWithoutLocale).allowed === false;
+  const { policy, brandI18n, brand } = await getBrandContext({ BRAND_ID: env.BRAND_ID });
+  const routeBlocked = !!policy && evaluateRouteAccess(policy, policyPath).allowed === false;
 
   const firstSeg = realPath.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
