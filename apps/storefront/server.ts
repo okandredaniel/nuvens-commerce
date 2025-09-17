@@ -1,6 +1,9 @@
 import { createAppLoadContext } from '@lib/context';
+import { resolvePolicyPath } from '@lib/routing/paths';
+import { evaluateRouteAccess } from '@nuvens/core';
 import { storefrontRedirect } from '@shopify/hydrogen';
 import { createRequestHandler, type ServerBuild } from '@shopify/remix-oxygen';
+import { getBrandContext } from './app/server/brand';
 
 function isDataRequest(req: Request, url: URL) {
   if (url.pathname.endsWith('.data')) return true;
@@ -16,12 +19,7 @@ function errorResponse(stage: string, err: unknown) {
   const isProd = process.env.NODE_ENV === 'production';
   if (isProd) return new Response('An unexpected error occurred', { status: 500 });
   const e = err as any;
-  const body = {
-    stage,
-    name: e?.name,
-    message: e?.message,
-    stack: e?.stack,
-  };
+  const body = { stage, name: e?.name, message: e?.message, stack: e?.stack };
   return new Response(JSON.stringify(body, null, 2), {
     status: 500,
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -36,6 +34,22 @@ export default {
       appLoadContext = await createAppLoadContext(request, env, executionContext);
     } catch (err) {
       return errorResponse('context', err);
+    }
+
+    const url = new URL(request.url);
+    const isData = isDataRequest(request, url);
+
+    if (isData) {
+      try {
+        const { policy } = await getBrandContext({ BRAND_ID: env.BRAND_ID });
+        if (policy) {
+          const policyPath = resolvePolicyPath(url.pathname);
+          const allowed = evaluateRouteAccess(policy, policyPath).allowed !== false;
+          if (!allowed) return new Response('Not Found', { status: 404 });
+        }
+      } catch (err) {
+        return errorResponse('policy', err);
+      }
     }
 
     let build: ServerBuild;
@@ -58,9 +72,6 @@ export default {
         const cookie = await appLoadContext.session.commit();
         if (cookie) response.headers.append('Set-Cookie', cookie);
       }
-
-      const url = new URL(request.url);
-      const isData = isDataRequest(request, url);
 
       if (response.status === 404 && !isData) {
         return storefrontRedirect({

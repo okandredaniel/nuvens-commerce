@@ -19,6 +19,50 @@ export function prefixLocale(path: string, locale?: string): string {
   return `/${locale}${clean}`;
 }
 
+function ensureSlash(p: string) {
+  return p.startsWith('/') ? p : `/${p}`;
+}
+
+function dedupe<T>(arr: readonly T[] | undefined): T[] {
+  return Array.from(new Set(arr ?? []));
+}
+
+function expandDataVariantsOne(p: string): string[] {
+  const path = ensureSlash(p);
+  if (path === '/') return ['/', '/_root.data'];
+  if (path.endsWith('.data')) return [path, path.slice(0, -5)];
+  return [path, `${path}.data`];
+}
+
+function expandDataVariants(list: readonly string[] | undefined): string[] {
+  if (!list || list.length === 0) return [];
+  const out: string[] = [];
+  for (const p of list) out.push(...expandDataVariantsOne(p));
+  return dedupe(out);
+}
+
+type NormalizedPolicy = {
+  default: RouteAccessPolicy['default'];
+  expose: string[];
+  restrict: string[];
+  restrictedResponse: RouteAccessPolicy['restrictedResponse'];
+};
+
+const cache = new WeakMap<RouteAccessPolicy, NormalizedPolicy>();
+
+function getNormalizedPolicy(policy: RouteAccessPolicy): NormalizedPolicy {
+  const hit = cache.get(policy);
+  if (hit) return hit;
+  const norm: NormalizedPolicy = {
+    default: policy.default,
+    expose: expandDataVariants(policy.expose),
+    restrict: expandDataVariants(policy.restrict),
+    restrictedResponse: policy.restrictedResponse,
+  };
+  cache.set(policy, norm);
+  return norm;
+}
+
 function someMatch(path: string, patterns: readonly string[] | undefined): boolean {
   if (!patterns || patterns.length === 0) return false;
   for (const p of patterns) {
@@ -36,9 +80,10 @@ export function evaluateRouteAccess(
   policy: RouteAccessPolicy,
   pathWithoutLocale: string,
 ): { allowed: boolean } {
-  if (someMatch(pathWithoutLocale, policy.restrict)) return { allowed: false };
-  if (someMatch(pathWithoutLocale, policy.expose)) return { allowed: true };
-  return { allowed: policy.default === 'allow' };
+  const norm = getNormalizedPolicy(policy);
+  if (someMatch(pathWithoutLocale, norm.restrict)) return { allowed: false };
+  if (someMatch(pathWithoutLocale, norm.expose)) return { allowed: true };
+  return { allowed: norm.default === 'allow' };
 }
 
 export function buildRestrictedResponse(policy: RouteAccessPolicy, locale?: string): Response {
