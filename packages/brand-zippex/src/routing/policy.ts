@@ -12,7 +12,7 @@ export const routeAccessPolicy: RouteAccessPolicy = {
     '/policies',
     '/policies/:handle',
     '/collections.data',
-    '/collections.all.data',
+    '/collections/all.data',
     '/collections/:handle.data',
   ],
   restrictedResponse: { type: 'not_found' },
