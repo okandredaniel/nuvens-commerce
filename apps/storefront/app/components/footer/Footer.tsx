@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Await } from 'react-router';
 import type { FooterQuery } from 'storefrontapi.generated';
 import { Newsletter } from '~/components/Newsletter';
-import { useStore } from '~/providers';
+import { useStore } from '~/providers/AppContexts';
 import { LocalizedNavLink } from '../LocalizedNavLink';
 import { FooterMenuColumns } from './FooterMenuColumns';
 import { FooterPayments } from './FooterPayments';

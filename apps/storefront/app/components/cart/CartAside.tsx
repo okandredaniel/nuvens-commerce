@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Await } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { useCart } from '~/providers';
+import { useCart } from '~/providers/AppContexts';
 import { CartMain } from './CartMain';
 
 export function CartAside() {

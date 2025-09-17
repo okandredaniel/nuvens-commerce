@@ -7,6 +7,7 @@ import { useRouteLoaderData } from 'react-router';
 import { createI18n } from '~/i18n/createInstance';
 import { toLang } from '~/i18n/localize';
 import { getAppResources } from '~/i18n/resources';
+import { resolvePolicyPath } from '~/lib/routing/paths';
 import type { RootLoader } from '~/root';
 import { ProvidersMap, useBrand, useShallowMemo } from './AppContexts';
 
@@ -44,6 +45,10 @@ export function Providers({ children }: ProvidersProps) {
     primaryDomainUrl: data?.header?.shop?.primaryDomain?.url,
     footer: (data as any)?.footer,
     header: (data as any)?.header ?? null,
+    routing: {
+      resolvePolicyPath: (p: string) => resolvePolicyPath(p),
+      candidates: ['/', '/collections', '/pages', '/policies'],
+    },
   });
 
   const cartPromise = (data as any)?.cart ?? null;
