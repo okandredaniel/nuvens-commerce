@@ -19,8 +19,8 @@ import ProductRating from '~/components/ProductRating';
 import { RichText } from '~/components/RichText';
 import { PRODUCT_QUERY } from '~/lib/fragments';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
-import { buildCanonical } from '~/lib/seo';
 import type { RootLoader } from '~/root';
+import { buildCanonical } from '~/server/seo/meta';
 
 type RootLoaderData = {
   header?: { shop?: { primaryDomain?: { url?: string } } };
