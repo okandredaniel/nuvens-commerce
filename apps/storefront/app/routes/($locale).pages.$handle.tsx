@@ -1,7 +1,8 @@
+import { pageTemplates as brandPageTemplates } from '@nuvens/brand-ui';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
-import { guardedLoader } from '~/lib/routing/policy';
 import { redirectIfHandleIsLocalized } from '~/lib/redirect';
+import { guardedLoader } from '~/lib/routing/policy';
 import { pageTemplates } from '../pages';
 
 type LoaderData = {
@@ -46,8 +47,11 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
       .replace(/^-+|-+$/g, '');
 
   const candidates = [normalize(page.templateMeta?.value), normalize(page.handle)].filter(Boolean);
-  const available = Object.keys(pageTemplates);
-  const templateKey = candidates.find((c) => available.includes(c)) || 'default';
+  const available = new Set([
+    ...Object.keys(pageTemplates),
+    ...Object.keys(brandPageTemplates || {}),
+  ]);
+  const templateKey = candidates.find((c) => available.has(c)) || 'default';
 
   return { page, templateKey } satisfies LoaderData;
 }
@@ -58,7 +62,13 @@ function loadDeferredData(_: LoaderFunctionArgs) {
 
 export default function Page() {
   const { page, templateKey } = useLoaderData<typeof loader>();
-  const Template = pageTemplates[templateKey] || pageTemplates.default;
+  const BrandTemplate = (brandPageTemplates as any)?.[templateKey];
+  const StorefrontTemplate = (pageTemplates as any)?.[templateKey];
+  const Template =
+    BrandTemplate ||
+    StorefrontTemplate ||
+    (brandPageTemplates as any)?.default ||
+    (pageTemplates as any)?.default;
   return <Template page={page} />;
 }
 

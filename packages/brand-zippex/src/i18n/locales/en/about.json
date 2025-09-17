@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "badge": "Our Story",
+    "title": {
+      "prefix": "Pleased to meet you, we’re",
+      "brand": "Zippex"
+    },
+    "subtitle": "The best stories often start with a problem — ours is no exception.",
+    "pills": {
+      "design": "Human-centred design",
+      "sleep": "Better sleep",
+      "innovation": "Innovation first"
+    }
+  },
+  "start": {
+    "heading": "It all started in 2020.",
+    "p1": "Our founder was tired of generic solutions that didn’t meet each customer’s specific needs. It was time to build something different.",
+    "p2": "The thinking was simple: if one product can’t satisfy everyone, let’s create a tailored approach for every need.",
+    "p3": "With more determination than hours of sleep, we decided that if the perfect solution didn’t exist, we would invent it."
+  },
+  "journey": {
+    "heading": "Our journey"
+  },
+  "timeline": {
+    "2020": {
+      "title": "The idea is born",
+      "text": "15 months of research, testing, and dozens of prototypes to craft the right solution."
+    },
+    "2022": {
+      "title": "First milestones",
+      "text": "International recognition and innovation awards. Our solution becomes a benchmark."
+    },
+    "2024": {
+      "title": "European expansion",
+      "text": "We arrive in France with a local team determined to reinvent the customer experience."
+    }
+  },
+  "values": {
+    "heading": "Our values",
+    "subtitle": "What guides us every day in our mission to create exceptional solutions.",
+    "passion": {
+      "title": "Passion",
+      "text": "We put our heart into every project, believing excellence is born from passion."
+    },
+    "quality": {
+      "title": "Quality",
+      "text": "We never compromise on quality. Every detail matters."
+    },
+    "proximity": {
+      "title": "Customer closeness",
+      "text": "We build genuine relationships based on trust and listening."
+    }
+  },
+  "commitments": {
+    "heading": "Our commitments",
+    "subtitle": "Principles that shape every decision.",
+    "european": {
+      "title": "European craftsmanship",
+      "text": "All our products are made in Europe with carefully selected partners who share our standards."
+    },
+    "fairPrices": {
+      "title": "Fair prices",
+      "text": "We cut the unnecessary to offer high-quality solutions at fair prices."
+    },
+    "satisfaction": {
+      "title": "Satisfaction guarantee",
+      "text": "We’re so confident in our solutions that we offer a comprehensive satisfaction guarantee."
+    },
+    "environment": {
+      "title": "Environmental impact",
+      "text": "We strive to limit our footprint through conscious, everyday decisions."
+    }
+  },
+  "cta": {
+    "heading": "Ready to discover our solutions?",
+    "subtitle": "Join thousands of customers who trust us with their most demanding needs.",
+    "primary": "Explore our products",
+    "secondary": "Contact us"
+  }
+}
