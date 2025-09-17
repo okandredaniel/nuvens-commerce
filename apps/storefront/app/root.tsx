@@ -1,121 +1,24 @@
-import { coreI18n, evaluateRouteAccess, stripLocale } from '@nuvens/core';
-import type { ShouldRevalidateFunction } from '@remix-run/router';
+import { evaluateRouteAccess, stripLocale } from '@nuvens/core';
 import { getShopAnalytics } from '@shopify/hydrogen';
-import type {
-  HeadersFunction,
-  LinksFunction,
-  LoaderFunctionArgs,
-  MetaFunction,
-} from '@shopify/remix-oxygen';
-import keenStyles from 'keen-slider/keen-slider.min.css?url';
+import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet, useRouteLoaderData } from 'react-router';
-import type { FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 import { NotFoundView } from '~/components/error/NotFound';
-import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments';
-import { buildCanonical, buildHreflangs } from '~/lib/seo';
+import { ErrorBoundary } from '~/components/ErrorBoundary';
+import { Layout } from '~/layouts/Layout';
 import { toLang } from './i18n/localize';
 import { getAppResources, getBrandBundleResources } from './i18n/resources';
-import tailwindStyles from './styles/tailwind.css?url';
+import { getBrandContext } from './server/brand';
+import { loadCriticalData, loadDeferredData } from './server/data/loaders';
+import { headers } from './server/http/headers';
+import { links } from './server/http/links';
+import { mergeI18nResources } from './server/i18n/merge';
+import { resolvePathname } from './server/routing/resolvePathname';
+import { shouldRevalidate as _shouldRevalidate } from './server/routing/shouldRevalidate';
+import { buildMetaLinks } from './server/seo/meta';
 
-export const headers: HeadersFunction = () => ({
-  'Cache-Control': 'private, no-store',
-  Vary: 'Cookie',
-});
+export { ErrorBoundary, headers, Layout, links };
 
-export const links: LinksFunction = () => [
-  { rel: 'preload', as: 'style', href: tailwindStyles },
-  { rel: 'stylesheet', href: tailwindStyles },
-  { rel: 'stylesheet', href: keenStyles },
-];
-
-export type RootLoader = typeof loader;
-export { ErrorBoundary } from '~/components/ErrorBoundary';
-export { Layout } from '~/layouts/Layout';
-
-type I18nNamespaces = Record<string, unknown>;
-type I18nResources = Record<string, I18nNamespaces>;
-
-function asResources(x: unknown): I18nResources {
-  if (!x || typeof x !== 'object') return {};
-  return x as I18nResources;
-}
-
-async function queryHeader(args: LoaderFunctionArgs, language: string, country: string) {
-  const { storefront } = args.context;
-  return storefront.query<HeaderQuery>(HEADER_QUERY, {
-    variables: {
-      headerMenuHandle: 'main-menu',
-      language: language.toUpperCase(),
-      country: country.toUpperCase(),
-    } as any,
-  });
-}
-
-function queryFooter(args: LoaderFunctionArgs, language: string, country: string) {
-  const { storefront, env } = args.context;
-  const handle = env.FOOTER_MENU_HANDLE;
-  return storefront.query<FooterQuery>(FOOTER_QUERY, {
-    variables: {
-      footerMenuHandle: handle,
-      language: language.toUpperCase(),
-      country: country.toUpperCase(),
-    } as any,
-  });
-}
-
-export async function loadCriticalData(
-  args: LoaderFunctionArgs,
-  language: string,
-  country: string,
-) {
-  const header = await queryHeader(args, language, country);
-  return { header };
-}
-
-export function loadDeferredData(args: LoaderFunctionArgs, language: string, country: string) {
-  const footer = queryFooter(args, language, country);
-  const { context } = args;
-  return {
-    cart: context.cart.get(),
-    isLoggedIn: context.customerAccount.isLoggedIn(),
-    footer,
-  };
-}
-
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  const base = data?.header?.shop?.primaryDomain?.url || data?.origin || '';
-  const canonical = buildCanonical(base, location.pathname, location.search);
-  const alts = buildHreflangs(base, location.pathname, location.search);
-  return [
-    { tagName: 'link', rel: 'canonical', href: canonical },
-    ...alts.map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
-  ];
-};
-
-function resolvePathname(req: Request) {
-  const url = new URL(req.url);
-  let pathname = url.pathname || '/';
-  const isData = pathname.endsWith('.data') || url.searchParams.has('_data');
-  if (isData) {
-    const ref = req.headers.get('referer');
-    if (ref) {
-      try {
-        pathname = new URL(ref).pathname || '/';
-      } catch {
-        pathname = '/';
-      }
-    } else {
-      pathname = '/';
-    }
-  }
-  return pathname;
-}
-
-export const shouldRevalidate: ShouldRevalidateFunction = ({ currentUrl, nextUrl, formMethod }) => {
-  if (formMethod && formMethod !== 'GET') return true;
-  if (currentUrl.pathname !== nextUrl.pathname) return true;
-  return false;
-};
+export const shouldRevalidate = _shouldRevalidate;
 
 export async function loader(args: LoaderFunctionArgs) {
   const origin = new URL(args.request.url).origin;
@@ -124,14 +27,8 @@ export async function loader(args: LoaderFunctionArgs) {
   const realPath = resolvePathname(args.request);
   const { path: pathWithoutLocale } = stripLocale(realPath);
 
-  let brandPolicy: any = null;
-  try {
-    const mod = await import('@nuvens/brand-ui');
-    brandPolicy = (mod as any).routeAccessPolicy ?? null;
-  } catch {}
-
-  const routeBlocked =
-    !!brandPolicy && evaluateRouteAccess(brandPolicy, pathWithoutLocale).allowed === false;
+  const { policy, brandI18n, brand } = await getBrandContext();
+  const routeBlocked = !!policy && evaluateRouteAccess(policy, pathWithoutLocale).allowed === false;
 
   const firstSeg = realPath.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
@@ -143,40 +40,12 @@ export async function loader(args: LoaderFunctionArgs) {
   const country = countryCtx;
   const localeRegion = `${languageCtx}-${countryCtx}`;
 
-  let brandI18n: any = null;
-  let brand: any = null;
-  try {
-    const mod = await import('@nuvens/brand-ui');
-    brandI18n = (mod as any).brandI18n ?? null;
-    const brandTokens = (mod as any).brandTokens;
-    brand = { id: process.env.BRAND_ID, tokens: brandTokens };
-  } catch {}
-
   const deferredData = loadDeferredData(args, lang, country);
   const criticalData = await loadCriticalData(args, lang, country);
 
   const appRes = getAppResources(lang);
   const brandBundleRes = getBrandBundleResources(lang);
-
-  const coreRes = asResources(coreI18n?.resources)?.[lang] ?? {};
-  const brandStaticRes = asResources(brandI18n?.resources)?.[lang] ?? {};
-
-  const nsSet = new Set([
-    ...Object.keys(coreRes),
-    ...Object.keys(brandStaticRes),
-    ...Object.keys(brandBundleRes),
-    ...Object.keys(appRes),
-  ]);
-
-  const resources: Record<string, any> = {};
-  for (const ns of nsSet) {
-    resources[ns] = {
-      ...(coreRes as any)[ns],
-      ...(brandStaticRes as any)[ns],
-      ...(brandBundleRes as any)[ns],
-      ...(appRes as any)[ns],
-    };
-  }
+  const resources = mergeI18nResources(lang, brandI18n, brandBundleRes, appRes);
 
   return {
     ...deferredData,
@@ -197,6 +66,13 @@ export async function loader(args: LoaderFunctionArgs) {
     routeBlocked,
   };
 }
+
+export type RootLoader = typeof loader;
+
+export const meta: MetaFunction<RootLoader> = ({ data, location }) => {
+  const base = data?.header?.shop?.primaryDomain?.url || data?.origin || '';
+  return buildMetaLinks(base, location.pathname, location.search);
+};
 
 export default function App() {
   const data = useRouteLoaderData<RootLoader>('root') as any;
