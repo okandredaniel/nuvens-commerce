@@ -7,7 +7,7 @@ import { PaginatedResourceSection } from '~/components/PaginatedResourceSection'
 import { ProductItem } from '~/components/ProductItem';
 import { PAGE_SIZE } from '~/lib/constants';
 import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments/catalog';
-import { guardedLoader } from '~/lib/routing/policy';
+import { guardedLoader } from '~/server/routing/guard';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const title = data?.collection?.title ? `Collections | ${data.collection.title}` : 'Collections';

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { PaginatedResourceSection } from '~/components/PaginatedResourceSection';
 import { ProductItem } from '~/components/ProductItem';
-import { guardedLoader } from '~/lib/routing/policy';
+import { guardedLoader } from '~/server/routing/guard';
 
 export const meta: MetaFunction<typeof loader> = () => [{ title: 'Products' }];
 

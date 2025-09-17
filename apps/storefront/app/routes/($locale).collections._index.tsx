@@ -8,7 +8,7 @@ import { LocalizedLink } from '~/components/LocalizedLink';
 import { PaginatedResourceSection } from '~/components/PaginatedResourceSection';
 import { PAGE_SIZE } from '~/lib/constants';
 import { COLLECTION_CARD_FRAGMENT } from '~/lib/fragments/catalog';
-import { guardedLoader } from '~/lib/routing/policy';
+import { guardedLoader } from '~/server/routing/guard';
 
 export const meta: MetaFunction<typeof loader> = () => [{ title: 'Collections' }];
 

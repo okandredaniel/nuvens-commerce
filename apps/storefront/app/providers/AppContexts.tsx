@@ -1,10 +1,6 @@
 import { createContext, useContext, useMemo } from 'react';
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
-import {
-  getRecommendedPath,
-  isAllowedNavigable,
-  resolvePolicyPath,
-} from '~/lib/routing/policyClient';
+import { resolvePolicyPath as resolvePolicyPathPure } from '~/lib/routing/paths';
 
 type StoreCtx = {
   publicStoreDomain?: string;
@@ -12,9 +8,9 @@ type StoreCtx = {
   footer?: Promise<FooterQuery | null> | null;
   header?: HeaderQuery | null;
   routing?: {
-    isAllowed: (path: string) => boolean;
-    resolvePolicyPath: (path: string) => string;
-    recommendedFallback: string;
+    isAllowed?: (path: string) => boolean;
+    resolvePolicyPath?: (path: string) => string;
+    recommendedFallback?: string;
     candidates?: string[];
   };
 };
@@ -63,16 +59,24 @@ export function useShallowMemo<T extends Record<string, any>>(obj: T) {
   return useMemo(() => obj, Object.values(obj));
 }
 
+function pickFirstAllowed(candidates: string[], isAllowed: (p: string) => boolean) {
+  for (const p of candidates) if (isAllowed(p)) return p;
+  return '/';
+}
+
 export function useRoutingPolicy(
   candidates: string[] = ['/', '/collections', '/pages', '/policies'],
 ) {
   const store = useStore();
   const provided = store.routing;
-  const recommended =
-    provided?.recommendedFallback ?? getRecommendedPath(provided?.candidates ?? candidates);
+  const isAllowed = provided?.isAllowed ?? (() => true);
+  const resolvePolicyPath =
+    provided?.resolvePolicyPath ?? ((p: string) => resolvePolicyPathPure(p));
+  const list = provided?.candidates ?? candidates;
+  const recommended = provided?.recommendedFallback ?? pickFirstAllowed(list, isAllowed);
   return {
-    isAllowed: provided?.isAllowed ?? isAllowedNavigable,
-    resolvePolicyPath: provided?.resolvePolicyPath ?? resolvePolicyPath,
+    isAllowed,
+    resolvePolicyPath,
     recommendedFallback: recommended,
   };
 }

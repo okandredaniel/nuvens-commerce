@@ -4,12 +4,12 @@ import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { SearchForm } from '~/components/SearchForm';
 import { SearchResults } from '~/components/SearchResults';
-import { guardedLoader } from '~/lib/routing/policy';
 import {
   getEmptyPredictiveSearchResult,
   type PredictiveSearchReturn,
   type RegularSearchReturn,
 } from '~/lib/search';
+import { guardedLoader } from '~/server/routing/guard';
 
 export const meta: MetaFunction = () => [{ title: 'Hydrogen | Search' }];
 
