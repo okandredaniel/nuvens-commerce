@@ -33,7 +33,8 @@
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.2",
+    "@graphql-codegen/cli": "5.0.7",
+    "@parcel/watcher": "^2.5.1",
     "@react-router/dev": "7.6.0",
     "@react-router/fs-routes": "7.6.0",
     "@shopify/cli": "~3.80.7",
