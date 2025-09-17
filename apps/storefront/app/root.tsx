@@ -14,12 +14,10 @@ import { headers } from './server/http/headers';
 import { links } from './server/http/links';
 import { mergeI18nResources } from './server/i18n/merge';
 import { resolvePathname } from './server/routing/resolvePathname';
-import { shouldRevalidate as _shouldRevalidate } from './server/routing/shouldRevalidate';
 import { buildMetaLinks } from './server/seo/meta';
 
+export { shouldRevalidate } from './server/routing/shouldRevalidate';
 export { ErrorBoundary, headers, Layout, links };
-
-export const shouldRevalidate = _shouldRevalidate;
 
 export async function loader(args: LoaderFunctionArgs) {
   const origin = new URL(args.request.url).origin;
