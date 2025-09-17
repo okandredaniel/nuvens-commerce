@@ -1,12 +1,12 @@
-import { Link, useFetcher, type Fetcher } from 'react-router';
-import { Image, Money } from '@shopify/hydrogen';
-import React, { useRef, useEffect } from 'react';
 import {
   getEmptyPredictiveSearchResult,
   urlWithTrackingParams,
   type PredictiveSearchReturn,
-} from '~/lib/search';
+} from '@lib/search';
 import { useAside } from '@nuvens/ui';
+import { Image, Money } from '@shopify/hydrogen';
+import React, { useEffect, useRef } from 'react';
+import { Link, useFetcher, type Fetcher } from 'react-router';
 
 type PredictiveSearchItems = PredictiveSearchReturn['result']['items'];
 

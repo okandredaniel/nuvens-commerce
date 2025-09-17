@@ -1,6 +1,6 @@
+import { useVariantUrl } from '@lib/variants';
 import { Image, Money } from '@shopify/hydrogen';
 import type { CollectionItemFragment, ProductCardFragment } from 'storefrontapi.generated';
-import { useVariantUrl } from '~/lib/variants';
 import { LocalizedLink } from './LocalizedLink';
 
 type ProductLike = CollectionItemFragment | ProductCardFragment;

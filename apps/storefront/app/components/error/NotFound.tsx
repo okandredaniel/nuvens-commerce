@@ -1,8 +1,8 @@
+import { LocalizedLink } from '@/components/LocalizedLink';
 import { Button, Container } from '@nuvens/ui';
 import { ArrowLeft, Home, MessageCircle, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { LocalizedLink } from '~/components/LocalizedLink';
 
 export function NotFoundView() {
   const { t } = useTranslation('notFound');

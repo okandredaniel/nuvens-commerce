@@ -1,19 +1,18 @@
 import { fixupConfigRules, fixupPluginRules } from '@eslint/compat';
+import { FlatCompat } from '@eslint/eslintrc';
+import js from '@eslint/js';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import prettierConfig from 'eslint-config-prettier';
 import eslintComments from 'eslint-plugin-eslint-comments';
+import importPlugin from 'eslint-plugin-import';
+import jest from 'eslint-plugin-jest';
+import jsxA11Y from 'eslint-plugin-jsx-a11y';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import jsxA11Y from 'eslint-plugin-jsx-a11y';
 import globals from 'globals';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import importPlugin from 'eslint-plugin-import';
-import tsParser from '@typescript-eslint/parser';
-import jest from 'eslint-plugin-jest';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import js from '@eslint/js';
-import { FlatCompat } from '@eslint/eslintrc';
-
-import prettierConfig from 'eslint-config-prettier';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -110,7 +109,7 @@ export default [
       },
     },
     settings: {
-      'import/internal-regex': '^(~\\/|@nuvens\\/)',
+      'import/internal-regex': '^(@\\/|@nuvens\\/)',
       'import/resolver': {
         node: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
         typescript: {
@@ -182,6 +181,32 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'react/prop-types': 'off',
+    },
+  },
+
+  {
+    files: ['apps/storefront/app/**/*.{ts,tsx}'],
+    excludedFiles: ['apps/storefront/app/server/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@server/*', '**/apps/storefront/app/server/**'],
+              message: 'Server code is server-only',
+            },
+            { name: '@nuvens/brand-ui', message: 'Import only via app/server/brand.ts' },
+          ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['apps/storefront/app/server/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': 'off',
     },
   },
 

@@ -1,11 +1,7 @@
-import type {CustomerFragment} from 'customer-accountapi.generated';
-import type {CustomerUpdateInput} from '@shopify/hydrogen/customer-account-api-types';
-import {CUSTOMER_UPDATE_MUTATION} from '~/graphql/customer-account/CustomerUpdateMutation';
-import {
-  data,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@shopify/remix-oxygen';
+import { CUSTOMER_UPDATE_MUTATION } from '@/graphql/customer-account/CustomerUpdateMutation';
+import type { CustomerUpdateInput } from '@shopify/hydrogen/customer-account-api-types';
+import { data, type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import type { CustomerFragment } from 'customer-accountapi.generated';
 import {
   Form,
   useActionData,
@@ -20,20 +16,20 @@ export type ActionResponse = {
 };
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Profile'}];
+  return [{ title: 'Profile' }];
 };
 
-export async function loader({context}: LoaderFunctionArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
   await context.customerAccount.handleAuthStatus();
 
   return {};
 }
 
-export async function action({request, context}: ActionFunctionArgs) {
-  const {customerAccount} = context;
+export async function action({ request, context }: ActionFunctionArgs) {
+  const { customerAccount } = context;
 
   if (request.method !== 'PUT') {
-    return data({error: 'Method not allowed'}, {status: 405});
+    return data({ error: 'Method not allowed' }, { status: 405 });
   }
 
   const form = await request.formData();
@@ -51,14 +47,11 @@ export async function action({request, context}: ActionFunctionArgs) {
     }
 
     // update customer and possibly password
-    const {data, errors} = await customerAccount.mutate(
-      CUSTOMER_UPDATE_MUTATION,
-      {
-        variables: {
-          customer,
-        },
+    const { data, errors } = await customerAccount.mutate(CUSTOMER_UPDATE_MUTATION, {
+      variables: {
+        customer,
       },
-    );
+    });
 
     if (errors?.length) {
       throw new Error(errors[0].message);
@@ -74,7 +67,7 @@ export async function action({request, context}: ActionFunctionArgs) {
     };
   } catch (error: any) {
     return data(
-      {error: error.message, customer: null},
+      { error: error.message, customer: null },
       {
         status: 400,
       },
@@ -83,8 +76,8 @@ export async function action({request, context}: ActionFunctionArgs) {
 }
 
 export default function AccountProfile() {
-  const account = useOutletContext<{customer: CustomerFragment}>();
-  const {state} = useNavigation();
+  const account = useOutletContext<{ customer: CustomerFragment }>();
+  const { state } = useNavigation();
   const action = useActionData<ActionResponse>();
   const customer = action?.customer ?? account?.customer;
 

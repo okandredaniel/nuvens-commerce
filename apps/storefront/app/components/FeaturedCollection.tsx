@@ -1,6 +1,6 @@
+import { LocalizedLink } from '@/components/LocalizedLink';
 import { Image } from '@shopify/hydrogen';
 import type { CollectionCardFragment } from 'storefrontapi.generated';
-import { LocalizedLink } from '~/components/LocalizedLink';
 
 export function FeaturedCollection({ collection }: { collection: CollectionCardFragment }) {
   if (!collection) return null;

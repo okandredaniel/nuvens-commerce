@@ -1,7 +1,7 @@
+import { LocalizedLink } from '@/components/LocalizedLink';
 import { Button, Container } from '@nuvens/ui';
 import { Home } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { LocalizedLink } from '~/components/LocalizedLink';
 
 export function ErrorView({ status = 500, message = '' }: { status?: number; message?: string }) {
   const { t } = useTranslation('common');

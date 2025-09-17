@@ -1,3 +1,5 @@
+import { languageLabel } from '@/i18n/languageLabel';
+import { toLang } from '@/i18n/localize';
 import { brandDefaultLocale } from '@nuvens/brand-ui';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import * as Tooltip from '@radix-ui/react-tooltip';
@@ -5,8 +7,6 @@ import { Globe } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router';
-import { languageLabel } from '~/i18n/languageLabel';
-import { toLang } from '~/i18n/localize';
 import type { LanguageOption } from './header.interfaces';
 
 type Props = { options: LanguageOption[]; current?: string };

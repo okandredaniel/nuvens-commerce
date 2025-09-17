@@ -1,5 +1,5 @@
+import { useStore } from '@/providers/AppContexts';
 import { Aside } from '@nuvens/ui';
-import { useStore } from '~/providers/AppContexts';
 import { HeaderMenu } from './header';
 
 export function MobileMenuAside() {

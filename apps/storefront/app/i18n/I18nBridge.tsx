@@ -1,7 +1,7 @@
+import type { RootLoader } from '@/root';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteLoaderData } from 'react-router';
-import type { RootLoader } from '~/root';
 
 export default function I18nBridge() {
   const { pathname } = useLocation();

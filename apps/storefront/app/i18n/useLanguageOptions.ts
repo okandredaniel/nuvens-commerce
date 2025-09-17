@@ -1,7 +1,7 @@
+import type { LanguageOption } from '@/components/header/header.interfaces';
+import type { RootLoader } from '@/root';
 import { brandDefaultLocale, brandLocales } from '@nuvens/brand-ui';
 import { useLocation, useRouteLoaderData } from 'react-router';
-import type { LanguageOption } from '~/components/header/header.interfaces';
-import type { RootLoader } from '~/root';
 import { toLang } from './localize';
 
 const replaceLangInPath = (pathname: string, target: string, defaultLang: string) => {

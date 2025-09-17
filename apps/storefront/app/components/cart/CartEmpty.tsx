@@ -1,7 +1,7 @@
+import { useRoutingPolicy } from '@/providers/AppContexts';
 import { Button, useAside } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router';
-import { useRoutingPolicy } from '~/providers/AppContexts';
 
 export function CartEmpty() {
   const { t } = useTranslation('cart');

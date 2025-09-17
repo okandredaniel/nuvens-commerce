@@ -17,7 +17,9 @@
     "verbatimModuleSyntax": true,
     "types": ["node", "@shopify/oxygen-workers-types", "react-router", "vite/client"],
     "paths": {
-      "~/*": ["app/*"],
+      "@/*": ["app/*"],
+      "@lib/*": ["app/lib/*"],
+      "@server/*": ["app/server/*"],
       "@nuvens/core": ["../../packages/core/src/index.ts"],
       "@nuvens/ui": ["../../packages/ui/src/index.ts"],
       "@nuvens/brand-ui": ["app/brand-ui.generated.ts"]

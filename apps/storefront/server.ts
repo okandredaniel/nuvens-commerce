@@ -1,6 +1,6 @@
+import { createAppLoadContext } from '@lib/context';
 import { storefrontRedirect } from '@shopify/hydrogen';
 import { createRequestHandler } from '@shopify/remix-oxygen';
-import { createAppLoadContext } from '~/lib/context';
 
 function isDataRequest(req: Request, url: URL) {
   if (url.pathname.endsWith('.data')) return true;

@@ -1,9 +1,9 @@
+import { PoliciesHeader } from '@/components/policies/PoliciesHeader';
+import { PoliciesGrid, type PolicyItem } from '@/components/policies/PolicyGrid';
+import { POLICIES_QUERY } from '@lib/fragments';
 import { Container } from '@nuvens/ui';
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useLoaderData } from 'react-router';
-import { PoliciesHeader } from '~/components/policies/PoliciesHeader';
-import { PoliciesGrid, type PolicyItem } from '~/components/policies/PolicyGrid';
-import { POLICIES_QUERY } from '~/lib/fragments';
 
 type LoaderData = { policies: PolicyItem[] };
 

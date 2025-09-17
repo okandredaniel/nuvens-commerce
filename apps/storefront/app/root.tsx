@@ -1,10 +1,10 @@
+import { NotFoundView } from '@/components/error/NotFound';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { Layout } from '@/layouts/Layout';
 import { evaluateRouteAccess } from '@nuvens/core';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet, useRouteLoaderData } from 'react-router';
-import { NotFoundView } from '~/components/error/NotFound';
-import { ErrorBoundary } from '~/components/ErrorBoundary';
-import { Layout } from '~/layouts/Layout';
 import { toLang } from './i18n/localize';
 import { getAppResources, getBrandBundleResources } from './i18n/resources';
 import { resolvePolicyPath } from './lib/routing/paths';

@@ -1,3 +1,4 @@
+import { useCart } from '@/providers/AppContexts';
 import { Badge, IconButton, useAside } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type CartViewPayload, useAnalytics, useOptimisticCart } from '@shopify/hydrogen';
@@ -6,7 +7,6 @@ import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Await, useAsyncValue } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { useCart } from '~/providers/AppContexts';
 
 export function CartButton() {
   const { cart: cartPromise } = useCart();

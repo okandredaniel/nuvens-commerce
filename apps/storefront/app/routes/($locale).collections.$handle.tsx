@@ -1,13 +1,13 @@
+import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
+import { ProductItem } from '@/components/ProductItem';
+import { PAGE_SIZE } from '@lib/constants';
+import { PRODUCT_CARD_FRAGMENT } from '@lib/fragments/catalog';
 import { Container } from '@nuvens/ui';
+import { guardedLoader } from '@server/routing/guard';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
-import { PaginatedResourceSection } from '~/components/PaginatedResourceSection';
-import { ProductItem } from '~/components/ProductItem';
-import { PAGE_SIZE } from '~/lib/constants';
-import { PRODUCT_CARD_FRAGMENT } from '~/lib/fragments/catalog';
-import { guardedLoader } from '~/server/routing/guard';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const title = data?.collection?.title ? `Collections | ${data.collection.title}` : 'Collections';

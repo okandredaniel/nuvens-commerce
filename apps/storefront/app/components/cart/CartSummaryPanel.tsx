@@ -1,9 +1,9 @@
+import type { RootLoader } from '@/root';
 import { Button } from '@nuvens/ui';
 import type { OptimisticCart } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
 import { useRouteLoaderData } from 'react-router';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import type { RootLoader } from '~/root';
 import { CartSummary, DiscountBox, GiftCardBox } from '.';
 
 type Props = {

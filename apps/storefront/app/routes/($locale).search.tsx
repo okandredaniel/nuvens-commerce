@@ -1,15 +1,15 @@
-import { Button, Container, Input } from '@nuvens/ui';
-import { Analytics, getPaginationVariables } from '@shopify/hydrogen';
-import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import { useLoaderData, type MetaFunction } from 'react-router';
-import { SearchForm } from '~/components/SearchForm';
-import { SearchResults } from '~/components/SearchResults';
+import { SearchForm } from '@/components/SearchForm';
+import { SearchResults } from '@/components/SearchResults';
 import {
   getEmptyPredictiveSearchResult,
   type PredictiveSearchReturn,
   type RegularSearchReturn,
-} from '~/lib/search';
-import { guardedLoader } from '~/server/routing/guard';
+} from '@lib/search';
+import { Button, Container, Input } from '@nuvens/ui';
+import { guardedLoader } from '@server/routing/guard';
+import { Analytics, getPaginationVariables } from '@shopify/hydrogen';
+import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { useLoaderData, type MetaFunction } from 'react-router';
 
 export const meta: MetaFunction = () => [{ title: 'Hydrogen | Search' }];
 

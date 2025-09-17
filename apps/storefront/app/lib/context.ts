@@ -1,6 +1,6 @@
+import { CART_QUERY_FRAGMENT } from '@lib/fragments';
+import { AppSession } from '@lib/session';
 import { createHydrogenContext } from '@shopify/hydrogen';
-import { CART_QUERY_FRAGMENT } from '~/lib/fragments';
-import { AppSession } from '~/lib/session';
 
 export async function createAppLoadContext(
   request: Request,
@@ -17,7 +17,7 @@ export async function createAppLoadContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
-  const { getLocaleFromRequest } = await import('~/i18n/storefront.server');
+  const { getLocaleFromRequest } = await import('@/i18n/storefront.server');
 
   return createHydrogenContext({
     env,

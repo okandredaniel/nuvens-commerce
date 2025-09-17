@@ -1,6 +1,6 @@
+import { FOOTER_QUERY } from '@lib/fragments';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { FooterQuery } from 'storefrontapi.generated';
-import { FOOTER_QUERY } from '~/lib/fragments';
 
 export function queryFooter(args: LoaderFunctionArgs, language: string, country: string) {
   const { storefront, env } = args.context;

@@ -1,6 +1,6 @@
+import { useLocalizedHref } from '@/hooks/useLocalizedHref';
 import { cn } from '@nuvens/ui';
 import { NavLink as RRNavLink, type NavLinkProps as RRNavLinkProps } from 'react-router';
-import { useLocalizedHref } from '~/hooks/useLocalizedHref';
 
 export function LocalizedNavLink({ to, className, ...rest }: RRNavLinkProps) {
   const localize = useLocalizedHref();

@@ -1,14 +1,14 @@
+import { createI18n } from '@/i18n/createInstance';
+import { toLang } from '@/i18n/localize';
+import { getAppResources } from '@/i18n/resources';
+import type { RootLoader } from '@/root';
+import { resolvePolicyPath } from '@lib/routing/paths';
 import { coreI18n } from '@nuvens/core';
 import { Aside, coreTokens, mergeTokens, tokensToCssVars } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { Analytics } from '@shopify/hydrogen';
 import { I18nextProvider } from 'react-i18next';
 import { useRouteLoaderData } from 'react-router';
-import { createI18n } from '~/i18n/createInstance';
-import { toLang } from '~/i18n/localize';
-import { getAppResources } from '~/i18n/resources';
-import { resolvePolicyPath } from '~/lib/routing/paths';
-import type { RootLoader } from '~/root';
 import { ProvidersMap, useBrand, useShallowMemo } from './AppContexts';
 
 type ProvidersProps = { children?: React.ReactNode };

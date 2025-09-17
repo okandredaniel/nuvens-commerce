@@ -1,11 +1,11 @@
+import { CartAside } from '@/components/cart';
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
+import { MobileMenuAside } from '@/components/MobileMenuAside';
+import { BrandStyleTag, Providers } from '@/providers/Providers';
 import { brandDefaultLocale } from '@nuvens/brand-ui';
 import { useNonce } from '@shopify/hydrogen';
 import { Links, Meta, Scripts, ScrollRestoration, useMatches } from 'react-router';
-import { CartAside } from '~/components/cart';
-import { Footer } from '~/components/footer';
-import { Header } from '~/components/header';
-import { MobileMenuAside } from '~/components/MobileMenuAside';
-import { BrandStyleTag, Providers } from '~/providers/Providers';
 
 type HeaderPref = 'transparent' | 'solid';
 type RouteHandle = { header?: HeaderPref };

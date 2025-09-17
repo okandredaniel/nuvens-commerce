@@ -1,7 +1,7 @@
+import { urlWithTrackingParams, type RegularSearchReturn } from '@lib/search';
 import { Button } from '@nuvens/ui';
 import { Image, Money, Pagination } from '@shopify/hydrogen';
 import { Link } from 'react-router';
-import { urlWithTrackingParams, type RegularSearchReturn } from '~/lib/search';
 
 type SearchItems = RegularSearchReturn['result']['items'];
 type PartialSearchResult<ItemType extends keyof SearchItems> = Pick<SearchItems, ItemType> &

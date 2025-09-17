@@ -1,6 +1,6 @@
+import { resolvePolicyPath as resolvePolicyPathPure } from '@lib/routing/paths';
 import { createContext, useContext, useMemo } from 'react';
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
-import { resolvePolicyPath as resolvePolicyPathPure } from '~/lib/routing/paths';
 
 type StoreCtx = {
   publicStoreDomain?: string;

@@ -1,7 +1,7 @@
+import { LocalizedLink } from '@/components/LocalizedLink';
 import { Card, CardContent } from '@nuvens/ui';
 import { FileText, RotateCcw, ScrollText, Shield, Truck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { LocalizedLink } from '~/components/LocalizedLink';
 
 type PolicyItem = { id: string; title: string; handle: string };
 

@@ -1,26 +1,19 @@
-import type {CustomerAddressInput} from '@shopify/hydrogen/customer-account-api-types';
-import type {
-  AddressFragment,
-  CustomerFragment,
-} from 'customer-accountapi.generated';
 import {
-  data,
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-} from '@shopify/remix-oxygen';
+  CREATE_ADDRESS_MUTATION,
+  DELETE_ADDRESS_MUTATION,
+  UPDATE_ADDRESS_MUTATION,
+} from '@/graphql/customer-account/CustomerAddressMutations';
+import type { CustomerAddressInput } from '@shopify/hydrogen/customer-account-api-types';
+import { data, type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import type { AddressFragment, CustomerFragment } from 'customer-accountapi.generated';
 import {
   Form,
   useActionData,
   useNavigation,
   useOutletContext,
-  type MetaFunction,
   type Fetcher,
+  type MetaFunction,
 } from 'react-router';
-import {
-  UPDATE_ADDRESS_MUTATION,
-  DELETE_ADDRESS_MUTATION,
-  CREATE_ADDRESS_MUTATION,
-} from '~/graphql/customer-account/CustomerAddressMutations';
 
 export type ActionResponse = {
   addressId?: string | null;
@@ -32,24 +25,22 @@ export type ActionResponse = {
 };
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Addresses'}];
+  return [{ title: 'Addresses' }];
 };
 
-export async function loader({context}: LoaderFunctionArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
   await context.customerAccount.handleAuthStatus();
 
   return {};
 }
 
-export async function action({request, context}: ActionFunctionArgs) {
-  const {customerAccount} = context;
+export async function action({ request, context }: ActionFunctionArgs) {
+  const { customerAccount } = context;
 
   try {
     const form = await request.formData();
 
-    const addressId = form.has('addressId')
-      ? String(form.get('addressId'))
-      : null;
+    const addressId = form.has('addressId') ? String(form.get('addressId')) : null;
     if (!addressId) {
       throw new Error('You must provide an address id.');
     }
@@ -58,7 +49,7 @@ export async function action({request, context}: ActionFunctionArgs) {
     const isLoggedIn = await customerAccount.isLoggedIn();
     if (!isLoggedIn) {
       return data(
-        {error: {[addressId]: 'Unauthorized'}},
+        { error: { [addressId]: 'Unauthorized' } },
         {
           status: 401,
         },
@@ -93,12 +84,9 @@ export async function action({request, context}: ActionFunctionArgs) {
       case 'POST': {
         // handle new address creation
         try {
-          const {data, errors} = await customerAccount.mutate(
-            CREATE_ADDRESS_MUTATION,
-            {
-              variables: {address, defaultAddress},
-            },
-          );
+          const { data, errors } = await customerAccount.mutate(CREATE_ADDRESS_MUTATION, {
+            variables: { address, defaultAddress },
+          });
 
           if (errors?.length) {
             throw new Error(errors[0].message);
@@ -120,14 +108,14 @@ export async function action({request, context}: ActionFunctionArgs) {
         } catch (error: unknown) {
           if (error instanceof Error) {
             return data(
-              {error: {[addressId]: error.message}},
+              { error: { [addressId]: error.message } },
               {
                 status: 400,
               },
             );
           }
           return data(
-            {error: {[addressId]: error}},
+            { error: { [addressId]: error } },
             {
               status: 400,
             },
@@ -138,16 +126,13 @@ export async function action({request, context}: ActionFunctionArgs) {
       case 'PUT': {
         // handle address updates
         try {
-          const {data, errors} = await customerAccount.mutate(
-            UPDATE_ADDRESS_MUTATION,
-            {
-              variables: {
-                address,
-                addressId: decodeURIComponent(addressId),
-                defaultAddress,
-              },
+          const { data, errors } = await customerAccount.mutate(UPDATE_ADDRESS_MUTATION, {
+            variables: {
+              address,
+              addressId: decodeURIComponent(addressId),
+              defaultAddress,
             },
-          );
+          });
 
           if (errors?.length) {
             throw new Error(errors[0].message);
@@ -169,14 +154,14 @@ export async function action({request, context}: ActionFunctionArgs) {
         } catch (error: unknown) {
           if (error instanceof Error) {
             return data(
-              {error: {[addressId]: error.message}},
+              { error: { [addressId]: error.message } },
               {
                 status: 400,
               },
             );
           }
           return data(
-            {error: {[addressId]: error}},
+            { error: { [addressId]: error } },
             {
               status: 400,
             },
@@ -187,12 +172,9 @@ export async function action({request, context}: ActionFunctionArgs) {
       case 'DELETE': {
         // handles address deletion
         try {
-          const {data, errors} = await customerAccount.mutate(
-            DELETE_ADDRESS_MUTATION,
-            {
-              variables: {addressId: decodeURIComponent(addressId)},
-            },
-          );
+          const { data, errors } = await customerAccount.mutate(DELETE_ADDRESS_MUTATION, {
+            variables: { addressId: decodeURIComponent(addressId) },
+          });
 
           if (errors?.length) {
             throw new Error(errors[0].message);
@@ -206,18 +188,18 @@ export async function action({request, context}: ActionFunctionArgs) {
             throw new Error('Customer address delete failed.');
           }
 
-          return {error: null, deletedAddress: addressId};
+          return { error: null, deletedAddress: addressId };
         } catch (error: unknown) {
           if (error instanceof Error) {
             return data(
-              {error: {[addressId]: error.message}},
+              { error: { [addressId]: error.message } },
               {
                 status: 400,
               },
             );
           }
           return data(
-            {error: {[addressId]: error}},
+            { error: { [addressId]: error } },
             {
               status: 400,
             },
@@ -227,7 +209,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 
       default: {
         return data(
-          {error: {[addressId]: 'Method not allowed'}},
+          { error: { [addressId]: 'Method not allowed' } },
           {
             status: 405,
           },
@@ -237,14 +219,14 @@ export async function action({request, context}: ActionFunctionArgs) {
   } catch (error: unknown) {
     if (error instanceof Error) {
       return data(
-        {error: error.message},
+        { error: error.message },
         {
           status: 400,
         },
       );
     }
     return data(
-      {error},
+      { error },
       {
         status: 400,
       },
@@ -253,8 +235,8 @@ export async function action({request, context}: ActionFunctionArgs) {
 }
 
 export default function Addresses() {
-  const {customer} = useOutletContext<{customer: CustomerFragment}>();
-  const {defaultAddress, addresses} = customer;
+  const { customer } = useOutletContext<{ customer: CustomerFragment }>();
+  const { defaultAddress, addresses } = customer;
 
   return (
     <div className="account-addresses">
@@ -271,10 +253,7 @@ export default function Addresses() {
           <br />
           <hr />
           <br />
-          <ExistingAddresses
-            addresses={addresses}
-            defaultAddress={defaultAddress}
-          />
+          <ExistingAddresses addresses={addresses} defaultAddress={defaultAddress} />
         </div>
       )}
     </div>
@@ -297,18 +276,10 @@ function NewAddressForm() {
   } as CustomerAddressInput;
 
   return (
-    <AddressForm
-      addressId={'NEW_ADDRESS_ID'}
-      address={newAddress}
-      defaultAddress={null}
-    >
-      {({stateForMethod}) => (
+    <AddressForm addressId={'NEW_ADDRESS_ID'} address={newAddress} defaultAddress={null}>
+      {({ stateForMethod }) => (
         <div>
-          <button
-            disabled={stateForMethod('POST') !== 'idle'}
-            formMethod="POST"
-            type="submit"
-          >
+          <button disabled={stateForMethod('POST') !== 'idle'} formMethod="POST" type="submit">
             {stateForMethod('POST') !== 'idle' ? 'Creating' : 'Create'}
           </button>
         </div>
@@ -331,13 +302,9 @@ function ExistingAddresses({
           address={address}
           defaultAddress={defaultAddress}
         >
-          {({stateForMethod}) => (
+          {({ stateForMethod }) => (
             <div>
-              <button
-                disabled={stateForMethod('PUT') !== 'idle'}
-                formMethod="PUT"
-                type="submit"
-              >
+              <button disabled={stateForMethod('PUT') !== 'idle'} formMethod="PUT" type="submit">
                 {stateForMethod('PUT') !== 'idle' ? 'Saving' : 'Save'}
               </button>
               <button
@@ -368,7 +335,7 @@ export function AddressForm({
     stateForMethod: (method: 'PUT' | 'POST' | 'DELETE') => Fetcher['state'];
   }) => React.ReactNode;
 }) {
-  const {state, formMethod} = useNavigation();
+  const { state, formMethod } = useNavigation();
   const action = useActionData<ActionResponse>();
   const error = action?.error?.[addressId];
   const isDefaultAddress = defaultAddress?.id === addressId;

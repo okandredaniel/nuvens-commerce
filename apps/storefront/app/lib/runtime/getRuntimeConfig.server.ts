@@ -1,6 +1,6 @@
+import type { BrandId } from '@/interfaces/brand.interface';
 import { brandTokens } from '@nuvens/brand-ui';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import type { BrandId } from '~/interfaces/brand.interface';
 import type { RuntimeData } from './types';
 
 export function getRuntimeConfig({ context }: LoaderFunctionArgs): RuntimeData {

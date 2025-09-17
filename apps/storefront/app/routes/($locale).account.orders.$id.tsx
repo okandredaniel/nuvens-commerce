@@ -1,46 +1,40 @@
-import {redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {useLoaderData, type MetaFunction} from 'react-router';
-import {Money, Image, flattenConnection} from '@shopify/hydrogen';
-import type {OrderLineItemFullFragment} from 'customer-accountapi.generated';
-import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
+import { CUSTOMER_ORDER_QUERY } from '@/graphql/customer-account/CustomerOrderQuery';
+import { Image, Money, flattenConnection } from '@shopify/hydrogen';
+import { redirect, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import type { OrderLineItemFullFragment } from 'customer-accountapi.generated';
+import { useLoaderData, type MetaFunction } from 'react-router';
 
-export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Order ${data?.order?.name}`}];
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [{ title: `Order ${data?.order?.name}` }];
 };
 
-export async function loader({params, context}: LoaderFunctionArgs) {
+export async function loader({ params, context }: LoaderFunctionArgs) {
   if (!params.id) {
     return redirect('/account/orders');
   }
 
   const orderId = atob(params.id);
-  const {data, errors} = await context.customerAccount.query(
-    CUSTOMER_ORDER_QUERY,
-    {
-      variables: {orderId},
-    },
-  );
+  const { data, errors } = await context.customerAccount.query(CUSTOMER_ORDER_QUERY, {
+    variables: { orderId },
+  });
 
   if (errors?.length || !data?.order) {
     throw new Error('Order not found');
   }
 
-  const {order} = data;
+  const { order } = data;
 
   const lineItems = flattenConnection(order.lineItems);
   const discountApplications = flattenConnection(order.discountApplications);
 
-  const fulfillmentStatus =
-    flattenConnection(order.fulfillments)[0]?.status ?? 'N/A';
+  const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status ?? 'N/A';
 
   const firstDiscount = discountApplications[0]?.value;
 
-  const discountValue =
-    firstDiscount?.__typename === 'MoneyV2' && firstDiscount;
+  const discountValue = firstDiscount?.__typename === 'MoneyV2' && firstDiscount;
 
   const discountPercentage =
-    firstDiscount?.__typename === 'PricingPercentageValue' &&
-    firstDiscount?.percentage;
+    firstDiscount?.__typename === 'PricingPercentageValue' && firstDiscount?.percentage;
 
   return {
     order,
@@ -52,13 +46,8 @@ export async function loader({params, context}: LoaderFunctionArgs) {
 }
 
 export default function OrderRoute() {
-  const {
-    order,
-    lineItems,
-    discountValue,
-    discountPercentage,
-    fulfillmentStatus,
-  } = useLoaderData<typeof loader>();
+  const { order, lineItems, discountValue, discountPercentage, fulfillmentStatus } =
+    useLoaderData<typeof loader>();
   return (
     <div className="account-order">
       <h2>Order {order.name}</h2>
@@ -81,8 +70,7 @@ export default function OrderRoute() {
             ))}
           </tbody>
           <tfoot>
-            {((discountValue && discountValue.amount) ||
-              discountPercentage) && (
+            {((discountValue && discountValue.amount) || discountPercentage) && (
               <tr>
                 <th scope="row" colSpan={3}>
                   <p>Discounts</p>
@@ -139,11 +127,7 @@ export default function OrderRoute() {
           {order?.shippingAddress ? (
             <address>
               <p>{order.shippingAddress.name}</p>
-              {order.shippingAddress.formatted ? (
-                <p>{order.shippingAddress.formatted}</p>
-              ) : (
-                ''
-              )}
+              {order.shippingAddress.formatted ? <p>{order.shippingAddress.formatted}</p> : ''}
               {order.shippingAddress.formattedArea ? (
                 <p>{order.shippingAddress.formattedArea}</p>
               ) : (
@@ -169,7 +153,7 @@ export default function OrderRoute() {
   );
 }
 
-function OrderLineRow({lineItem}: {lineItem: OrderLineItemFullFragment}) {
+function OrderLineRow({ lineItem }: { lineItem: OrderLineItemFullFragment }) {
   return (
     <tr key={lineItem.id}>
       <td>

@@ -1,15 +1,15 @@
+import { RichText } from '@/components/RichText';
+import { POLICY_CONTENT_QUERY } from '@lib/fragments';
+import {
+  buildPolicyQueryVars,
+  getPolicyKeyFromHandle,
+  type SelectedPolicyKey,
+} from '@lib/policies';
 import { Button, Container } from '@nuvens/ui';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLoaderData } from 'react-router';
-import { RichText } from '~/components/RichText';
-import { POLICY_CONTENT_QUERY } from '~/lib/fragments';
-import {
-  buildPolicyQueryVars,
-  getPolicyKeyFromHandle,
-  type SelectedPolicyKey,
-} from '~/lib/policies';
 
 type Policy = { id: string; title: string; handle: string; body: string; url: string };
 type LoaderData = { policy: Policy };

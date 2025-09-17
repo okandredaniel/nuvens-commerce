@@ -1,25 +1,20 @@
-import {
-  data as remixData,
-  type LoaderFunctionArgs,
-} from '@shopify/remix-oxygen';
-import {Form, NavLink, Outlet, useLoaderData} from 'react-router';
-import {CUSTOMER_DETAILS_QUERY} from '~/graphql/customer-account/CustomerDetailsQuery';
+import { CUSTOMER_DETAILS_QUERY } from '@/graphql/customer-account/CustomerDetailsQuery';
+import { data as remixData, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
+import { Form, NavLink, Outlet, useLoaderData } from 'react-router';
 
 export function shouldRevalidate() {
   return true;
 }
 
-export async function loader({context}: LoaderFunctionArgs) {
-  const {data, errors} = await context.customerAccount.query(
-    CUSTOMER_DETAILS_QUERY,
-  );
+export async function loader({ context }: LoaderFunctionArgs) {
+  const { data, errors } = await context.customerAccount.query(CUSTOMER_DETAILS_QUERY);
 
   if (errors?.length || !data?.customer) {
     throw new Error('Customer not found');
   }
 
   return remixData(
-    {customer: data.customer},
+    { customer: data.customer },
     {
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -29,7 +24,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 }
 
 export default function AccountLayout() {
-  const {customer} = useLoaderData<typeof loader>();
+  const { customer } = useLoaderData<typeof loader>();
 
   const heading = customer
     ? customer.firstName
@@ -44,19 +39,13 @@ export default function AccountLayout() {
       <AccountMenu />
       <br />
       <br />
-      <Outlet context={{customer}} />
+      <Outlet context={{ customer }} />
     </div>
   );
 }
 
 function AccountMenu() {
-  function isActiveStyle({
-    isActive,
-    isPending,
-  }: {
-    isActive: boolean;
-    isPending: boolean;
-  }) {
+  function isActiveStyle({ isActive, isPending }: { isActive: boolean; isPending: boolean }) {
     return {
       fontWeight: isActive ? 'bold' : undefined,
       color: isPending ? 'grey' : 'black',

@@ -164,19 +164,16 @@ export const SEARCH_QUERY = `#graphql
 /**
  * Regular search fetcher
  */
-async function search({
-  request,
-  context,
-}: Pick<LoaderFunctionArgs, 'request' | 'context'>) {
-  const {storefront} = context;
+async function search({ request, context }: Pick<LoaderFunctionArgs, 'request' | 'context'>) {
+  const { storefront } = context;
   const url = new URL(request.url);
   const searchParams = new URLSearchParams(url.search);
-  const variables = getPaginationVariables(request, {pageBy: 8});
+  const variables = getPaginationVariables(request, { pageBy: 8 });
   const term = String(searchParams.get('q') || '');
 
   // Search articles, pages, and products for the `q` term
-  const {errors, ...items} = await storefront.query(SEARCH_QUERY, {
-    variables: {...variables, term},
+  const { errors, ...items } = await storefront.query(SEARCH_QUERY, {
+    variables: { ...variables, term },
   });
 
   if (!items) {
@@ -187,11 +184,11 @@ async function search({
     throw new Error(errors[0].message);
   }
 
-  const total = Object.values(items).reduce((acc, {nodes}) => {
+  const total = Object.values(items).reduce((acc, { nodes }) => {
     return acc + nodes.length;
   }, 0);
 
-  return {term, result: {total, items}};
+  return { term, result: { total, items } };
 }
 ```
 
@@ -207,19 +204,19 @@ the form if present in it's children prop
  * Handles regular search GET requests
  * requested by the SearchForm component and /search route visits
  */
-export async function loader({request, context}: LoaderFunctionArgs) {
+export async function loader({ request, context }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const isRegular = !url.searchParams.has('predictive');
 
   if (!isRegular) {
-    return {}
+    return {};
   }
 
-  const searchPromise = regularSearch({request, context});
+  const searchPromise = regularSearch({ request, context });
 
   searchPromise.catch((error: Error) => {
     console.error(error);
-    return {term: '', result: null, error: error.message};
+    return { term: '', result: null, error: error.message };
   });
 
   return await searchPromise;
@@ -231,8 +228,8 @@ export async function loader({request, context}: LoaderFunctionArgs) {
 Finally, create a default export to render both the search form and the search results
 
 ```ts
-import {SearchForm} from '~/components/SearchForm';
-import {SearchResults} from '~/components/SearchResults';
+import {SearchForm} from '@/components/SearchForm';
+import {SearchResults} from '@/components/SearchResults';
 
 /**
  * Renders the /search route

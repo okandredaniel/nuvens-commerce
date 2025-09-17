@@ -1,5 +1,5 @@
+import { useLocalizedHref } from '@/hooks/useLocalizedHref';
 import { Link as RRLink, type LinkProps as RRLinkProps } from 'react-router';
-import { useLocalizedHref } from '~/hooks/useLocalizedHref';
 
 type Props = Omit<RRLinkProps, 'prefetch'>;
 

@@ -1,6 +1,6 @@
+import { LocalizedLink } from '@/components/LocalizedLink';
+import { LocalizedNavLink } from '@/components/LocalizedNavLink';
 import { setCoreAdapter } from '@nuvens/core';
-import { LocalizedLink } from '~/components/LocalizedLink';
-import { LocalizedNavLink } from '~/components/LocalizedNavLink';
 
 export function registerUiCoreAdapter() {
   setCoreAdapter({

@@ -1,3 +1,4 @@
+import { LocalizedLink } from '@/components/LocalizedLink';
 import { useAside } from '@nuvens/ui';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import { type MappedProductOptions } from '@shopify/hydrogen';
@@ -7,7 +8,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import type { ProductFragment } from 'storefrontapi.generated';
-import { LocalizedLink } from '~/components/LocalizedLink';
 import { AddToCartButton } from './cart';
 
 export function ProductForm({

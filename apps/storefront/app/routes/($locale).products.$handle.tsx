@@ -1,5 +1,14 @@
+import { ProductForm } from '@/components/ProductForm';
+import { ProductGallery } from '@/components/ProductGallery';
+import { ProductPrice } from '@/components/ProductPrice';
+import ProductRating from '@/components/ProductRating';
+import { RichText } from '@/components/RichText';
+import type { RootLoader } from '@/root';
+import { PRODUCT_QUERY } from '@lib/fragments';
+import { redirectIfHandleIsLocalized } from '@lib/redirect';
 import { ProductPage } from '@nuvens/brand-ui';
 import { getPdpMetaMock, type ProductTemplateSlots } from '@nuvens/core';
+import { buildCanonical } from '@server/seo/meta';
 import {
   Analytics,
   getAdjacentAndFirstAvailableVariants,
@@ -12,15 +21,6 @@ import {
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useEffect, useMemo } from 'react';
 import { useLoaderData, useRouteLoaderData } from 'react-router';
-import { ProductForm } from '~/components/ProductForm';
-import { ProductGallery } from '~/components/ProductGallery';
-import { ProductPrice } from '~/components/ProductPrice';
-import ProductRating from '~/components/ProductRating';
-import { RichText } from '~/components/RichText';
-import { PRODUCT_QUERY } from '~/lib/fragments';
-import { redirectIfHandleIsLocalized } from '~/lib/redirect';
-import type { RootLoader } from '~/root';
-import { buildCanonical } from '~/server/seo/meta';
 
 type RootLoaderData = {
   header?: { shop?: { primaryDomain?: { url?: string } } };
