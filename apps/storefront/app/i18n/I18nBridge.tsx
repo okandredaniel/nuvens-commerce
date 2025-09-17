@@ -1,5 +1,5 @@
 import type { RootLoader } from '@/root';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteLoaderData } from 'react-router';
 
@@ -8,8 +8,15 @@ export default function I18nBridge() {
   const { i18n } = useTranslation();
   const data = useRouteLoaderData<RootLoader>('root') as any;
 
-  const lang = String(data?.i18n?.locale || i18n.language || 'en').toLowerCase();
-  const resources = (data?.i18n?.resources ?? {}) as Record<string, any>;
+  const lang = useMemo(
+    () => String(data?.i18n?.locale || i18n.language || 'en').toLowerCase(),
+    [data?.i18n?.locale, i18n.language],
+  );
+
+  const resources = useMemo(
+    () => (data?.i18n?.resources ?? {}) as Record<string, any>,
+    [data?.i18n?.resources],
+  );
 
   useEffect(() => {
     if (!lang) return;

@@ -11,6 +11,7 @@ import jsxA11Y from 'eslint-plugin-jsx-a11y';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -22,6 +23,28 @@ const compat = new FlatCompat({
   recommendedConfig: js.configs.recommended,
   allConfig: js.configs.all,
 });
+
+const PKGS = ['core', 'ui', 'brand-cosmos', 'brand-naturalex', 'brand-wooly', 'brand-zippex'];
+const tsconfigOf = (rel) => path.resolve(__dirname, rel);
+const pkgTsconfig = (pkg) => tsconfigOf(`packages/${pkg}/tsconfig.json`);
+const existingPkgNames = PKGS.filter((p) => fs.existsSync(pkgTsconfig(p)));
+const missingPkgNames = PKGS.filter((p) => !fs.existsSync(pkgTsconfig(p)));
+
+const existingProjectTsconfigs = [
+  tsconfigOf('tsconfig.base.json'),
+  tsconfigOf('apps/storefront/tsconfig.json'),
+  ...existingPkgNames.map(pkgTsconfig),
+];
+
+const typedTsGlobs = [
+  'apps/storefront/**/*.{ts,tsx}',
+  ...existingPkgNames.map((p) => `packages/${p}/**/*.{ts,tsx}`),
+];
+
+const untypedTsGlobs = [
+  ...missingPkgNames.map((p) => `packages/${p}/**/*.{ts,tsx}`),
+  'types/**/*.{ts,tsx,d.ts}',
+];
 
 export default [
   {
@@ -39,6 +62,8 @@ export default [
       '**/*.graphql.ts',
       '**/*.generated.d.ts',
       '**/packages/hydrogen/dist/',
+      'apps/storefront/.graphqlrc.ts',
+      '**/.graphqlrc.ts',
     ],
   },
 
@@ -95,7 +120,7 @@ export default [
   ).map((c) => ({ ...c, files: ['**/*.{ts,tsx}'] })),
 
   {
-    files: ['**/*.{ts,tsx}'],
+    files: typedTsGlobs,
     plugins: {
       '@typescript-eslint': fixupPluginRules(typescriptEslint),
       import: fixupPluginRules(importPlugin),
@@ -103,7 +128,7 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        projectService: { allowDefaultProject: ['.graphqlrc.ts'] },
+        project: existingProjectTsconfigs,
         tsconfigRootDir: __dirname,
         ecmaFeatures: { jsx: true },
       },
@@ -114,12 +139,41 @@ export default [
         node: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
         typescript: {
           alwaysTryTypes: true,
-          project: [
-            path.resolve(__dirname, 'tsconfig.base.json'),
-            path.resolve(__dirname, 'apps/storefront/tsconfig.json'),
-          ],
+          project: existingProjectTsconfigs,
         },
       },
+      'import/core-modules': ['virtual:react-router/server-build'],
+    },
+    rules: {
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/naming-convention': 'off',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+    },
+  },
+
+  {
+    files: untypedTsGlobs,
+    plugins: {
+      '@typescript-eslint': fixupPluginRules(typescriptEslint),
+      import: fixupPluginRules(importPlugin),
+    },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    settings: {
+      'import/internal-regex': '^(@\\/|@nuvens\\/)',
+      'import/resolver': {
+        node: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
+        typescript: {
+          alwaysTryTypes: true,
+          project: existingProjectTsconfigs,
+        },
+      },
+      'import/core-modules': ['virtual:react-router/server-build'],
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
@@ -166,13 +220,7 @@ export default [
           trailingUnderscore: 'allowSingleOrDouble',
         },
         { selector: 'typeLike', format: ['PascalCase'] },
-        {
-          selector: 'typeParameter',
-          format: ['PascalCase'],
-          leadingUnderscore: 'allow',
-        },
-        { selector: 'interface', format: ['PascalCase'] },
-        { selector: 'property', format: null },
+        { selector: 'typeParameter', format: ['PascalCase'], leadingUnderscore: 'allow' },
       ],
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-empty-interface': 'off',
@@ -185,8 +233,15 @@ export default [
   },
 
   {
+    files: ['**/tokens.ts', 'apps/storefront/vite.config.ts'],
+    rules: {
+      '@typescript-eslint/naming-convention': ['error', { selector: 'property', format: null }],
+    },
+  },
+
+  {
     files: ['apps/storefront/app/**/*.{ts,tsx}'],
-    excludedFiles: ['apps/storefront/app/server/**/*.{ts,tsx}'],
+    ignores: ['apps/storefront/app/server/**/*.{ts,tsx}'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -194,9 +249,8 @@ export default [
           patterns: [
             {
               group: ['@server/*', '**/apps/storefront/app/server/**'],
-              message: 'Server code is server-only',
+              message: 'Server-only modules must not be imported in client code',
             },
-            { name: '@nuvens/brand-ui', message: 'Import only via app/server/brand.ts' },
           ],
         },
       ],
@@ -205,9 +259,13 @@ export default [
 
   {
     files: ['apps/storefront/app/server/**/*.{ts,tsx}'],
-    rules: {
-      'no-restricted-imports': 'off',
-    },
+    rules: { 'no-restricted-imports': 'off' },
+  },
+
+  {
+    files: ['scripts/**/*.{js,mjs,ts}'],
+    languageOptions: { globals: { ...globals.node } },
+    rules: { 'no-console': 'off' },
   },
 
   prettierConfig,

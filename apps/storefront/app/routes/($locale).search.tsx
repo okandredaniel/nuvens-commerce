@@ -1,12 +1,12 @@
 import { SearchForm } from '@/components/SearchForm';
 import { SearchResults } from '@/components/SearchResults';
+import { guardedLoader } from '@/lib/routing/guard';
 import {
   getEmptyPredictiveSearchResult,
   type PredictiveSearchReturn,
   type RegularSearchReturn,
 } from '@lib/search';
 import { Button, Container, Input } from '@nuvens/ui';
-import { guardedLoader } from '@server/routing/guard';
 import { Analytics, getPaginationVariables } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';

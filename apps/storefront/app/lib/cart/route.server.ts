@@ -1,4 +1,4 @@
-import { guardedLoader } from '@server/routing/guard';
+import { guardedLoader } from '@/server/routing/guard';
 import type { CartQueryDataReturn } from '@shopify/hydrogen';
 import { CartForm } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, data, type LoaderFunctionArgs } from '@shopify/remix-oxygen';

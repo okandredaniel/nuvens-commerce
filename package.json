@@ -7,6 +7,7 @@
     "preview": "shopify hydrogen preview --path apps/storefront --build",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "locale:add": "node scripts/add-locale-namespace.mjs"
   },
   "devDependencies": {

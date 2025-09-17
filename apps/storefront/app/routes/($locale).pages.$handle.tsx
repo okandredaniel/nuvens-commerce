@@ -1,6 +1,6 @@
+import { guardedLoader } from '@/lib/routing/guard';
 import { redirectIfHandleIsLocalized } from '@lib/redirect';
 import { pageTemplates as brandPageTemplates } from '@nuvens/brand-ui';
-import { guardedLoader } from '@server/routing/guard';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
 import { pageTemplates } from '../pages';

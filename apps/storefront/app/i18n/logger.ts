@@ -37,7 +37,7 @@ export function createI18nextLogger() {
     const last = seen.get(str) || 0;
     if (now - last < ttl) return;
     seen.set(str, now);
-    // @ts-ignore
+    // eslint-disable-next-line no-console
     (console[level] || console.log)(...args);
   }
 

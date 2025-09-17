@@ -19,11 +19,16 @@ export function PromisesCarousel({ headingId }: { headingId: string }) {
       <Carousel
         aria-label={t('promise.aria')}
         className="w-full mx-auto"
-        slidesPerView={{ 0: 1.5, 768: 4 }}
         nav={false}
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        slidesPerView={{ 0: 1.5, 768: 4 }}
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         bleedLeft={{ 0: 16, 768: 0 }}
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         edgeLeft={{ 0: 16, 768: 0 }}
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         bleedRight={{ 0: 16, 768: 0 }}
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         edgeRight={{ 0: 0, 768: 0 }}
       >
         {items.map(({ icon: Icon, titleKey, bodyKey }) => (

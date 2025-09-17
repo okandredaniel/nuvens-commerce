@@ -7,10 +7,10 @@ import { toLang } from './localize';
 const replaceLangInPath = (pathname: string, target: string, defaultLang: string) => {
   const segs = pathname.split('/').filter(Boolean);
   const hasPrefix = /^[a-z]{2}$/i.test(segs[0] ?? '');
-  if (target === defaultLang) return hasPrefix ? `/${segs.slice(1).join('/')}` || '/' : pathname;
+  if (target === defaultLang) return hasPrefix ? `/${segs.slice(1).join('/')}` : pathname;
   if (hasPrefix) {
     segs[0] = target;
-    return `/${segs.join('/')}` || '/';
+    return `/${segs.join('/')}`;
   }
   return `/${target}${pathname === '/' ? '' : pathname}`;
 };

@@ -25,6 +25,7 @@ export const meta: MetaFunction<typeof loader> = () => [
 ];
 
 export const headers: HeadersFunction = () => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   return { 'Cache-Control': 'public, max-age=60, stale-while-revalidate=3600' };
 };
 

@@ -1,5 +1,4 @@
-import { VideoPreviewWithModal } from '@nuvens/ui';
-import { Carousel, CarouselSlide, Container, Heading } from '@nuvens/ui';
+import { Carousel, CarouselSlide, Container, Heading, VideoPreviewWithModal } from '@nuvens/ui';
 
 type Props = {
   heading: string;
@@ -14,11 +13,16 @@ export function TrustedByCarousel({ heading, youtubeIds }: Props) {
         <Carousel
           aria-label=""
           className="w-full mx-auto"
-          slidesPerView={{ 0: 1.5, 768: 6 }}
           nav={false}
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          slidesPerView={{ 0: 1.5, 768: 6 }}
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           bleedLeft={{ 0: 16, 768: 0 }}
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           edgeLeft={{ 0: 16, 768: 0 }}
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           bleedRight={{ 0: 16, 768: 0 }}
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           edgeRight={{ 0: 0, 768: 0 }}
         >
           {youtubeIds.map((id, i) => (

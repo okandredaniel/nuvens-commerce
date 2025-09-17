@@ -1,9 +1,9 @@
 import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
 import { ProductItem } from '@/components/ProductItem';
+import { guardedLoader } from '@/lib/routing/guard';
 import { PAGE_SIZE } from '@lib/constants';
 import { PRODUCT_CARD_FRAGMENT } from '@lib/fragments/catalog';
 import { Container } from '@nuvens/ui';
-import { guardedLoader } from '@server/routing/guard';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';

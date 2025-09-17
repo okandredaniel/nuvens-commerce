@@ -141,10 +141,13 @@ async function updateRootIndex() {
     await ensureFile(jsonPath, '{}\n');
 
     await updateLanguageIndex(langDir);
+     
     console.log(`✔ Updated ${path.relative(REPO_ROOT, path.join(langDir, 'index.ts'))}`);
   }
 
   await updateRootIndex();
+   
   console.log(`✔ Updated ${path.relative(REPO_ROOT, path.join(LOCALES_ROOT, 'index.ts'))}`);
+   
   console.log('Done.');
 })();

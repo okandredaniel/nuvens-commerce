@@ -1,13 +1,13 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import * as React from 'react';
+import { type ReactNode, isValidElement, memo, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 export type AccordionItem = {
   id?: string;
-  title: React.ReactNode;
-  content: string | { __html: string } | React.ReactNode;
+  title: ReactNode;
+  content: string | { __html: string } | ReactNode;
 };
 
 type BaseProps = {
@@ -36,7 +36,7 @@ function isHTML(c: AccordionItem['content']): c is { __html: string } {
 
 function Content({ content }: { content: AccordionItem['content'] }) {
   if (typeof content === 'string') return <p>{content}</p>;
-  if (React.isValidElement(content)) return content;
+  if (isValidElement(content)) return content;
   if (isHTML(content)) return <div dangerouslySetInnerHTML={content} />;
   return null;
 }
@@ -50,7 +50,7 @@ type RowProps = {
   contentClassName?: string;
 };
 
-const Row = React.memo(function Row({
+const Row = memo(function Row({
   item,
   id,
   ariaToggle,
@@ -86,10 +86,7 @@ const Row = React.memo(function Row({
         <motion.div
           initial={false}
           animate={open ? 'open' : 'closed'}
-          variants={{
-            open: { height: 'auto', opacity: 1 },
-            closed: { height: 0, opacity: 0 },
-          }}
+          variants={{ open: { height: 'auto', opacity: 1 }, closed: { height: 0, opacity: 0 } }}
           transition={transition}
           style={{ overflow: 'hidden' }}
         >
@@ -107,62 +104,76 @@ const Row = React.memo(function Row({
   );
 });
 
-export function Accordion(props: AccordionProps) {
-  const { t } = useTranslation('ui');
-  const { items, className, itemClassName, contentClassName } = props as BaseProps;
-  const ids = React.useMemo(
-    () => items.map((it, idx) => (it.id ? String(it.id) : String(idx))),
-    [items],
-  );
-  const ariaToggle = t('accordion.toggle', { defaultValue: 'Toggle' });
-
-  if (props.type === 'multiple') {
-    const [openValues, setOpenValues] = React.useState<string[]>(
-      Array.isArray(props.defaultValue) ? props.defaultValue.map(String) : [],
-    );
-
-    React.useEffect(() => {
-      if (Array.isArray(props.defaultValue)) setOpenValues(props.defaultValue.map(String));
-    }, [props.defaultValue]);
-
-    return (
-      <AccordionPrimitive.Root
-        type="multiple"
-        value={openValues}
-        onValueChange={(v) => setOpenValues(Array.isArray(v) ? v : [])}
-        className={`w-full overflow-hidden divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white ${className ?? ''}`}
-      >
-        {items.map((item, idx) => {
-          const id = ids[idx];
-          const open = openValues.includes(id);
-          return (
-            <Row
-              key={id}
-              id={id}
-              item={item}
-              ariaToggle={ariaToggle}
-              open={open}
-              itemClassName={itemClassName}
-              contentClassName={contentClassName}
-            />
-          );
-        })}
-      </AccordionPrimitive.Root>
-    );
-  }
-
-  const [openValue, setOpenValue] = React.useState<string | undefined>(
-    typeof props.defaultValue === 'string' ? props.defaultValue : undefined,
+function Multiple({
+  items,
+  ids,
+  ariaToggle,
+  className,
+  itemClassName,
+  contentClassName,
+  defaultValue,
+}: BaseProps & { ids: string[]; ariaToggle: string; defaultValue?: string[] }) {
+  const [openValues, setOpenValues] = useState<string[]>(
+    Array.isArray(defaultValue) ? defaultValue.map(String) : [],
   );
 
-  React.useEffect(() => {
-    if (typeof props.defaultValue === 'string') setOpenValue(props.defaultValue);
-  }, [props.defaultValue]);
+  useEffect(() => {
+    if (Array.isArray(defaultValue)) setOpenValues(defaultValue.map(String));
+  }, [defaultValue]);
+
+  return (
+    <AccordionPrimitive.Root
+      type="multiple"
+      value={openValues}
+      onValueChange={(v) => setOpenValues(Array.isArray(v) ? v : [])}
+      className={`w-full overflow-hidden divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white ${className ?? ''}`}
+    >
+      {items.map((item, idx) => {
+        const id = ids[idx];
+        const open = openValues.includes(id);
+        return (
+          <Row
+            key={id}
+            id={id}
+            item={item}
+            ariaToggle={ariaToggle}
+            open={open}
+            itemClassName={itemClassName}
+            contentClassName={contentClassName}
+          />
+        );
+      })}
+    </AccordionPrimitive.Root>
+  );
+}
+
+function Single({
+  items,
+  ids,
+  ariaToggle,
+  className,
+  itemClassName,
+  contentClassName,
+  defaultValue,
+  collapsible,
+}: BaseProps & {
+  ids: string[];
+  ariaToggle: string;
+  defaultValue?: string;
+  collapsible?: boolean;
+}) {
+  const [openValue, setOpenValue] = useState<string | undefined>(
+    typeof defaultValue === 'string' ? defaultValue : undefined,
+  );
+
+  useEffect(() => {
+    if (typeof defaultValue === 'string') setOpenValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <AccordionPrimitive.Root
       type="single"
-      collapsible={props.collapsible ?? true}
+      collapsible={collapsible ?? true}
       value={openValue}
       onValueChange={(v) => setOpenValue(typeof v === 'string' ? v : undefined)}
       className={`w-full overflow-hidden divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white ${className ?? ''}`}
@@ -183,6 +194,40 @@ export function Accordion(props: AccordionProps) {
         );
       })}
     </AccordionPrimitive.Root>
+  );
+}
+
+export function Accordion(props: AccordionProps) {
+  const { t } = useTranslation('ui');
+  const { items, className, itemClassName, contentClassName } = props as BaseProps;
+  const ids = useMemo(() => items.map((it, idx) => (it.id ? String(it.id) : String(idx))), [items]);
+  const ariaToggle = t('accordion.toggle', { defaultValue: 'Toggle' });
+
+  if (props.type === 'multiple') {
+    return (
+      <Multiple
+        items={items}
+        ids={ids}
+        ariaToggle={ariaToggle}
+        className={className}
+        itemClassName={itemClassName}
+        contentClassName={contentClassName}
+        defaultValue={props.defaultValue as string[] | undefined}
+      />
+    );
+  }
+
+  return (
+    <Single
+      items={items}
+      ids={ids}
+      ariaToggle={ariaToggle}
+      className={className}
+      itemClassName={itemClassName}
+      contentClassName={contentClassName}
+      defaultValue={props.defaultValue as string | undefined}
+      collapsible={(props as SingleProps).collapsible}
+    />
   );
 }
 

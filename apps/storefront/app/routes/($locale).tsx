@@ -1,5 +1,5 @@
+import { brandDefaultLocale, brandLocales } from '@nuvens/brand-ui';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import { brandLocales, brandDefaultLocale } from '@nuvens/brand-ui';
 
 const SUPPORTED = new Set(
   (brandLocales?.length ? brandLocales : [brandDefaultLocale]).map(
@@ -27,6 +27,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       status: 307,
       headers: {
         Location: location,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Cache-Control': 'private, no-store',
       },
     });
@@ -42,6 +43,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
       status: 308,
       headers: {
         Location: location,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Cache-Control': 'public, max-age=31536000, immutable',
       },
     });

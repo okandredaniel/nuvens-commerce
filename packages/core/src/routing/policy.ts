@@ -25,7 +25,9 @@ function someMatch(path: string, patterns: readonly string[] | undefined): boole
     try {
       const fn = match(p, { decode: decodeURIComponent });
       if (fn(path)) return true;
-    } catch {}
+    } catch {
+      /* empty */
+    }
   }
   return false;
 }

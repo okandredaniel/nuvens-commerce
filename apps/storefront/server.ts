@@ -1,24 +1,53 @@
 import { createAppLoadContext } from '@lib/context';
 import { storefrontRedirect } from '@shopify/hydrogen';
-import { createRequestHandler } from '@shopify/remix-oxygen';
+import { createRequestHandler, type ServerBuild } from '@shopify/remix-oxygen';
 
 function isDataRequest(req: Request, url: URL) {
   if (url.pathname.endsWith('.data')) return true;
   if (url.searchParams.has('_data')) return true;
   const h = req.headers;
-  if (h.get('x-remix-data') === 'yes') return true;
+  if ((h.get('x-remix-data') || '').toLowerCase() === 'yes') return true;
   if ((h.get('Purpose') || '').toLowerCase() === 'prefetch') return true;
   if ((h.get('Sec-Purpose') || '').toLowerCase().includes('prefetch')) return true;
   return false;
 }
 
+function errorResponse(stage: string, err: unknown) {
+  const isProd = process.env.NODE_ENV === 'production';
+  if (isProd) return new Response('An unexpected error occurred', { status: 500 });
+  const e = err as any;
+  const body = {
+    stage,
+    name: e?.name,
+    message: e?.message,
+    stack: e?.stack,
+  };
+  return new Response(JSON.stringify(body, null, 2), {
+    status: 500,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env, executionContext: ExecutionContext): Promise<Response> {
+    let appLoadContext: Awaited<ReturnType<typeof createAppLoadContext>>;
     try {
-      const appLoadContext = await createAppLoadContext(request, env, executionContext);
+      appLoadContext = await createAppLoadContext(request, env, executionContext);
+    } catch (err) {
+      return errorResponse('context', err);
+    }
 
+    let build: ServerBuild;
+    try {
+      build = (await import('virtual:react-router/server-build')) as unknown as ServerBuild;
+    } catch (err) {
+      return errorResponse('build', err);
+    }
+
+    try {
       const handleRequest = createRequestHandler({
-        build: await import('virtual:react-router/server-build'),
+        build,
         mode: process.env.NODE_ENV,
         getLoadContext: () => appLoadContext,
       });
@@ -42,8 +71,8 @@ export default {
       }
 
       return response;
-    } catch {
-      return new Response('An unexpected error occurred', { status: 500 });
+    } catch (err) {
+      return errorResponse('handle', err);
     }
   },
 };

@@ -1,5 +1,5 @@
 import { resolvePolicyPath as resolvePolicyPathPure } from '@lib/routing/paths';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext, useMemo, useRef } from 'react';
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 
 type StoreCtx = {
@@ -55,8 +55,23 @@ export function useBrand() {
   return v;
 }
 
-export function useShallowMemo<T extends Record<string, any>>(obj: T) {
-  return useMemo(() => obj, Object.values(obj));
+export function useShallowMemo<T extends Record<string, any>>(obj: T): T {
+  const ref = useRef<T>(obj);
+  const prev = ref.current;
+  const prevKeys = Object.keys(prev);
+  const keys = Object.keys(obj);
+  let same = prevKeys.length === keys.length;
+  if (same) {
+    for (let i = 0; i < keys.length; i++) {
+      const k = keys[i] as keyof T;
+      if (prev[k] !== obj[k]) {
+        same = false;
+        break;
+      }
+    }
+  }
+  if (!same) ref.current = obj;
+  return same ? prev : obj;
 }
 
 function pickFirstAllowed(candidates: string[], isAllowed: (p: string) => boolean) {
@@ -69,11 +84,27 @@ export function useRoutingPolicy(
 ) {
   const store = useStore();
   const provided = store.routing;
-  const isAllowed = provided?.isAllowed ?? (() => true);
-  const resolvePolicyPath =
-    provided?.resolvePolicyPath ?? ((p: string) => resolvePolicyPathPure(p));
-  const list = provided?.candidates ?? candidates;
-  const recommended = provided?.recommendedFallback ?? pickFirstAllowed(list, isAllowed);
+
+  const isAllowed = useMemo<(path: string) => boolean>(
+    () => provided?.isAllowed ?? (() => true),
+    [provided?.isAllowed],
+  );
+
+  const resolvePolicyPath = useMemo<(path: string) => string>(
+    () => provided?.resolvePolicyPath ?? ((p: string) => resolvePolicyPathPure(p)),
+    [provided?.resolvePolicyPath],
+  );
+
+  const list = useMemo<string[]>(
+    () => provided?.candidates ?? candidates,
+    [provided?.candidates, candidates],
+  );
+
+  const recommended = useMemo(
+    () => provided?.recommendedFallback ?? pickFirstAllowed(list, isAllowed),
+    [provided?.recommendedFallback, list, isAllowed],
+  );
+
   return {
     isAllowed,
     resolvePolicyPath,

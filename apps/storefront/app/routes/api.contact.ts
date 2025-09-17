@@ -2,11 +2,14 @@ import type { ActionFunctionArgs, LoaderFunctionArgs } from '@shopify/remix-oxyg
 
 type Bindings = { PUBLIC_STORE_DOMAIN: string };
 
+const headerContentType = 'content-type';
+const headers = { [headerContentType]: 'application/json' };
+
 export async function loader({ request }: LoaderFunctionArgs) {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
   return new Response(JSON.stringify({ ok: false, error: 'method_not_allowed' }), {
     status: 405,
-    headers: { 'content-type': 'application/json' },
+    headers,
   });
 }
 
@@ -21,7 +24,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     if (request.method !== 'POST') {
       return new Response(JSON.stringify({ ok: false, error: 'method_not_allowed' }), {
         status: 405,
-        headers: { 'content-type': 'application/json' },
+        headers,
       });
     }
 
@@ -30,7 +33,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
       console.error('Missing binding PUBLIC_STORE_DOMAIN');
       return new Response(JSON.stringify({ ok: false, error: 'missing_binding' }), {
         status: 500,
-        headers: { 'content-type': 'application/json' },
+        headers,
       });
     }
 
@@ -41,7 +44,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     if (honeypot || consent !== 'on') {
       return new Response(JSON.stringify({ ok: false, error: 'bad_request' }), {
         status: 400,
-        headers: { 'content-type': 'application/json' },
+        headers,
       });
     }
 
@@ -50,7 +53,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     if (!email || !comment) {
       return new Response(JSON.stringify({ ok: false, error: 'missing_required' }), {
         status: 400,
-        headers: { 'content-type': 'application/json' },
+        headers,
       });
     }
 
@@ -64,8 +67,10 @@ export async function action({ request, context }: ActionFunctionArgs) {
     const upstream = await fetch(endpoint, {
       method: 'POST',
       headers: {
-        'content-type': 'application/x-www-form-urlencoded',
+        [headerContentType]: 'application/x-www-form-urlencoded',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'user-agent': request.headers.get('user-agent') || 'Hydrogen',
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'accept-language': request.headers.get('accept-language') || 'en',
         accept: request.headers.get('accept') || '*/*',
         origin: `https://${PUBLIC_STORE_DOMAIN.replace(/^https?:\/\//, '')}`,
@@ -87,20 +92,20 @@ export async function action({ request, context }: ActionFunctionArgs) {
         JSON.stringify({ ok: false, error: 'upstream_failed', status: upstream.status }),
         {
           status: 502,
-          headers: { 'content-type': 'application/json' },
+          headers,
         },
       );
     }
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
-      headers: { 'content-type': 'application/json' },
+      headers,
     });
   } catch (err) {
     console.error('Contact proxy exception', err);
     return new Response(JSON.stringify({ ok: false, error: 'server_error' }), {
       status: 500,
-      headers: { 'content-type': 'application/json' },
+      headers,
     });
   }
 }

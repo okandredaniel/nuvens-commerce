@@ -6,10 +6,15 @@ export type SelectedPolicyKey = keyof Pick<
 >;
 
 export const HANDLE_TO_POLICY_KEY: Record<string, SelectedPolicyKey> = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'privacy-policy': 'privacyPolicy',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'shipping-policy': 'shippingPolicy',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'terms-of-service': 'termsOfService',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'refund-policy': 'refundPolicy',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'subscription-policy': 'subscriptionPolicy',
 };
 

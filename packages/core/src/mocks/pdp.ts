@@ -8,27 +8,27 @@ import {
 } from './questions';
 
 export type PdpMeta = {
-  usp_bullets?: string[];
-  video_youtube_id?: string;
-  video_preview?: string;
-  trusted_youtube_ids?: string[];
-  rating_value?: number;
-  rating_count?: number;
-  comfort_image?: string;
-  max_qty?: number;
-  faq_ref?: { id: string } | null;
-  info_items?: typeof accordionItemsFr;
-  faq_items?: typeof faqItemsFr;
+  uspBullets?: string[];
+  videoYoutubeId?: string;
+  videoPreview?: string;
+  trustedYoutubeIds?: string[];
+  ratingValue?: number;
+  ratingCount?: number;
+  comfortImage?: string;
+  maxQty?: number;
+  faqRef?: { id: string } | null;
+  infoItems?: typeof accordionItemsFr;
+  faqItems?: typeof faqItemsFr;
 };
 
 type Key = string;
 type Locale = 'en' | 'es' | 'fr';
 
-const data: Record<Key, Omit<PdpMeta, 'usp_bullets' | 'info_items' | 'faq_items'>> = {
+const data: Record<Key, Omit<PdpMeta, 'uspBullets' | 'infoItems' | 'faqItems'>> = {
   default: {
-    video_youtube_id: 'm_lfbLhKIMI',
-    video_preview: '/zippex-cambio-de-nucleos.mov',
-    trusted_youtube_ids: [
+    videoYoutubeId: 'mLfbLhKIMI',
+    videoPreview: '/zippex-cambio-de-nucleos.mov',
+    trustedYoutubeIds: [
       'DJy5ylsibX8',
       'DJy5ylsibX8',
       'DJy5ylsibX8',
@@ -36,11 +36,11 @@ const data: Record<Key, Omit<PdpMeta, 'usp_bullets' | 'info_items' | 'faq_items'
       'DJy5ylsibX8',
       'DJy5ylsibX8',
     ],
-    rating_value: 4.5,
-    rating_count: 73,
-    comfort_image: 'https://cdn.shopify.com/s/files/1/0909/7173/4352/files/dormiendo.jpg',
-    max_qty: 10,
-    faq_ref: null,
+    ratingValue: 4.5,
+    ratingCount: 73,
+    comfortImage: 'https://cdn.shopify.com/s/files/1/0909/7173/4352/files/dormiendo.jpg',
+    maxQty: 10,
+    faqRef: null,
   },
 };
 
@@ -72,8 +72,8 @@ export function getPdpMetaMock(locale: Locale, productId?: string, handle?: stri
 
   return {
     ...meta,
-    usp_bullets: bullets,
-    info_items: infoItems[locale],
-    faq_items: faqItems[locale],
+    uspBullets: bullets,
+    infoItems: infoItems[locale],
+    faqItems: faqItems[locale],
   };
 }

@@ -85,7 +85,7 @@ export default defineConfig(({ mode }) => {
         'void-elements',
         '@radix-ui/react-dialog',
         '@radix-ui/react-dropdown-menu',
-        'keen-slider/react',
+        'keen-slider',
       ],
     },
     ssr: {

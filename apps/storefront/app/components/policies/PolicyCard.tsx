@@ -6,10 +6,15 @@ import { useTranslation } from 'react-i18next';
 type PolicyItem = { id: string; title: string; handle: string };
 
 const ICONS: Record<string, React.ComponentType<any>> = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'privacy-policy': Shield,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'shipping-policy': Truck,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'refund-policy': RotateCcw,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'terms-of-service': ScrollText,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'subscription-policy': FileText,
 };
 

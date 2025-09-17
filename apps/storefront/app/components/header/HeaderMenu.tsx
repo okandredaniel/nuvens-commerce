@@ -11,9 +11,9 @@ export function HeaderMenu({
   primaryDomainUrl: HeaderProps['header']['shop']['primaryDomain']['url'];
   publicStoreDomain: HeaderProps['publicStoreDomain'];
 }) {
-  if (!menu?.items?.length) return null;
-
   const { close } = useAside();
+
+  if (!menu?.items?.length) return null;
 
   return (
     <nav className="w-full" role="navigation" aria-label="Main">

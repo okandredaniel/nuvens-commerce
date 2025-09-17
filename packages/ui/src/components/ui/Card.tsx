@@ -1,4 +1,4 @@
-import { cn } from '@nuvens/ui';
+import { cn, Heading } from '@nuvens/ui';
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -20,7 +20,8 @@ export function CardHeader({ className, ...props }: DivProps) {
 
 export function CardTitle({ className, ...props }: DivProps) {
   return (
-    <h3
+    <Heading
+      as="h3"
       className={cn(
         'text-base md:text-lg font-semibold text-[color:var(--color-on-surface)]',
         className,

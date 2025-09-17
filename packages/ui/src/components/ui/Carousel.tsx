@@ -2,7 +2,18 @@ import { Slot } from '@radix-ui/react-slot';
 import 'keen-slider/keen-slider.min.css';
 import { useKeenSlider } from 'keen-slider/react.es';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import React from 'react';
+import {
+  type ComponentPropsWithoutRef,
+  type CSSProperties,
+  type ElementType,
+  type ReactNode,
+  Children,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { IconButton } from './IconButton';
 
@@ -13,7 +24,7 @@ function cn(...classes: Array<string | undefined | false | null>) {
 type ResponsiveNumber = number | Record<number, number>;
 
 type CarouselProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   slidesPerView?: ResponsiveNumber;
   gap?: ResponsiveNumber;
@@ -68,37 +79,36 @@ export function Carousel({
   ariaLabel,
 }: CarouselProps) {
   const { t } = useTranslation('carousel');
-  const rootRef = React.useRef<HTMLDivElement | null>(null);
-  const [mounted, setMounted] = React.useState(false);
-  const [current, setCurrent] = React.useState(0);
-  const [last, setLast] = React.useState(0);
-  const [layout, setLayout] = React.useState({
-    bleedL: 0,
-    bleedR: 0,
-    edgeL: 0,
-    edgeR: 0,
-  });
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [last, setLast] = useState(0);
+  const [layout, setLayout] = useState({ bleedL: 0, bleedR: 0, edgeL: 0, edgeR: 0 });
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true);
   }, []);
 
-  const scheduleUpdate = React.useRef<number | null>(null);
-  const requestUpdate = React.useCallback(() => {
-    if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
-    scheduleUpdate.current = requestAnimationFrame(() => {
-      scheduleUpdate.current = null;
-      instanceRef.current?.update();
-    });
-  }, []);
+  const scheduleUpdate = useRef<number | null>(null);
+  const requestUpdate = useCallback(
+    () => {
+      if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
+      scheduleUpdate.current = requestAnimationFrame(() => {
+        scheduleUpdate.current = null;
+        instanceRef.current?.update();
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
     };
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
     const ro = new ResizeObserver((entries) => {
@@ -119,12 +129,9 @@ export function Carousel({
 
   const baseSpv = resolveAt(slidesPerView, 0, 1);
   const baseGap = resolveAt(gap, 0, 16);
-  const breakpoints = React.useMemo(
-    () => buildBreakpoints(slidesPerView, gap),
-    [slidesPerView, gap],
-  );
+  const breakpoints = useMemo(() => buildBreakpoints(slidesPerView, gap), [slidesPerView, gap]);
 
-  const childrenArray = React.useMemo(() => React.Children.toArray(children), [children]);
+  const childrenArray = useMemo(() => Children.toArray(children), [children]);
   const slidesCount = childrenArray.length;
 
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -149,13 +156,17 @@ export function Carousel({
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!mounted) return;
     requestUpdate();
   }, [mounted, slidesCount, baseSpv, baseGap, breakpoints, requestUpdate]);
 
-  const onKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      const root = rootRef.current;
+      if (!root) return;
+      const active = document.activeElement as Element | null;
+      if (!active || !root.contains(active)) return;
       if (e.key === 'ArrowRight') {
         e.preventDefault();
         instanceRef.current?.next();
@@ -169,9 +180,10 @@ export function Carousel({
         e.preventDefault();
         instanceRef.current?.moveToIdx(last);
       }
-    },
-    [instanceRef, last],
-  );
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [last, instanceRef]);
 
   const dotsCount = Math.max(last + 1, slidesCount || 1);
   const showNav = nav && mounted && last > 0;
@@ -187,13 +199,11 @@ export function Carousel({
           ['--bleed-right' as any]: `${layout.bleedR}px`,
           ['--edge-left' as any]: `${layout.edgeL}px`,
           ['--edge-right' as any]: `${layout.edgeR}px`,
-        } as React.CSSProperties
+        } as CSSProperties
       }
       role="region"
       aria-roledescription="carousel"
       aria-label={ariaLabel ?? t('label')}
-      tabIndex={0}
-      onKeyDown={onKeyDown}
     >
       <div
         className="relative overflow-visible"
@@ -208,15 +218,12 @@ export function Carousel({
             key={`${slidesCount}-${baseSpv}-${baseGap}`}
             ref={sliderRef}
             className="keen-slider"
-            style={{
-              paddingLeft: 'var(--edge-left)',
-              paddingRight: 'var(--edge-right)',
-            }}
+            style={{ paddingLeft: 'var(--edge-left)', paddingRight: 'var(--edge-right)' }}
             aria-live="polite"
           >
             {childrenArray.map((child, i) => (
               <div key={i} className="keen-slider__slide">
-                {child as React.ReactNode}
+                {child as ReactNode}
               </div>
             ))}
           </div>
@@ -233,7 +240,7 @@ export function Carousel({
           >
             {childrenArray.map((child, i) => (
               <div key={i} className="w-full">
-                {child as React.ReactNode}
+                {child as ReactNode}
               </div>
             ))}
           </div>
@@ -301,7 +308,7 @@ export function CarouselSlide({
   asChild,
   className,
   ...props
-}: React.ComponentPropsWithoutRef<'div'> & { asChild?: boolean }) {
-  const Comp: React.ElementType = asChild ? Slot : 'div';
+}: ComponentPropsWithoutRef<'div'> & { asChild?: boolean }) {
+  const Comp: ElementType = asChild ? Slot : 'div';
   return <Comp className={cn('w-full', className)} {...props} />;
 }

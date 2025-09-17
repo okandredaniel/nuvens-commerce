@@ -1,6 +1,7 @@
 import type { HeadersFunction } from '@shopify/remix-oxygen';
 
 export const headers: HeadersFunction = () => ({
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   'Cache-Control': 'private, no-store',
   Vary: 'Cookie',
 });

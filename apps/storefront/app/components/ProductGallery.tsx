@@ -60,7 +60,7 @@ export function ProductGallery({
           );
     }
     return base;
-  }, [base, variantImage?.id, variantImage?.url]);
+  }, [base, variantImage]);
 
   const [index, setIndex] = useState(0);
 
@@ -73,7 +73,7 @@ export function ProductGallery({
     } else {
       setIndex(0);
     }
-  }, [variantImage?.id, variantImage?.url, images]);
+  }, [variantImage?.id, variantImage?.url, images, variantImage]);
 
   useEffect(() => {
     if (index > images.length - 1) setIndex(Math.max(0, images.length - 1));
@@ -129,9 +129,7 @@ export function ProductGallery({
                 aria-pressed={active}
                 onClick={() => setIndex(i)}
                 className={`relative overflow-hidden rounded-xl ring-1 ring-black/10 transition ${
-                  active
-                    ? 'outline outline-2 outline-[color:var(--color-accent)]'
-                    : 'hover:opacity-90'
+                  active ? 'outline outline-[color:var(--color-accent)]' : 'hover:opacity-90'
                 }`}
               >
                 <Image

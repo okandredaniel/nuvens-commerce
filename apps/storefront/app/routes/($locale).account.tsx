@@ -17,6 +17,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
     { customer: data.customer },
     {
       headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'Cache-Control': 'no-cache, no-store, must-revalidate',
       },
     },

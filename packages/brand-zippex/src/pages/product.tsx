@@ -27,8 +27,8 @@ export function ProductPage({
     t('aside.bullets.sixInOne'),
     t('aside.bullets.designedAndMade'),
   ];
-  const bullets = meta.usp_bullets?.length ? meta.usp_bullets : defaultBullets;
-  const resolvedMaxQty = Number.isFinite(meta.max_qty as any) ? (meta.max_qty as number) : maxQty;
+  const bullets = meta.uspBullets?.length ? meta.uspBullets : defaultBullets;
+  const resolvedMaxQty = Number.isFinite(meta.maxQty as any) ? (meta.maxQty as number) : maxQty;
 
   return (
     <>
@@ -43,8 +43,8 @@ export function ProductPage({
               {product.title}
             </Heading>
 
-            {ProductRating && meta.rating_value != null && meta.rating_count != null ? (
-              <ProductRating rating={meta.rating_value} count={meta.rating_count} />
+            {ProductRating && meta.ratingValue != null && meta.ratingCount != null ? (
+              <ProductRating rating={meta.ratingValue} count={meta.ratingCount} />
             ) : null}
 
             <div className="mt-3" role="status" aria-live="polite">
@@ -61,7 +61,7 @@ export function ProductPage({
                 </h2>
                 <RichText
                   html={product.descriptionHtml}
-                  className="prose prose-sm prose-neutral max-w-none [&_img]:rounded-lg dark:prose-invert"
+                  className="prose prose-sm prose-neutral max-w-none [&Img]:rounded-lg dark:prose-invert"
                 />
               </section>
             ) : null}
@@ -83,7 +83,7 @@ export function ProductPage({
               />
             </div>
 
-            <Accordion type="single" items={meta.info_items ?? []} defaultValue="0" />
+            <Accordion type="single" items={meta.infoItems ?? []} defaultValue="0" />
           </aside>
         </div>
 
@@ -98,7 +98,7 @@ export function ProductPage({
         cta={t('personalize.cta')}
       />
 
-      {meta.video_youtube_id ? (
+      {meta.videoYoutubeId ? (
         <section className="py-16" aria-labelledby="video-heading">
           <Container>
             <Heading id="video-heading" className="mb-8" align="center">
@@ -106,16 +106,16 @@ export function ProductPage({
             </Heading>
             <div className="overflow-hidden md:rounded-4xl">
               <VideoPreviewWithModal
-                previewSrc={meta.video_preview}
-                youtubeId={meta.video_youtube_id}
+                previewSrc={meta.videoPreview}
+                youtubeId={meta.videoYoutubeId}
               />
             </div>
           </Container>
         </section>
       ) : null}
 
-      {meta.trusted_youtube_ids?.length ? (
-        <TrustedByCarousel heading={t('trusted.heading')} youtubeIds={meta.trusted_youtube_ids} />
+      {meta.trustedYoutubeIds?.length ? (
+        <TrustedByCarousel heading={t('trusted.heading')} youtubeIds={meta.trustedYoutubeIds} />
       ) : null}
 
       <section className="py-16">
@@ -127,7 +127,7 @@ export function ProductPage({
       <ComfortCTA
         Image={Image}
         imageAlt={t('comfort.imageAlt')}
-        imageSrc={meta.comfort_image ?? placeholderImage}
+        imageSrc={meta.comfortImage ?? placeholderImage}
         title={t('comfort.title')}
         text={t('comfort.text')}
         cta={t('comfort.cta')}
@@ -136,7 +136,7 @@ export function ProductPage({
       <section className="py-16">
         <Container>
           <Heading className="mb-8">{t('detailsHeading')}</Heading>
-          <Accordion type="single" items={meta.faq_items ?? []} defaultValue="0" />
+          <Accordion type="single" items={meta.faqItems ?? []} defaultValue="0" />
         </Container>
       </section>
 

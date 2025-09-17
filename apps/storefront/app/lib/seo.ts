@@ -10,12 +10,12 @@ const TRACKING = new Set([
   'fbclid',
 ]);
 
-function normalizePath(pathname: string, defaultLang: string) {
+export function normalizePath(pathname: string, defaultLang: string) {
   const rgx = new RegExp(`^/${defaultLang}(?:-[a-z]{2})?`, 'i');
   return pathname.replace(rgx, '') || '/';
 }
 
-function sanitizeSearch(search: string) {
+export function sanitizeSearch(search: string) {
   if (!search || search === '?') return '';
   const p = new URLSearchParams(search);
   for (const k of Array.from(p.keys())) if (TRACKING.has(k)) p.delete(k);
@@ -34,7 +34,7 @@ export function buildCanonical(
   return `${base.replace(/\/$/, '')}${path}${q}`;
 }
 
-function buildHreflangs(
+export function buildHreflangs(
   base: string,
   pathname: string,
   search: string,

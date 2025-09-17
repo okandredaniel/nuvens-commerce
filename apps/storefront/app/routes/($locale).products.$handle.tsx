@@ -3,12 +3,12 @@ import { ProductGallery } from '@/components/ProductGallery';
 import { ProductPrice } from '@/components/ProductPrice';
 import ProductRating from '@/components/ProductRating';
 import { RichText } from '@/components/RichText';
+import { buildCanonical } from '@/lib/seo';
 import type { RootLoader } from '@/root';
 import { PRODUCT_QUERY } from '@lib/fragments';
 import { redirectIfHandleIsLocalized } from '@lib/redirect';
 import { ProductPage } from '@nuvens/brand-ui';
 import { getPdpMetaMock, type ProductTemplateSlots } from '@nuvens/core';
-import { buildCanonical } from '@server/seo/meta';
 import {
   Analytics,
   getAdjacentAndFirstAvailableVariants,

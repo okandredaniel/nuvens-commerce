@@ -74,14 +74,14 @@ export function CartLineItem({ layout, line }: { layout: CartLayout; line: CartL
 
 function CartQuantityStepper({ line }: { line: CartLine }) {
   const { t } = useTranslation('common');
+  const decBtnRef = useRef<HTMLButtonElement>(null);
+  const incBtnRef = useRef<HTMLButtonElement>(null);
+
   if (!line || typeof line.quantity === 'undefined') return null;
 
   const { id: lineId, quantity = 1, isOptimistic } = line;
   const prevQuantity = Math.max(0, quantity - 1);
   const nextQuantity = quantity + 1;
-
-  const decBtnRef = useRef<HTMLButtonElement>(null);
-  const incBtnRef = useRef<HTMLButtonElement>(null);
 
   return (
     <div className="flex items-center gap-2">

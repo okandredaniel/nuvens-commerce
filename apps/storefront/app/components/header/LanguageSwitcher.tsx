@@ -14,7 +14,6 @@ type Props = { options: LanguageOption[]; current?: string };
 export function LanguageSwitcher({ options, current }: Props) {
   const { i18n, t } = useTranslation('common');
   const { pathname } = useLocation();
-  if (!options?.length) return null;
 
   const seg = pathname.split('/').filter(Boolean)[0] ?? '';
   const pathLang = /^[a-z]{2}$/i.test(seg) ? seg.toLowerCase() : undefined;
@@ -22,15 +21,24 @@ export function LanguageSwitcher({ options, current }: Props) {
   const effective = toLang(current) || pathLang || toLang(i18n.resolvedLanguage) || defLang;
 
   const idx = useMemo(
-    () => options.findIndex((o) => toLang(o.isoCode) === effective),
+    () => (options?.length ? options.findIndex((o) => toLang(o.isoCode) === effective) : -1),
     [options, effective],
   );
-  const active =
-    idx >= 0 ? options[idx] : options.find((o) => toLang(o.isoCode) === defLang) || options[0];
-  const others = useMemo(
-    () => options.filter((_, i) => i !== (idx >= 0 ? idx : options.indexOf(active))),
-    [options, idx, active],
-  );
+
+  const active = useMemo(() => {
+    if (!options?.length) return undefined;
+    return idx >= 0
+      ? options[idx]
+      : options.find((o) => toLang(o.isoCode) === defLang) || options[0];
+  }, [options, idx, defLang]);
+
+  const others = useMemo(() => {
+    if (!options?.length) return [];
+    const activeIndex = idx >= 0 ? idx : active ? options.indexOf(active) : -1;
+    return options.filter((_, i) => i !== activeIndex);
+  }, [options, idx, active]);
+
+  if (!options?.length || !active) return null;
 
   const labelChange = t('nav.changeLanguage');
   const activeLabel = languageLabel(active.isoCode, i18n.language, active.label);

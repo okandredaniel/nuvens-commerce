@@ -8,13 +8,13 @@ import { Outlet, useRouteLoaderData } from 'react-router';
 import { toLang } from './i18n/localize';
 import { getAppResources, getBrandBundleResources } from './i18n/resources';
 import { resolvePolicyPath } from './lib/routing/paths';
+import { buildMetaLinks } from './lib/seo';
 import { getBrandContext } from './server/brand';
 import { loadCriticalData, loadDeferredData } from './server/data/loaders';
 import { headers } from './server/http/headers';
 import { links } from './server/http/links';
 import { mergeI18nResources } from './server/i18n/merge';
 import { resolvePathname } from './server/routing/resolvePathname';
-import { buildMetaLinks } from './server/seo/meta';
 
 export { shouldRevalidate } from './server/routing/shouldRevalidate';
 export { ErrorBoundary, headers, Layout, links };

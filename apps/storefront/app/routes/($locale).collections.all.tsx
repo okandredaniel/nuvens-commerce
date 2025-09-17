@@ -1,7 +1,7 @@
 import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
 import { ProductItem } from '@/components/ProductItem';
+import { guardedLoader } from '@/lib/routing/guard';
 import { Container } from '@nuvens/ui';
-import { guardedLoader } from '@server/routing/guard';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
