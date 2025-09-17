@@ -4,8 +4,8 @@ import { renderToReadableStream } from 'react-dom/server';
 import type { EntryContext } from 'react-router';
 import { ServerRouter } from 'react-router';
 import { registerUiCoreAdapter } from './core.adapter';
-import { createHydrogenCSP } from './csp/policy';
 import { applySecurityHeaders } from './server/http/headers';
+import { createHydrogenCSP } from './server/security/csp/policy';
 
 registerUiCoreAdapter();
 
