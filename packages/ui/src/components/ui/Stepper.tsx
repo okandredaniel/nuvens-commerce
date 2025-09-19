@@ -1,6 +1,6 @@
 import { Minus, Plus } from 'lucide-react';
 import { forwardRef } from 'react';
-import type { ButtonVariant, ControlSize } from '../../interfaces/ui.interface';
+import type { ButtonVariant, Size } from '../../interfaces/ui.interface';
 import { cn } from '../../utils/cn';
 import { IconButton } from './IconButton';
 
@@ -13,7 +13,7 @@ type StepperProps = {
   onIncrement?: () => void;
   decDisabled?: boolean;
   incDisabled?: boolean;
-  size?: Extract<ControlSize, 'sm' | 'md'>;
+  size?: Extract<Size, 'sm' | 'md'>;
   className?: string;
   decreaseLabel?: string;
   increaseLabel?: string;
@@ -46,8 +46,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
     <div
       ref={ref}
       className={cn(
-        'inline-flex items-center rounded-full border border-[color:var(--color-border)]',
-        'bg-[color:var(--color-surface)] text-[color:var(--color-on-surface)] p-1',
+        'inline-flex items-center rounded-full border border-neutral-200 bg-neutral-0 p-1 text-neutral-900',
         className,
       )}
     >
@@ -60,9 +59,11 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
       >
         <Minus className={iconSize} />
       </IconButton>
+
       <div className="min-w-10 px-2 text-center text-sm tabular-nums" aria-live="polite">
         {value}
       </div>
+
       <IconButton
         onClick={inc}
         aria-label={increaseLabel}
