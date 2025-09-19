@@ -22,16 +22,16 @@ export function CartMain({ layout, cart: originalCart }: Props) {
 
   return (
     <div className={cn(isPage ? 'grid grid-cols-1 gap-6 lg:grid-cols-3' : 'space-y-5')}>
-      <section
-        className={cn(isPage && 'lg:col-span-2')}
-        aria-labelledby="cart-lines"
-        aria-live="polite"
-      >
+      <section className={cn(isPage && 'lg:col-span-2')} aria-live="polite">
+        <h2 id="cart-lines" className="sr-only">
+          Cart items
+        </h2>
         <ul
           className={cn(
-            'divide-y divide-[color:var(--color-border)]',
-            'rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)]',
+            'rounded-xl border border-neutral-200 bg-neutral-0',
+            'divide-y divide-neutral-200',
           )}
+          aria-labelledby="cart-lines"
         >
           {items.map((line) => (
             <li key={line.id} className="p-4 sm:p-5">

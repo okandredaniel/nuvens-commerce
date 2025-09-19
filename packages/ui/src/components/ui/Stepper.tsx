@@ -49,6 +49,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
       ref={ref}
       className={cn(
         'inline-flex items-center rounded-lg bg-neutral-0 text-neutral-900 ring-1 ring-neutral-200',
+        size === 'sm' ? 'px-[2px]' : '',
         heights[s],
         className,
       )}

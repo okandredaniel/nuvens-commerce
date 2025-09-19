@@ -34,11 +34,9 @@ function CheckoutActions({ href, cartId }: { href?: string; cartId?: string }) {
   if (!url) return null;
 
   return (
-    <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-4 sm:p-5">
-      <Button asChild className="w-full">
-        <a href={url}>{t('checkout.cta')}</a>
-      </Button>
-    </div>
+    <Button asChild className="w-full" size="lg">
+      <a href={url}>{t('checkout.cta')}</a>
+    </Button>
   );
 }
 

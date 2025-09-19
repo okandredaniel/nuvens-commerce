@@ -48,13 +48,13 @@ export function CartLineItem({ layout, line }: { layout: CartLayout; line: CartL
           onClick={() => layout === 'aside' && close()}
           className="block"
         >
-          <p className="truncate text-sm font-medium">{product.title}</p>
+          <p className="truncate text-sm font-medium text-neutral-900">{product.title}</p>
         </Link>
 
         <ProductPrice price={cost?.totalAmount} />
 
         {selectedOptions?.length ? (
-          <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-[color:var(--color-muted)]">
+          <ul className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs text-neutral-600">
             {selectedOptions.map((o) => (
               <li key={o.name} className="truncate">
                 <span className="opacity-70">{o.name}:</span> {o.value}
@@ -90,12 +90,7 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
         route="/cart"
         action={CartForm.ACTIONS.LinesUpdate}
         inputs={{
-          lines: [
-            {
-              id: lineId,
-              quantity: prevQuantity,
-            },
-          ] as CartLineUpdateInput[],
+          lines: [{ id: lineId, quantity: prevQuantity }] as CartLineUpdateInput[],
         }}
       >
         <button ref={decBtnRef} type="submit" className="hidden" aria-hidden />
@@ -106,12 +101,7 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
         route="/cart"
         action={CartForm.ACTIONS.LinesUpdate}
         inputs={{
-          lines: [
-            {
-              id: lineId,
-              quantity: nextQuantity,
-            },
-          ] as CartLineUpdateInput[],
+          lines: [{ id: lineId, quantity: nextQuantity }] as CartLineUpdateInput[],
         }}
       >
         <button ref={incBtnRef} type="submit" className="hidden" aria-hidden />
@@ -147,7 +137,7 @@ function RemoveLinesButton({ lineIds, disabled }: { lineIds: string[]; disabled:
         variant="ghost"
         aria-label={t('actions.remove')}
         disabled={disabled}
-        className="text-[color:var(--color-danger)] hover:bg-[color:var(--color-danger)]/10"
+        className="text-danger-600 hover:bg-danger-600/10"
       >
         <Trash2 className="mr-1 h-4 w-4" />
         {t('actions.remove')}
