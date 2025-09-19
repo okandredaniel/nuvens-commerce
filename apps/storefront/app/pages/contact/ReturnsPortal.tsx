@@ -7,23 +7,21 @@ export function ReturnsPortal() {
   const href = tSupport('returns.portal.href') || '';
 
   return (
-    <section className="border border-[color:var(--color-border)] bg-[color:var(--color-surface)] rounded-2xl">
-      <div className="px-5 pt-5 pb-6">
-        <h3 className="flex items-center gap-3 text-xl text-[color:var(--color-on-surface)]">
-          <span className="p-2 rounded-lg bg-[color:var(--color-primary)]/10">
-            <RefreshCw className="w-6 h-6 text-[color:var(--color-primary)]" />
+    <section className="rounded-2xl border border-neutral-200 bg-white">
+      <div className="px-5 pb-6 pt-5">
+        <h3 className="flex items-center gap-3 text-xl text-neutral-950">
+          <span className="rounded-lg bg-primary-600/10 p-2">
+            <RefreshCw className="h-6 w-6 text-primary-600" />
           </span>
           {tSupport('returns.title')}
         </h3>
       </div>
-      <div className="px-5 pb-5 space-y-6">
-        <p className="text-[color:var(--color-muted)] leading-relaxed">
-          {tSupport('returns.desc')}
-        </p>
+      <div className="space-y-6 px-5 pb-5">
+        <p className="leading-relaxed text-neutral-600">{tSupport('returns.desc')}</p>
         {href ? (
           <Button asChild variant="outline" className="w-full py-3">
             <a href={href}>
-              <RefreshCw className="w-5 h-5 mr-3" />
+              <RefreshCw className="mr-3 h-5 w-5" />
               {tSupport('returns.cta')}
             </a>
           </Button>
