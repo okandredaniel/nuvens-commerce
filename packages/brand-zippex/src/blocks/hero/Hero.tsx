@@ -2,8 +2,8 @@ import { Button, Container, Heading, Link } from '@nuvens/ui';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaStar } from 'react-icons/fa';
-import heroImageUrl from './assets/zippex-hero-couple.png';
 import heroPatternUrl from './assets/seamless-wavy-line-pattern.webp';
+import heroImageUrl from './assets/zippex-hero-couple.png';
 
 export function Hero() {
   const { t } = useTranslation('zippex-hero');
@@ -38,19 +38,17 @@ export function Hero() {
     <header
       aria-labelledby="hero-title"
       className="
-        text-[color:var(--color-on-primary)]
+        text-neutral-0
         bg-gradient-to-r
-        from-[color:var(--palette-neutral-600)]
-        to-[color:var(--palette-primary-600)]
+        from-neutral-600
+        to-primary-600
         w-full overflow-hidden
         relative
       "
     >
       <div
         className="absolute t-0 l-0 w-full h-full z-0 mix-blend-difference opacity-25"
-        style={{
-          backgroundImage: `url(${heroPatternUrl})`,
-        }}
+        style={{ backgroundImage: `url(${heroPatternUrl})` }}
       />
       <Container className="pt-32 pb-16 md:py-16 md:pt-40 md:pb-20">
         <div className="relative flex flex-col items-center gap-6">
@@ -73,15 +71,16 @@ export function Hero() {
                 decoding="sync"
               />
             </div>
+
             <div className="flex items-center gap-4 -mt-12">
-              <div className="inline-flex gap-1">
+              <div className="inline-flex gap-1 text-accent-400">
                 <FaStar className="h-5 w-5" aria-hidden />
                 <FaStar className="h-5 w-5" aria-hidden />
                 <FaStar className="h-5 w-5" aria-hidden />
                 <FaStar className="h-5 w-5" aria-hidden />
                 <FaStar className="h-5 w-5" aria-hidden />
               </div>
-              <span>{t('rating.text')}</span>
+              <span className="text-neutral-0/90">{t('rating.text')}</span>
             </div>
 
             <Button variant="white" size="lg" asChild>
