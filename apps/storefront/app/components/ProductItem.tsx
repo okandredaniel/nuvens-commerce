@@ -1,4 +1,4 @@
-import { useVariantUrl } from '@lib/variants';
+import { useVariantUrl } from '@/lib/variants';
 import { Image, Money } from '@shopify/hydrogen';
 import type { CollectionItemFragment, ProductCardFragment } from 'storefrontapi.generated';
 import { LocalizedLink } from './LocalizedLink';

@@ -1,14 +1,14 @@
 import { ProductForm } from '@/components/ProductForm';
-import { ProductGallery } from '@/components/ProductGallery';
 import { ProductPrice } from '@/components/ProductPrice';
 import ProductRating from '@/components/ProductRating';
 import { RichText } from '@/components/RichText';
+import { PRODUCT_QUERY } from '@/lib/fragments';
+import { redirectIfHandleIsLocalized } from '@/lib/redirect';
 import { buildCanonical } from '@/lib/seo';
 import type { RootLoader } from '@/root';
-import { PRODUCT_QUERY } from '@lib/fragments';
-import { redirectIfHandleIsLocalized } from '@lib/redirect';
 import { ProductPage } from '@nuvens/brand-ui';
 import { getPdpMetaMock, type ProductTemplateSlots } from '@nuvens/core';
+import { ProductGallery } from '@nuvens/ui';
 import {
   Analytics,
   getAdjacentAndFirstAvailableVariants,
@@ -34,7 +34,10 @@ export const meta: MetaFunction<typeof loader> = ({ data, location, matches }) =
   const description = data?.product?.seo?.description || data?.product?.description || '';
   return [
     { title },
-    { name: 'description', content: description },
+    {
+      name: 'description',
+      content: description,
+    },
     {
       tagName: 'link',
       rel: 'canonical',
@@ -49,10 +52,18 @@ export async function loader({ context, params, request }: LoaderFunctionArgs) {
   if (!handle) throw new Error('Expected product handle to be defined');
   const selectedOptions = getSelectedProductOptions(request) || [];
   const [{ product }] = await Promise.all([
-    storefront.query(PRODUCT_QUERY, { variables: { handle, selectedOptions } }),
+    storefront.query(PRODUCT_QUERY, {
+      variables: {
+        handle,
+        selectedOptions,
+      },
+    }),
   ]);
   if (!product?.id) throw new Response(null, { status: 404 });
-  redirectIfHandleIsLocalized(request, { handle, data: product });
+  redirectIfHandleIsLocalized(request, {
+    handle,
+    data: product,
+  });
   return { product };
 }
 
@@ -91,7 +102,10 @@ export default function ProductRoute() {
         quantity: detail?.quantity ?? 1,
         price: selectedVariant?.price?.amount || '0',
       };
-      (window as any).dataLayer?.push?.({ event: 'add_to_cart', ...payload });
+      (window as any).dataLayer?.push?.({
+        event: 'add_to_cart',
+        ...payload,
+      });
     }
     window.addEventListener('analytics:add_to_cart', handler as EventListener);
     return () => window.removeEventListener('analytics:add_to_cart', handler as EventListener);

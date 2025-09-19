@@ -1,4 +1,4 @@
-import { HEADER_QUERY } from '@lib/fragments';
+import { HEADER_QUERY } from '@/lib/fragments';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { HeaderQuery } from 'storefrontapi.generated';
 

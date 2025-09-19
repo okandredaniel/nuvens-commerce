@@ -67,7 +67,10 @@ export async function action({ request, context }: ActionFunctionArgs) {
     };
   } catch (error: any) {
     return data(
-      { error: error.message, customer: null },
+      {
+        error: error.message,
+        customer: null,
+      },
       {
         status: 400,
       },

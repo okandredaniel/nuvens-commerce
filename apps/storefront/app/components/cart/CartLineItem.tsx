@@ -1,4 +1,4 @@
-import { useVariantUrl } from '@lib/variants';
+import { useVariantUrl } from '@/lib/variants';
 import { Button, Stepper, useAside } from '@nuvens/ui';
 import { CartForm, Image, type OptimisticCartLine } from '@shopify/hydrogen';
 import type { CartLineUpdateInput } from '@shopify/hydrogen/storefront-api-types';
@@ -89,7 +89,14 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
         fetcherKey={getKey('LinesUpdate', [lineId, 'dec'])}
         route="/cart"
         action={CartForm.ACTIONS.LinesUpdate}
-        inputs={{ lines: [{ id: lineId, quantity: prevQuantity }] as CartLineUpdateInput[] }}
+        inputs={{
+          lines: [
+            {
+              id: lineId,
+              quantity: prevQuantity,
+            },
+          ] as CartLineUpdateInput[],
+        }}
       >
         <button ref={decBtnRef} type="submit" className="hidden" aria-hidden />
       </CartForm>
@@ -98,7 +105,14 @@ function CartQuantityStepper({ line }: { line: CartLine }) {
         fetcherKey={getKey('LinesUpdate', [lineId, 'inc'])}
         route="/cart"
         action={CartForm.ACTIONS.LinesUpdate}
-        inputs={{ lines: [{ id: lineId, quantity: nextQuantity }] as CartLineUpdateInput[] }}
+        inputs={{
+          lines: [
+            {
+              id: lineId,
+              quantity: nextQuantity,
+            },
+          ] as CartLineUpdateInput[],
+        }}
       >
         <button ref={incBtnRef} type="submit" className="hidden" aria-hidden />
       </CartForm>

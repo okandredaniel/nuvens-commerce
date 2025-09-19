@@ -1,5 +1,5 @@
-import { createAppLoadContext } from '@lib/context';
-import { resolvePolicyPath } from '@lib/routing/paths';
+import { createAppLoadContext } from '@/lib/context';
+import { resolvePolicyPath } from '@/lib/routing/paths';
 import { evaluateRouteAccess } from '@nuvens/core';
 import { storefrontRedirect } from '@shopify/hydrogen';
 import { createRequestHandler, type ServerBuild } from '@shopify/remix-oxygen';
@@ -19,7 +19,12 @@ function errorResponse(stage: string, err: unknown) {
   const isProd = process.env.NODE_ENV === 'production';
   if (isProd) return new Response('An unexpected error occurred', { status: 500 });
   const e = err as any;
-  const body = { stage, name: e?.name, message: e?.message, stack: e?.stack };
+  const body = {
+    stage,
+    name: e?.name,
+    message: e?.message,
+    stack: e?.stack,
+  };
   return new Response(JSON.stringify(body, null, 2), {
     status: 500,
     // eslint-disable-next-line @typescript-eslint/naming-convention

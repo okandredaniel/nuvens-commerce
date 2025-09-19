@@ -1,5 +1,5 @@
 import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
-import { redirectIfHandleIsLocalized } from '@lib/redirect';
+import { redirectIfHandleIsLocalized } from '@/lib/redirect';
 import { Image, getPaginationVariables } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Link, useLoaderData, type MetaFunction } from 'react-router';
@@ -16,7 +16,10 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return { ...deferredData, ...criticalData };
+  return {
+    ...deferredData,
+    ...criticalData,
+  };
 }
 
 /**
@@ -29,7 +32,7 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
   });
 
   if (!params.blogHandle) {
-    throw new Response(`blog not found`, { status: 404 });
+    throw new Response('blog not found', { status: 404 });
   }
 
   const [{ blog }] = await Promise.all([
@@ -46,7 +49,10 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
     throw new Response('Not found', { status: 404 });
   }
 
-  redirectIfHandleIsLocalized(request, { handle: params.blogHandle, data: blog });
+  redirectIfHandleIsLocalized(request, {
+    handle: params.blogHandle,
+    data: blog,
+  });
 
   return { blog };
 }

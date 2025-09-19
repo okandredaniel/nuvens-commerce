@@ -1,5 +1,5 @@
-import { CART_QUERY_FRAGMENT } from '@lib/fragments';
-import { AppSession } from '@lib/session';
+import { CART_QUERY_FRAGMENT } from '@/lib/fragments';
+import { AppSession } from '@/lib/session';
 import { createHydrogenContext } from '@shopify/hydrogen';
 
 export async function createAppLoadContext(

@@ -54,7 +54,10 @@ export function Footer() {
           </div>
 
           <div className="text-sm opacity-70 text-center">
-            {t('copyright', { year, brand: brandName })}
+            {t('copyright', {
+              year,
+              brand: brandName,
+            })}
           </div>
 
           <FooterPayments />

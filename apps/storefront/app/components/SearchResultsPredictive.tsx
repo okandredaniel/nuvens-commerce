@@ -2,7 +2,7 @@ import {
   getEmptyPredictiveSearchResult,
   urlWithTrackingParams,
   type PredictiveSearchReturn,
-} from '@lib/search';
+} from '@/lib/search';
 import { useAside } from '@nuvens/ui';
 import { Image, Money } from '@shopify/hydrogen';
 import React, { useEffect, useRef } from 'react';
@@ -287,5 +287,11 @@ function usePredictiveSearch(): UsePredictiveSearchReturn {
 
   const { items, total } = fetcher?.data?.result ?? getEmptyPredictiveSearchResult();
 
-  return { items, total, inputRef, term, fetcher };
+  return {
+    items,
+    total,
+    inputRef,
+    term,
+    fetcher,
+  };
 }

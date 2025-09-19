@@ -24,7 +24,11 @@ export function useLanguageOptions() {
   const current = toLang(pathname.split('/').filter(Boolean)[0]);
 
   const provided = data?.languages;
-  if (provided && provided.length > 0) return { options: provided, current };
+  if (provided && provided.length > 0)
+    return {
+      options: provided,
+      current,
+    };
 
   const options: LanguageOption[] = brandLocales.map((code) => {
     const iso = toLang(String(code));
@@ -35,5 +39,8 @@ export function useLanguageOptions() {
     };
   });
 
-  return { options, current };
+  return {
+    options,
+    current,
+  };
 }

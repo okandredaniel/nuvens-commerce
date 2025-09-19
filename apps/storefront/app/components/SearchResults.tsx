@@ -1,4 +1,4 @@
-import { urlWithTrackingParams, type RegularSearchReturn } from '@lib/search';
+import { urlWithTrackingParams, type RegularSearchReturn } from '@/lib/search';
 import { Button } from '@nuvens/ui';
 import { Image, Money, Pagination } from '@shopify/hydrogen';
 import { Link } from 'react-router';
@@ -17,7 +17,10 @@ export function SearchResults({
   children,
 }: Omit<SearchResultsProps, 'error' | 'type'>) {
   if (!result?.total) return null;
-  return children({ ...result.items, term });
+  return children({
+    ...result.items,
+    term,
+  });
 }
 
 SearchResults.Articles = SearchResultsArticles;

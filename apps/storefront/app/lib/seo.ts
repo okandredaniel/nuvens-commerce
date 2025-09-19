@@ -49,9 +49,15 @@ export function buildHreflangs(
       lang === defaultLang
         ? `${baseClean}${pathNoDefault}${q}`
         : `${baseClean}/${lang}${pathNoDefault}${q}`;
-    return { hrefLang: lang, href };
+    return {
+      hrefLang: lang,
+      href,
+    };
   });
-  const xDefault = { hrefLang: 'x-default', href: `${baseClean}${pathNoDefault}${q}` };
+  const xDefault = {
+    hrefLang: 'x-default',
+    href: `${baseClean}${pathNoDefault}${q}`,
+  };
   return [...list, xDefault];
 }
 
@@ -59,7 +65,16 @@ export function buildMetaLinks(base: string, pathname: string, search: string) {
   const canonical = buildCanonical(base, pathname, search);
   const alts = buildHreflangs(base, pathname, search);
   return [
-    { tagName: 'link', rel: 'canonical', href: canonical },
-    ...alts.map((a) => ({ tagName: 'link', rel: 'alternate', hrefLang: a.hrefLang, href: a.href })),
+    {
+      tagName: 'link',
+      rel: 'canonical',
+      href: canonical,
+    },
+    ...alts.map((a) => ({
+      tagName: 'link',
+      rel: 'alternate',
+      hrefLang: a.hrefLang,
+      href: a.href,
+    })),
   ];
 }

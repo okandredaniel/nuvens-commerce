@@ -1,8 +1,8 @@
 import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
 import { ProductItem } from '@/components/ProductItem';
+import { PAGE_SIZE } from '@/lib/constants';
+import { PRODUCT_CARD_FRAGMENT } from '@/lib/fragments/catalog';
 import { guardedLoader } from '@/lib/routing/guard';
-import { PAGE_SIZE } from '@lib/constants';
-import { PRODUCT_CARD_FRAGMENT } from '@lib/fragments/catalog';
 import { Container } from '@nuvens/ui';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
@@ -17,7 +17,10 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const deferredData = {};
   const criticalData = await loadCriticalData(args);
-  return { ...deferredData, ...criticalData };
+  return {
+    ...deferredData,
+    ...criticalData,
+  };
 });
 
 async function loadCriticalData({ context, params, request }: LoaderFunctionArgs) {
@@ -26,7 +29,12 @@ async function loadCriticalData({ context, params, request }: LoaderFunctionArgs
   if (!handle) throw new Response('Missing collection handle', { status: 404 });
   const pagination = getPaginationVariables(request, { pageBy: PAGE_SIZE });
   const [{ collection }] = await Promise.all([
-    storefront.query(COLLECTION_QUERY, { variables: { handle, ...pagination } }),
+    storefront.query(COLLECTION_QUERY, {
+      variables: {
+        handle,
+        ...pagination,
+      },
+    }),
   ]);
   if (!collection) throw new Response(`Collection ${handle} not found`, { status: 404 });
   return { collection };

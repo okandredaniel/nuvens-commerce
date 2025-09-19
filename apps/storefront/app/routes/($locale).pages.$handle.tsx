@@ -1,5 +1,5 @@
+import { redirectIfHandleIsLocalized } from '@/lib/redirect';
 import { guardedLoader } from '@/lib/routing/guard';
-import { redirectIfHandleIsLocalized } from '@lib/redirect';
 import { pageTemplates as brandPageTemplates } from '@nuvens/brand-ui';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
@@ -20,13 +20,26 @@ type LoaderData = {
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const title = data?.page?.seo?.title || data?.page?.title || 'Page';
   const desc = data?.page?.seo?.description || undefined;
-  return [{ title }, ...(desc ? [{ name: 'description', content: desc }] : [])];
+  return [
+    { title },
+    ...(desc
+      ? [
+          {
+            name: 'description',
+            content: desc,
+          },
+        ]
+      : []),
+  ];
 };
 
 export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const critical = await loadCriticalData(args);
   const deferred = loadDeferredData(args);
-  return { ...deferred, ...critical };
+  return {
+    ...deferred,
+    ...critical,
+  };
 });
 
 async function loadCriticalData({ context, request, params }: LoaderFunctionArgs) {
@@ -37,7 +50,10 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
   const { page } = await storefront.query(PAGE_QUERY, { variables: { handle } });
   if (!page) throw new Response('Not Found', { status: 404 });
 
-  redirectIfHandleIsLocalized(request, { handle, data: page });
+  redirectIfHandleIsLocalized(request, {
+    handle,
+    data: page,
+  });
 
   const normalize = (v?: string | null) =>
     (v || '')
@@ -53,7 +69,10 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
   ]);
   const templateKey = candidates.find((c) => available.has(c)) || 'default';
 
-  return { page, templateKey } satisfies LoaderData;
+  return {
+    page,
+    templateKey,
+  } satisfies LoaderData;
 }
 
 function loadDeferredData(_: LoaderFunctionArgs) {

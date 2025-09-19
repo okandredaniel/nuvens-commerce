@@ -29,7 +29,10 @@ export function getLocaleFromRequest(request: Request): I18nBase {
   const raw = (request.headers.get('accept-language') || '').split(',')[0]?.trim() || '';
   const language = toLanguageCode(pathLang || raw);
   const country = toCountryCode(pathLang || raw);
-  return { language, country };
+  return {
+    language,
+    country,
+  };
 }
 
 export function getActiveLocale(args: LoaderFunctionArgs) {
@@ -42,7 +45,11 @@ export function getActiveLocale(args: LoaderFunctionArgs) {
   const country =
     (storefront.i18n.country?.toUpperCase() as CountryCode) || toCountryCode(pathLang || raw);
   const lang = toLang(language);
-  return { lang, language, country };
+  return {
+    lang,
+    language,
+    country,
+  };
 }
 
 type Vars = Record<string, unknown>;
@@ -56,7 +63,11 @@ export async function sfQuery<TData>(
   const { context } = args;
   const { language, country } = getActiveLocale(args);
   return context.storefront.query<TData>(doc, {
-    variables: { language, country, ...vars },
+    variables: {
+      language,
+      country,
+      ...vars,
+    },
     cache: cache ?? context.storefront.CacheShort(),
   });
 }

@@ -12,7 +12,10 @@ export const meta: MetaFunction<typeof loader> = () => [{ title: 'Products' }];
 export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const deferredData = loadDeferredData(args);
   const criticalData = await loadCriticalData(args);
-  return { ...deferredData, ...criticalData };
+  return {
+    ...deferredData,
+    ...criticalData,
+  };
 });
 
 async function loadCriticalData({ context, request }: LoaderFunctionArgs) {

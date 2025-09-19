@@ -34,7 +34,10 @@ function localizeStringHref(href: string, currentLang?: string) {
 export function localizeTo(to: To, currentLang?: string): To {
   if (typeof to === 'string') return localizeStringHref(to, currentLang);
   const pathname = localizeStringHref(to.pathname ?? '/', currentLang);
-  return { ...to, pathname };
+  return {
+    ...to,
+    pathname,
+  };
 }
 
 export const localizeHref = localizeTo;

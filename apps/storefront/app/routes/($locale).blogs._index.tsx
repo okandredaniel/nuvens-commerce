@@ -4,7 +4,7 @@ import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Link, useLoaderData, type MetaFunction } from 'react-router';
 
 export const meta: MetaFunction = () => {
-  return [{ title: `Hydrogen | Blogs` }];
+  return [{ title: 'Hydrogen | Blogs' }];
 };
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -14,7 +14,10 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return { ...deferredData, ...criticalData };
+  return {
+    ...deferredData,
+    ...criticalData,
+  };
 }
 
 /**

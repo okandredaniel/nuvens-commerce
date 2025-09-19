@@ -1,4 +1,4 @@
-import { resolvePolicyPath as resolvePolicyPathPure } from '@lib/routing/paths';
+import { resolvePolicyPath as resolvePolicyPathPure } from '@/lib/routing/paths';
 import { createContext, useContext, useMemo, useRef } from 'react';
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 

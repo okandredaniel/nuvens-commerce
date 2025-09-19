@@ -33,7 +33,10 @@ export function ProductPrice({
 
   const badgeText =
     discountPercent !== null
-      ? t('price.save_percent', { defaultValue: 'Save {{value}}%', value: discountPercent })
+      ? t('price.save_percent', {
+          defaultValue: 'Save {{value}}%',
+          value: discountPercent,
+        })
       : null;
 
   return (

@@ -85,7 +85,10 @@ export async function action({ request, context }: ActionFunctionArgs) {
         // handle new address creation
         try {
           const { data, errors } = await customerAccount.mutate(CREATE_ADDRESS_MUTATION, {
-            variables: { address, defaultAddress },
+            variables: {
+              address,
+              defaultAddress,
+            },
           });
 
           if (errors?.length) {
@@ -188,7 +191,10 @@ export async function action({ request, context }: ActionFunctionArgs) {
             throw new Error('Customer address delete failed.');
           }
 
-          return { error: null, deletedAddress: addressId };
+          return {
+            error: null,
+            deletedAddress: addressId,
+          };
         } catch (error: unknown) {
           if (error instanceof Error) {
             return data(

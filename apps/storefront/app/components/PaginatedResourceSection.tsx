@@ -19,7 +19,12 @@ export function PaginatedResourceSection<NodesType>({
   return (
     <Pagination connection={connection}>
       {({ nodes, isLoading, PreviousLink, NextLink }) => {
-        const items = nodes.map((node, index) => children({ node, index }));
+        const items = nodes.map((node, index) =>
+          children({
+            node,
+            index,
+          }),
+        );
 
         return (
           <section aria-busy={isLoading} className="space-y-4">

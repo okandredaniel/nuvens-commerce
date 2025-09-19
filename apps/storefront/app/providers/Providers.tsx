@@ -1,11 +1,10 @@
 import { createI18n } from '@/i18n/createInstance';
 import { toLang } from '@/i18n/localize';
 import { getAppResources } from '@/i18n/resources';
+import { resolvePolicyPath } from '@/lib/routing/paths';
 import type { RootLoader } from '@/root';
-import { resolvePolicyPath } from '@lib/routing/paths';
 import { coreI18n } from '@nuvens/core';
-import { Aside, coreTokens, mergeTokens, tokensToCssVars } from '@nuvens/ui';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import { Aside, Tooltip } from '@nuvens/ui';
 import { Analytics } from '@shopify/hydrogen';
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
@@ -31,15 +30,16 @@ export function Providers({ children }: ProvidersProps) {
   const ns = new Set([...Object.keys(coreRes), ...Object.keys(serverRes), ...Object.keys(appRes)]);
   const merged: Record<string, any> = {};
   ns.forEach(
-    (k) => (merged[k] = { ...(coreRes[k] ?? {}), ...(serverRes[k] ?? {}), ...(appRes[k] ?? {}) }),
+    (k) =>
+      (merged[k] = {
+        ...(coreRes[k] ?? {}),
+        ...(serverRes[k] ?? {}),
+        ...(appRes[k] ?? {}),
+      }),
   );
 
   const i18n = createI18n(lang, merged);
   if (import.meta.env.DEV) (globalThis as any).__i18n = i18n;
-
-  const brandTokens = data?.brand?.tokens ?? {};
-  const mergedTokens = mergeTokens(coreTokens, brandTokens);
-  const cssVars = tokensToCssVars(mergedTokens).join('');
 
   const storeValue = useShallowMemo({
     publicStoreDomain: data?.publicStoreDomain,
@@ -55,24 +55,26 @@ export function Providers({ children }: ProvidersProps) {
   const cartPromise = data?.cart ?? null;
   const cartValue = useShallowMemo({ cart: cartPromise });
   const userValue = useShallowMemo({ isLoggedIn: !!data?.isLoggedIn });
-  const brandValue = useShallowMemo({ brandId: data?.brand?.id, cssVars });
+  const brandValue = useShallowMemo({ brandId: data?.brand?.id });
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <Tooltip.Provider delayDuration={150} skipDelayDuration={300}>
-        <Analytics.Provider cart={cartPromise} shop={data?.shop} consent={data?.consent}>
-          <ProvidersMap.Brand value={brandValue}>
-            <ProvidersMap.Store value={storeValue}>
-              <ProvidersMap.User value={userValue}>
-                <ProvidersMap.Cart value={cartValue}>
-                  <Aside.Provider>{children}</Aside.Provider>
-                </ProvidersMap.Cart>
-              </ProvidersMap.User>
-            </ProvidersMap.Store>
-          </ProvidersMap.Brand>
-        </Analytics.Provider>
-      </Tooltip.Provider>
-    </I18nextProvider>
+    <Tooltip.Provider delayDuration={150} skipDelayDuration={300}>
+      <Aside.Provider>
+        <ProvidersMap.Brand value={brandValue}>
+          <ProvidersMap.Store value={storeValue}>
+            <ProvidersMap.User value={userValue}>
+              <ProvidersMap.Cart value={cartValue}>
+                <I18nextProvider i18n={i18n}>
+                  <Analytics.Provider cart={cartPromise} shop={data?.shop} consent={data?.consent}>
+                    {children}
+                  </Analytics.Provider>
+                </I18nextProvider>
+              </ProvidersMap.Cart>
+            </ProvidersMap.User>
+          </ProvidersMap.Store>
+        </ProvidersMap.Brand>
+      </Aside.Provider>
+    </Tooltip.Provider>
   );
 }
 

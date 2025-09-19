@@ -14,7 +14,10 @@ export function getAppResources(lang: string) {
   const l = toLang(lang);
   const outside = import.meta.glob('../../locales/*/index.{ts,js}', { eager: true });
   const inside = import.meta.glob('../locales/*/index.{ts,js}', { eager: true });
-  const mods = { ...outside, ...inside };
+  const mods = {
+    ...outside,
+    ...inside,
+  };
 
   const out: Record<string, any> = {};
   for (const [p, mod] of Object.entries(mods)) {
@@ -25,7 +28,10 @@ export function getAppResources(lang: string) {
     if (code && code !== l) continue;
     for (const [ns, dict] of Object.entries(bag)) {
       if (!dict || typeof dict !== 'object') continue;
-      out[ns] = { ...(out[ns] || {}), ...(dict as Record<string, any>) };
+      out[ns] = {
+        ...(out[ns] || {}),
+        ...(dict as Record<string, any>),
+      };
     }
   }
   return out;
@@ -44,7 +50,10 @@ export function getBrandBundleResources(lang: string) {
     const bag = bundle.resources as Partial<Record<Language, Record<string, any>>>;
     const dict = bag[l] || bag['en' as Language] || {};
     if (!dict || typeof dict !== 'object') continue;
-    out[bundle.ns] = { ...(out[bundle.ns] || {}), ...dict };
+    out[bundle.ns] = {
+      ...(out[bundle.ns] || {}),
+      ...dict,
+    };
   }
   return out;
 }

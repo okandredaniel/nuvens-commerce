@@ -3,7 +3,6 @@ import { toLang } from '@/i18n/localize';
 import { getAppResources, getBrandBundleResources } from '@/i18n/resources';
 import { Layout } from '@/layouts/Layout';
 import { buildMetaLinks } from '@/lib/seo';
-import { getRuntimeConfig } from '@/server/runtime/getRuntimeConfig';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet } from 'react-router';
@@ -18,14 +17,13 @@ export { shouldRevalidate } from './server/routing/shouldRevalidate';
 export { ErrorBoundary, headers, Layout, links };
 
 export async function loader(args: LoaderFunctionArgs) {
+  const { getRuntimeConfig } = await import('./server/runtime/getRuntimeConfig');
+
   const origin = new URL(args.request.url).origin;
   const { storefront } = args.context;
   const cfg = getRuntimeConfig(args);
-
   const realPath = resolvePathname(args.request);
-
   const { brandI18n, brand } = await getBrandContext({ BRAND_ID: cfg.env.BRAND_ID });
-
   const firstSeg = realPath.split('/').filter(Boolean)[0] ?? '';
   const urlLang = /^[a-z]{2}$/i.test(firstSeg) ? firstSeg.toLowerCase() : undefined;
 
@@ -48,9 +46,15 @@ export async function loader(args: LoaderFunctionArgs) {
     ...criticalData,
     origin,
     brand,
-    i18n: { locale: lang, resources },
+    i18n: {
+      locale: lang,
+      resources,
+    },
     publicStoreDomain: cfg.env.PUBLIC_STORE_DOMAIN,
-    shop: getShopAnalytics({ storefront, publicStorefrontId: cfg.env.PUBLIC_STOREFRONT_ID }),
+    shop: getShopAnalytics({
+      storefront,
+      publicStorefrontId: cfg.env.PUBLIC_STOREFRONT_ID,
+    }),
     consent: {
       checkoutDomain: cfg.env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: cfg.env.PUBLIC_STOREFRONT_API_TOKEN,

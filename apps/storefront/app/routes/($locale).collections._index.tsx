@@ -1,8 +1,8 @@
 import { LocalizedLink } from '@/components/LocalizedLink';
 import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
+import { PAGE_SIZE } from '@/lib/constants';
+import { COLLECTION_CARD_FRAGMENT } from '@/lib/fragments/catalog';
 import { guardedLoader } from '@/lib/routing/guard';
-import { PAGE_SIZE } from '@lib/constants';
-import { COLLECTION_CARD_FRAGMENT } from '@lib/fragments/catalog';
 import { Card, CardContent, Container } from '@nuvens/ui';
 import { getPaginationVariables, Image } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
@@ -15,7 +15,10 @@ export const meta: MetaFunction<typeof loader> = () => [{ title: 'Collections' }
 export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const deferredData = {};
   const criticalData = await loadCriticalData(args);
-  return { ...deferredData, ...criticalData };
+  return {
+    ...deferredData,
+    ...criticalData,
+  };
 });
 
 async function loadCriticalData({ context, request }: LoaderFunctionArgs) {

@@ -7,7 +7,10 @@ export function stripLocale(pathname: string): { locale?: string; path: string }
   const first = parts[0];
   if (/^[a-z]{2}$/i.test(first)) {
     const rest = '/' + parts.slice(1).join('/');
-    return { locale: first.toLowerCase(), path: rest === '/' ? '/' : rest };
+    return {
+      locale: first.toLowerCase(),
+      path: rest === '/' ? '/' : rest,
+    };
   }
   return { path: pathname || '/' };
 }

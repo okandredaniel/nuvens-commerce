@@ -49,7 +49,10 @@ export function mergeResources(lang: string, ...inputs: Array<unknown>) {
       const src = byLang[l] ?? byLang[toLang(String(brandDefaultLocale) || 'en')];
       if (!isObj(src)) continue;
       nsFirst[ns] ||= {};
-      nsFirst[ns][l] = { ...(nsFirst[ns][l] || {}), ...src };
+      nsFirst[ns][l] = {
+        ...(nsFirst[ns][l] || {}),
+        ...src,
+      };
     }
   }
   const out: Record<string, Dict> = {};

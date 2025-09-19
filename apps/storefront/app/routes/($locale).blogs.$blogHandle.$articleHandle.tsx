@@ -1,4 +1,4 @@
-import { redirectIfHandleIsLocalized } from '@lib/redirect';
+import { redirectIfHandleIsLocalized } from '@/lib/redirect';
 import { Image } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
@@ -14,7 +14,10 @@ export async function loader(args: LoaderFunctionArgs) {
   // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
 
-  return { ...deferredData, ...criticalData };
+  return {
+    ...deferredData,
+    ...criticalData,
+  };
 }
 
 /**
@@ -30,7 +33,10 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
 
   const [{ blog }] = await Promise.all([
     context.storefront.query(ARTICLE_QUERY, {
-      variables: { blogHandle, articleHandle },
+      variables: {
+        blogHandle,
+        articleHandle,
+      },
     }),
     // Add other queries here, so that they are loaded in parallel
   ]);

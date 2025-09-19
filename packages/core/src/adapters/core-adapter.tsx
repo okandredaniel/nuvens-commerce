@@ -16,7 +16,10 @@ const DefaultNavLink = ({ end: _end, prefetch: _prefetch, ...rest }: CoreNavLink
 let registry: CoreAdapter = {};
 export function setCoreAdapter(partial: Partial<CoreAdapter>) {
   const defined = Object.fromEntries(Object.entries(partial).filter(([, v]) => v !== undefined));
-  registry = { ...registry, ...defined };
+  registry = {
+    ...registry,
+    ...defined,
+  };
 }
 export function getCoreAdapter(): CoreAdapter {
   return registry;
@@ -31,7 +34,10 @@ export function CoreAdapterProvider({
   children: ReactNode;
 }) {
   const defined = Object.fromEntries(Object.entries(value).filter(([, v]) => v !== undefined));
-  const merged = { ...getCoreAdapter(), ...defined };
+  const merged = {
+    ...getCoreAdapter(),
+    ...defined,
+  };
   return <Ctx.Provider value={merged}>{children}</Ctx.Provider>;
 }
 

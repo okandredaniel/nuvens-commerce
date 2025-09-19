@@ -5,7 +5,7 @@ import {
   getEmptyPredictiveSearchResult,
   type PredictiveSearchReturn,
   type RegularSearchReturn,
-} from '@lib/search';
+} from '@/lib/search';
 import { Button, Container, Input } from '@nuvens/ui';
 import { Analytics, getPaginationVariables } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';
@@ -19,8 +19,14 @@ export const loader = guardedLoader(async ({ request, context }: LoaderFunctionA
 
   try {
     return isPredictive
-      ? await predictiveSearch({ request, context })
-      : await regularSearch({ request, context });
+      ? await predictiveSearch({
+          request,
+          context,
+        })
+      : await regularSearch({
+          request,
+          context,
+        });
   } catch (e) {
     const message = e instanceof Error ? e.message : 'Unknown error';
     return isPredictive
@@ -33,7 +39,10 @@ export const loader = guardedLoader(async ({ request, context }: LoaderFunctionA
       : ({
           type: 'regular',
           term: '',
-          result: { total: 0, items: {} } as RegularSearchReturn['result'],
+          result: {
+            total: 0,
+            items: {},
+          } as RegularSearchReturn['result'],
           error: message,
         } satisfies RegularSearchReturn);
   }
@@ -89,7 +98,12 @@ export default function SearchPage() {
         )}
       </div>
 
-      <Analytics.SearchView data={{ searchTerm: term, searchResults: result }} />
+      <Analytics.SearchView
+        data={{
+          searchTerm: term,
+          searchResults: result,
+        }}
+      />
     </Container>
   );
 }
@@ -195,7 +209,10 @@ async function regularSearch({
   const term = String(url.searchParams.get('q') || '');
 
   const { errors, ...items } = await storefront.query(SEARCH_QUERY, {
-    variables: { ...variables, term },
+    variables: {
+      ...variables,
+      term,
+    },
   });
 
   if (!items) throw new Error('No search data returned from Shopify API');
@@ -203,7 +220,15 @@ async function regularSearch({
   const total = Object.values(items).reduce((acc, { nodes }: any) => acc + nodes.length, 0);
   const error = errors ? errors.map(({ message }: any) => message).join(', ') : undefined;
 
-  return { type: 'regular', term, error, result: { total, items } } as RegularSearchReturn;
+  return {
+    type: 'regular',
+    term,
+    error,
+    result: {
+      total,
+      items,
+    },
+  } as RegularSearchReturn;
 }
 
 /* ================= Predictive search ================= */
@@ -303,10 +328,19 @@ async function predictiveSearch({
   const limit = Number(url.searchParams.get('limit') || 10);
   const type = 'predictive';
 
-  if (!term) return { type, term, result: getEmptyPredictiveSearchResult() };
+  if (!term)
+    return {
+      type,
+      term,
+      result: getEmptyPredictiveSearchResult(),
+    };
 
   const { predictiveSearch: items, errors } = await storefront.query(PREDICTIVE_SEARCH_QUERY, {
-    variables: { limit, limitScope: 'EACH', term },
+    variables: {
+      limit,
+      limitScope: 'EACH',
+      term,
+    },
   });
 
   if (errors) throw new Error(errors.map(({ message }: any) => message).join(', '));
@@ -316,5 +350,12 @@ async function predictiveSearch({
     (acc: number, arr: any[]) => acc + arr.length,
     0,
   );
-  return { type, term, result: { items, total } };
+  return {
+    type,
+    term,
+    result: {
+      items,
+      total,
+    },
+  };
 }

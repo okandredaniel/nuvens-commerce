@@ -30,7 +30,7 @@ export default function AccountLayout() {
   const heading = customer
     ? customer.firstName
       ? `Welcome, ${customer.firstName}`
-      : `Welcome to your account.`
+      : 'Welcome to your account.'
     : 'Account Details';
 
   return (

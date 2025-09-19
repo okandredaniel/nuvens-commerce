@@ -1,4 +1,4 @@
-import type { PredictiveSearchReturn } from '@lib/search';
+import type { PredictiveSearchReturn } from '@/lib/search';
 import { useAside } from '@nuvens/ui';
 import React, { useEffect, useRef } from 'react';
 import { useFetcher, useNavigate, type Fetcher, type FormProps } from 'react-router';
@@ -48,8 +48,15 @@ export function SearchFormPredictive({
   /** Fetch search results based on the input value */
   function fetchResults(event: React.ChangeEvent<HTMLInputElement>) {
     fetcher.submit(
-      { q: event.target.value || '', limit: 5, predictive: true },
-      { method: 'GET', action: SEARCH_ENDPOINT },
+      {
+        q: event.target.value || '',
+        limit: 5,
+        predictive: true,
+      },
+      {
+        method: 'GET',
+        action: SEARCH_ENDPOINT,
+      },
     );
   }
 
@@ -65,7 +72,12 @@ export function SearchFormPredictive({
 
   return (
     <fetcher.Form {...props} className={className} onSubmit={resetInput}>
-      {children({ inputRef, fetcher, fetchResults, goToSearch })}
+      {children({
+        inputRef,
+        fetcher,
+        fetchResults,
+        goToSearch,
+      })}
     </fetcher.Form>
   );
 }

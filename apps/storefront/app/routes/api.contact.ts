@@ -7,10 +7,16 @@ const headers = { [headerContentType]: 'application/json' };
 
 export async function loader({ request }: LoaderFunctionArgs) {
   if (request.method === 'OPTIONS') return new Response(null, { status: 204 });
-  return new Response(JSON.stringify({ ok: false, error: 'method_not_allowed' }), {
-    status: 405,
-    headers,
-  });
+  return new Response(
+    JSON.stringify({
+      ok: false,
+      error: 'method_not_allowed',
+    }),
+    {
+      status: 405,
+      headers,
+    },
+  );
 }
 
 function formDataToUrlEncoded(fd: FormData) {
@@ -22,19 +28,31 @@ function formDataToUrlEncoded(fd: FormData) {
 export async function action({ request, context }: ActionFunctionArgs) {
   try {
     if (request.method !== 'POST') {
-      return new Response(JSON.stringify({ ok: false, error: 'method_not_allowed' }), {
-        status: 405,
-        headers,
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: 'method_not_allowed',
+        }),
+        {
+          status: 405,
+          headers,
+        },
+      );
     }
 
     const { PUBLIC_STORE_DOMAIN } = context.env as unknown as Bindings;
     if (!PUBLIC_STORE_DOMAIN) {
       console.error('Missing binding PUBLIC_STORE_DOMAIN');
-      return new Response(JSON.stringify({ ok: false, error: 'missing_binding' }), {
-        status: 500,
-        headers,
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: 'missing_binding',
+        }),
+        {
+          status: 500,
+          headers,
+        },
+      );
     }
 
     const fd = await request.formData();
@@ -42,19 +60,31 @@ export async function action({ request, context }: ActionFunctionArgs) {
     const honeypot = (fd.get('company') as string) || '';
     const consent = (fd.get('consent') as string) || '';
     if (honeypot || consent !== 'on') {
-      return new Response(JSON.stringify({ ok: false, error: 'bad_request' }), {
-        status: 400,
-        headers,
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: 'bad_request',
+        }),
+        {
+          status: 400,
+          headers,
+        },
+      );
     }
 
     const email = fd.get('contact[email]');
     const comment = (fd.get('contact[Comment]') as string) || (fd.get('contact[body]') as string);
     if (!email || !comment) {
-      return new Response(JSON.stringify({ ok: false, error: 'missing_required' }), {
-        status: 400,
-        headers,
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: 'missing_required',
+        }),
+        {
+          status: 400,
+          headers,
+        },
+      );
     }
 
     if (!fd.get('form_type')) fd.set('form_type', 'contact');
@@ -89,7 +119,11 @@ export async function action({ request, context }: ActionFunctionArgs) {
         snippet: text.slice(0, 300),
       });
       return new Response(
-        JSON.stringify({ ok: false, error: 'upstream_failed', status: upstream.status }),
+        JSON.stringify({
+          ok: false,
+          error: 'upstream_failed',
+          status: upstream.status,
+        }),
         {
           status: 502,
           headers,
@@ -103,9 +137,15 @@ export async function action({ request, context }: ActionFunctionArgs) {
     });
   } catch (err) {
     console.error('Contact proxy exception', err);
-    return new Response(JSON.stringify({ ok: false, error: 'server_error' }), {
-      status: 500,
-      headers,
-    });
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: 'server_error',
+      }),
+      {
+        status: 500,
+        headers,
+      },
+    );
   }
 }

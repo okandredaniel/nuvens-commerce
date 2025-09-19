@@ -1,6 +1,5 @@
 import { LocalizedLink } from '@/components/LocalizedLink';
-import { useAside } from '@nuvens/ui';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import { Tooltip, useAside } from '@nuvens/ui';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
 import { Minus, Plus } from 'lucide-react';
@@ -183,7 +182,10 @@ export function ProductForm({
           onClick={() => {
             window.dispatchEvent(
               new CustomEvent('analytics:add_to_cart', {
-                detail: { variantId: selectedVariant?.id, quantity: Math.min(qty, maxQty) },
+                detail: {
+                  variantId: selectedVariant?.id,
+                  quantity: Math.min(qty, maxQty),
+                },
               }),
             );
             open('cart');

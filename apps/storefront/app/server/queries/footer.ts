@@ -1,4 +1,4 @@
-import { FOOTER_QUERY } from '@lib/fragments';
+import { FOOTER_QUERY } from '@/lib/fragments';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import type { FooterQuery } from 'storefrontapi.generated';
 

@@ -10,7 +10,7 @@ export type RuntimeEnv = {
 
 export type RuntimeData = {
   env: RuntimeEnv;
-  brand: { id: BrandId; tokens: any };
+  brand: { id: BrandId };
   i18n: { language: string; country: string };
   languages?: string[];
 };

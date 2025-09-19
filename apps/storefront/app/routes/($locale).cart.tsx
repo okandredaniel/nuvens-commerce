@@ -1,5 +1,5 @@
 import { CartMain } from '@/components/cart';
-import { cartAction, cartLoader } from '@lib/cart/route.server';
+import { cartAction, cartLoader } from '@/lib/cart/route.server';
 import { Container, Heading } from '@nuvens/ui';
 import { type HeadersFunction, type MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';

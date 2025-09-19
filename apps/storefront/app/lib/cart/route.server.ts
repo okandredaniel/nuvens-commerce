@@ -72,7 +72,10 @@ export async function cartAction({ request, context }: ActionFunctionArgs) {
       warnings: result.warnings,
       analytics: { cartId },
     },
-    { status, headers },
+    {
+      status,
+      headers,
+    },
   );
 }
 

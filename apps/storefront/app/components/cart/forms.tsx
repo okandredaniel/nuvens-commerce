@@ -13,7 +13,9 @@ export function UpdateDiscountForm({
     <CartForm
       route="/cart"
       action={CartForm.ACTIONS.DiscountCodesUpdate}
-      inputs={{ discountCodes: discountCodes || [] }}
+      inputs={{
+        discountCodes: discountCodes || [],
+      }}
     >
       {(fetcher) => (typeof children === 'function' ? children(fetcher) : children)}
     </CartForm>
@@ -33,7 +35,9 @@ export function UpdateGiftCardForm({
     <CartForm
       route="/cart"
       action={CartForm.ACTIONS.GiftCardCodesUpdate}
-      inputs={{ giftCardCodes: [] }}
+      inputs={{
+        giftCardCodes: [],
+      }}
     >
       {(fetcher) => {
         const code = fetcher.formData?.get('giftCardCode') as string | undefined;
