@@ -19,7 +19,7 @@ export default function ProductRating({ rating, count = null, hrefAllReviews }: 
   return (
     <div className="flex items-center gap-3" aria-label={aria}>
       <div className="relative">
-        <div className="flex text-gray-300" aria-hidden="true">
+        <div className="flex text-neutral-200" aria-hidden="true">
           <Star />
           <Star />
           <Star />
@@ -27,11 +27,11 @@ export default function ProductRating({ rating, count = null, hrefAllReviews }: 
           <Star />
         </div>
         <div
-          className="absolute inset-0 overflow-hidden"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
           style={{ width: `${percent}%` }}
           aria-hidden="true"
         >
-          <div className="flex text-yellow-400">
+          <div className="flex text-warning-400">
             <Star />
             <Star />
             <Star />
@@ -42,14 +42,16 @@ export default function ProductRating({ rating, count = null, hrefAllReviews }: 
       </div>
 
       <div className="flex items-baseline gap-2">
-        <span className="text-lg font-semibold tracking-tight">{safeRating.toFixed(1)}</span>
+        <span className="text-lg font-semibold tracking-tight text-neutral-900">
+          {safeRating.toFixed(1)}
+        </span>
         {typeof count === 'number' ? (
-          <span className="text-sm text-gray-600">({count})</span>
+          <span className="text-sm text-neutral-600">({count})</span>
         ) : null}
         {hrefAllReviews ? (
           <a
             href={hrefAllReviews}
-            className="text-sm font-medium text-blue-700 underline-offset-2 hover:underline focus:underline focus:outline-none"
+            className="rounded-sm text-sm font-medium text-primary-700 underline-offset-2 hover:text-primary-800 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0"
           >
             {t('rating.see_all', { defaultValue: 'See all reviews' })}
           </a>

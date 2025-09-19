@@ -11,21 +11,24 @@ type Props = {
 
 export function PersonalizeSection({ Image, layersSrc, eyebrow, title, cta }: Props) {
   return (
-    <section className="py-16 bg-[color:var(--color-brand-primary)] text-[color:var(--palette-neutral-0)]">
-      <Container className="grid grid-cols-2 gap-32 items-center max-w-6xl">
+    <section className="bg-primary-600 py-16 text-neutral-0">
+      <Container className="grid grid-cols-2 items-center gap-32 max-w-6xl">
         <div>
           <Heading
             as="h6"
-            className="text-inherit w-full opacity-70 uppercase text-xs tracking-widest"
+            tone="onPrimary"
+            className="w-full text-xs uppercase tracking-widest opacity-70"
           >
             {eyebrow}
           </Heading>
-          <Heading className="text-inherit w-full">{title}</Heading>
+          <Heading tone="onPrimary" className="w-full">
+            {title}
+          </Heading>
           <Button variant="white" className="mt-8">
             {cta}
           </Button>
         </div>
-        <Image className="w-full" src={layersSrc} alt="" />
+        <Image className="w-full md:rounded-xl" src={layersSrc} alt="" />
       </Container>
     </section>
   );

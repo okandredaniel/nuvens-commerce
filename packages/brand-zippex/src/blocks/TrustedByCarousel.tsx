@@ -1,4 +1,5 @@
 import { Carousel, CarouselSlide, Container, Heading, VideoPreviewWithModal } from '@nuvens/ui';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   heading: string;
@@ -6,27 +7,51 @@ type Props = {
 };
 
 export function TrustedByCarousel({ heading, youtubeIds }: Props) {
+  const { t } = useTranslation('common');
+
+  const i18n = {
+    label: heading,
+    previous: t('carousel.previous'),
+    next: t('carousel.next'),
+    goTo: (index: number) => t('carousel.goTo', { index }),
+    status: (current: number, total: number) =>
+      t('carousel.status', {
+        current,
+        total,
+      }),
+  };
+
   return (
-    <section className="py-16 bg-[#A6ABBD]/20">
+    <section className="py-16 bg-primary-50">
       <Container>
         <Heading className="mb-8">{heading}</Heading>
         <Carousel
-          aria-label=""
-          className="w-full mx-auto"
+          className="mx-auto w-full"
           nav={false}
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          slidesPerView={{ 0: 1.5, 768: 6 }}
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          bleedLeft={{ 0: 16, 768: 0 }}
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          edgeLeft={{ 0: 16, 768: 0 }}
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          bleedRight={{ 0: 16, 768: 0 }}
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          edgeRight={{ 0: 0, 768: 0 }}
+          i18n={i18n}
+          slidesPerView={{
+            0: 1.5,
+            768: 6,
+          }}
+          bleedLeft={{
+            0: 16,
+            768: 0,
+          }}
+          edgeLeft={{
+            0: 16,
+            768: 0,
+          }}
+          bleedRight={{
+            0: 16,
+            768: 0,
+          }}
+          edgeRight={{
+            0: 0,
+            768: 0,
+          }}
         >
           {youtubeIds.map((id, i) => (
-            <CarouselSlide key={i} className="h-full overflow-hidden rounded-2xl">
+            <CarouselSlide key={i} className="h-full overflow-hidden rounded-xl">
               <VideoPreviewWithModal youtubeId={id} vertical />
             </CarouselSlide>
           ))}

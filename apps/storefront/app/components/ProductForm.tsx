@@ -1,8 +1,7 @@
 import { LocalizedLink } from '@/components/LocalizedLink';
-import { Tooltip, useAside } from '@nuvens/ui';
+import { Button, Stepper, useAside } from '@nuvens/ui';
 import { type MappedProductOptions } from '@shopify/hydrogen';
 import type { Maybe, ProductOptionValueSwatch } from '@shopify/hydrogen/storefront-api-types';
-import { Minus, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -23,14 +22,6 @@ export function ProductForm({
   const { t } = useTranslation('product');
   const [qty, setQty] = useState(1);
 
-  function dec() {
-    setQty((q) => Math.max(1, q - 1));
-  }
-
-  function inc() {
-    setQty((q) => Math.min(maxQty, q + 1));
-  }
-
   return (
     <div className="space-y-6">
       {productOptions.map((option) => {
@@ -47,83 +38,58 @@ export function ProductForm({
                   handle,
                   variantUriQuery,
                   selected,
-                  available,
+                  available: isAvailable,
                   exists,
                   isDifferentProduct,
                   swatch,
                 } = value;
 
-                const base =
-                  'inline-flex items-center justify-center rounded-lg border px-3 py-2 text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]';
-                const state = selected
-                  ? 'border-[color:var(--color-on-surface)] ring-2 ring-[color:var(--color-on-surface)]/10'
-                  : 'border-[color:var(--color-border)] hover:border-[color:var(--color-on-surface)]/30';
-                const availability = available ? '' : 'opacity-40 cursor-not-allowed';
-                const disabled = !exists;
+                const isDisabled = !exists;
 
                 if (isDifferentProduct) {
                   return (
-                    <Tooltip.Root key={option.name + name} delayDuration={150}>
-                      <Tooltip.Trigger asChild>
-                        <LocalizedLink
-                          preventScrollReset
-                          replace
-                          to={`/products/${handle}?${variantUriQuery}`}
-                          aria-current={selected ? 'true' : undefined}
-                          aria-disabled={!available}
-                          className={`${base} ${state} ${availability}`}
-                        >
-                          <ProductOptionSwatch swatch={swatch} />
-                          {!swatch?.color && !swatch?.image ? (
-                            <span className="ml-2">{name}</span>
-                          ) : null}
-                        </LocalizedLink>
-                      </Tooltip.Trigger>
-                      <Tooltip.Portal>
-                        <Tooltip.Content
-                          sideOffset={8}
-                          className="z-50 rounded-md bg-[color:var(--color-popover)] px-2 py-1 text-xs text-[color:var(--color-on-popover)] shadow"
-                        >
-                          {name}
-                          <Tooltip.Arrow className="fill-[color:var(--color-popover)]" />
-                        </Tooltip.Content>
-                      </Tooltip.Portal>
-                    </Tooltip.Root>
+                    <Button
+                      asChild
+                      key={option.name + name}
+                      variant={selected ? 'secondary' : 'outline'}
+                      size="sm"
+                      aria-pressed={selected}
+                      disabled={isDisabled || !isAvailable}
+                    >
+                      <LocalizedLink
+                        preventScrollReset
+                        replace
+                        to={`/products/${handle}?${variantUriQuery}`}
+                        aria-current={selected ? 'true' : undefined}
+                      >
+                        <ProductOptionSwatch swatch={swatch} />
+                        asdf{!swatch?.color && !swatch?.image ? name : null}
+                      </LocalizedLink>
+                    </Button>
                   );
                 }
 
                 return (
-                  <Tooltip.Root key={option.name + name} delayDuration={150}>
-                    <Tooltip.Trigger asChild>
-                      <button
-                        type="button"
-                        aria-pressed={selected}
-                        disabled={disabled}
-                        onClick={() => {
-                          if (!selected) {
-                            navigate(`?${variantUriQuery}`, {
-                              replace: true,
-                              preventScrollReset: true,
-                            });
-                          }
-                        }}
-                        className={`${base} ${state} ${availability}`}
-                        aria-label={name}
-                      >
-                        <ProductOptionSwatch swatch={swatch} />
-                        {!swatch?.color && !swatch?.image ? name : null}
-                      </button>
-                    </Tooltip.Trigger>
-                    <Tooltip.Portal>
-                      <Tooltip.Content
-                        sideOffset={8}
-                        className="z-50 rounded-md bg-[color:var(--color-popover)] px-2 py-1 text-xs text-[color:var(--color-on-popover)] shadow"
-                      >
-                        {name}
-                        <Tooltip.Arrow className="fill-[color:var(--color-popover)]" />
-                      </Tooltip.Content>
-                    </Tooltip.Portal>
-                  </Tooltip.Root>
+                  <Button
+                    key={option.name + name}
+                    type="button"
+                    variant={selected ? 'secondary' : 'outline'}
+                    size="sm"
+                    aria-pressed={selected}
+                    disabled={isDisabled || !isAvailable}
+                    onClick={() => {
+                      if (!selected) {
+                        navigate(`?${variantUriQuery}`, {
+                          replace: true,
+                          preventScrollReset: true,
+                        });
+                      }
+                    }}
+                    aria-label={name}
+                  >
+                    <ProductOptionSwatch swatch={swatch} />
+                    {!swatch?.color && !swatch?.image ? name : null}
+                  </Button>
                 );
               })}
             </div>
@@ -132,38 +98,17 @@ export function ProductForm({
       })}
 
       <div className="flex gap-3">
-        <div className="flex items-center justify-center rounded-full p-1 border border-[color:var(--color-border)] bg-white">
-          <button
-            type="button"
-            onClick={dec}
-            aria-label={t('decrease') as string}
-            className="w-11 h-11 flex items-center justify-center rounded-full text-sm leading-none hover:bg-black/5"
-          >
-            <Minus />
-          </button>
-          <input
-            type="number"
-            inputMode="numeric"
-            min={1}
-            max={maxQty}
-            value={qty}
-            onChange={(e) => {
-              const v = parseInt(e.target.value || '1', 10);
-              const clamped = isNaN(v) ? 1 : Math.min(maxQty, Math.max(1, v));
-              setQty(clamped);
-            }}
-            className="w-full h-full sm:w-12 text-center text-sm outline-none bg-transparent appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-            aria-label={t('quantity') as string}
-          />
-          <button
-            type="button"
-            onClick={inc}
-            aria-label={t('increase') as string}
-            className="w-11 h-11 flex items-center justify-center rounded-full text-sm leading-none hover:bg-black/5"
-          >
-            <Plus />
-          </button>
-        </div>
+        <Stepper
+          value={qty}
+          min={1}
+          max={maxQty}
+          size="md"
+          decDisabled={qty <= 1}
+          incDisabled={qty >= maxQty}
+          decreaseLabel={t('decrease')}
+          increaseLabel={t('increase')}
+          onChange={(v) => setQty(v)}
+        />
 
         <AddToCartButton
           ariaLabel={selectedVariant?.availableForSale ? t('addToCart') : t('soldOut')}

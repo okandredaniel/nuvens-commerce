@@ -1,7 +1,15 @@
 import type { ProductTemplateProps } from '@nuvens/core';
-import { Accordion, Container, Heading, placeholderImage, VideoPreviewWithModal } from '@nuvens/ui';
+import {
+  Accordion,
+  Container,
+  Heading,
+  placeholderImage,
+  ProductGallery,
+  VideoPreviewWithModal,
+} from '@nuvens/ui';
 import { CircleCheckBig } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { shopifyProductToImages, shopifyVariantImage } from '../adapters/shopifyGallery';
 import zippexLayers from '../assets/zippex-layers.png';
 import { ComfortCTA } from '../blocks/ComfortCTA';
 import { PersonalizeSection } from '../blocks/PersonalizeSection';
@@ -19,7 +27,10 @@ export function ProductPage({
   meta,
 }: ProductTemplateProps) {
   const { t } = useTranslation('product');
-  const { Image, ProductForm, RichText, ProductPrice, ProductRating, ProductGallery } = slots;
+  const { Image, ProductForm, RichText, ProductPrice, ProductRating } = slots;
+
+  const images = shopifyProductToImages(product);
+  const variantImg = shopifyVariantImage(selectedVariant);
 
   const defaultBullets = [
     t('aside.bullets.consumerChoice'),
@@ -35,7 +46,7 @@ export function ProductPage({
       <Container className="py-6 md:py-10">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <section aria-label={t('media')}>
-            <ProductGallery product={product} variantImage={selectedVariant?.image} />
+            <ProductGallery Image={Image} images={images} variantImage={variantImg} />
           </section>
 
           <aside className="lg:sticky lg:top-24" aria-labelledby="product-title">
@@ -61,15 +72,15 @@ export function ProductPage({
                 </h2>
                 <RichText
                   html={product.descriptionHtml}
-                  className="prose prose-sm prose-neutral max-w-none [&Img]:rounded-lg dark:prose-invert"
+                  className="prose prose-sm prose-neutral max-w-none [&img]:rounded-lg"
                 />
               </section>
             ) : null}
 
-            <ul className="flex flex-col gap-4 my-8">
+            <ul className="my-8 flex flex-col gap-4">
               {bullets.map((text, i) => (
-                <li key={i} className="flex gap-2">
-                  <CircleCheckBig className="text-[#00C7D5]" />
+                <li key={i} className="flex items-start gap-2 text-neutral-900">
+                  <CircleCheckBig className="h-5 w-5 text-primary-400" aria-hidden />
                   {text}
                 </li>
               ))}
@@ -83,7 +94,12 @@ export function ProductPage({
               />
             </div>
 
-            <Accordion type="single" items={meta.infoItems ?? []} defaultValue="0" />
+            <Accordion
+              type="single"
+              items={meta.infoItems ?? []}
+              defaultValue="0"
+              ariaToggleLabel={t('accordion.toggle')}
+            />
           </aside>
         </div>
 
@@ -104,7 +120,7 @@ export function ProductPage({
             <Heading id="video-heading" className="mb-8" align="center">
               {t('videoHeading')}
             </Heading>
-            <div className="overflow-hidden md:rounded-4xl">
+            <div className="overflow-hidden md:rounded-xl">
               <VideoPreviewWithModal
                 previewSrc={meta.videoPreview}
                 youtubeId={meta.videoYoutubeId}
@@ -136,11 +152,16 @@ export function ProductPage({
       <section className="py-16">
         <Container>
           <Heading className="mb-8">{t('detailsHeading')}</Heading>
-          <Accordion type="single" items={meta.faqItems ?? []} defaultValue="0" />
+          <Accordion
+            type="single"
+            items={meta.faqItems ?? []}
+            defaultValue="0"
+            ariaToggleLabel={t('accordion.toggle')}
+          />
         </Container>
       </section>
 
-      <section className="py-16 bg-[#A6ABBD]/20">
+      <section className="bg-primary-100/40 py-16">
         <Container>
           <SupportSection headingId="support-heading" />
         </Container>

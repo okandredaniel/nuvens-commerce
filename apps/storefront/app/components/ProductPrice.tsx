@@ -50,18 +50,21 @@ export function ProductPrice({
       <div className="flex items-baseline gap-2">
         {onSale ? (
           <>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-neutral-600">
               {t('price.from', { defaultValue: 'From' })}
             </span>
-            <s className="text-sm text-gray-500/80">
+            <s className="text-sm text-neutral-500/80">
               <Money data={compareAtPrice as MoneyV2} />
             </s>
-            <span className="text-2xl font-semibold tracking-tight" itemProp="price">
+            <span
+              className="text-2xl font-semibold tracking-tight text-neutral-900"
+              itemProp="price"
+            >
               <Money data={price} />
             </span>
             {discountPercent ? (
               <span
-                className="inline-flex rounded-md bg-red-600 px-2 py-0.5 text-xs font-semibold leading-none text-white"
+                className="inline-flex rounded-full bg-danger-600 px-2 py-0.5 text-xs font-semibold leading-none text-neutral-0"
                 aria-label={badgeText || undefined}
               >
                 {badgeText}
@@ -69,7 +72,7 @@ export function ProductPrice({
             ) : null}
           </>
         ) : (
-          <span className="text-2xl font-semibold tracking-tight" itemProp="price">
+          <span className="text-2xl font-semibold tracking-tight text-neutral-900" itemProp="price">
             <Money data={price} />
           </span>
         )}
