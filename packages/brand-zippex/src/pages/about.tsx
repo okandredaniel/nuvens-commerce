@@ -176,7 +176,7 @@ export function AboutPage() {
 
       <section aria-labelledby="about-cta" className="bg-sky-600 py-20 px-4 text-white">
         <Container className="max-w-4xl text-center">
-          <Heading id="about-cta" as="h2" className="mb-6" align="center">
+          <Heading id="about-cta" as="h2" className="mb-6 text-inherit" align="center">
             {t('cta.heading')}
           </Heading>
           <p className="mb-8 text-xl opacity-90">{t('cta.subtitle')}</p>
@@ -184,7 +184,7 @@ export function AboutPage() {
             <Button asChild size="lg" variant="white">
               <Link to="/">{t('cta.primary')}</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-white">
+            <Button asChild size="lg" variant="outline">
               <Link to="/pages/contact">{t('cta.secondary')}</Link>
             </Button>
           </div>
