@@ -19,8 +19,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto bg-[color:var(--color-footer-bg)] text-[color:var(--color-on-footer)]">
-      <div className="bg-[color:var(--palette-neutral-900)]/20 py-12 md:py-16">
+    <footer className="mt-auto bg-primary-600 text-neutral-0">
+      <div className="bg-primary-900/20 py-12 md:py-16">
         <Container>
           <Newsletter />
         </Container>
@@ -46,14 +46,14 @@ export function Footer() {
           </Await>
         </Suspense>
 
-        <div className="grid md:grid-cols-3 items-end gap-6 border-t border-[color:var(--color-on-footer)]/10 py-8 md:flex-row md:gap-8">
+        <div className="grid items-end gap-6 border-t border-neutral-0/10 py-8 md:grid-cols-3 md:flex-row md:gap-8">
           <div className="text-center">
             <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
               <Brand />
             </LocalizedNavLink>
           </div>
 
-          <div className="text-sm opacity-70 text-center">
+          <div className="text-center text-sm opacity-70">
             {t('copyright', {
               year,
               brand: brandName,
