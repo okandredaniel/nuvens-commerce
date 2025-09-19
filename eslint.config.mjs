@@ -3,11 +3,10 @@ import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import prettierConfig from 'eslint-config-prettier';
 import eslintComments from 'eslint-plugin-eslint-comments';
 import importPlugin from 'eslint-plugin-import';
-import jest from 'eslint-plugin-jest';
 import jsxA11Y from 'eslint-plugin-jsx-a11y';
+import prettierPlugin from 'eslint-plugin-prettier';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
@@ -25,6 +24,7 @@ const compat = new FlatCompat({
 });
 
 const PKGS = ['core', 'ui', 'brand-cosmos', 'brand-naturalex', 'brand-wooly', 'brand-zippex'];
+
 const tsconfigOf = (rel) => path.resolve(__dirname, rel);
 const pkgTsconfig = (pkg) => tsconfigOf(`packages/${pkg}/tsconfig.json`);
 const existingPkgNames = PKGS.filter((p) => fs.existsSync(pkgTsconfig(p)));
@@ -83,6 +83,9 @@ export default [
       react: fixupPluginRules(react),
       'react-hooks': fixupPluginRules(reactHooks),
       'jsx-a11y': fixupPluginRules(jsxA11Y),
+      prettier: prettierPlugin,
+      import: fixupPluginRules(importPlugin),
+      '@typescript-eslint': fixupPluginRules(typescriptEslint),
     },
     languageOptions: {
       globals: { ...globals.browser, ...globals.node },
@@ -96,9 +99,10 @@ export default [
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-use-before-define': 'off',
       'no-warning-comments': 'off',
-      'object-shorthand': ['error', 'always', { avoidQuotes: true }],
+      'object-shorthand': ['error', 'always'],
       'no-useless-escape': 'off',
       'no-case-declarations': 'off',
+      'prettier/prettier': 'error',
     },
   },
 
@@ -121,10 +125,6 @@ export default [
 
   {
     files: typedTsGlobs,
-    plugins: {
-      '@typescript-eslint': fixupPluginRules(typescriptEslint),
-      import: fixupPluginRules(importPlugin),
-    },
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -142,21 +142,21 @@ export default [
           project: existingProjectTsconfigs,
         },
       },
-      'import/core-modules': ['virtual:react-router/server-build'],
+      'import/core-modules': [
+        'virtual:react-router/server-build',
+        '@nuvens/brand-ui',
+        '@nuvens/brand-ui/styles.css',
+        '@nuvens/ui/styles.css',
+      ],
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
     },
   },
 
   {
     files: untypedTsGlobs,
-    plugins: {
-      '@typescript-eslint': fixupPluginRules(typescriptEslint),
-      import: fixupPluginRules(importPlugin),
-    },
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -173,30 +173,17 @@ export default [
           project: existingProjectTsconfigs,
         },
       },
-      'import/core-modules': ['virtual:react-router/server-build'],
+      'import/core-modules': [
+        'virtual:react-router/server-build',
+        '@nuvens/brand-ui',
+        '@nuvens/brand-ui/styles.css',
+        '@nuvens/ui/styles.css',
+      ],
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
     },
-  },
-
-  {
-    files: ['**/.eslintrc.cjs'],
-    languageOptions: { globals: { ...globals.node } },
-  },
-
-  ...compat.extends('plugin:jest/recommended').map((c) => ({ ...c, files: ['**/*.test.*'] })),
-  {
-    files: ['**/*.test.*'],
-    plugins: { jest },
-    languageOptions: { globals: { ...globals.node, ...globals.jest } },
-  },
-
-  {
-    files: ['**/*.server.*'],
-    rules: { 'react-hooks/rules-of-hooks': 'off' },
   },
 
   ...fixupConfigRules(
@@ -213,6 +200,7 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/naming-convention': [
         'error',
+        { selector: 'property', filter: { regex: '^\\d+$', match: true }, format: null },
         {
           selector: 'default',
           format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
@@ -229,6 +217,18 @@ export default [
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'react/prop-types': 'off',
+      indent: 'off',
+      'react/jsx-indent': 'off',
+      'react/jsx-indent-props': 'off',
+      'array-bracket-newline': 'off',
+      'array-element-newline': 'off',
+      'object-curly-newline': 'off',
+      'object-property-newline': 'off',
+      'newline-per-chained-call': 'off',
+      'comma-dangle': 'off',
+      quotes: 'off',
+      semi: 'off',
+      'key-spacing': 'off',
     },
   },
 
@@ -240,16 +240,24 @@ export default [
   },
 
   {
-    files: ['apps/storefront/app/**/*.{ts,tsx}'],
-    ignores: ['apps/storefront/app/server/**/*.{ts,tsx}'],
+    files: ['apps/storefront/app/**/*.{ts,tsx,js,jsx}'],
+    ignores: ['apps/storefront/app/server/**/*.{ts,tsx,js,jsx}'],
     rules: {
       'no-restricted-imports': [
         'error',
         {
           patterns: [
             {
-              group: ['@server/*', '**/apps/storefront/app/server/**'],
+              group: ['@/server/*', '**/apps/storefront/app/server/**'],
               message: 'Server-only modules must not be imported in client code',
+            },
+            {
+              group: ['@radix-ui/*', '@radix-ui/**'],
+              message: 'Storefront must not import Radix directly; use @nuvens/ui.',
+            },
+            {
+              group: ['**/tokens/**', '**/tokens.ts', '@nuvens/**/tokens', '@nuvens/**/tokens/*'],
+              message: 'Do not use tokens; use the Tailwind theme in tailwind.config.*',
             },
           ],
         },
@@ -258,8 +266,57 @@ export default [
   },
 
   {
-    files: ['apps/storefront/app/server/**/*.{ts,tsx}'],
+    files: ['apps/storefront/app/server/**/*.{ts,tsx,js,jsx}'],
     rules: { 'no-restricted-imports': 'off' },
+  },
+
+  {
+    files: ['**/*.server.*'],
+    rules: { 'no-restricted-imports': 'off' },
+  },
+
+  {
+    files: ['packages/ui/src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-i18next',
+              message: '@nuvens/ui must not depend on react-i18next; receive strings via props.',
+            },
+            {
+              name: 'i18next',
+              message: '@nuvens/ui must not depend on i18next; receive strings via props.',
+            },
+          ],
+          patterns: [
+            {
+              group: ['**/tokens/**', '**/tokens.ts', '@nuvens/**/tokens', '@nuvens/**/tokens/*'],
+              message: 'Do not use tokens; use the Tailwind theme in tailwind.config.*',
+            },
+          ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'CallExpression[callee.name="useTranslation"]',
+          message: '@nuvens/ui must not call useTranslation; pass i18n via props.',
+        },
+      ],
+    },
+  },
+
+  {
+    files: ['**/tailwind*.{js,ts}', '**/postcss.config.{js,ts}'],
+    languageOptions: {
+      parserOptions: { project: null },
+    },
+    rules: {
+      '@typescript-eslint/naming-convention': 'off',
+    },
   },
 
   {
@@ -268,5 +325,10 @@ export default [
     rules: { 'no-console': 'off' },
   },
 
-  prettierConfig,
+  {
+    files: ['**/*.{ts,tsx,js,jsx}'],
+    rules: {
+      'import/no-unresolved': ['error', { ignore: ['\\?url$', '\\.css$'] }],
+    },
+  },
 ];

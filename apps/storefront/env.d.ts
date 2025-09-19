@@ -2,7 +2,7 @@
 /// <reference types="react-router" />
 /// <reference types="@shopify/oxygen-workers-types" />
 
-import type { createAppLoadContext } from '@lib/context';
+import type { createAppLoadContext } from '@/lib/context';
 import type { HydrogenEnv, HydrogenSessionData } from '@shopify/hydrogen';
 import '@total-typescript/ts-reset';
 

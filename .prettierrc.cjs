@@ -1,11 +1,10 @@
 module.exports = {
-  ...require('@shopify/prettier-config'),
-  bracketSpacing: true,
   singleQuote: true,
-  semi: true,
   trailingComma: 'all',
   printWidth: 100,
+  semi: true,
+  bracketSpacing: true,
+  bracketSameLine: false,
   arrowParens: 'always',
   jsxSingleQuote: false,
-  bracketSameLine: false,
 };

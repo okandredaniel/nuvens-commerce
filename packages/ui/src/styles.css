@@ -1,0 +1,131 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@import 'keen-slider/keen-slider.min.css';
+
+@source "../../../apps/storefront/app/**/*.{ts,tsx,js,jsx}";
+@source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
+@source "../../../packages/brand-*/src/**/*.{ts,tsx,js,jsx}";
+
+@theme {
+  --color-neutral-0:   #ffffff;
+  --color-neutral-50:  #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #3f3f46;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+
+  --color-primary-50:  var(--color-neutral-50);
+  --color-primary-100: var(--color-neutral-100);
+  --color-primary-200: var(--color-neutral-200);
+  --color-primary-300: var(--color-neutral-300);
+  --color-primary-400: var(--color-neutral-400);
+  --color-primary-500: var(--color-neutral-500);
+  --color-primary-600: var(--color-neutral-600);
+  --color-primary-700: var(--color-neutral-700);
+  --color-primary-800: var(--color-neutral-800);
+  --color-primary-900: var(--color-neutral-900);
+
+  --color-accent-50:  var(--color-neutral-50);
+  --color-accent-100: var(--color-neutral-100);
+  --color-accent-200: var(--color-neutral-200);
+  --color-accent-300: var(--color-neutral-300);
+  --color-accent-400: var(--color-neutral-400);
+  --color-accent-500: var(--color-neutral-500);
+  --color-accent-600: var(--color-neutral-600);
+  --color-accent-700: var(--color-neutral-700);
+  --color-accent-800: var(--color-neutral-800);
+  --color-accent-900: var(--color-neutral-900);
+
+  --color-success-50:  #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-200: #a7f3d0;
+  --color-success-300: #6ee7b7;
+  --color-success-400: #34d399;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+  --color-success-800: #065f46;
+  --color-success-900: #064e3b;
+
+  --color-warning-50:  #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-200: #fde68a;
+  --color-warning-300: #fcd34d;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-warning-600: #d97706;
+  --color-warning-700: #b45309;
+  --color-warning-800: #92400e;
+  --color-warning-900: #78350f;
+
+  --color-danger-50:  #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+}
+
+body {
+  @apply text-neutral-900 bg-neutral-0;
+}
+
+.rte {
+  @apply prose max-w-none;
+  @apply prose-headings:font-semibold prose-a:underline prose-img:rounded-2xl;
+}
+
+.rte :where(h1, h2, h3, h4, h5, h6) {
+  @apply text-neutral-900;
+}
+.rte :where(p, li, blockquote, figcaption) {
+  @apply text-neutral-800;
+}
+.rte :where(a) {
+  @apply text-neutral-900;
+}
+.rte :where(ul) {
+  @apply list-disc pl-6;
+}
+.rte :where(ol) {
+  @apply list-decimal pl-6;
+}
+.rte :where(img, video, iframe) {
+  @apply my-4 bg-neutral-0;
+}
+.rte :where(table) {
+  @apply w-full border-collapse my-6;
+}
+.rte :where(th, td) {
+  @apply border border-neutral-200 p-3 align-top;
+}
+.rte :where(blockquote) {
+  @apply border-l-4 pl-4 italic text-neutral-600;
+}
+.rte-muted :where(p, li, blockquote) {
+  @apply text-neutral-600;
+}
+
+@keyframes overlay-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes overlay-out { from { opacity: 1 } to { opacity: 0 } }
+@keyframes sheet-in-right { from { transform: translateX(100%) } to { transform: translateX(0) } }
+@keyframes sheet-out-right { from { transform: translateX(0) } to { transform: translateX(100%) } }
+@keyframes sheet-in-left { from { transform: translateX(-100%) } to { transform: translateX(0) } }
+@keyframes sheet-out-left { from { transform: translateX(0) } to { transform: translateX(-100%) } }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

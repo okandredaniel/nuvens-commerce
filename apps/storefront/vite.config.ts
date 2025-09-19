@@ -19,7 +19,10 @@ function normalizeForTs(fromFile: string, toAbsPath: string) {
 }
 
 function ensureDir(dir: string) {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(dir))
+    fs.mkdirSync(dir, {
+      recursive: true,
+    });
 }
 
 function brandEntryPlugin(appDir: string, brandId: string): Plugin {
@@ -46,6 +49,8 @@ export default defineConfig(({ mode }) => {
   if (!BRAND_ID)
     throw new Error('BRAND_ID is missing or invalid. Please set BRAND_ID in your env.');
   const appDir = __dirname;
+  const brandSrcDir = path.resolve(appDir, `../../packages/brand-${BRAND_ID}/src`);
+  const brandCssPath = path.resolve(brandSrcDir, 'styles.css');
 
   return {
     plugins: [
@@ -57,14 +62,32 @@ export default defineConfig(({ mode }) => {
       brandEntryPlugin(appDir, BRAND_ID),
     ],
     resolve: {
-      alias: {
-        '@': r('app'),
-        '@lib': r('app/lib'),
-        '@server': r('app/server'),
-        '@nuvens/brand-ui': r('app/brand-ui.generated.ts'),
-        '@nuvens/core': r('../../packages/core/src'),
-        '@nuvens/ui': r('../../packages/ui/src'),
-      },
+      alias: [
+        {
+          find: '@',
+          replacement: r('app'),
+        },
+        {
+          find: /^@nuvens\/brand-ui\/styles\.css\?url$/,
+          replacement: `${brandCssPath}?url`,
+        },
+        {
+          find: /^@nuvens\/brand-ui\/styles\.css$/,
+          replacement: brandCssPath,
+        },
+        {
+          find: '@nuvens/brand-ui',
+          replacement: r('app/brand-ui.generated.ts'),
+        },
+        {
+          find: '@nuvens/core',
+          replacement: r('../../packages/core/src'),
+        },
+        {
+          find: '@nuvens/ui',
+          replacement: r('../../packages/ui/src'),
+        },
+      ],
       dedupe: ['react', 'react-dom', 'i18next', 'react-i18next'],
     },
     server: {
