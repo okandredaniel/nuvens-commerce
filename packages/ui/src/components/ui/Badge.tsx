@@ -11,7 +11,7 @@ const base =
 const variants: Record<Variant, string> = {
   neutral: 'bg-neutral-0 border-neutral-200 text-neutral-600',
   brand: 'bg-primary-600/10 border-primary-200 text-primary-700',
-  outline: 'border border-neutral-300 bg-neutral-0/0 hover:bg-neutral-0/10 text-neutral-700',
+  outline: 'border border-neutral-300/50 bg-neutral-0/0 hover:bg-neutral-0/10 text-neutral-700',
 };
 
 const sizes: Record<Size, string> = {

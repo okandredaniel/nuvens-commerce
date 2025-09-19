@@ -50,9 +50,7 @@ export function ProductPrice({
       <div className="flex items-baseline gap-2">
         {onSale ? (
           <>
-            <span className="text-sm text-neutral-600">
-              {t('price.from', { defaultValue: 'From' })}
-            </span>
+            <span className="text-sm text-neutral-600">{t('price.from')}</span>
             <s className="text-sm text-neutral-500/80">
               <Money data={compareAtPrice as MoneyV2} />
             </s>

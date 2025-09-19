@@ -5,14 +5,21 @@ import {
   CardContent,
   Container,
   Heading,
+  RatingStars,
+  ReviewCard,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
+  trustpilotLogo,
 } from '@nuvens/ui';
+import { Image } from '@shopify/hydrogen';
 import { Award, Filter, Star, TrendingUp, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function ReviewsPage() {
+  const { i18n } = useTranslation('home');
+
   const reviews = [
     {
       id: 1,
@@ -74,27 +81,24 @@ export default function ReviewsPage() {
     oneStar: 0,
   };
 
-  const renderStars = (rating: number) =>
-    Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`h-4 w-4 ${i < rating ? 'fill-accent-600 text-accent-600' : 'text-neutral-400'}`}
-        aria-hidden
-      />
-    ));
-
   return (
     <main className="bg-neutral-0">
-      <section className="border-b border-neutral-200 py-12">
+      <section className="bg-primary-600 py-24">
         <Container>
           <div className="space-y-6 text-center">
-            <Badge>Ce que disent nos clients</Badge>
-            <Heading as="h1" className="text-4xl md:text-5xl text-primary-700">
+            <Badge variant="outline" className="text-white/70">
+              Ce que disent nos clients
+            </Badge>
+            <Heading as="h1" className="text-4xl md:text-5xl text-white" align="center">
               Avis clients Zippex
             </Heading>
-            <p className="mx-auto max-w-2xl text-xl leading-relaxed text-neutral-600">
+            <p className="mx-auto max-w-2xl text-xl leading-relaxed text-neutral-100">
               Découvrez ce que nos clients pensent de nos produits et services
             </p>
+            <div className="space-x-6">
+              <Button variant="white">Voir tous les avis</Button>
+              <Button variant="primary">Partagez votre expérience</Button>
+            </div>
           </div>
         </Container>
       </section>
@@ -109,7 +113,9 @@ export default function ReviewsPage() {
                   <Star className="h-6 w-6 fill-accent-600 text-accent-600" aria-hidden />
                 </div>
                 <p className="text-sm text-neutral-600">Note moyenne</p>
-                <div className="mt-2 flex items-center justify-center gap-1">{renderStars(5)}</div>
+                <div className="mt-2 flex items-center justify-center gap-1">
+                  <RatingStars value={5} />
+                </div>
               </CardContent>
             </Card>
 
@@ -210,38 +216,20 @@ export default function ReviewsPage() {
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {reviews.map((review) => (
-              <Card
+              <ReviewCard
                 key={review.id}
-                className="border-neutral-200 bg-neutral-0 transition-shadow duration-200 hover:shadow-lg"
-              >
-                <CardContent className="p-6">
-                  <div className="mb-4 flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-50">
-                        <span className="font-semibold text-primary-700">
-                          {review.name
-                            .split(' ')
-                            .map((n) => n[0])
-                            .join('')}
-                        </span>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-neutral-900">{review.name}</h4>
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1">
-                            {renderStars(review.rating)}
-                          </div>
-                          {review.verified && <Badge className="text-xs">Achat vérifié</Badge>}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="text-sm text-neutral-600">
-                      {new Date(review.date).toLocaleDateString('fr-FR')}
-                    </span>
-                  </div>
-                  <p className="text-pretty leading-relaxed text-neutral-900">{review.text}</p>
-                </CardContent>
-              </Card>
+                name={review.name}
+                text={review.text}
+                rating={review.rating}
+                ratingLabel={`${review.rating}/5`}
+                Image={Image}
+                logoSrc={trustpilotLogo}
+                verified={review.verified}
+                verifiedLabel="Verified"
+                date={
+                  review.date ? new Date(review.date).toLocaleDateString(i18n.language) : undefined
+                }
+              />
             ))}
           </div>
 

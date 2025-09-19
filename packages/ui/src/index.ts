@@ -15,6 +15,8 @@ export * from './components/ui/IconButton';
 export * from './components/ui/Input';
 export * from './components/ui/Label';
 export * from './components/ui/ProductGallery';
+export * from './components/ui/RatingStars';
+export * from './components/ui/ReviewCard';
 export * from './components/ui/Select';
 export * from './components/ui/Sheet';
 export * from './components/ui/Stepper';
