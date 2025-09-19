@@ -1,6 +1,5 @@
 import { useCart } from '@/providers/AppContexts';
-import { Badge, IconButton, useAside } from '@nuvens/ui';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import { Badge, IconButton, Tooltip, useAside } from '@nuvens/ui';
 import { type CartViewPayload, useAnalytics, useOptimisticCart } from '@shopify/hydrogen';
 import { ShoppingCart } from 'lucide-react';
 import { Suspense } from 'react';
@@ -61,9 +60,10 @@ function CartBadge({ count }: { count: number | null }) {
           </div>
         </IconButton>
       </Tooltip.Trigger>
+
       <Tooltip.Content
         sideOffset={8}
-        className="z-50 rounded-lg bg-[color:var(--color-popover)] px-2 py-1 text-xs text-[color:var(--color-on-popover)] shadow-md"
+        className="z-50 rounded-lg border border-neutral-200 bg-neutral-0 px-2 py-1 text-xs text-neutral-700 shadow-md"
       >
         {label}
       </Tooltip.Content>
