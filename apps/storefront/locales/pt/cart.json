@@ -1,9 +1,11 @@
 {
   "title": "Carrinho",
   "empty": {
-    "title": "Seu carrinho está vazio",
-    "body": "Explore nossas coleções e encontre algo que você goste.",
-    "cta": "Continuar comprando"
+    "title": "O seu carrinho está vazio",
+    "body": "Explore o que temos disponível e encontre algo de que goste.",
+    "cta": "Continuar a comprar",
+    "benefit_easy_returns": "Devoluções fáceis até 30 dias",
+    "benefit_secure_checkout": "Pagamento seguro"
   },
   "summary": {
     "title": "Resumo",
@@ -14,8 +16,8 @@
     "placeholder": "Código de desconto"
   },
   "giftcard": {
-    "title": "Vales-presente",
-    "placeholder": "Código do vale-presente"
+    "title": "Cartões-oferta",
+    "placeholder": "Código do cartão-oferta"
   },
   "checkout": {
     "cta": "Continuar para o checkout"

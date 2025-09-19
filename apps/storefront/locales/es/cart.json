@@ -2,8 +2,10 @@
   "title": "Carrito",
   "empty": {
     "title": "Tu carrito está vacío",
-    "body": "Explora nuestras colecciones y encuentra algo que te encante.",
-    "cta": "Seguir comprando"
+    "body": "Descubre lo que tenemos disponible y encuentra algo que te guste.",
+    "cta": "Seguir comprando",
+    "benefit_easy_returns": "Devoluciones fáciles en 30 días",
+    "benefit_secure_checkout": "Pago seguro"
   },
   "summary": {
     "title": "Resumen",
@@ -14,10 +16,10 @@
     "placeholder": "Código de descuento"
   },
   "giftcard": {
-    "title": "Tarjetas de regalo",
-    "placeholder": "Código de la tarjeta de regalo"
+    "title": "Tarjetas regalo",
+    "placeholder": "Código de tarjeta regalo"
   },
   "checkout": {
-    "cta": "Continuar al pago"
+    "cta": "Continuar con el pago"
   }
 }

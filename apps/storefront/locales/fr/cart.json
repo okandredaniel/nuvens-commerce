@@ -2,8 +2,10 @@
   "title": "Panier",
   "empty": {
     "title": "Votre panier est vide",
-    "body": "Parcourez nos collections et trouvez quelque chose qui vous plaira.",
-    "cta": "Continuer vos achats"
+    "body": "Découvrez nos offres et trouvez ce qui vous plaît.",
+    "cta": "Continuer vos achats",
+    "benefit_easy_returns": "Retours faciles sous 30 jours",
+    "benefit_secure_checkout": "Paiement sécurisé"
   },
   "summary": {
     "title": "Récapitulatif",
@@ -11,13 +13,13 @@
   },
   "discount": {
     "title": "Réductions",
-    "placeholder": "Code promo"
+    "placeholder": "Code de réduction"
   },
   "giftcard": {
     "title": "Cartes-cadeaux",
-    "placeholder": "Code de la carte cadeau"
+    "placeholder": "Code de carte-cadeau"
   },
   "checkout": {
-    "cta": "Continuer vers le paiement"
+    "cta": "Passer au paiement"
   }
 }

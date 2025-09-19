@@ -2,8 +2,10 @@
   "title": "Carrello",
   "empty": {
     "title": "Il tuo carrello è vuoto",
-    "body": "Scopri le nostre collezioni e trova qualcosa che ti piace.",
-    "cta": "Continua lo shopping"
+    "body": "Scopri le nostre proposte e trova qualcosa che ti piace.",
+    "cta": "Continua lo shopping",
+    "benefit_easy_returns": "Resi facili entro 30 giorni",
+    "benefit_secure_checkout": "Pagamento sicuro"
   },
   "summary": {
     "title": "Riepilogo",
