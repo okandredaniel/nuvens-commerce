@@ -1,6 +1,5 @@
 import type { BrandId } from '@/interfaces/brand.interface';
 import type { RuntimeData, RuntimeEnv } from '@/interfaces/runtime.interface';
-import { brandTokens } from '@nuvens/brand-ui';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 function requireVar(name: string, v?: string): string {
@@ -27,7 +26,7 @@ export function getRuntimeConfig({ context }: LoaderFunctionArgs): RuntimeData {
 
   return {
     env: runtimeEnv,
-    brand: { id: brandId, tokens: brandTokens },
+    brand: { id: brandId },
     i18n: {
       language: storefront.i18n.language,
       country: storefront.i18n.country,

@@ -1,6 +1,6 @@
 import { cn } from '@nuvens/ui';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Play } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 type Props = {
@@ -42,11 +42,8 @@ export function VideoPreviewWithModal({
     setOpen(next);
     const v = videoRef.current;
     if (!v) return;
-    if (next) {
-      v.pause();
-    } else if (autoplay) {
-      v.play().catch(() => {});
-    }
+    if (next) v.pause();
+    else if (autoplay) v.play().catch(() => {});
   };
 
   const previewAspect = vertical ? 'pt-[177.78%]' : 'pt-[45%] md:pt-[40%]';
@@ -59,7 +56,7 @@ export function VideoPreviewWithModal({
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <div className={cn('bg-slate-100 relative w-full', previewAspect, className)}>
+      <div className={cn('relative w-full bg-neutral-100', previewAspect, className)}>
         {previewSrc ? (
           <video
             ref={videoRef}
@@ -105,21 +102,33 @@ export function VideoPreviewWithModal({
               type="button"
               aria-label={ariaLabel}
               className={cn(
-                'pointer-events-auto inline-flex items-center justify-center rounded-full bg-white/20 backdrop-blur ring-1 ring-white/40 shadow-2xl transition hover:bg-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white',
+                'pointer-events-auto inline-flex items-center justify-center rounded-full bg-neutral-0/20 backdrop-blur-sm ring-1 ring-neutral-0/40 shadow-2xl transition hover:bg-neutral-0/30',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
                 playBtnSize,
               )}
             >
-              <Play className={cn('text-white drop-shadow', playIconSize)} />
+              <Play className={cn('text-neutral-0 drop-shadow', playIconSize)} />
             </button>
           </Dialog.Trigger>
         </div>
       </div>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[60] bg-[color:var(--palette-primary-600)]/40 backdrop-blur-xs data-[state=open]:animate-overlay-in data-[state=closed]:animate-overlay-out" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-[61] -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-black p-0 shadow-xl focus:outline-none">
+        <Dialog.Overlay
+          className={cn(
+            'fixed inset-0 z-[60] bg-neutral-900/40 backdrop-blur-sm',
+            'data-[state=open]:animate-in data-[state=open]:fade-in-0',
+            'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
+          )}
+        />
+        <Dialog.Content
+          className={cn(
+            'fixed left-1/2 top-1/2 z-[61] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-neutral-900 p-0 shadow-xl focus:outline-none',
+            'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
+          )}
+        >
           <div className="flex max-h-[90vh] w-full items-center justify-center p-0">
-            <div className={cn('relative overflow-hidden rounded-2xl', ratioClass, maxBoxClass)}>
+            <div className={cn('relative overflow-hidden rounded-xl', ratioClass, maxBoxClass)}>
               {open && (
                 <iframe
                   className="absolute inset-0 h-full w-full"
@@ -133,8 +142,13 @@ export function VideoPreviewWithModal({
               )}
             </div>
           </div>
-          <Dialog.Close className="absolute right-3 top-3 rounded-md bg-white/10 px-3 py-1 text-sm text-white backdrop-blur-md transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
-            ✕
+          <Dialog.Close
+            className={cn(
+              'absolute right-3 top-3 rounded-full border border-neutral-200 bg-neutral-0/70 px-3 py-1 text-sm text-neutral-700 backdrop-blur-sm transition hover:bg-neutral-0',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
+            )}
+          >
+            <X />
           </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>

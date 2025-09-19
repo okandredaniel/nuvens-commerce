@@ -1,2 +1,2 @@
 export type ButtonVariant = 'solid' | 'outline' | 'ghost';
-export type ControlSize = 'sm' | 'md' | 'lg';
+export type Size = 'sm' | 'md' | 'lg';

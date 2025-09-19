@@ -5,17 +5,12 @@ export function IntroCta({ headingId }: { headingId: string }) {
   const { t } = useTranslation('home');
   return (
     <div>
-      <Heading
-        id={headingId}
-        as="h2"
-        className="text-[color:var(--palette-neutral-500)]"
-        align="center"
-      >
+      <Heading id={headingId} as="h2" align="center" className="text-neutral-600">
         {t('intro.title')}
       </Heading>
-      <p className="text-xl mt-8 mb-16">{t('intro.lead')}</p>
+      <p className="mt-8 mb-16 text-xl text-center text-neutral-700">{t('intro.lead')}</p>
       <Button asChild>
-        <a href="/collections/all">{t('cta.buy')}</a>
+        <a href="/products/matelas-zippex">{t('cta.buy')}</a>
       </Button>
     </div>
   );

@@ -11,44 +11,45 @@ const items = [
 
 export function PromisesCarousel({ headingId }: { headingId: string }) {
   const { t } = useTranslation('home');
+
+  const i18n = {
+    label: t('promise.aria'),
+    previous: t('carousel.previous'),
+    next: t('carousel.next'),
+    goTo: (index: number) => t('carousel.goTo', { index }),
+    status: (current: number, total: number) => t('carousel.status', { current, total }),
+  };
+
   return (
-    <div>
-      <Heading id={headingId} as="h2" className="mb-16 text-white" align="center">
+    <section aria-labelledby={headingId} className="w-full">
+      <Heading id={headingId} as="h2" tone="onPrimary" align="center" className="mb-16">
         {t('promise.title')}
       </Heading>
+
       <Carousel
-        aria-label={t('promise.aria')}
-        className="w-full mx-auto"
+        className="mx-auto w-full"
         nav={false}
-        // eslint-disable-next-line @typescript-eslint/naming-convention
+        i18n={i18n}
         slidesPerView={{ 0: 1.5, 768: 4 }}
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         bleedLeft={{ 0: 16, 768: 0 }}
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         edgeLeft={{ 0: 16, 768: 0 }}
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         bleedRight={{ 0: 16, 768: 0 }}
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         edgeRight={{ 0: 0, 768: 0 }}
       >
         {items.map(({ icon: Icon, titleKey, bodyKey }) => (
           <CarouselSlide key={titleKey} className="h-full">
-            <Card className="text-center py-4 h-full">
-              <CardContent>
-                <Icon className="m-auto text-slate-400" size={80} strokeWidth={1} aria-hidden />
-                <Heading
-                  as="h3"
-                  align="center"
-                  className="text-xl text-[color:var(--color-brand-primary)] my-4"
-                >
+            <Card className="h-full">
+              <CardContent className="flex h-full flex-col items-center text-center">
+                <Icon className="mb-4 h-16 w-16 text-neutral-400" strokeWidth={1} aria-hidden />
+                <Heading as="h3" align="center" className="my-3 text-primary-600">
                   {t(titleKey)}
                 </Heading>
-                <p>{t(bodyKey)}</p>
+                <p className="text-neutral-700">{t(bodyKey)}</p>
               </CardContent>
             </Card>
           </CarouselSlide>
         ))}
       </Carousel>
-    </div>
+    </section>
   );
 }

@@ -1,5 +1,4 @@
 import { Slot } from '@radix-ui/react-slot';
-import 'keen-slider/keen-slider.min.css';
 import { useKeenSlider } from 'keen-slider/react.es';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
@@ -14,7 +13,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useTranslation } from 'react-i18next';
 import { IconButton } from './IconButton';
 
 function cn(...classes: Array<string | undefined | false | null>) {
@@ -22,6 +20,14 @@ function cn(...classes: Array<string | undefined | false | null>) {
 }
 
 type ResponsiveNumber = number | Record<number, number>;
+
+type CarouselI18n = {
+  label: string;
+  previous: string;
+  next: string;
+  goTo: (index: number) => string;
+  status: (current: number, total: number) => string;
+};
 
 type CarouselProps = {
   children: ReactNode;
@@ -34,7 +40,7 @@ type CarouselProps = {
   edgeRight?: ResponsiveNumber;
   nav?: boolean;
   dots?: boolean;
-  ariaLabel?: string;
+  i18n: CarouselI18n;
 };
 
 function resolveAt(v: ResponsiveNumber | undefined, width: number, fallback: number) {
@@ -76,35 +82,34 @@ export function Carousel({
   edgeRight = 0,
   nav = true,
   dots = true,
-  ariaLabel,
+  i18n,
 }: CarouselProps) {
-  const { t } = useTranslation('carousel');
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [last, setLast] = useState(0);
   const [layout, setLayout] = useState({ bleedL: 0, bleedR: 0, edgeL: 0, edgeR: 0 });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
   const scheduleUpdate = useRef<number | null>(null);
-  const requestUpdate = useCallback(
-    () => {
-      if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
-      scheduleUpdate.current = requestAnimationFrame(() => {
-        scheduleUpdate.current = null;
-        instanceRef.current?.update();
-      });
-    },
+  const requestUpdate = useCallback(() => {
+    const id = scheduleUpdate.current;
+    if (id != null) cancelAnimationFrame(id);
+    scheduleUpdate.current = requestAnimationFrame(() => {
+      scheduleUpdate.current = null;
+      instanceRef.current?.update();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+  }, []);
 
   useEffect(() => {
     return () => {
-      if (scheduleUpdate.current) cancelAnimationFrame(scheduleUpdate.current);
+      const id = scheduleUpdate.current;
+      if (id != null) {
+        cancelAnimationFrame(id);
+        scheduleUpdate.current = null;
+      }
     };
   }, []);
 
@@ -203,7 +208,7 @@ export function Carousel({
       }
       role="region"
       aria-roledescription="carousel"
-      aria-label={ariaLabel ?? t('label')}
+      aria-label={i18n.label}
     >
       <div
         className="relative overflow-visible"
@@ -251,31 +256,33 @@ export function Carousel({
         <>
           <IconButton
             type="button"
-            aria-label={t('previous')}
+            variant="outline"
+            aria-label={i18n.previous}
             onClick={() => instanceRef.current?.prev()}
             disabled={current === 0}
-            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 px-3 py-2 shadow backdrop-blur disabled:opacity-50"
+            className="absolute left-3 top-1/2 -translate-y-1/2"
           >
-            <ChevronLeft />
+            <ChevronLeft className="h-5 w-5" aria-hidden />
           </IconButton>
           <IconButton
             type="button"
-            aria-label={t('next')}
+            variant="outline"
+            aria-label={i18n.next}
             onClick={() => instanceRef.current?.next()}
             disabled={current >= last}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/80 px-3 py-2 shadow backdrop-blur disabled:opacity-50"
+            className="absolute right-3 top-1/2 -translate-y-1/2"
           >
-            <ChevronRight />
+            <ChevronRight className="h-5 w-5" aria-hidden />
           </IconButton>
         </>
       )}
 
       {showDots && (
-        <div className="flex justify-center mt-4">
+        <div className="mt-4 flex justify-center">
           <div
-            className="flex bg-white/20 p-2 rounded-full gap-2"
+            className="flex gap-2 rounded-full bg-neutral-0/20 p-2 backdrop-blur-sm"
             role="tablist"
-            aria-label={t('label')}
+            aria-label={i18n.label}
           >
             {Array.from({ length: dotsCount }).map((_, i) => (
               <button
@@ -283,13 +290,12 @@ export function Carousel({
                 type="button"
                 role="tab"
                 aria-selected={i === current}
-                aria-label={t('goTo', { index: i + 1 })}
+                aria-label={i18n.goTo(i + 1)}
                 onClick={() => mounted && instanceRef.current?.moveToIdx(i)}
                 className={cn(
-                  'h-2 rounded-full',
-                  i === current && mounted
-                    ? 'w-5 bg-[color:var(--palette-primary-600)]'
-                    : 'w-2 bg-white',
+                  'h-2 w-2 rounded-full transition',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
+                  i === current && mounted ? 'w-5 bg-primary-600' : 'bg-neutral-0',
                 )}
               />
             ))}
@@ -298,7 +304,7 @@ export function Carousel({
       )}
 
       <span className="sr-only" aria-live="polite" aria-atomic="true">
-        {t('status', { current: current + 1, total: dotsCount })}
+        {i18n.status(current + 1, dotsCount)}
       </span>
     </div>
   );

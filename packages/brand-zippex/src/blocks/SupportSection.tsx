@@ -42,16 +42,12 @@ export function SupportSection({ headingId }: { headingId: string }) {
       </Heading>
       <div className="flex flex-col md:flex-row gap-16 md:gap-8">
         {items.map(({ icon: Icon, titleKey, bodyKey, ctaKey, href }) => (
-          <div key={titleKey} className="flex flex-col gap-4 items-center w-full">
-            <Icon className="text-slate-400" size={60} strokeWidth={1} aria-hidden />
-            <Heading
-              as="h3"
-              align="center"
-              className="text-xl text-[color:var(--color-brand-primary)]"
-            >
+          <div key={titleKey} className="flex flex-col items-center w-full gap-4">
+            <Icon className="text-neutral-400" size={60} strokeWidth={1} aria-hidden />
+            <Heading as="h3" align="center" className="text-primary-600">
               {t(titleKey)}
             </Heading>
-            <p>{t(bodyKey)}</p>
+            <p className="text-center text-neutral-700">{t(bodyKey)}</p>
             <Link to={href} className="mt-auto">
               {t(ctaKey)}
             </Link>

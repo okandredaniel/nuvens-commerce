@@ -24,11 +24,11 @@ export function HomePage({ slots }: HomePageProps) {
         </Container>
       </section>
 
-      <section aria-labelledby="video-heading" className="md:px-24">
+      <section aria-labelledby="video-heading" className="px-0 md:px-24">
         <h2 id="video-heading" className="sr-only">
           {t('video.title')}
         </h2>
-        <div className="overflow-hidden md:rounded-4xl">
+        <div className="overflow-hidden md:rounded-2xl">
           <VideoPreviewWithModal
             previewSrc="/zippex-cambio-de-nucleos.mov"
             youtubeId="m_lfbLhKIMI"
@@ -42,10 +42,7 @@ export function HomePage({ slots }: HomePageProps) {
         </Container>
       </section>
 
-      <section
-        aria-labelledby="promises-heading"
-        className="py-16 bg-[color:var(--color-brand-primary)]"
-      >
+      <section aria-labelledby="promises-heading" className="py-16 bg-primary-700">
         <Container>
           <PromisesCarousel headingId="promises-heading" />
         </Container>
@@ -59,7 +56,7 @@ export function HomePage({ slots }: HomePageProps) {
 
       <section
         aria-labelledby="support-heading"
-        className="py-16 bg-neutral-100 text-center text-slate-600"
+        className="py-16 bg-neutral-50 text-center text-neutral-600"
       >
         <Container>
           <SupportSection headingId="support-heading" />

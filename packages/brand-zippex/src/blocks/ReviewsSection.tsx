@@ -7,7 +7,7 @@ function Stars({ count = 5 }: { count?: number }) {
   return (
     <div className="inline-flex gap-1" aria-hidden>
       {Array.from({ length: count }).map((_, i) => (
-        <FaStar key={i} className="text-amber-400 h-5 w-5" />
+        <FaStar key={i} className="text-warning-400 h-5 w-5" />
       ))}
     </div>
   );
@@ -15,16 +15,34 @@ function Stars({ count = 5 }: { count?: number }) {
 
 const reviews = [
   {
-    name: 'Christophe',
-    body: 'Sommier et matelas, le bonheur ! Enfin des nuits sereines...Merci Tediber.',
+    name: 'Camille',
+    body: 'Livraison rapide et matelas très confortable. Je dors enfin sans me réveiller la nuit.',
+    rating: 5,
   },
   {
-    name: 'Christophe',
-    body: 'Sommier et matelas, le bonheur ! Enfin des nuits sereines...Merci Tediber.',
+    name: 'Julien',
+    body: 'Bon maintien et finition impeccable. Après une semaine, plus de douleurs au dos.',
+    rating: 5,
   },
   {
-    name: 'Christophe',
-    body: 'Sommier et matelas, le bonheur ! Enfin des nuits sereines...Merci Tediber.',
+    name: 'Sofia',
+    body: 'Texture agréable, ni trop ferme ni trop souple. Rapport qualité/prix excellent.',
+    rating: 4,
+  },
+  {
+    name: 'Pedro',
+    body: 'Montage simple, service client réactif. Le sommeil est clairement meilleur.',
+    rating: 5,
+  },
+  {
+    name: 'Chloé',
+    body: 'Très bonne aération, pas de chaleur la nuit. J’apprécie aussi l’esthétique.',
+    rating: 4,
+  },
+  {
+    name: 'Marco',
+    body: 'On sent la qualité dès la première nuit. Je recommande sans hésiter.',
+    rating: 5,
   },
 ];
 
@@ -34,25 +52,20 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
   return (
     <div>
       <div className="flex flex-col items-center gap-2">
-        <Heading
-          id={headingId}
-          as="h2"
-          className="text-[color:var(--color-brand-primary)] text-4xl"
-          align="center"
-        >
+        <Heading id={headingId} as="h2" className="text-primary-600 text-4xl" align="center">
           {t('reviews.title')}
         </Heading>
         <div className="flex items-center gap-4" aria-live="polite">
           <Stars />
-          <span>{t('reviews.summary')}</span>
+          <span className="text-neutral-700">{t('reviews.summary')}</span>
         </div>
       </div>
 
       <div className="grid md:grid-cols-3 gap-8 py-16">
         {reviews.map((r, idx) => (
-          <Card key={idx} className="bg-neutral-100 border-none">
+          <Card key={idx} className="bg-neutral-50 border-none">
             <CardContent>
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <Image
                   src={trustpilotLogo}
                   alt="Trustpilot"
@@ -61,20 +74,21 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
                 />
                 <div
                   className="flex items-center gap-2"
-                  aria-label={t('reviews.ratingLabel', { rating: '5/5' })}
+                  aria-label={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
                 >
-                  <Stars />
-                  <span>5/5</span>
+                  <Stars count={r.rating} />
+                  <span className="text-neutral-700">{r.rating}/5</span>
                 </div>
               </div>
-              <Heading as="h3" className="text-[color:var(--color-brand-primary)] my-4">
+              <Heading as="h3" className="text-primary-600 my-4">
                 {r.name}
               </Heading>
-              <p>{r.body}</p>
+              <p className="text-neutral-700">{r.body}</p>
             </CardContent>
           </Card>
         ))}
       </div>
+
       <div className="flex justify-center">
         <Button asChild>
           <a href="/avis">{t('reviews.cta')}</a>

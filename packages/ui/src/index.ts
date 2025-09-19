@@ -9,24 +9,22 @@ export * from './components/ui/Carousel';
 export * from './components/ui/Checkbox';
 export * from './components/ui/Container';
 export * from './components/ui/Dialog';
-export * from './components/ui/Dropdown';
+export * as DropdownMenu from './components/ui/DropdownMenu';
 export * from './components/ui/Heading';
 export * from './components/ui/IconButton';
 export * from './components/ui/Input';
 export * from './components/ui/Label';
+export * from './components/ui/ProductGallery';
+export * from './components/ui/Select';
 export * from './components/ui/Sheet';
 export * from './components/ui/Stepper';
 export * from './components/ui/Textarea';
-export * from './components/ui/Tooltip';
+export * as Tooltip from './components/ui/Tooltip';
 export * from './components/ui/VideoPreviewWithModal';
 
 // interfaces
 export type { DesignTokens, Palette, SemanticColors } from './interfaces/tokens.interface';
-export type { ButtonVariant, ControlSize } from './interfaces/ui.interface';
-
-// tokens
-export * from './tokens/tokens';
-export * from './tokens/utils';
+export type { ButtonVariant, Size } from './interfaces/ui.interface';
 
 // utils
 export * from './utils/cn';
