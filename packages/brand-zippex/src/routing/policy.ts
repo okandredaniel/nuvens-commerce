@@ -6,6 +6,7 @@ export const routeAccessPolicy: RouteAccessPolicy = {
     '/',
     '/cart',
     '/pages',
+    '/avis',
     '/pages/:handle',
     '/products/:handle',
     '/policies',
