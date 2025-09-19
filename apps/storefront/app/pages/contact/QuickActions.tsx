@@ -1,6 +1,5 @@
 import { Button } from '@nuvens/ui';
 import { HelpCircle, RefreshCw, Search, type LucideIcon } from 'lucide-react';
-import type { CSSProperties } from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,17 +15,27 @@ type ItemDef = {
   cta: string;
 };
 
-const TONE_VARS: Record<Tone, { color: string; on: string }> = {
-  accent: { color: 'var(--color-accent)', on: 'var(--color-on-accent)' },
-  danger: { color: 'var(--color-danger)', on: 'var(--color-on-danger)' },
-  primary: { color: 'var(--color-primary)', on: 'var(--color-on-primary)' },
-};
-
-type ToneVars = CSSProperties & Record<'--qa-color' | '--qa-on', string>;
-const makeToneStyle = (tone: Tone): ToneVars => ({
-  ['--qa-color']: TONE_VARS[tone].color,
-  ['--qa-on']: TONE_VARS[tone].on,
-});
+const toneStyles: Record<Tone, { tint: string; tintHover: string; text: string; button: string }> =
+  {
+    accent: {
+      tint: 'bg-accent-600/10',
+      tintHover: 'group-hover:bg-accent-600/20',
+      text: 'text-accent-600',
+      button: 'bg-accent-600 text-white hover:bg-accent-700',
+    },
+    danger: {
+      tint: 'bg-danger-600/10',
+      tintHover: 'group-hover:bg-danger-600/20',
+      text: 'text-danger-600',
+      button: 'bg-danger-600 text-white hover:bg-danger-700',
+    },
+    primary: {
+      tint: 'bg-primary-600/10',
+      tintHover: 'group-hover:bg-primary-600/20',
+      text: 'text-primary-600',
+      button: 'bg-primary-600 text-white hover:bg-primary-700',
+    },
+  };
 
 export function QuickActions() {
   const { t: tSupport } = useTranslation('support');
@@ -66,43 +75,37 @@ export function QuickActions() {
 
   return (
     <section>
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--color-on-surface)]">
+      <div className="mb-12 text-center">
+        <h2 className="mb-4 text-3xl font-bold text-neutral-950 md:text-4xl">
           {tSupport('quickActions.title')}
         </h2>
-        <p className="text-lg text-[color:var(--color-muted)] max-w-xl mx-auto leading-relaxed">
+        <p className="mx-auto max-w-xl text-lg leading-relaxed text-neutral-600">
           {tSupport('quickActions.subtitle')}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {items.map(({ key, href, tone, icon: Icon, title, desc, cta }) => {
-          const toneStyle = makeToneStyle(tone);
+          const toneCls = toneStyles[tone];
           return (
             <div
               key={key}
-              className="group hover:shadow-lg transition-all duration-300 border border-[color:var(--color-border)] bg-[color:var(--color-surface)] rounded-2xl h-full"
+              className="group h-full rounded-2xl border border-neutral-200 bg-white transition-all duration-300 hover:shadow-lg"
             >
-              <div className="p-6 flex h-full flex-col text-center space-y-4">
+              <div className="flex h-full flex-col space-y-4 p-6 text-center">
                 <div
-                  style={toneStyle}
-                  className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto transition-colors bg-[color:var(--qa-color)]/10 group-hover:bg-[color:var(--qa-color)]/20"
+                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl transition-colors ${toneCls.tint} ${toneCls.tintHover}`}
                 >
-                  <Icon className="w-6 h-6 text-[color:var(--qa-color)]" />
+                  <Icon className={`h-6 w-6 ${toneCls.text}`} />
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-lg text-[color:var(--color-on-surface)]">
-                    {title}
-                  </h3>
-                  <p className="text-sm text-[color:var(--color-muted)]">{desc}</p>
+                  <h3 className="text-lg font-semibold text-neutral-950">{title}</h3>
+                  <p className="text-sm text-neutral-600">{desc}</p>
                 </div>
 
                 <div className="mt-auto">
-                  <Button
-                    style={toneStyle}
-                    className="w-full bg-[color:var(--qa-color)] text-[color:var(--qa-on)] hover:bg-[color:var(--qa-color)]/90"
-                  >
+                  <Button asChild className={`w-full ${toneCls.button}`}>
                     <a href={href}>{cta}</a>
                   </Button>
                 </div>
