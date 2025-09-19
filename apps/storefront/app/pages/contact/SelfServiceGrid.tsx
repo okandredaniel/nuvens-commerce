@@ -4,21 +4,45 @@ import { useTranslation } from 'react-i18next';
 export function SelfServiceGrid() {
   const { t: tSupport } = useTranslation('support');
   const items = [
-    { key: 'faq', icon: HelpCircle, href: tSupport('links.faq.href') || '#faq' },
-    { key: 'returns', icon: RefreshCw, href: tSupport('links.returns.href') || '#returns' },
-    { key: 'warranty', icon: Shield, href: tSupport('links.warranty.href') || '#warranty' },
-    { key: 'products', icon: Package, href: tSupport('links.products.href') || '#products' },
-    { key: 'help', icon: Search, href: tSupport('links.help.href') || '#help' },
-    { key: 'stores', icon: Store, href: tSupport('links.stores.href') || '#stores' },
+    {
+      key: 'faq',
+      icon: HelpCircle,
+      href: tSupport('links.faq.href') || '#faq',
+    },
+    {
+      key: 'returns',
+      icon: RefreshCw,
+      href: tSupport('links.returns.href') || '#returns',
+    },
+    {
+      key: 'warranty',
+      icon: Shield,
+      href: tSupport('links.warranty.href') || '#warranty',
+    },
+    {
+      key: 'products',
+      icon: Package,
+      href: tSupport('links.products.href') || '#products',
+    },
+    {
+      key: 'help',
+      icon: Search,
+      href: tSupport('links.help.href') || '#help',
+    },
+    {
+      key: 'stores',
+      icon: Store,
+      href: tSupport('links.stores.href') || '#stores',
+    },
   ];
 
   return (
     <section>
-      <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-[color:var(--color-on-surface)]">
+      <div className="mb-16 text-center">
+        <h2 className="mb-6 text-4xl font-bold text-neutral-950 md:text-5xl">
           {tSupport('selfService.title')}
         </h2>
-        <p className="text-xl text-[color:var(--color-muted)] max-w-2xl mx-auto leading-relaxed">
+        <p className="mx-auto max-w-2xl text-xl leading-relaxed text-neutral-600">
           {tSupport('selfService.subtitle')}
         </p>
       </div>
@@ -27,18 +51,18 @@ export function SelfServiceGrid() {
         {items.map(({ key, icon: Icon, href }) => (
           <div
             key={key}
-            className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-[color:var(--color-border)] bg-[color:var(--color-surface)] rounded-2xl overflow-hidden"
+            className="group overflow-hidden rounded-2xl border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
           >
-            <a href={href} className="block p-8 space-y-4">
+            <a href={href} className="block space-y-4 p-8">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[color:var(--color-primary)]/10 group-hover:bg-[color:var(--color-primary)]/20 transition-colors flex-shrink-0">
-                  <Icon className="w-7 h-7 text-[color:var(--color-primary)]" />
+                <div className="flex-shrink-0 rounded-xl bg-primary-600/10 p-3 transition-colors group-hover:bg-primary-600/20">
+                  <Icon className="h-7 w-7 text-primary-600" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-xl text-[color:var(--color-on-surface)] group-hover:text-[color:var(--color-primary)] transition-colors">
+                  <h3 className="text-xl font-semibold text-neutral-950 transition-colors group-hover:text-primary-600">
                     {tSupport(`selfService.${key}.title`)}
                   </h3>
-                  <p className="text-[color:var(--color-muted)] leading-relaxed">
+                  <p className="leading-relaxed text-neutral-600">
                     {tSupport(`selfService.${key}.desc`)}
                   </p>
                 </div>
