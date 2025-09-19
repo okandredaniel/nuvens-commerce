@@ -1,10 +1,14 @@
-import { Sheet } from '@nuvens/ui';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
+import { Sheet } from './Sheet';
 
-type Kind = 'cart' | 'mobile' | null;
+export type Kind = 'cart' | 'mobile' | null;
 type Ctx = { kind: Kind; open: (k: Exclude<Kind, null>) => void; close: () => void };
 
-const AsideCtx = createContext<Ctx | null>(null);
+const ASIDE_CTX_KEY = Symbol.for('@nuvens/ui/AsideCtx');
+const g = globalThis as unknown as Record<string | symbol, any>;
+const AsideCtx: React.Context<Ctx | null> =
+  g[ASIDE_CTX_KEY] ?? (g[ASIDE_CTX_KEY] = createContext<Ctx | null>(null));
+AsideCtx.displayName = 'AsideCtx';
 
 export function useAside() {
   const ctx = useContext(AsideCtx);
@@ -27,12 +31,13 @@ type AsideComponent = React.FC<AsideProps> & {
 export const Aside: AsideComponent = ({ children, heading, type, side = 'right', widthClass }) => {
   const { kind, close } = useAside();
   const open = kind === type;
-  const width =
-    type === 'mobile'
-      ? widthClass || 'w-[90vw] max-w-sm'
-      : type === 'cart'
-        ? widthClass || 'w-[92vw] sm:w-[420px]'
-        : widthClass || 'w-[92vw] sm:w-[560px]';
+
+  const width = useMemo(() => {
+    if (widthClass) return widthClass;
+    if (type === 'mobile') return 'w-[90vw] max-w-sm';
+    if (type === 'cart') return 'w-[92vw] sm:w-[420px]';
+    return 'w-[92vw] sm:w-[560px]';
+  }, [type, widthClass]);
 
   return (
     <Sheet
