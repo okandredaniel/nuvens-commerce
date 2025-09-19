@@ -5,7 +5,7 @@ import {
   getPolicyKeyFromHandle,
   type SelectedPolicyKey,
 } from '@/lib/policies';
-import { Button, Container } from '@nuvens/ui';
+import { Button, Container, Heading } from '@nuvens/ui';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -48,7 +48,7 @@ export default function PolicyRoute() {
 
   return (
     <main id="content" role="main" className="bg-[color:var(--color-surface)]">
-      <Container className="py-8 md:py-12">
+      <Container className="py-8 md:py-12 max-w-6xl">
         <nav aria-label={t('breadcrumb.aria')} className="mb-6">
           <Button asChild variant="outline" size="md" className="gap-2">
             <Link to="/policies">
@@ -59,9 +59,7 @@ export default function PolicyRoute() {
         </nav>
 
         <header className="mb-6">
-          <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-[color:var(--color-on-surface)]">
-            {policy.title}
-          </h1>
+          <Heading as="h1">{policy.title}</Heading>
         </header>
 
         <RichText html={policy.body} />

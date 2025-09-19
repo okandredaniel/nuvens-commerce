@@ -1,10 +1,11 @@
-import { PoliciesHeader } from '@/components/policies/PoliciesHeader';
-import { PoliciesGrid, type PolicyItem } from '@/components/policies/PolicyGrid';
+import { PolicyCard } from '@/components/PolicyCard';
 import { POLICIES_QUERY } from '@/lib/fragments';
-import { Container } from '@nuvens/ui';
+import { Container, Heading } from '@nuvens/ui';
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
+import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
 
+export type PolicyItem = { id: string; title: string; handle: string };
 type LoaderData = { policies: PolicyItem[] };
 
 function isPolicyItem(p: unknown): p is PolicyItem {
@@ -55,6 +56,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
 }
 
 export default function Policies() {
+  const { t } = useTranslation('policies');
   const { policies } = useLoaderData<typeof loader>();
 
   return (
@@ -65,8 +67,19 @@ export default function Policies() {
       className="bg-[color:var(--color-surface)]"
     >
       <Container className="py-8 md:py-12">
-        <PoliciesHeader headingId="policies-heading" />
-        <PoliciesGrid policies={policies} />
+        <header className="mb-8 text-center">
+          <Heading as="h1" id="policies-heading" align="center">
+            {t('page.title')}
+          </Heading>
+          <p className="mt-3">{t('page.subtitle')}</p>
+        </header>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {policies.map((p) => (
+            <li key={p.id}>
+              <PolicyCard policy={p} />
+            </li>
+          ))}
+        </ul>
       </Container>
     </main>
   );
