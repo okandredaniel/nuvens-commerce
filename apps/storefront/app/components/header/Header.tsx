@@ -48,16 +48,13 @@ export function Header({ pref }: { pref?: HeaderPref }) {
   const { shop, menu } = header;
 
   const baseTransparent = pref === 'transparent';
-  const bgClass = scrolled
-    ? 'bg-[color:var(--color-header-bg)]'
-    : baseTransparent
-      ? 'bg-transparent'
-      : 'bg-[color:var(--color-header-bg)]';
+  const bgClass = scrolled || !baseTransparent ? 'bg-primary-600' : 'bg-transparent';
 
   return (
     <header
       className={[
-        'fixed top-0 isolate z-40 w-full text-[var(--color-on-header)]',
+        'fixed top-0 isolate z-40 w-full',
+        'text-neutral-0',
         'transition-colors duration-200 will-change-transform',
         'transform transition-transform duration-300',
         visible ? 'translate-y-0' : '-translate-y-full',
