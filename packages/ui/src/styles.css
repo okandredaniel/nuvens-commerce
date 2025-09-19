@@ -2,8 +2,8 @@
 @plugin "@tailwindcss/typography";
 @import 'keen-slider/keen-slider.min.css';
 
-@source "../../../apps/storefront/app/**/*.{ts,tsx,js,jsx}";
 @source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
+@source "../../../apps/storefront/app/**/*.{ts,tsx,js,jsx}";
 @source "../../../packages/brand-*/src/**/*.{ts,tsx,js,jsx}";
 
 @theme {

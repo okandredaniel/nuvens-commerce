@@ -1,6 +1,4 @@
-@import 'tailwindcss';
-
-@source "./**/*.{ts,tsx,js,jsx}";
+@import '@nuvens/ui/styles.css';
 
 @theme {
   --color-primary-50:  #f3f7fc;
