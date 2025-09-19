@@ -56,7 +56,13 @@ export function VideoPreviewWithModal({
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <div className={cn('relative w-full bg-neutral-100', previewAspect, className)}>
+      <div
+        className={cn(
+          'relative w-full bg-neutral-100 overflow-hidden md:ui-radius-lg',
+          previewAspect,
+          className,
+        )}
+      >
         {previewSrc ? (
           <video
             ref={videoRef}
@@ -95,7 +101,6 @@ export function VideoPreviewWithModal({
             />
           </Dialog.Trigger>
         )}
-
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
           <Dialog.Trigger asChild>
             <button
@@ -123,12 +128,12 @@ export function VideoPreviewWithModal({
         />
         <Dialog.Content
           className={cn(
-            'fixed left-1/2 top-1/2 z-[61] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-neutral-900 p-0 shadow-xl focus:outline-none',
+            'fixed left-1/2 top-1/2 z-[61] -translate-x-1/2 -translate-y-1/2 overflow-hidden ui-radius-lg bg-neutral-900 p-0 shadow-xl focus:outline-none',
             'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
           )}
         >
           <div className="flex max-h-[90vh] w-full items-center justify-center p-0">
-            <div className={cn('relative overflow-hidden rounded-xl', ratioClass, maxBoxClass)}>
+            <div className={cn('relative', ratioClass, maxBoxClass)}>
               {open && (
                 <iframe
                   className="absolute inset-0 h-full w-full"

@@ -120,12 +120,7 @@ export function ProductPage({
             <Heading id="video-heading" className="mb-8" align="center">
               {t('videoHeading')}
             </Heading>
-            <div className="overflow-hidden md:rounded-xl">
-              <VideoPreviewWithModal
-                previewSrc={meta.videoPreview}
-                youtubeId={meta.videoYoutubeId}
-              />
-            </div>
+            <VideoPreviewWithModal previewSrc={meta.videoPreview} youtubeId={meta.videoYoutubeId} />
           </Container>
         </section>
       ) : null}

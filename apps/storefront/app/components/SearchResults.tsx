@@ -51,7 +51,7 @@ function ItemLink({
       prefetch="intent"
       to={to}
       className={
-        'block rounded-lg px-3 py-2 transition hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] ' +
+        'block rounded-xl px-3 py-2 transition hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)] ' +
         className
       }
     >
@@ -156,10 +156,10 @@ function SearchResultsProducts({ term, products }: PartialSearchResult<'products
                               width={64}
                               height={64}
                               loading="lazy"
-                              className="h-16 w-16 shrink-0 rounded-md object-cover"
+                              className="h-16 w-16 shrink-0 ui-radius-lg object-cover"
                             />
                           ) : (
-                            <div className="h-16 w-16 shrink-0 rounded-md bg-black/5" />
+                            <div className="h-16 w-16 shrink-0 ui-radius-lg bg-black/5" />
                           )}
                           <div className="min-w-0">
                             <p className="truncate text-sm font-medium">{product.title}</p>

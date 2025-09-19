@@ -70,7 +70,7 @@ export function GiftCardBox({
 
         {giftCards?.length ? (
           <div className="mt-3 text-sm">
-            <div className="flex items-center justify-between rounded-lg border border-neutral-200 px-3 py-2">
+            <div className="flex items-center justify-between rounded-xl border border-neutral-200 px-3 py-2">
               <code className="opacity-80">
                 {giftCards.map((g) => `***${g.lastCharacters}`).join(', ')}
               </code>

@@ -39,7 +39,7 @@ export const SelectTrigger = forwardRef<HTMLButtonElement, TriggerProps>(
         ref={ref}
         aria-invalid={invalid ? true : undefined}
         className={cn(
-          'group flex min-w-48 items-center justify-between rounded-lg border bg-neutral-0 py-2 outline-none transition',
+          'group flex min-w-48 items-center justify-between ui-radius border bg-neutral-0 py-2 outline-none transition',
           'border-neutral-200 hover:border-neutral-300',
           'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
           'disabled:cursor-not-allowed disabled:opacity-50',
@@ -98,7 +98,7 @@ export const SelectContent = forwardRef<HTMLDivElement, ContentProps>(
           avoidCollisions
           collisionPadding={8}
           className={cn(
-            'z-50 min-w-[12rem] overflow-hidden rounded-xl border bg-neutral-0 text-neutral-900 shadow-lg outline-none',
+            'z-50 min-w-[12rem] overflow-hidden ui-radius-lg border bg-neutral-0 text-neutral-900 shadow-lg outline-none',
             'border-neutral-200',
             className,
           )}
@@ -143,7 +143,7 @@ export const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
       <SelectPrimitive.Item
         ref={ref}
         className={cn(
-          'relative flex w-full cursor-default select-none items-center rounded-md px-3 py-2 text-sm outline-none',
+          'relative flex w-full cursor-default select-none items-center ui-radius px-3 py-2 text-sm outline-none',
           'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           'data-[highlighted]:bg-neutral-100 data-[state=checked]:bg-neutral-50',
           'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',

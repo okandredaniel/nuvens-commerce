@@ -47,7 +47,7 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(funct
         disabled={disabled}
         required={required}
         className={cn(
-          'inline-flex h-5 w-5 items-center justify-center rounded-md',
+          'inline-flex h-5 w-5 items-center justify-center ui-radius-sm',
           'border border-neutral-200 bg-neutral-0 text-neutral-0',
           'data-[state=checked]:bg-primary-600 data-[state=indeterminate]:bg-primary-600',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',

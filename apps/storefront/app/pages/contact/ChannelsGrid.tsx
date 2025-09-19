@@ -56,10 +56,10 @@ export function ChannelsGrid() {
           return (
             <div
               key={key}
-              className="flex flex-col rounded-2xl border border-neutral-200 bg-neutral-0 p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              className="flex flex-col rounded-xl border border-neutral-200 bg-neutral-0 p-8 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="flex justify-center">
-                <div className="rounded-2xl bg-primary-600/10 p-4">
+                <div className="rounded-xl bg-primary-600/10 p-4">
                   <Icon className="h-10 w-10 text-primary-600" />
                 </div>
               </div>

@@ -20,7 +20,7 @@ export function ContactSupportTemplate({ page }: PageTemplateProps) {
       <Container className="py-8">
         {page.body && (
           <div
-            className="prose prose-neutral max-w-none prose-headings:font-semibold prose-a:underline prose-img:rounded-2xl"
+            className="prose prose-neutral max-w-none prose-headings:font-semibold prose-a:underline prose-img:rounded-xl"
             dangerouslySetInnerHTML={{ __html: page.body }}
           />
         )}

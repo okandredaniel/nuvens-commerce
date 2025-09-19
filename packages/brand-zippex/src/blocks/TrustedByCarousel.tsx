@@ -51,7 +51,7 @@ export function TrustedByCarousel({ heading, youtubeIds }: Props) {
           }}
         >
           {youtubeIds.map((id, i) => (
-            <CarouselSlide key={i} className="h-full overflow-hidden rounded-xl">
+            <CarouselSlide key={i} className="h-full">
               <VideoPreviewWithModal youtubeId={id} vertical />
             </CarouselSlide>
           ))}

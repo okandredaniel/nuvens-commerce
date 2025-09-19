@@ -40,7 +40,7 @@ export function NotFoundView() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
             <LocalizedLink
               to="/pages/contact"
-              className="group p-6 rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-[color:var(--color-accent)]/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
+              className="group p-6 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-[color:var(--color-accent)]/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
             >
               <MessageCircle className="w-8 h-8 text-[color:var(--color-accent)] mb-3 mx-auto" />
               <h3 className="font-semibold text-[color:var(--color-on-surface)] mb-2">
@@ -51,7 +51,7 @@ export function NotFoundView() {
 
             <LocalizedLink
               to="/search"
-              className="group p-6 rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-[color:var(--color-accent)]/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
+              className="group p-6 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-[color:var(--color-accent)]/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
             >
               <Search className="w-8 h-8 text-[color:var(--color-accent)] mb-3 mx-auto" />
               <h3 className="font-semibold text-[color:var(--color-on-surface)] mb-2">
@@ -63,7 +63,7 @@ export function NotFoundView() {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="group p-6 rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-[color:var(--color-accent)]/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
+              className="group p-6 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-[color:var(--color-accent)]/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
             >
               <ArrowLeft className="w-8 h-8 text-[color:var(--color-accent)] mb-3 mx-auto" />
               <h3 className="font-semibold text-[color:var(--color-on-surface)] mb-2">

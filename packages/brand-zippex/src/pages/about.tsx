@@ -92,7 +92,7 @@ export function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="flex aspect-square items-center justify-center rounded-2xl bg-sky-600/10">
+              <div className="flex aspect-square items-center justify-center ui-radius-lg bg-sky-600/10">
                 <Lightbulb className="h-24 w-24 text-sky-600" aria-hidden="true" />
               </div>
             </div>

@@ -38,7 +38,7 @@ export const Content = forwardRef<HTMLDivElement, DropdownMenuContentProps>(func
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: rm ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] as const }}
           className={cn(
-            'z-50 min-w-44 rounded-xl border border-neutral-200 bg-neutral-0 p-1 shadow-xl outline-none',
+            'z-50 min-w-44 ui-radius-lg border border-neutral-200 bg-neutral-0 p-1 shadow-xl outline-none',
             className,
           )}
         >
@@ -57,7 +57,7 @@ export const Item = forwardRef<HTMLDivElement, DropdownMenuItemProps>(function I
     <RM.Item
       ref={ref}
       className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none',
+        'relative flex cursor-pointer select-none items-center gap-2 ui-radius px-3 py-2 text-sm outline-none',
         'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         'data-[highlighted]:bg-neutral-100',
@@ -97,7 +97,7 @@ export const CheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckboxItemP
       <RM.CheckboxItem
         ref={ref}
         className={cn(
-          'relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none',
+          'relative flex cursor-pointer select-none items-center gap-2 ui-radius px-3 py-2 text-sm outline-none',
           'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
           'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
           'data-[highlighted]:bg-neutral-100',
@@ -117,7 +117,7 @@ export const RadioItem = forwardRef<HTMLDivElement, DropdownMenuRadioItemProps>(
     <RM.RadioItem
       ref={ref}
       className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-3 py-2 text-sm outline-none',
+        'relative flex cursor-pointer select-none items-center gap-2 ui-radius px-3 py-2 text-sm outline-none',
         'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
         'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         'data-[highlighted]:bg-neutral-100',

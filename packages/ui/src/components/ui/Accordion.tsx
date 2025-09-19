@@ -73,7 +73,7 @@ const Row = memo(function Row({
           <span className="flex-1 leading-6 text-neutral-900">{item.title}</span>
           <motion.span
             aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-full border border-neutral-300 bg-neutral-0 text-neutral-900"
+            className="grid h-8 w-8 place-items-center ui-radius border border-neutral-300 bg-neutral-0 text-neutral-900"
             animate={{ rotate: open ? 180 : 0, scale: open ? 1.02 : 1 }}
             transition={transition}
           >
@@ -126,7 +126,7 @@ function Multiple({
       type="multiple"
       value={openValues}
       onValueChange={(v) => setOpenValues(Array.isArray(v) ? v : [])}
-      className={`w-full overflow-hidden divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-neutral-0 ${className ?? ''}`}
+      className={`w-full overflow-hidden divide-y divide-neutral-200 ui-radius-lg border border-neutral-200 bg-neutral-0 ${className ?? ''}`}
     >
       {items.map((item, idx) => {
         const id = ids[idx];
@@ -171,7 +171,7 @@ function Single({
       collapsible={collapsible ?? true}
       value={openValue}
       onValueChange={(v) => setOpenValue(typeof v === 'string' ? v : undefined)}
-      className={`w-full overflow-hidden divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-neutral-0 ${className ?? ''}`}
+      className={`w-full overflow-hidden divide-y divide-neutral-200 ui-radius-lg border border-neutral-200 bg-neutral-0 ${className ?? ''}`}
     >
       {items.map((item, idx) => {
         const id = ids[idx];

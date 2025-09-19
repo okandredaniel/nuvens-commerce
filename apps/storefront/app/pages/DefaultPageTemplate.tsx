@@ -23,7 +23,7 @@ export function DefaultPageTemplate({ page }: PageTemplateProps) {
       <Container className="py-6 md:py-10">
         <article
           aria-labelledby="content"
-          className="prose max-w-none prose-headings:font-semibold prose-a:underline prose-img:rounded-2xl"
+          className="prose max-w-none prose-headings:font-semibold prose-a:underline prose-img:rounded-xl"
           dangerouslySetInnerHTML={{ __html: page.body }}
         />
       </Container>

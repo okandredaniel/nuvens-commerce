@@ -51,7 +51,7 @@ export function Newsletter({ tone = 'onDark' }: { tone?: Tone }) {
             type="submit"
             size="sm"
             variant="primary"
-            className="absolute right-1 top-1 h-9 w-9 rounded-md p-0 hidden sm:inline-flex"
+            className="absolute right-1 top-1 h-9 w-9 p-0 hidden sm:inline-flex"
             aria-label={t('cta')}
             title={t('cta')}
           >

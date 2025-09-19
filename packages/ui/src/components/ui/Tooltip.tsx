@@ -16,7 +16,7 @@ export const Content = forwardRef<HTMLDivElement, RT.TooltipContentProps>(functi
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'z-50 rounded-lg border border-neutral-200 bg-neutral-0 px-2 py-1 text-xs text-neutral-900 shadow-md outline-none',
+        'z-50 ui-radius border border-neutral-200 bg-neutral-0 px-2 py-1 text-xs text-neutral-900 shadow-md outline-none',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0',
         className,

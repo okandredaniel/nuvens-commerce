@@ -24,16 +24,11 @@ export function HomePage({ slots }: HomePageProps) {
         </Container>
       </section>
 
-      <section aria-labelledby="video-heading" className="px-0 md:px-24">
+      <section aria-labelledby="video-heading" className="px-0 md:px-12">
         <h2 id="video-heading" className="sr-only">
           {t('video.title')}
         </h2>
-        <div className="overflow-hidden md:rounded-2xl">
-          <VideoPreviewWithModal
-            previewSrc="/zippex-cambio-de-nucleos.mov"
-            youtubeId="m_lfbLhKIMI"
-          />
-        </div>
+        <VideoPreviewWithModal previewSrc="/zippex-cambio-de-nucleos.mov" youtubeId="m_lfbLhKIMI" />
       </section>
 
       <section aria-labelledby="comfort-heading" className="py-16">

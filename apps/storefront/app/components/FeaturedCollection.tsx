@@ -9,7 +9,7 @@ export function FeaturedCollection({ collection }: { collection: CollectionCardF
   return (
     <LocalizedLink
       to={`/collections/${collection.handle}`}
-      className="group block rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
+      className="group block rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]"
       aria-label={collection.title}
     >
       {image ? (

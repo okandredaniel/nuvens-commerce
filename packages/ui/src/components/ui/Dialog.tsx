@@ -45,7 +45,7 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(func
         ref={ref}
         {...rest}
         className={cn(
-          'fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl border border-neutral-200 bg-neutral-0 p-6 shadow-xl focus:outline-none',
+          'fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 ui-radius-lg border border-neutral-200 bg-neutral-0 p-6 shadow-xl focus:outline-none',
           className,
         )}
       >

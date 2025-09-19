@@ -11,7 +11,7 @@ export function ComfortSection({ headingId, Image }: { headingId: string; Image:
         {t('comfort.title')}
       </Heading>
 
-      <div className="grid items-center gap-8 rounded-2xl bg-gradient-to-r from-neutral-600 to-neutral-400 py-8 text-neutral-0 md:grid-cols-2 md:py-16">
+      <div className="grid items-center gap-8 ui-radius-lg bg-gradient-to-r from-neutral-600 to-neutral-400 py-8 text-neutral-0 md:grid-cols-2 md:py-16">
         <div className="flex flex-col gap-8 px-8 md:p-16">
           <Heading as="h3" tone="onPrimary">
             {t('comfort.subtitle')}

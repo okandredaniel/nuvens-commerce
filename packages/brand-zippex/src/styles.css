@@ -1,7 +1,7 @@
 @import '@nuvens/ui/styles.css';
 
 @theme {
-  --color-primary-50:  #f3f7fc;
+  --color-primary-50: #f3f7fc;
   --color-primary-100: #e5f0fa;
   --color-primary-200: #bfdcf8;
   --color-primary-300: #81bef8;
@@ -12,7 +12,7 @@
   --color-primary-800: #002f5c;
   --color-primary-900: #001f3d;
 
-  --color-accent-50:  #f2f6fd;
+  --color-accent-50: #f2f6fd;
   --color-accent-100: #e6eefb;
   --color-accent-200: #c7daf7;
   --color-accent-300: #a7c4f2;
@@ -23,8 +23,8 @@
   --color-accent-800: #2f5296;
   --color-accent-900: #203a6a;
 
-  --color-neutral-0:   #ffffff;
-  --color-neutral-50:  #edeff2;
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #edeff2;
   --color-neutral-100: #d2d8e0;
   --color-neutral-200: #b7c1cd;
   --color-neutral-300: #9ca9ba;
@@ -34,4 +34,14 @@
   --color-neutral-700: #3c4f68;
   --color-neutral-800: #34455b;
   --color-neutral-900: #2d3b4e;
+}
+
+@utility ui-radius {
+  @apply rounded-full;
+}
+@utility ui-radius-sm {
+  @apply rounded-lg;
+}
+@utility ui-radius-lg {
+  @apply rounded-3xl;
 }

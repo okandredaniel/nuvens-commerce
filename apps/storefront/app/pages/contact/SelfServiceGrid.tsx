@@ -51,7 +51,7 @@ export function SelfServiceGrid() {
         {items.map(({ key, icon: Icon, href }) => (
           <div
             key={key}
-            className="group overflow-hidden rounded-2xl border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+            className="group overflow-hidden rounded-xl border border-neutral-200 bg-white transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
           >
             <a href={href} className="block space-y-4 p-8">
               <div className="flex items-start gap-4">

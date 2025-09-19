@@ -20,7 +20,7 @@ export function DiscountBox({ codes }: { codes?: CartApiQueryFragment['discountC
 
         {applied.length > 0 ? (
           <div className="mt-3 text-sm">
-            <div className="flex items-center justify-between rounded-lg border border-neutral-200 px-3 py-2">
+            <div className="flex items-center justify-between rounded-xl border border-neutral-200 px-3 py-2">
               <code className="opacity-80">{applied.join(', ')}</code>
               <UpdateDiscountForm>
                 {(fetcher) => (

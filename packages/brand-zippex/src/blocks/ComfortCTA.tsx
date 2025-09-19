@@ -14,7 +14,7 @@ export function ComfortCTA({ Image, imageAlt, imageSrc, title, text, cta }: Prop
   return (
     <section className="py-16">
       <Container>
-        <div className="bg-slate-200 mb-8 rounded-3xl grid gap-8 grid-cols-2 overflow-hidden items-center">
+        <div className="bg-slate-200 mb-8 ui-radius-lg grid gap-8 grid-cols-2 overflow-hidden items-center">
           <Image
             src={imageSrc}
             alt={imageAlt}

@@ -27,7 +27,7 @@ export default function ProductRating({ rating, count = null, hrefAllReviews }: 
         {hrefAllReviews ? (
           <a
             href={hrefAllReviews}
-            className="rounded-sm text-sm font-medium text-primary-700 underline-offset-2 hover:text-primary-800 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0"
+            className="rounded-xl text-sm font-medium text-primary-700 underline-offset-2 hover:text-primary-800 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0"
             title={t('rating.see_all')}
           >
             {t('rating.see_all')}

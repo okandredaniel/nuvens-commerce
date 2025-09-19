@@ -62,12 +62,14 @@ export function ProductGallery({
   const current = images[index];
 
   if (!current) {
-    return <div className={`aspect-square w-full rounded-xl bg-neutral-100 ${className ?? ''}`} />;
+    return (
+      <div className={`aspect-square w-full ui-radius-lg bg-neutral-100 ${className ?? ''}`} />
+    );
   }
 
   return (
     <div className={`space-y-4 ${className ?? ''}`}>
-      <div ref={sliderRef} className="keen-slider overflow-hidden rounded-xl">
+      <div ref={sliderRef} className="keen-slider overflow-hidden ui-radius-lg">
         {images.map((img, i) => (
           <div key={img.id ?? img.url ?? i} className="keen-slider__slide">
             <div className="relative w-full" style={{ aspectRatio: aspectRatioMain }}>
@@ -95,7 +97,7 @@ export function ProductGallery({
                 aria-pressed={active}
                 aria-label={img.altText ? `View ${img.altText}` : `View image ${i + 1}`}
                 onClick={() => setIndex(i)}
-                className={`relative overflow-hidden rounded-xl ring-1 ring-neutral-200 transition focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0 ${
+                className={`relative overflow-hidden ui-radius-lg ring-1 ring-neutral-200 transition focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0 ${
                   active
                     ? 'ring-2 ring-primary-600 ring-offset-2 ring-offset-neutral-0'
                     : 'hover:opacity-90 hover:ring-neutral-300'

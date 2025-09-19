@@ -6,7 +6,7 @@ import { cn } from '../../utils/cn';
 type Variant = 'primary' | 'secondary' | 'white' | 'outline' | 'ghost';
 
 const base = cn(
-  'inline-flex items-center justify-center font-semibold rounded-lg transition',
+  'inline-flex items-center justify-center font-semibold ui-radius transition',
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
   'focus-visible:ring-primary-600 ring-offset-neutral-0 border border-transparent text no-underline',
   'disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none',

@@ -6,7 +6,7 @@ type Variant = 'neutral' | 'brand' | 'outline';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-full border font-medium align-middle';
+  'inline-flex items-center justify-center gap-2 ui-radius border font-medium align-middle';
 
 const variants: Record<Variant, string> = {
   neutral: 'bg-neutral-0 border-neutral-200 text-neutral-600',

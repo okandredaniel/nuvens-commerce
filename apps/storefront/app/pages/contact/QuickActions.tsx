@@ -90,7 +90,7 @@ export function QuickActions() {
           return (
             <div
               key={key}
-              className="group h-full rounded-2xl border border-neutral-200 bg-white transition-all duration-300 hover:shadow-lg"
+              className="group h-full rounded-xl border border-neutral-200 bg-white transition-all duration-300 hover:shadow-lg"
             >
               <div className="flex h-full flex-col space-y-4 p-6 text-center">
                 <div

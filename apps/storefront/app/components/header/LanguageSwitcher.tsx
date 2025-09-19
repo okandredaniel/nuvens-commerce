@@ -55,7 +55,7 @@ export function LanguageSwitcher({ options, current }: Props) {
               aria-label={a11yCurrent}
               title={a11yCurrent}
               variant="outline"
-              className="w-auto px-3 gap-2 rounded-lg uppercase text-xs font-semibold"
+              className="w-auto px-3 gap-2 uppercase text-xs font-semibold"
             >
               <Globe className="h-4 w-4 text-primary-400" aria-hidden />
               <span>{activeLabel}</span>
@@ -72,10 +72,7 @@ export function LanguageSwitcher({ options, current }: Props) {
 
       {others.length > 0 && (
         <DropdownMenu.Portal>
-          <DropdownMenu.Content
-            sideOffset={8}
-            className="z-50 min-w-44 rounded-xl border border-neutral-200 bg-neutral-0 p-1 shadow-lg"
-          >
+          <DropdownMenu.Content sideOffset={8}>
             <div className="px-3 py-2 text-xs uppercase opacity-60">{labelChange}</div>
             {others.map((o) => {
               const label = languageLabel(o.isoCode, i18n.language, o.label);
@@ -85,7 +82,6 @@ export function LanguageSwitcher({ options, current }: Props) {
                     to={o.href}
                     prefetch="intent"
                     aria-label={t('nav.switchTo', { value: label })}
-                    className="block rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                   >
                     {t('nav.switchTo', { value: label })}
                   </NavLink>

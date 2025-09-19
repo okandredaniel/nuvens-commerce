@@ -7,10 +7,10 @@ export function ReturnsPortal() {
   const href = tSupport('returns.portal.href') || '';
 
   return (
-    <section className="rounded-2xl border border-neutral-200 bg-white">
+    <section className="rounded-xl border border-neutral-200 bg-white">
       <div className="px-5 pb-6 pt-5">
         <h3 className="flex items-center gap-3 text-xl text-neutral-950">
-          <span className="rounded-lg bg-primary-600/10 p-2">
+          <span className="rounded-xl bg-primary-600/10 p-2">
             <RefreshCw className="h-6 w-6 text-primary-600" />
           </span>
           {tSupport('returns.title')}
