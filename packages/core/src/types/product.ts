@@ -1,3 +1,4 @@
+import { type ProductGalleryProps } from '@nuvens/core';
 import { type PdpMeta } from '../mocks/pdp';
 
 export type ImageProps = React.ComponentType<
@@ -11,7 +12,7 @@ export type ImageProps = React.ComponentType<
 >;
 
 export type ProductTemplateSlots = {
-  ProductGallery: React.ComponentType<{ product: any; variantImage?: any }>;
+  ProductGallery: React.ComponentType<ProductGalleryProps>;
   ProductPrice: React.ComponentType<{ price: any; compareAtPrice?: any }>;
   ProductForm: React.ComponentType<{ productOptions: any[]; selectedVariant: any; maxQty: number }>;
   ProductRating?: React.ComponentType<{ rating: number; count: number }>;

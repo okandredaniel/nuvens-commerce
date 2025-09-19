@@ -12,7 +12,12 @@ export type { BundleResources, CountryMap, I18nBundle, Resources } from './i18n/
 export * from './routing/policy';
 export type { RestrictedResponse, RouteAccessPolicy } from './routing/routing.interface';
 
+// utils
+export { ensureVariantFirst, isValidImage } from './utils/gallery';
+
 // interfaces
+export type { GalleryImage } from './interfaces/gallery.interface';
+export type { ProductGalleryProps } from './interfaces/product-gallery.interface';
 export type { ImageProps, ProductTemplateProps, ProductTemplateSlots } from './types/product';
 
 // mock
