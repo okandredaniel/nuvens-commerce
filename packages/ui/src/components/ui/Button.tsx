@@ -6,22 +6,22 @@ type Variant = 'primary' | 'ghost' | 'outline' | 'white';
 type Size = 'sm' | 'md' | 'lg';
 
 const base =
-  'no-underline inline-flex items-center justify-center font-semibold transition text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none rounded-[var(--shape-button-radius)]';
+  'no-underline inline-flex items-center justify-center font-semibold transition ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
+  'focus-visible:ring-primary-600 ring-offset-neutral-0 ' +
+  'disabled:opacity-50 disabled:pointer-events-none rounded-lg text-neutral-900';
 
 const variants: Record<Variant, string> = {
-  primary:
-    'bg-[color:var(--color-primary)] text-[color:var(--color-on-primary)] hover:opacity-90 focus-visible:ring-[color:var(--color-primary)]',
-  ghost: 'bg-transparent hover:bg-black/5 focus-visible:ring-[color:var(--color-border)]',
-  outline:
-    'border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:bg-black/5 focus-visible:ring-[color:var(--color-border)]',
-  white:
-    'bg-white text-black hover:bg-white/90 focus-visible:ring-white focus-visible:ring-offset-black/20',
+  primary: 'bg-primary-600 text-neutral-0 hover:bg-primary-700',
+  ghost: 'bg-transparent hover:bg-neutral-100',
+  outline: 'border border-neutral-300 bg-neutral-0/0 hover:bg-neutral-0/10',
+  white: 'bg-neutral-0 border border-neutral-200 hover:bg-neutral-50',
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'h-8 px-2 text-sm',
-  md: 'h-14 px-8 text-base',
-  lg: 'h-18 px-12 text-lg',
+  sm: 'h-9 px-3 text-sm',
+  md: 'h-10 px-5 text-sm',
+  lg: 'h-11 px-6 text-base',
 };
 
 type CommonProps = {

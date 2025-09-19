@@ -60,9 +60,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
         <Minus className={iconSize} />
       </IconButton>
 
-      <div className="min-w-10 px-2 text-center text-sm tabular-nums" aria-live="polite">
-        {value}
-      </div>
+      <div className="min-w-10 px-2 text-center text-sm tabular-nums">{value}</div>
 
       <IconButton
         onClick={inc}

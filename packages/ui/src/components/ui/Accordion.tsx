@@ -2,7 +2,6 @@ import * as AccordionPrimitive from '@radix-ui/react-accordion';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { type ReactNode, isValidElement, memo, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 export type AccordionItem = {
   id?: string;
@@ -12,6 +11,7 @@ export type AccordionItem = {
 
 type BaseProps = {
   items: AccordionItem[];
+  ariaToggleLabel: string;
   className?: string;
   itemClassName?: string;
   contentClassName?: string;
@@ -44,7 +44,7 @@ function Content({ content }: { content: AccordionItem['content'] }) {
 type RowProps = {
   item: AccordionItem;
   id: string;
-  ariaToggle: string;
+  ariaToggleLabel: string;
   open: boolean;
   itemClassName?: string;
   contentClassName?: string;
@@ -53,7 +53,7 @@ type RowProps = {
 const Row = memo(function Row({
   item,
   id,
-  ariaToggle,
+  ariaToggleLabel,
   open,
   itemClassName,
   contentClassName,
@@ -67,13 +67,13 @@ const Row = memo(function Row({
     <AccordionPrimitive.Item value={id} className={itemClassName}>
       <AccordionPrimitive.Header className="m-0">
         <AccordionPrimitive.Trigger
-          className="group flex w-full items-center justify-between gap-4 px-4 py-4 text-left text-base font-medium outline-none ring-inset transition-colors hover:bg-gray-50 focus-visible:ring-2 focus-visible:ring-gray-400 data-[state=open]:bg-gray-50"
-          aria-label={ariaToggle}
+          className="group flex w-full items-center justify-between gap-4 px-4 py-4 text-left text-base font-medium outline-none transition-colors hover:bg-neutral-50 focus-visible:ring-2 focus-visible:ring-primary-600 data-[state=open]:bg-neutral-50"
+          aria-label={ariaToggleLabel}
         >
-          <span className="flex-1 leading-6">{item.title}</span>
+          <span className="flex-1 leading-6 text-neutral-900">{item.title}</span>
           <motion.span
             aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-full border border-gray-300 bg-white"
+            className="grid h-8 w-8 place-items-center rounded-full border border-neutral-300 bg-neutral-0 text-neutral-900"
             animate={{ rotate: open ? 180 : 0, scale: open ? 1.02 : 1 }}
             transition={transition}
           >
@@ -94,7 +94,7 @@ const Row = memo(function Row({
             initial={false}
             animate={open ? { y: 0 } : { y: -4 }}
             transition={transition}
-            className={`border-t border-gray-200 px-4 py-4 text-sm leading-6 text-gray-700 ${contentClassName ?? ''}`}
+            className={`border-t border-neutral-200 px-4 py-4 text-sm leading-6 text-neutral-700 ${contentClassName ?? ''}`}
           >
             <Content content={item.content} />
           </motion.div>
@@ -107,12 +107,12 @@ const Row = memo(function Row({
 function Multiple({
   items,
   ids,
-  ariaToggle,
+  ariaToggleLabel,
   className,
   itemClassName,
   contentClassName,
   defaultValue,
-}: BaseProps & { ids: string[]; ariaToggle: string; defaultValue?: string[] }) {
+}: BaseProps & { ids: string[]; defaultValue?: string[] }) {
   const [openValues, setOpenValues] = useState<string[]>(
     Array.isArray(defaultValue) ? defaultValue.map(String) : [],
   );
@@ -126,7 +126,7 @@ function Multiple({
       type="multiple"
       value={openValues}
       onValueChange={(v) => setOpenValues(Array.isArray(v) ? v : [])}
-      className={`w-full overflow-hidden divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white ${className ?? ''}`}
+      className={`w-full overflow-hidden divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-neutral-0 ${className ?? ''}`}
     >
       {items.map((item, idx) => {
         const id = ids[idx];
@@ -136,7 +136,7 @@ function Multiple({
             key={id}
             id={id}
             item={item}
-            ariaToggle={ariaToggle}
+            ariaToggleLabel={ariaToggleLabel}
             open={open}
             itemClassName={itemClassName}
             contentClassName={contentClassName}
@@ -150,18 +150,13 @@ function Multiple({
 function Single({
   items,
   ids,
-  ariaToggle,
+  ariaToggleLabel,
   className,
   itemClassName,
   contentClassName,
   defaultValue,
   collapsible,
-}: BaseProps & {
-  ids: string[];
-  ariaToggle: string;
-  defaultValue?: string;
-  collapsible?: boolean;
-}) {
+}: BaseProps & { ids: string[]; defaultValue?: string; collapsible?: boolean }) {
   const [openValue, setOpenValue] = useState<string | undefined>(
     typeof defaultValue === 'string' ? defaultValue : undefined,
   );
@@ -176,7 +171,7 @@ function Single({
       collapsible={collapsible ?? true}
       value={openValue}
       onValueChange={(v) => setOpenValue(typeof v === 'string' ? v : undefined)}
-      className={`w-full overflow-hidden divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white ${className ?? ''}`}
+      className={`w-full overflow-hidden divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-neutral-0 ${className ?? ''}`}
     >
       {items.map((item, idx) => {
         const id = ids[idx];
@@ -186,7 +181,7 @@ function Single({
             key={id}
             id={id}
             item={item}
-            ariaToggle={ariaToggle}
+            ariaToggleLabel={ariaToggleLabel}
             open={open}
             itemClassName={itemClassName}
             contentClassName={contentClassName}
@@ -198,21 +193,19 @@ function Single({
 }
 
 export function Accordion(props: AccordionProps) {
-  const { t } = useTranslation('ui');
-  const { items, className, itemClassName, contentClassName } = props as BaseProps;
+  const { items, className, itemClassName, contentClassName, ariaToggleLabel } = props as BaseProps;
   const ids = useMemo(() => items.map((it, idx) => (it.id ? String(it.id) : String(idx))), [items]);
-  const ariaToggle = t('accordion.toggle', { defaultValue: 'Toggle' });
 
   if (props.type === 'multiple') {
     return (
       <Multiple
         items={items}
         ids={ids}
-        ariaToggle={ariaToggle}
+        ariaToggleLabel={ariaToggleLabel}
         className={className}
         itemClassName={itemClassName}
         contentClassName={contentClassName}
-        defaultValue={props.defaultValue as string[] | undefined}
+        defaultValue={(props as MultipleProps).defaultValue}
       />
     );
   }
@@ -221,11 +214,11 @@ export function Accordion(props: AccordionProps) {
     <Single
       items={items}
       ids={ids}
-      ariaToggle={ariaToggle}
+      ariaToggleLabel={ariaToggleLabel}
       className={className}
       itemClassName={itemClassName}
       contentClassName={contentClassName}
-      defaultValue={props.defaultValue as string | undefined}
+      defaultValue={(props as SingleProps).defaultValue}
       collapsible={(props as SingleProps).collapsible}
     />
   );

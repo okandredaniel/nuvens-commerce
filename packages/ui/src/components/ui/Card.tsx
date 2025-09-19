@@ -5,10 +5,7 @@ type DivProps = React.HTMLAttributes<HTMLDivElement>;
 export function Card({ className, ...props }: DivProps) {
   return (
     <div
-      className={cn(
-        'rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)]',
-        className,
-      )}
+      className={cn('rounded-xl border border-neutral-200 bg-neutral-0', className)}
       {...props}
     />
   );
@@ -22,17 +19,14 @@ export function CardTitle({ className, ...props }: DivProps) {
   return (
     <Heading
       as="h3"
-      className={cn(
-        'text-base md:text-lg font-semibold text-[color:var(--color-on-surface)]',
-        className,
-      )}
+      className={cn('text-base md:text-lg font-semibold text-neutral-900', className)}
       {...props}
     />
   );
 }
 
 export function CardDescription({ className, ...props }: DivProps) {
-  return <p className={cn('text-sm text-[color:var(--color-muted)]', className)} {...props} />;
+  return <p className={cn('text-sm text-neutral-600', className)} {...props} />;
 }
 
 export function CardContent({ className, ...props }: DivProps) {

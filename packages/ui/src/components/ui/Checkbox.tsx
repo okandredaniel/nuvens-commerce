@@ -31,7 +31,6 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(funct
 ) {
   const isControlled = checked !== undefined;
   const [internal, setInternal] = React.useState<boolean>(Boolean(defaultChecked));
-
   const currentChecked = (isControlled ? checked : internal) === true;
 
   const handleChange = (state: CheckedState) => {
@@ -49,10 +48,9 @@ export const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(funct
         required={required}
         className={cn(
           'inline-flex h-5 w-5 items-center justify-center rounded-md',
-          'border border-[color:var(--color-border)]',
-          'bg-[color:var(--color-surface)]',
-          'data-[state=checked]:bg-[color:var(--color-primary)]',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary)]',
+          'border border-neutral-200 bg-neutral-0 text-neutral-0',
+          'data-[state=checked]:bg-primary-600 data-[state=indeterminate]:bg-primary-600',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
           disabled && 'opacity-50 cursor-not-allowed',
           className,
         )}

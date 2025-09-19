@@ -1,6 +1,7 @@
 import * as RD from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import React, { forwardRef } from 'react';
+import { cn } from '../../utils/cn';
 
 export function DialogRoot(props: RD.DialogProps) {
   return <RD.Root {...props} />;
@@ -14,55 +15,87 @@ export function DialogPortal(props: RD.DialogPortalProps) {
   return <RD.Portal {...props} />;
 }
 
-export function DialogOverlay(props: RD.DialogOverlayProps) {
-  return (
-    <RD.Overlay
-      {...props}
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
-    />
-  );
-}
+export const DialogOverlay = forwardRef<HTMLDivElement, RD.DialogOverlayProps>(
+  function DialogOverlay({ className, ...props }, ref) {
+    return (
+      <RD.Overlay
+        ref={ref}
+        {...props}
+        className={cn(
+          'fixed inset-0 bg-neutral-900/40 backdrop-blur-sm',
+          'data-[state=open]:animate-in data-[state=open]:fade-in-0',
+          'data-[state=closed]:animate-out data-[state=closed]:fade-out-0',
+          className,
+        )}
+      />
+    );
+  },
+);
 
-export function DialogContent({ children, className, ...rest }: RD.DialogContentProps) {
-  const { t } = useTranslation('common');
+type DialogContentProps = RD.DialogContentProps & { closeLabel: string };
+
+export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(function DialogContent(
+  { children, className, closeLabel, ...rest },
+  ref,
+) {
   return (
     <DialogPortal>
       <DialogOverlay />
       <RD.Content
+        ref={ref}
         {...rest}
-        className={`fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-black/10 bg-[var(--color-surface)] p-6 shadow-xl focus:outline-none ${className || ''}`}
+        className={cn(
+          'fixed left-1/2 top-1/2 z-50 w-[95vw] max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-xl border border-neutral-200 bg-neutral-0 p-6 shadow-xl focus:outline-none',
+          className,
+        )}
       >
         {children}
         <RD.Close
-          aria-label={t('close')}
-          className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white/70 text-black/70 outline-none transition hover:bg-white"
+          aria-label={closeLabel}
+          className={cn(
+            'absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-neutral-200 bg-neutral-0/70 text-neutral-700 outline-none transition hover:bg-neutral-0',
+            'focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
+          )}
         >
           <X className="h-4 w-4" />
         </RD.Close>
       </RD.Content>
     </DialogPortal>
   );
-}
+});
 
-export function DialogHeader({
+export const DialogHeader = function DialogHeader({
   children,
   className,
 }: {
   children?: React.ReactNode;
   className?: string;
 }) {
-  return <div className={`mb-3 space-y-1 ${className || ''}`}>{children}</div>;
-}
+  return <div className={cn('mb-3 space-y-1', className)}>{children}</div>;
+};
 
-export function DialogTitle(props: RD.DialogTitleProps) {
-  return <RD.Title {...props} className={`text-xl font-semibold ${props.className || ''}`} />;
-}
+export const DialogTitle = forwardRef<HTMLHeadingElement, RD.DialogTitleProps>(function DialogTitle(
+  { className, ...props },
+  ref,
+) {
+  return (
+    <RD.Title
+      ref={ref}
+      {...props}
+      className={cn('text-xl font-semibold text-neutral-900', className)}
+    />
+  );
+});
 
-export function DialogDescription(props: RD.DialogDescriptionProps) {
-  return <RD.Description {...props} className={`text-sm opacity-80 ${props.className || ''}`} />;
-}
+export const DialogDescription = forwardRef<HTMLParagraphElement, RD.DialogDescriptionProps>(
+  function DialogDescription({ className, ...props }, ref) {
+    return (
+      <RD.Description ref={ref} {...props} className={cn('text-sm text-neutral-600', className)} />
+    );
+  },
+);
 
-export function DialogFooter({
+export const DialogFooter = function DialogFooter({
   children,
   className,
 }: {
@@ -70,13 +103,15 @@ export function DialogFooter({
   className?: string;
 }) {
   return (
-    <div className={`mt-6 flex items-center justify-end gap-3 ${className || ''}`}>{children}</div>
+    <div className={cn('mt-6 flex items-center justify-end gap-3', className)}>{children}</div>
   );
-}
+};
 
 export const Dialog = {
   Root: DialogRoot,
   Trigger: DialogTrigger,
+  Portal: DialogPortal,
+  Overlay: DialogOverlay,
   Content: DialogContent,
   Header: DialogHeader,
   Title: DialogTitle,

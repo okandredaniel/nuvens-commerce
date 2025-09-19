@@ -8,5 +8,11 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(function Lab
   { className, ...props },
   ref,
 ) {
-  return <RadixLabel.Root ref={ref} className={cn('text-sm font-medium', className)} {...props} />;
+  return (
+    <RadixLabel.Root
+      ref={ref}
+      className={cn('text-sm font-medium text-neutral-900', className)}
+      {...props}
+    />
+  );
 });

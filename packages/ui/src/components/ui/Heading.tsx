@@ -15,11 +15,11 @@ type Props<T extends HeadingTag = 'h2'> = {
   className?: string;
 } & Omit<React.ComponentPropsWithoutRef<T>, 'className'>;
 
-const base = 'block tracking-tight antialiased font-bold';
+const base = 'block font-bold tracking-tight antialiased';
 const tones: Record<Tone, string> = {
-  default: 'text-[color:var(--heading-color,var(--color-on-surface))]',
-  muted: 'text-[color:var(--color-muted)]',
-  onPrimary: 'text-[color:var(--color-on-primary)]',
+  default: 'text-neutral-950',
+  muted: 'text-neutral-600',
+  onPrimary: 'text-neutral-0',
 };
 const alignments: Record<Align, string> = {
   left: 'text-left',
@@ -27,14 +27,13 @@ const alignments: Record<Align, string> = {
   right: 'text-right',
 };
 const sizes: Record<Size, string> = {
-  display:
-    'text-[length:var(--heading-display-size,3.5rem)] leading-[var(--heading-display-leading,1.1)]',
-  h1: 'text-[length:var(--heading-h1-size,2.25rem)] leading-[var(--heading-h1-leading,1.15)]',
-  h2: 'text-[length:var(--heading-h2-size,1.875rem)] leading-[var(--heading-h2-leading,1.2)]',
-  h3: 'text-[length:var(--heading-h3-size,1.5rem)] leading-[var(--heading-h3-leading,1.25)]',
-  h4: 'text-[length:var(--heading-h4-size,1.25rem)] leading-[var(--heading-h4-leading,1.3)]',
-  h5: 'text-[length:var(--heading-h5-size,1.125rem)] leading-[var(--heading-h5-leading,1.35)]',
-  h6: 'text-[length:var(--heading-h6-size,1rem)] leading-[var(--heading-h6-leading,1.4)]',
+  display: 'text-5xl md:text-6xl leading-tight',
+  h1: 'text-4xl leading-tight',
+  h2: 'text-3xl leading-snug',
+  h3: 'text-2xl leading-snug',
+  h4: 'text-xl leading-snug',
+  h5: 'text-lg leading-snug',
+  h6: 'text-base leading-snug',
 };
 const defaultSizeByTag: Record<HeadingTag, Size> = {
   h1: 'h1',
@@ -46,7 +45,7 @@ const defaultSizeByTag: Record<HeadingTag, Size> = {
 };
 
 function HeadingInner<T extends HeadingTag = 'h2'>(
-  { as, size, align = 'left', tone = 'default', className, style, children, ...rest }: Props<T>,
+  { as, size, align = 'left', tone = 'default', className, children, ...rest }: Props<T>,
   ref: React.Ref<HTMLHeadingElement>,
 ) {
   const Tag = (as || 'h2') as HeadingTag;
