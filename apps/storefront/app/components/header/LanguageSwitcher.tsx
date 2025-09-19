@@ -1,8 +1,7 @@
 import { languageLabel } from '@/i18n/languageLabel';
 import { toLang } from '@/i18n/localize';
 import { brandDefaultLocale } from '@nuvens/brand-ui';
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import * as Tooltip from '@radix-ui/react-tooltip';
+import { DropdownMenu, Tooltip } from '@nuvens/ui';
 import { Globe } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -56,20 +55,17 @@ export function LanguageSwitcher({ options, current }: Props) {
               type="button"
               aria-haspopup="menu"
               aria-label={a11yCurrent}
-              className="inline-flex items-center gap-2 px-3 h-10 rounded-full text-xs font-semibold uppercase border border-zinc-300 bg-white/10 hover:bg-white/20 transition"
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-neutral-300 bg-white/10 px-3 text-xs font-semibold uppercase transition hover:bg-white/20"
             >
-              <Globe className="h-4 w-4 text-sky-400" aria-hidden />
+              <Globe className="h-4 w-4 text-primary-400" aria-hidden />
               <span>{activeLabel}</span>
             </button>
           </DropdownMenu.Trigger>
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Content
-            sideOffset={8}
-            className="z-50 rounded-lg bg-[color:var(--color-popover)] text-[color:var(--color-on-popover)] px-2 py-1 text-xs shadow-md"
-          >
+          <Tooltip.Content sideOffset={8}>
             {labelChange}
-            <Tooltip.Arrow className="fill-[color:var(--color-popover)]" />
+            <Tooltip.Arrow />
           </Tooltip.Content>
         </Tooltip.Portal>
       </Tooltip.Root>
@@ -78,7 +74,7 @@ export function LanguageSwitcher({ options, current }: Props) {
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             sideOffset={8}
-            className="z-50 min-w-44 rounded-xl border border-zinc-200 bg-white p-1 shadow-lg"
+            className="z-50 min-w-44 rounded-xl border border-neutral-200 bg-white p-1 shadow-lg"
           >
             <div className="px-3 py-2 text-xs uppercase opacity-60">{labelChange}</div>
             {others.map((o) => {
@@ -89,7 +85,7 @@ export function LanguageSwitcher({ options, current }: Props) {
                     to={o.href}
                     prefetch="intent"
                     aria-label={t('nav.switchTo', { value: label })}
-                    className="block px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-zinc-100"
+                    className="block rounded-lg px-3 py-2 text-sm text-neutral-700 hover:bg-neutral-100"
                   >
                     {t('nav.switchTo', { value: label })}
                   </NavLink>
