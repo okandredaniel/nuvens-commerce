@@ -55,7 +55,7 @@ export function LanguageSwitcher({ options, current }: Props) {
               aria-label={a11yCurrent}
               title={a11yCurrent}
               variant="outline"
-              className="w-auto px-3 gap-2 rounded-full uppercase text-xs font-semibold"
+              className="w-auto px-3 gap-2 rounded-lg uppercase text-xs font-semibold"
             >
               <Globe className="h-4 w-4 text-primary-400" aria-hidden />
               <span>{activeLabel}</span>

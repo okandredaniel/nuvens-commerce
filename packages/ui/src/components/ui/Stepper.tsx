@@ -13,7 +13,7 @@ type StepperProps = {
   onIncrement?: () => void;
   decDisabled?: boolean;
   incDisabled?: boolean;
-  size?: Extract<Size, 'sm' | 'md'>;
+  size?: Size;
   className?: string;
   decreaseLabel?: string;
   increaseLabel?: string;
@@ -30,7 +30,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
     onIncrement,
     decDisabled,
     incDisabled,
-    size = 'md',
+    size,
     className,
     decreaseLabel = 'Decrease',
     increaseLabel = 'Increase',
@@ -40,13 +40,16 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
 ) {
   const dec = () => (onDecrement ? onDecrement() : onChange?.(Math.max(min, value - 1)));
   const inc = () => (onIncrement ? onIncrement() : onChange?.(Math.min(max, value + 1)));
-  const iconSize = size === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
+  const s: Size = size ?? 'md';
+  const iconSize = s === 'sm' ? 'h-4 w-4' : 'h-5 w-5';
+  const heights: Record<Size, string> = { sm: 'h-9', md: 'h-10', lg: 'h-11' };
 
   return (
     <div
       ref={ref}
       className={cn(
-        'inline-flex items-center rounded-full border border-neutral-200 bg-neutral-0 p-1 text-neutral-900',
+        'inline-flex items-center rounded-lg bg-neutral-0 text-neutral-900 ring-1 ring-neutral-200',
+        heights[s],
         className,
       )}
     >
@@ -54,8 +57,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
         onClick={dec}
         aria-label={decreaseLabel}
         disabled={decDisabled}
-        size={size === 'sm' ? 'sm' : 'md'}
+        size={s}
         variant={buttonVariant}
+        className="hover:bg-neutral-50"
       >
         <Minus className={iconSize} />
       </IconButton>
@@ -66,8 +70,9 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(function Stepper
         onClick={inc}
         aria-label={increaseLabel}
         disabled={incDisabled}
-        size={size === 'sm' ? 'sm' : 'md'}
+        size={s}
         variant={buttonVariant}
+        className="hover:bg-neutral-50"
       >
         <Plus className={iconSize} />
       </IconButton>
