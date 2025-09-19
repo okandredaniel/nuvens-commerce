@@ -33,7 +33,7 @@ function CartBadge({ count }: { count: number | null }) {
   const openLabel = t('nav.openCart');
 
   return (
-    <Tooltip.Root delayDuration={150}>
+    <Tooltip.Root>
       <Tooltip.Trigger asChild>
         <IconButton
           aria-label={openLabel}
@@ -60,12 +60,9 @@ function CartBadge({ count }: { count: number | null }) {
           </div>
         </IconButton>
       </Tooltip.Trigger>
-
-      <Tooltip.Content
-        sideOffset={8}
-        className="z-50 rounded-lg border border-neutral-200 bg-neutral-0 px-2 py-1 text-xs text-neutral-700 shadow-md"
-      >
+      <Tooltip.Content sideOffset={8}>
         {label}
+        <Tooltip.Arrow />
       </Tooltip.Content>
     </Tooltip.Root>
   );
