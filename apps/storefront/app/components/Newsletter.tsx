@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, Label } from '@nuvens/ui';
+import { Button, Checkbox, Heading, Input, Label } from '@nuvens/ui';
 import { ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,14 +16,14 @@ export function Newsletter({ tone = 'onDark' }: { tone?: Tone }) {
   const headingCls = isDark ? 'text-neutral-0' : 'text-neutral-900';
   const subtitleCls = isDark ? 'text-neutral-300' : 'text-neutral-600';
   const labelCls = isDark ? 'text-neutral-0' : 'text-neutral-900';
-  const disclaimerCls = isDark ? 'text-neutral-400' : 'text-neutral-600';
+  const disclaimerCls = isDark ? 'text-neutral-100' : 'text-neutral-600';
   const linkCls = isDark ? 'text-neutral-0 underline' : 'underline';
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6 text-center">
-      <h2 className={`text-2xl font-semibold tracking-tight md:text-3xl ${headingCls}`}>
+      <Heading className={`${headingCls}`} align="center">
         {t('title')}
-      </h2>
+      </Heading>
 
       <form
         method="post"
@@ -42,16 +42,16 @@ export function Newsletter({ tone = 'onDark' }: { tone?: Tone }) {
             type="email"
             autoComplete="email"
             inputMode="email"
-            required
             placeholder={t('emailPlaceholder')}
-            className="h-11 rounded-full pl-4 pr-12 text-neutral-900 placeholder:text-neutral-500 sm:pl-6 sm:pr-14"
+            size="lg"
+            required
           />
 
           <Button
             type="submit"
             size="sm"
             variant="primary"
-            className="absolute right-1 top-1 hidden h-9 w-9 rounded-full p-0 sm:inline-flex md:h-9 md:w-9"
+            className="absolute right-1 top-1 h-9 w-9 rounded-md p-0 hidden sm:inline-flex"
             aria-label={t('cta')}
             title={t('cta')}
           >
@@ -77,7 +77,7 @@ export function Newsletter({ tone = 'onDark' }: { tone?: Tone }) {
         </Label>
       </div>
 
-      <p id="newsletter-disclaimer" className={`text-xs ${disclaimerCls}`}>
+      <p id="newsletter-disclaimer" className={`text-sm ${disclaimerCls}`}>
         {t('disclaimer.part1')}{' '}
         <a href={privacyHref} className={linkCls}>
           {t('disclaimer.privacy')}
