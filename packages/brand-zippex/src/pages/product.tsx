@@ -45,11 +45,11 @@ export function ProductPage({
     <>
       <Container className="py-6 md:py-10">
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <section aria-label={t('media')}>
+          <section aria-label={t('media')} className="min-w-0">
             <ProductGallery Image={Image} images={images} variantImage={variantImg} />
           </section>
 
-          <aside className="lg:sticky lg:top-24" aria-labelledby="product-title">
+          <aside className="min-w-0 lg:sticky lg:top-24" aria-labelledby="product-title">
             <Heading id="product-title" as="h1">
               {product.title}
             </Heading>
