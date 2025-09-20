@@ -14,16 +14,16 @@ export function ComfortCTA({ Image, imageAlt, imageSrc, title, text, cta }: Prop
   return (
     <section className="py-16">
       <Container>
-        <div className="bg-slate-200 mb-8 ui-radius-lg grid gap-8 grid-cols-2 overflow-hidden items-center">
+        <div className="ui-radius-lg grid grid-cols-1 overflow-hidden bg-slate-200 md:grid-cols-2 md:items-center md:gap-8">
           <Image
             src={imageSrc}
             alt={imageAlt}
             width={1500}
             height={1000}
             sizes="(min-width:1024px) 560px, (min-width:768px) 50vw, 100vw"
-            className="object-cover"
+            className="h-56 w-full object-cover sm:h-72 md:h-full"
           />
-          <div className="p-8">
+          <div className="p-6 md:p-8">
             <Heading id="product-title">{title}</Heading>
             <p className="my-4">{text}</p>
             <Button>{cta}</Button>

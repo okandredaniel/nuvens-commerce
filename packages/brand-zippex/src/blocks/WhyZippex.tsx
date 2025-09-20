@@ -21,65 +21,68 @@ export function WhyZippex({ image: Image }: Props) {
         {t('why.heading')}
       </Heading>
 
-      <ul aria-labelledby="why-zippex-heading" className="mt-16 grid grid-cols-3 items-end gap-16">
+      <ul
+        aria-labelledby="why-zippex-heading"
+        className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-3 sm:gap-16 sm:items-end"
+      >
         <li>
           <Image
-            className="mx-auto h-[70px] max-w-[175px] object-contain"
+            className="mx-auto h-12 sm:h-[70px] w-auto max-w-[175px] object-contain"
             src={zippexMattressIcon}
             alt=""
             aria-hidden
           />
-          <p className="pt-4 text-neutral-900">{t('why.items.sixFirmness')}</p>
+          <p className="pt-3 sm:pt-4 text-neutral-900">{t('why.items.sixFirmness')}</p>
         </li>
 
         <li>
           <Image
-            className="mx-auto h-[70px] max-w-[175px] object-contain"
+            className="mx-auto h-12 sm:h-[70px] w-auto max-w-[175px] object-contain"
             src={zippexMattressSplitIcon}
             alt=""
             aria-hidden
           />
-          <p className="pt-4 text-neutral-900">{t('why.items.customers')}</p>
+          <p className="pt-3 sm:pt-4 text-neutral-900">{t('why.items.customers')}</p>
         </li>
 
         <li>
           <Image
-            className="mx-auto h-[70px] max-w-[175px] object-contain"
+            className="mx-auto h-12 sm:h-[70px] w-auto max-w-[175px] object-contain"
             src={zippexMattressHeartIcon}
             alt=""
             aria-hidden
           />
-          <p className="pt-4 text-neutral-900">{t('why.items.dualAdjust')}</p>
+          <p className="pt-3 sm:pt-4 text-neutral-900">{t('why.items.dualAdjust')}</p>
         </li>
 
         <li>
           <Image
-            className="mx-auto h-[70px] max-w-[175px] object-contain"
+            className="mx-auto h-12 sm:h-[70px] w-auto max-w-[175px] object-contain"
             src={zippexMattressShieldIcon}
             alt=""
             aria-hidden
           />
-          <p className="pt-4 text-neutral-900">{t('why.items.tryFree')}</p>
+          <p className="pt-3 sm:pt-4 text-neutral-900">{t('why.items.tryFree')}</p>
         </li>
 
         <li>
           <Image
-            className="mx-auto h-[70px] max-w-[175px] object-contain"
+            className="mx-auto h-12 sm:h-[70px] w-auto max-w-[175px] object-contain"
             src={zippexMattressTruckIcon}
             alt=""
             aria-hidden
           />
-          <p className="pt-4 text-neutral-900">{t('why.items.deliveryReturns')}</p>
+          <p className="pt-3 sm:pt-4 text-neutral-900">{t('why.items.deliveryReturns')}</p>
         </li>
 
         <li>
           <Image
-            className="mx-auto h-[70px] max-w-[175px] object-contain"
+            className="mx-auto h-12 sm:h-[70px] w-auto max-w-[175px] object-contain"
             src={zippexMattressWalletIcon}
             alt=""
             aria-hidden
           />
-          <p className="pt-4 text-neutral-900">{t('why.items.splitPayment')}</p>
+          <p className="pt-3 sm:pt-4 text-neutral-900">{t('why.items.splitPayment')}</p>
         </li>
       </ul>
     </Container>

@@ -11,8 +11,8 @@ type Props = {
 
 export function PersonalizeSection({ Image, layersSrc, eyebrow, title, cta }: Props) {
   return (
-    <section className="bg-primary-600 py-16 text-neutral-0">
-      <Container className="grid grid-cols-2 items-center gap-32 max-w-6xl">
+    <section className="bg-primary-600 text-neutral-0 py-12 md:py-16">
+      <Container className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-12 lg:gap-32 max-w-6xl">
         <div>
           <Heading
             as="h6"
@@ -28,7 +28,14 @@ export function PersonalizeSection({ Image, layersSrc, eyebrow, title, cta }: Pr
             {cta}
           </Button>
         </div>
-        <Image className="w-full md:rounded-xl" src={layersSrc} alt="" />
+
+        <Image
+          className="w-full md:ui-radius-lg"
+          src={layersSrc}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
       </Container>
     </section>
   );

@@ -280,7 +280,7 @@ export function Carousel({
       {showDots && (
         <div className="mt-4 flex justify-center">
           <div
-            className="flex gap-2 rounded-full bg-neutral-0/20 p-2 backdrop-blur-sm"
+            className="flex gap-2 rounded-full bg-neutral-100/20 p-2 backdrop-blur-sm"
             role="tablist"
             aria-label={i18n.label}
           >
@@ -295,7 +295,7 @@ export function Carousel({
                 className={cn(
                   'h-2 w-2 rounded-full transition',
                   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-0',
-                  i === current && mounted ? 'w-5 bg-primary-600' : 'bg-neutral-0',
+                  i === current && mounted ? 'w-5 bg-primary-600' : 'bg-neutral-100',
                 )}
               />
             ))}
