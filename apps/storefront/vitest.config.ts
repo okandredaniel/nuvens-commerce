@@ -8,11 +8,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
-    coverage: {
-      provider: 'v8',
-      reportsDirectory: './coverage',
-      reporter: ['text', 'lcov'],
-    },
+    coverage: { provider: 'v8', reportsDirectory: './coverage', reporter: ['text', 'lcov'] },
   },
   resolve: {
     alias: {
@@ -24,4 +20,17 @@ export default defineConfig({
       '@nuvens/core': r('../../packages/core/src'),
     },
   },
+  plugins: [
+    {
+      name: 'stub-remix-build-virtual',
+      resolveId(id) {
+        if (id === 'virtual:react-router/server-build') return '\0remix-build-stub';
+        return null;
+      },
+      load(id) {
+        if (id === '\0remix-build-stub') return 'export default {}';
+        return null;
+      },
+    },
+  ],
 });
