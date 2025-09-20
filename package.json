@@ -21,7 +21,7 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged",
-    "pre-push": "pnpm -r --if-present typecheck && pnpm -w test:run"
+    "pre-push": "pnpm -r --if-present typecheck && pnpm -w test:ci"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --fix",
