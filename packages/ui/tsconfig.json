@@ -7,6 +7,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "vitest.config.ts"],
   "references": [{ "path": "../core" }]
 }

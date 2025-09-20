@@ -93,5 +93,8 @@ export function buildRestrictedResponse(policy: RouteAccessPolicy, locale?: stri
   const r = policy.restrictedResponse;
   if (r.type === 'not_found') return new Response('Not Found', { status: 404 });
   const location = prefixLocale(r.to, locale);
-  return Response.redirect(location, 302);
+  if (/^https?:\/\//i.test(location)) return Response.redirect(location, 302);
+  const headers = new Headers();
+  headers.set('Location', location);
+  return new Response(null, { status: 302, headers });
 }

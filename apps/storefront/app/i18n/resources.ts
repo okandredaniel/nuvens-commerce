@@ -11,17 +11,15 @@ function asBundle(m: unknown): I18nBundle | null {
   return b as I18nBundle;
 }
 
-export function getAppResources(lang: string) {
+export function getAppResources(lang: string, mods?: Record<string, unknown>) {
   const l = toLang(lang);
-  const outside = import.meta.glob('../../locales/*/index.{ts,js}', { eager: true });
-  const inside = import.meta.glob('../locales/*/index.{ts,js}', { eager: true });
-  const mods = {
-    ...outside,
-    ...inside,
+  const sources = mods ?? {
+    ...import.meta.glob('../../locales/*/index.{ts,js}', { eager: true }),
+    ...import.meta.glob('../locales/*/index.{ts,js}', { eager: true }),
   };
 
   const out: Record<string, any> = {};
-  for (const [p, mod] of Object.entries(mods)) {
+  for (const [p, mod] of Object.entries(sources)) {
     const bag = (mod as any)?.default ?? mod;
     if (!bag || typeof bag !== 'object') continue;
     const m = p.match(/\/locales\/([a-z]{2})\//i);
@@ -29,32 +27,26 @@ export function getAppResources(lang: string) {
     if (code && code !== l) continue;
     for (const [ns, dict] of Object.entries(bag)) {
       if (!dict || typeof dict !== 'object') continue;
-      out[ns] = {
-        ...(out[ns] || {}),
-        ...(dict as Record<string, any>),
-      };
+      out[ns] = { ...(out[ns] || {}), ...(dict as Record<string, any>) };
     }
   }
   return out;
 }
 
-export function getBrandBundleResources(lang: string) {
+export function getBrandBundleResources(lang: string, brandMods?: Record<string, unknown>) {
   const l = toLang(lang) as Language;
-  const brandMods = import.meta.glob('../../../../packages/brand-*/src/**/*.i18n.{ts,js}', {
-    eager: true,
-  });
+  const sources =
+    brandMods ??
+    import.meta.glob('../../../../packages/brand-*/src/**/*.i18n.{ts,js}', { eager: true });
 
   const out: Record<string, any> = {};
-  for (const [, mod] of Object.entries(brandMods)) {
+  for (const [, mod] of Object.entries(sources)) {
     const bundle = asBundle(mod);
     if (!bundle) continue;
     const bag = bundle.resources as Partial<Record<Language, Record<string, any>>>;
-    const dict = bag[l] || bag[brandDefaultLocale] || {};
+    const dict = bag[l] || bag[brandDefaultLocale as Language] || {};
     if (!dict || typeof dict !== 'object') continue;
-    out[bundle.ns] = {
-      ...(out[bundle.ns] || {}),
-      ...dict,
-    };
+    out[bundle.ns] = { ...(out[bundle.ns] || {}), ...dict };
   }
   return out;
 }
