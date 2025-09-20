@@ -53,7 +53,6 @@ export function LanguageSwitcher({ options, current }: Props) {
           <DropdownMenu.Trigger asChild>
             <IconButton
               aria-label={a11yCurrent}
-              title={a11yCurrent}
               variant="outline"
               className="w-auto px-3 gap-2 uppercase text-xs font-semibold"
             >
