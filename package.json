@@ -15,7 +15,7 @@
     "test": "vitest",
     "test:run": "vitest --run",
     "test:ci": "vitest --run --coverage",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "pnpm -r typecheck",
     "prepare": "simple-git-hooks",
     "generate-review": "( echo \"## STATUS\"; git status -sb; echo; echo \"## DIFF --STAGED\"; git diff --staged; echo; echo \"## DIFF VS HEAD\"; git diff HEAD; echo; echo \"## UNTRACKED\"; git ls-files --others --exclude-standard ) > repo-review.txt"
   },
