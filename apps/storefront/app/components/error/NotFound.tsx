@@ -11,15 +11,15 @@ export function NotFoundView() {
   return (
     <main id="content" role="main" className="bg-neutral-0">
       <div className="bg-primary-600 text-center">
-        <Container className="flex justify-center gap-12 pt-28 pb-12">
+        <Container className="flex flex-col items-center gap-6 pt-24 pb-10 md:flex-row md:justify-center md:gap-12 md:pt-28 md:pb-12">
           <div
-            className="mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-accent-100/20 md:h-32 md:w-32"
+            className="flex h-24 w-24 items-center justify-center rounded-full bg-accent-100/20 md:h-32 md:w-32"
             aria-hidden
           >
-            <Search className="h-14 w-14 text-white md:h-16 md:w-16" />
+            <Search className="h-12 w-12 text-white md:h-16 md:w-16" />
           </div>
           <div
-            className="font-bold text-[72px] leading-none text-white/30 md:text-[120px]"
+            className="font-bold text-[64px] leading-none text-white/30 md:text-[120px]"
             aria-hidden
           >
             404
@@ -44,13 +44,13 @@ export function NotFoundView() {
           </div>
 
           <div className="mb-12 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <Card className="ui-radius transition-shadow hover:shadow-md">
-              <CardContent className="p-6">
-                <LocalizedLink
-                  to="/pages/contact"
-                  prefetch="intent"
-                  aria-label={t('cards.contact.title')}
-                >
+            <LocalizedLink
+              to="/pages/contact"
+              prefetch="intent"
+              aria-label={t('cards.contact.title')}
+            >
+              <Card className="ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
+                <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <MessageCircle className="mb-3 h-8 w-8 text-accent-600" aria-hidden />
                     <Heading as="h3" className="mb-2 text-base font-semibold">
@@ -58,13 +58,13 @@ export function NotFoundView() {
                     </Heading>
                     <p className="text-sm text-neutral-600">{t('cards.contact.desc')}</p>
                   </div>
-                </LocalizedLink>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </LocalizedLink>
 
-            <Card className="ui-radius transition-shadow hover:shadow-md">
-              <CardContent className="p-6">
-                <LocalizedLink to="/search" prefetch="intent" aria-label={t('cards.search.title')}>
+            <LocalizedLink to="/search" prefetch="intent" aria-label={t('cards.search.title')}>
+              <Card className="ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
+                <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <Search className="mb-3 h-8 w-8 text-accent-600" aria-hidden />
                     <Heading as="h3" className="mb-2 text-base font-semibold">
@@ -72,11 +72,11 @@ export function NotFoundView() {
                     </Heading>
                     <p className="text-sm text-neutral-600">{t('cards.search.desc')}</p>
                   </div>
-                </LocalizedLink>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </LocalizedLink>
 
-            <Card className="ui-radius transition-shadow hover:shadow-md">
+            <Card className="ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
               <CardContent className="p-6">
                 <button
                   type="button"
@@ -96,15 +96,20 @@ export function NotFoundView() {
             </Card>
           </div>
 
-          <nav
-            aria-label={t('links.aria')}
-            className="flex flex-wrap justify-center gap-6 text-sm text-neutral-600"
-          >
-            <LocalizedLink to="/policies/privacy-policy">{t('links.privacy')}</LocalizedLink>
-            {'•'}
-            <LocalizedLink to="/policies/terms-of-service">{t('links.terms')}</LocalizedLink>
-            {'•'}
-            <LocalizedLink to="/pages/help">{t('links.help')}</LocalizedLink>
+          <nav aria-label={t('links.aria')} className="flex justify-center">
+            <ul className="flex flex-wrap items-center gap-4 text-sm text-neutral-600">
+              <li>
+                <LocalizedLink to="/policies/privacy-policy">{t('links.privacy')}</LocalizedLink>
+              </li>
+              <li aria-hidden>•</li>
+              <li>
+                <LocalizedLink to="/policies/terms-of-service">{t('links.terms')}</LocalizedLink>
+              </li>
+              <li aria-hidden>•</li>
+              <li>
+                <LocalizedLink to="/pages/help">{t('links.help')}</LocalizedLink>
+              </li>
+            </ul>
           </nav>
         </div>
       </Container>
