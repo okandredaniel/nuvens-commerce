@@ -30,8 +30,10 @@ const sharedPlugins = [
 const coverageBase = {
   provider: 'v8',
   reporter: ['text', 'lcov', 'html', 'json'],
-  include: ['**/*.{ts,tsx}'],
+  all: true,
+  include: ['apps/**/*.{ts,tsx}', 'packages/**/*.{ts,tsx}'],
   exclude: [
+    '**/node_modules/**',
     '**/*.d.ts',
     '**/*.test.{ts,tsx}',
     '**/__tests__/**',
@@ -48,6 +50,7 @@ const coverageBase = {
     '**/*.generated.{ts,tsx}',
     '**/build/**',
     '**/dist/**',
+    '**/coverage/**',
     '**/.*/**',
   ],
   thresholds: {
