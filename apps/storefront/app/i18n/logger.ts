@@ -1,3 +1,4 @@
+import { brandDefaultLocale } from '@nuvens/brand-ui';
 import type { i18n } from 'i18next';
 
 const attached = new WeakSet<i18n>();
@@ -10,7 +11,7 @@ export function attachI18nDiagnostics(instance: i18n, windowMs = 1200) {
   const timers = new Map<string, number>();
 
   instance.on('missingKey', (lngs, ns, key) => {
-    const lang = Array.isArray(lngs) ? lngs[0] : lngs || instance.language || 'en';
+    const lang = Array.isArray(lngs) ? lngs[0] : lngs || instance.language || brandDefaultLocale;
     const id = lang + '|' + ns + '|' + key;
     counts.set(id, (counts.get(id) || 0) + 1);
     if (!timers.has(id)) {

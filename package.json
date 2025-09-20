@@ -12,7 +12,8 @@
     "type-check": "pnpm -r typecheck",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "locale:add": "node scripts/add-locale-namespace.mjs"
+    "locale:add": "node scripts/add-locale-namespace.mjs",
+    "generate-review": "( echo \"## STATUS\"; git status -sb; echo; echo \"## DIFF --STAGED\"; git diff --staged; echo; echo \"## DIFF VS HEAD\"; git diff HEAD; echo; echo \"## UNTRACKED\"; git ls-files --others --exclude-standard ) > repo-review.txt"
   },
   "devDependencies": {
     "@eslint/compat": "^1.3.2",

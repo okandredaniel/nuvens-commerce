@@ -1,4 +1,5 @@
 import type { RootLoader } from '@/root';
+import { brandDefaultLocale } from '@nuvens/brand-ui';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteLoaderData } from 'react-router';
@@ -9,7 +10,7 @@ export default function I18nBridge() {
   const data = useRouteLoaderData<RootLoader>('root') as any;
 
   const lang = useMemo(
-    () => String(data?.i18n?.locale || i18n.language || 'en').toLowerCase(),
+    () => String(data?.i18n?.locale || i18n.language || brandDefaultLocale).toLowerCase(),
     [data?.i18n?.locale, i18n.language],
   );
 

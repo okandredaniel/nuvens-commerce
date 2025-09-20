@@ -1,6 +1,7 @@
+import { brandDefaultLocale } from '@nuvens/brand-ui';
 import type { I18nBundle, Language } from '@nuvens/core';
 
-const toLang = (tag?: string) => (tag?.slice(0, 2) || 'en').toLowerCase();
+const toLang = (tag?: string) => (tag?.slice(0, 2) || brandDefaultLocale).toLowerCase();
 
 function asBundle(m: unknown): I18nBundle | null {
   const b = (m as any)?.default ?? m;
@@ -48,7 +49,7 @@ export function getBrandBundleResources(lang: string) {
     const bundle = asBundle(mod);
     if (!bundle) continue;
     const bag = bundle.resources as Partial<Record<Language, Record<string, any>>>;
-    const dict = bag[l] || bag['en' as Language] || {};
+    const dict = bag[l] || bag[brandDefaultLocale] || {};
     if (!dict || typeof dict !== 'object') continue;
     out[bundle.ns] = {
       ...(out[bundle.ns] || {}),

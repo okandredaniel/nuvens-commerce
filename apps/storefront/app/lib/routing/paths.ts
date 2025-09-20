@@ -1,16 +1,17 @@
+import { brandDefaultLocale } from '@nuvens/brand-ui';
 import { stripLocale } from '@nuvens/core';
 
-function aliasDataPath(path: string): string | null {
-  if (path === '/collections') return '/collections.data';
-  if (path === '/collections/all') return '/collections.all.data';
-  if (/^\/collections\/[^/]+$/.test(path)) return '/collections/:handle.data';
-  if (path === '/cart') return '/cart.data';
-  return null;
+const stripDefaultLocalePrefix = (p: string) =>
+  p.replace(new RegExp(`^\\/(${brandDefaultLocale})(?=\\/|$)`, 'i'), '') || '/';
+
+function normalizeRootAliases(p: string) {
+  if (p === '/_root' || p === '/index' || p === '/.') return '/';
+  return p || '/';
 }
 
 export function resolvePolicyPath(pathname: string): string {
-  const { path } = stripLocale(pathname || '/');
-  if (path.endsWith('.data')) return path;
-  const alias = aliasDataPath(path);
-  return alias ?? path;
+  const base = (pathname || '/').replace(/\.data$/, '');
+  const noDefaultPrefix = stripDefaultLocalePrefix(base);
+  const { path } = stripLocale(noDefaultPrefix);
+  return normalizeRootAliases(path);
 }

@@ -5,6 +5,7 @@ export * from './adapters/core-adapter';
 // i18n
 export * from './i18n/config';
 export * from './i18n/core';
+export * from './i18n/helpers';
 export { Language } from './i18n/i18n.interface';
 export type { BundleResources, CountryMap, I18nBundle, Resources } from './i18n/i18n.interface';
 

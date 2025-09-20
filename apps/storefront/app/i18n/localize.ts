@@ -1,43 +1,37 @@
 import { brandDefaultLocale } from '@nuvens/brand-ui';
-import type { To } from 'react-router';
 
-export const toLang = (tag?: string) =>
-  (tag?.split?.('-')[0] || String(brandDefaultLocale) || 'en').toLowerCase();
+export const toLang = (tag?: string) => (tag?.split?.('-')[0] || brandDefaultLocale).toLowerCase();
 
 const isExternal = (to: string) =>
   /^https?:\/\//i.test(to) || to.startsWith('mailto:') || to.startsWith('tel:');
 
-const getLangPrefix = (path: string) => {
-  const m = path.match(/^\/([a-z]{2})(?=\/|$)/i);
-  return m ? m[1].toLowerCase() : undefined;
+const splitHref = (s: string) => {
+  const i = s.search(/[?#]/);
+  return i === -1 ? { path: s, suffix: '' } : { path: s.slice(0, i), suffix: s.slice(i) };
 };
 
 const stripLeadingLang = (path: string) => path.replace(/^\/[a-z]{2}(?=\/|$)/i, '') || '/';
 
-function localizeStringHref(href: string, currentLang?: string) {
-  if (!href || isExternal(href)) return href;
-  const defaultLang = toLang(String(brandDefaultLocale));
-  const lang = toLang(currentLang) || defaultLang;
+const normalizePath = (p: string) =>
+  ('/' + (p || '/')).replace(/^\/+/, '/').replace(/\/{2,}/g, '/');
 
-  const existing = getLangPrefix(href);
-  if (existing) {
-    const rest = stripLeadingLang(href);
-    if (existing === lang) {
-      return lang === defaultLang ? rest : href;
-    }
-    return lang === defaultLang ? rest : rest === '/' ? `/${lang}` : `/${lang}${rest}`;
+export function localizeTo(
+  to: import('react-router').To,
+  currentLang?: string,
+): import('react-router').To {
+  const lang = toLang(currentLang);
+  if (typeof to === 'string') {
+    if (isExternal(to)) return to;
+    const { path, suffix } = splitHref(to);
+    const base = stripLeadingLang(normalizePath(path));
+    const localized =
+      lang === brandDefaultLocale ? base : base === '/' ? `/${lang}` : `/${lang}${base}`;
+    return `${localized}${suffix}`;
   }
-
-  return lang === defaultLang ? href : href === '/' ? `/${lang}` : `/${lang}${href}`;
-}
-
-export function localizeTo(to: To, currentLang?: string): To {
-  if (typeof to === 'string') return localizeStringHref(to, currentLang);
-  const pathname = localizeStringHref(to.pathname ?? '/', currentLang);
-  return {
-    ...to,
-    pathname,
-  };
+  const base = stripLeadingLang(normalizePath(to.pathname ?? '/'));
+  const pathname =
+    lang === brandDefaultLocale ? base : base === '/' ? `/${lang}` : `/${lang}${base}`;
+  return { ...to, pathname };
 }
 
 export const localizeHref = localizeTo;

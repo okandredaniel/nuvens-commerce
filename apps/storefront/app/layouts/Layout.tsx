@@ -2,10 +2,17 @@ import { CartAside } from '@/components/cart';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { MobileMenuAside } from '@/components/MobileMenuAside';
+import { getEffectiveLang } from '@/i18n/effective';
 import { BrandStyleTag, Providers } from '@/providers/Providers';
-import { brandDefaultLocale } from '@nuvens/brand-ui';
 import { useNonce } from '@shopify/hydrogen';
-import { Links, Meta, Scripts, ScrollRestoration, useMatches } from 'react-router';
+import {
+  Links,
+  Meta,
+  Scripts,
+  ScrollRestoration,
+  useMatches,
+  useRouteLoaderData,
+} from 'react-router';
 
 type HeaderPref = 'transparent' | 'solid';
 type RouteHandle = { header?: HeaderPref };
@@ -21,10 +28,12 @@ function useHeaderPref(): HeaderPref | undefined {
 
 export function Layout({ children }: { children?: React.ReactNode }) {
   const nonce = useNonce();
-  const locale = (brandDefaultLocale || 'en').toLowerCase();
   const headerPref = useHeaderPref();
   const wantsTransparent = headerPref === 'transparent';
   const mainPadding = wantsTransparent ? 'pt-0' : 'pt-16';
+
+  const rootData = useRouteLoaderData('root') as any;
+  const locale = getEffectiveLang(rootData);
 
   return (
     <html lang={locale}>

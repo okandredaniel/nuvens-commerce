@@ -1,5 +1,5 @@
 import { createI18n } from '@/i18n/createInstance';
-import { toLang } from '@/i18n/localize';
+import { getEffectiveLang } from '@/i18n/effective';
 import { getAppResources } from '@/i18n/resources';
 import { resolvePolicyPath } from '@/lib/routing/paths';
 import type { RootLoader } from '@/root';
@@ -20,8 +20,7 @@ export function Providers({ children }: ProvidersProps) {
   if (routeData !== undefined) LAST_ROOT_DATA = routeData;
   const data = routeData ?? LAST_ROOT_DATA ?? null;
 
-  const languageCtx = data?.i18n?.locale ?? data?.consent?.language ?? 'en';
-  const lang = toLang((languageCtx || 'en').toLowerCase());
+  const lang = getEffectiveLang(data);
 
   const appRes = getAppResources(lang);
   const coreRes = (coreI18n?.resources?.[lang] ?? {}) as Record<string, any>;
@@ -30,12 +29,7 @@ export function Providers({ children }: ProvidersProps) {
   const ns = new Set([...Object.keys(coreRes), ...Object.keys(serverRes), ...Object.keys(appRes)]);
   const merged: Record<string, any> = {};
   ns.forEach(
-    (k) =>
-      (merged[k] = {
-        ...(coreRes[k] ?? {}),
-        ...(serverRes[k] ?? {}),
-        ...(appRes[k] ?? {}),
-      }),
+    (k) => (merged[k] = { ...(coreRes[k] ?? {}), ...(serverRes[k] ?? {}), ...(appRes[k] ?? {}) }),
   );
 
   const i18n = createI18n(lang, merged);

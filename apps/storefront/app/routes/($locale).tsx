@@ -6,7 +6,6 @@ const SUPPORTED = new Set(
     (l) => l.toLowerCase().split('-')[0],
   ),
 );
-const DEFAULT = (brandDefaultLocale || 'en').toLowerCase().split('-')[0];
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
   const seg = params.locale?.toLowerCase();
@@ -18,7 +17,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     throw new Response(null, { status: 404 });
   }
 
-  if (lang === DEFAULT) {
+  if (lang === brandDefaultLocale) {
     const url = new URL(request.url);
     const [, ...rest] = url.pathname.split('/').filter(Boolean);
     url.pathname = '/' + rest.join('/');

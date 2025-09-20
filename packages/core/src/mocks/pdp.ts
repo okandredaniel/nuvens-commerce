@@ -1,3 +1,4 @@
+import { Language } from '../i18n/i18n.interface';
 import {
   accordionItemsEn,
   accordionItemsEs,
@@ -22,7 +23,6 @@ export type PdpMeta = {
 };
 
 type Key = string;
-type Locale = 'en' | 'es' | 'fr';
 
 const data: Record<Key, Omit<PdpMeta, 'uspBullets' | 'infoItems' | 'faqItems'>> = {
   default: {
@@ -44,15 +44,17 @@ const data: Record<Key, Omit<PdpMeta, 'uspBullets' | 'infoItems' | 'faqItems'>> 
   },
 };
 
-const i18nBullets: Record<Key, Record<Locale, string[]>> = {
+const i18nBullets: Record<Key, Record<Language, string[]>> = {
   default: {
     en: [],
     es: [],
     fr: [],
+    it: [],
+    pt: [],
   },
 };
 
-export function getPdpMetaMock(locale: Locale, productId?: string, handle?: string): PdpMeta {
+export function getPdpMetaMock(locale: Language, productId?: string, handle?: string): PdpMeta {
   const key =
     (productId && data[productId] && productId) || (handle && data[handle] && handle) || 'default';
   const meta = data[key];
@@ -62,12 +64,16 @@ export function getPdpMetaMock(locale: Locale, productId?: string, handle?: stri
     fr: accordionItemsFr,
     en: accordionItemsEn,
     es: accordionItemsEs,
+    pt: [],
+    it: [],
   };
 
   const faqItems = {
     fr: faqItemsFr,
     en: faqItemsEn,
     es: faqItemsEs,
+    pt: [],
+    it: [],
   };
 
   return {

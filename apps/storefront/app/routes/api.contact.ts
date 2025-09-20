@@ -1,3 +1,4 @@
+import { brandDefaultLocale } from '@nuvens/brand-ui';
 import type { ActionFunctionArgs, LoaderFunctionArgs } from '@shopify/remix-oxygen';
 
 type Bindings = { PUBLIC_STORE_DOMAIN: string };
@@ -101,7 +102,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         'user-agent': request.headers.get('user-agent') || 'Hydrogen',
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        'accept-language': request.headers.get('accept-language') || 'en',
+        'accept-language': request.headers.get('accept-language') || brandDefaultLocale,
         accept: request.headers.get('accept') || '*/*',
         origin: `https://${PUBLIC_STORE_DOMAIN.replace(/^https?:\/\//, '')}`,
         referer: `https://${PUBLIC_STORE_DOMAIN.replace(/^https?:\/\//, '')}/contact`,

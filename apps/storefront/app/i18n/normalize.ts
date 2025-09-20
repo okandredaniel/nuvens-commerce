@@ -33,7 +33,7 @@ export function normalizeResources(input: unknown): NsFirst {
         (out[ns] ||= {})[toLang(lKey)] = bundle;
       }
     } else {
-      const def = toLang(String(brandDefaultLocale) || 'en');
+      const def = toLang(brandDefaultLocale);
       (out[ns] ||= {})[def] = byLangOrBundle as Dict;
     }
   }
@@ -41,12 +41,12 @@ export function normalizeResources(input: unknown): NsFirst {
 }
 
 export function mergeResources(lang: string, ...inputs: Array<unknown>) {
-  const l = toLang(lang || String(brandDefaultLocale) || 'en');
+  const l = toLang(lang || brandDefaultLocale);
   const nsFirst: NsFirst = {};
   for (const res of inputs) {
     const n = normalizeResources(res);
     for (const [ns, byLang] of Object.entries(n)) {
-      const src = byLang[l] ?? byLang[toLang(String(brandDefaultLocale) || 'en')];
+      const src = byLang[l] ?? byLang[toLang(brandDefaultLocale)];
       if (!isObj(src)) continue;
       nsFirst[ns] ||= {};
       nsFirst[ns][l] = {

@@ -19,17 +19,24 @@ function errorResponse(stage: string, err: unknown) {
   const isProd = process.env.NODE_ENV === 'production';
   if (isProd) return new Response('An unexpected error occurred', { status: 500 });
   const e = err as any;
-  const body = {
-    stage,
-    name: e?.name,
-    message: e?.message,
-    stack: e?.stack,
-  };
+  const body = { stage, name: e?.name, message: e?.message, stack: e?.stack };
   return new Response(JSON.stringify(body, null, 2), {
     status: 500,
     // eslint-disable-next-line @typescript-eslint/naming-convention
     headers: { 'Content-Type': 'application/json' },
   });
+}
+
+function normalizeRemixRequestForHomeDefault(request: Request): Request {
+  const url = new URL(request.url);
+  const isData = url.pathname.endsWith('.data') || url.searchParams.has('_data');
+  if (!isData) return request;
+  if (url.pathname === '/.data') {
+    url.pathname = '/_root.data';
+    url.searchParams.delete('_data');
+    return new Request(url.toString(), request);
+  }
+  return request;
 }
 
 export default {
@@ -71,7 +78,8 @@ export default {
         getLoadContext: () => appLoadContext,
       });
 
-      const response = await handleRequest(request);
+      const requestForRemix = normalizeRemixRequestForHomeDefault(request);
+      const response = await handleRequest(requestForRemix);
 
       if (appLoadContext.session?.isPending) {
         const cookie = await appLoadContext.session.commit();
