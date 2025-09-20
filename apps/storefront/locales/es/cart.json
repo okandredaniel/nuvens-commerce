@@ -1,8 +1,9 @@
 {
   "title": "Carrito",
+  "aria_title": "Artículos del carrito",
   "empty": {
     "title": "Tu carrito está vacío",
-    "body": "Descubre lo que tenemos disponible y encuentra algo que te guste.",
+    "body": "Descubre lo que hay disponible y encuentra algo que te guste.",
     "cta": "Seguir comprando",
     "benefit_easy_returns": "Devoluciones fáciles en 30 días",
     "benefit_secure_checkout": "Pago seguro"
@@ -20,6 +21,6 @@
     "placeholder": "Código de tarjeta regalo"
   },
   "checkout": {
-    "cta": "Continuar con el pago"
+    "cta": "Continuar al pago"
   }
 }

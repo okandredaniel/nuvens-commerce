@@ -1,8 +1,9 @@
 {
   "title": "Panier",
+  "aria_title": "Articles du panier",
   "empty": {
     "title": "Votre panier est vide",
-    "body": "Découvrez nos offres et trouvez ce qui vous plaît.",
+    "body": "Parcourez nos produits et trouvez ce qui vous plaît.",
     "cta": "Continuer vos achats",
     "benefit_easy_returns": "Retours faciles sous 30 jours",
     "benefit_secure_checkout": "Paiement sécurisé"
@@ -13,11 +14,11 @@
   },
   "discount": {
     "title": "Réductions",
-    "placeholder": "Code de réduction"
+    "placeholder": "Code promo"
   },
   "giftcard": {
-    "title": "Cartes-cadeaux",
-    "placeholder": "Code de carte-cadeau"
+    "title": "Cartes cadeaux",
+    "placeholder": "Code de carte cadeau"
   },
   "checkout": {
     "cta": "Passer au paiement"

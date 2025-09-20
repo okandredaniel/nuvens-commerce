@@ -1,5 +1,6 @@
 {
   "title": "Cart",
+  "aria_title": "Cart items",
   "empty": {
     "title": "Your cart is empty",
     "body": "Explore what's available and find something you like.",

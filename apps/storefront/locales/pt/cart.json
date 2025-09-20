@@ -1,11 +1,12 @@
 {
   "title": "Carrinho",
+  "aria_title": "Artigos do carrinho",
   "empty": {
     "title": "O seu carrinho está vazio",
-    "body": "Explore o que temos disponível e encontre algo de que goste.",
+    "body": "Veja o que está disponível e encontre algo de que goste.",
     "cta": "Continuar a comprar",
-    "benefit_easy_returns": "Devoluções fáceis até 30 dias",
-    "benefit_secure_checkout": "Pagamento seguro"
+    "benefit_easy_returns": "Devoluções fáceis em 30 dias",
+    "benefit_secure_checkout": "Checkout seguro"
   },
   "summary": {
     "title": "Resumo",

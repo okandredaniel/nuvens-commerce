@@ -1,5 +1,6 @@
 import { cn } from '@nuvens/ui';
 import { useOptimisticCart } from '@shopify/hydrogen';
+import { useTranslation } from 'react-i18next';
 import type { CartApiQueryFragment } from 'storefrontapi.generated';
 import type { CartLayout } from './cart.interface';
 import { CartEmpty } from './CartEmpty';
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function CartMain({ layout, cart: originalCart }: Props) {
+  const { t } = useTranslation('cart');
   const cart = useOptimisticCart(originalCart);
   const items = cart?.lines?.nodes ?? [];
   const hasItems = (cart?.totalQuantity ?? 0) > 0;
@@ -24,7 +26,7 @@ export function CartMain({ layout, cart: originalCart }: Props) {
     <div className={cn(isPage ? 'grid grid-cols-1 gap-6 lg:grid-cols-3' : 'space-y-5')}>
       <section className={cn(isPage && 'lg:col-span-2')} aria-live="polite">
         <h2 id="cart-lines" className="sr-only">
-          Cart items
+          {t('aria-title')}
         </h2>
         <ul
           className={cn(

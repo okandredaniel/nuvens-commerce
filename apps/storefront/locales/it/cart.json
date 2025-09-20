@@ -1,8 +1,9 @@
 {
   "title": "Carrello",
+  "aria_title": "Articoli nel carrello",
   "empty": {
     "title": "Il tuo carrello è vuoto",
-    "body": "Scopri le nostre proposte e trova qualcosa che ti piace.",
+    "body": "Scopri cosa è disponibile e trova qualcosa che ti piace.",
     "cta": "Continua lo shopping",
     "benefit_easy_returns": "Resi facili entro 30 giorni",
     "benefit_secure_checkout": "Pagamento sicuro"
@@ -20,6 +21,6 @@
     "placeholder": "Codice carta regalo"
   },
   "checkout": {
-    "cta": "Procedi al pagamento"
+    "cta": "Procedi al checkout"
   }
 }
