@@ -1,3 +1,4 @@
+// packages/ui/src/components/ui/Select.tsx
 import type {
   SelectContentProps as RSelectContentProps,
   SelectItemProps as RSelectItemProps,
@@ -152,7 +153,9 @@ export const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
         {...props}
       >
         <div className="mr-6 min-w-0 flex-1">
-          <div className="truncate">{children}</div>
+          <div className="truncate">
+            <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+          </div>
           {hint ? <div className="mt-0.5 truncate text-xs text-neutral-600">{hint}</div> : null}
         </div>
         <SelectPrimitive.ItemIndicator className="absolute right-2 inline-flex items-center">
