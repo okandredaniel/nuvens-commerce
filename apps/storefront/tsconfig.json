@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", ".react-router/types/**/*", "types/**/*"],
-  "exclude": [".react-router/**"],
-  "rootDirs": [".", "./.react-router/types"],
+  "exclude": ["node_modules", "build", "dist"],
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "react-jsx",
@@ -17,13 +16,20 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
-    "types": ["node", "@shopify/oxygen-workers-types", "react-router", "vite/client"],
+    "types": [
+      "node",
+      "@shopify/oxygen-workers-types",
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "@/*": ["app/*"],
       "@nuvens/core": ["../../packages/core/src/index.ts"],
       "@nuvens/ui": ["../../packages/ui/src/index.ts"],
       "@nuvens/brand-ui": ["app/brand-ui.generated.ts"]
     },
+    "rootDirs": [".", ".react-router/types"],
     "noEmit": true
   }
 }

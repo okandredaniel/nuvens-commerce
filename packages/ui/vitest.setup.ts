@@ -5,11 +5,6 @@ import { vi } from 'vitest';
 vi.mock('@nuvens/brand-ui/styles.css?url', () => ({ default: '' }));
 vi.mock('@nuvens/brand-ui/styles.css', () => ({ default: '' }));
 
-Object.defineProperty(globalThis, '__vite_ssr_import_meta__', {
-  value: { env: { DEV: false } },
-  writable: false,
-});
-
 if (typeof globalThis.ResizeObserver === 'undefined') {
   class RO {
     observe() {}
@@ -18,13 +13,3 @@ if (typeof globalThis.ResizeObserver === 'undefined') {
   }
   globalThis.ResizeObserver = RO as unknown as typeof ResizeObserver;
 }
-
-vi.mock('@nuvens/brand-ui', async () => {
-  const actual = await vi.importActual<any>('@nuvens/brand-ui');
-  return {
-    ...actual,
-    brandDefaultLocale: 'en',
-    brandLocales: ['en', 'es', 'pt'],
-    brandCountryOverrides: { en: 'us', es: 'es', pt: 'pt' },
-  };
-});

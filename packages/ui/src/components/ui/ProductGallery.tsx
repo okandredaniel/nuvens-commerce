@@ -43,15 +43,17 @@ export function ProductGallery({
     drag: true,
     mode: 'snap',
     created(s) {
-      const rel = s.track.details.rel;
+      const rel = s.track?.details?.rel ?? 0;
       setIndex(rel);
       onIndexChange?.(rel);
     },
   });
 
   useEffect(() => {
-    const rel = slider.current?.track.details.rel;
-    if (slider.current && rel !== index) slider.current.moveToIdx(index);
+    const rel = slider.current?.track?.details?.rel;
+    if (slider.current && typeof rel === 'number' && rel !== index) {
+      slider.current.moveToIdx(index);
+    }
   }, [index, slider]);
 
   const current = images[index];

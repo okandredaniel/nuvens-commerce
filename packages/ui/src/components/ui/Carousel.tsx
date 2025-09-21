@@ -21,7 +21,7 @@ function cn(...classes: Array<string | undefined | false | null>) {
 
 type ResponsiveNumber = number | Record<number, number>;
 
-type CarouselI18n = {
+export type CarouselI18n = {
   label: string;
   previous: string;
   next: string;

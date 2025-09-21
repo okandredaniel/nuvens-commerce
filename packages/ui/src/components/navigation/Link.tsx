@@ -7,10 +7,22 @@ const base =
 
 export function Link({ className, ...props }: CoreLinkProps) {
   const { Link: AdapterLink } = useCoreAdapter();
-  return <AdapterLink className={cn(base, className)} {...props} />;
+  const any = props as any;
+  const compatProps = {
+    ...any,
+    href: any.href ?? any.to,
+    to: any.to ?? any.href,
+  };
+  return <AdapterLink className={cn(base, className)} {...compatProps} />;
 }
 
 export function NavLink({ className, ...props }: CoreNavLinkProps) {
   const { NavLink: AdapterNavLink } = useCoreAdapter();
-  return <AdapterNavLink className={cn(base, className)} {...props} />;
+  const any = props as any;
+  const compatProps = {
+    ...any,
+    href: any.href ?? any.to,
+    to: any.to ?? any.href,
+  };
+  return <AdapterNavLink className={cn(base, className)} {...compatProps} />;
 }

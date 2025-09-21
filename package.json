@@ -5,11 +5,12 @@
     "packages/*",
     "apps/*"
   ],
+  "type": "module",
   "scripts": {
-    "dev": "pnpm -F @nuvens/storefront dev",
-    "build": "pnpm -F @nuvens/storefront build",
-    "preview": "pnpm -F @nuvens/storefront preview",
-    "codegen": "pnpm -F @nuvens/storefront codegen",
+    "dev": "pnpm exec shopify hydrogen dev --path apps/storefront --codegen",
+    "build": "shopify hydrogen build --path apps/storefront --codegen",
+    "preview": "shopify hydrogen preview --path apps/storefront --build",
+    "codegen": "shopify hydrogen codegen --path apps/storefront",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "locale:add": "node scripts/add-locale-namespace.mjs",
@@ -32,6 +33,7 @@
     "@eslint/compat": "^1.3.2",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.34.0",
+    "@react-router/dev": "7.6.0",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -45,6 +47,7 @@
     "c8": "^10.1.3",
     "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-node": "^0.3.9",
     "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.32.0",
@@ -58,6 +61,7 @@
     "lint-staged": "^16.1.6",
     "prettier": "^3.6.2",
     "simple-git-hooks": "^2.13.1",
+    "vite": "^6.3.5",
     "vitest": "^3.2.4"
   },
   "dependencies": {

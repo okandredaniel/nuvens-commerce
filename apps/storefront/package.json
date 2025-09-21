@@ -4,11 +4,7 @@
   "version": "2025.5.1",
   "type": "module",
   "scripts": {
-    "build": "shopify hydrogen build --codegen",
-    "dev": "shopify hydrogen dev --codegen",
-    "preview": "shopify hydrogen preview --build",
-    "typecheck": "tsc --noEmit",
-    "codegen": "shopify hydrogen codegen"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@nuvens/core": "workspace:*",

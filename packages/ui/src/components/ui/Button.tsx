@@ -32,6 +32,9 @@ type CommonProps = {
   asChild?: boolean;
   className?: string;
   disabled?: boolean;
+  href?: string;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 };
 
 type PolymorphicProps<E extends React.ElementType> = CommonProps &

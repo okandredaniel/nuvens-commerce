@@ -30,11 +30,15 @@ const pkgTsconfig = (pkg) => tsconfigOf(`packages/${pkg}/tsconfig.json`);
 const existingPkgNames = PKGS.filter((p) => fs.existsSync(pkgTsconfig(p)));
 const missingPkgNames = PKGS.filter((p) => !fs.existsSync(pkgTsconfig(p)));
 
-const existingProjectTsconfigs = [
+const uiTestTsconfig = tsconfigOf('packages/ui/tsconfig.test.json');
+const hasUiTestTsconfig = fs.existsSync(uiTestTsconfig);
+
+let existingProjectTsconfigs = [
   tsconfigOf('tsconfig.base.json'),
   tsconfigOf('apps/storefront/tsconfig.json'),
   ...existingPkgNames.map(pkgTsconfig),
 ];
+if (hasUiTestTsconfig) existingProjectTsconfigs = [...existingProjectTsconfigs, uiTestTsconfig];
 
 const typedTsGlobs = [
   'apps/storefront/**/*.{ts,tsx}',
@@ -44,6 +48,22 @@ const typedTsGlobs = [
 const untypedTsGlobs = [
   ...missingPkgNames.map((p) => `packages/${p}/**/*.{ts,tsx}`),
   'types/**/*.{ts,tsx,d.ts}',
+];
+
+// shared settings
+const importResolver = {
+  node: { extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'] },
+  typescript: { alwaysTryTypes: true, project: existingProjectTsconfigs },
+};
+
+const coreModules = [
+  'virtual:react-router/server-build',
+  '@nuvens/brand-ui',
+  '@nuvens/brand-ui/styles.css',
+  '@nuvens/brand-ui/styles.css?url',
+  '@nuvens/ui/styles.css',
+  'vitest/config',
+  '@testing-library/jest-dom/vitest',
 ];
 
 export default [
@@ -123,6 +143,7 @@ export default [
     ),
   ).map((c) => ({ ...c, files: ['**/*.{ts,tsx}'] })),
 
+  // typed TS
   {
     files: typedTsGlobs,
     languageOptions: {
@@ -135,19 +156,8 @@ export default [
     },
     settings: {
       'import/internal-regex': '^(@\\/|@nuvens\\/)',
-      'import/resolver': {
-        node: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
-        typescript: {
-          alwaysTryTypes: true,
-          project: existingProjectTsconfigs,
-        },
-      },
-      'import/core-modules': [
-        'virtual:react-router/server-build',
-        '@nuvens/brand-ui',
-        '@nuvens/brand-ui/styles.css',
-        '@nuvens/ui/styles.css',
-      ],
+      'import/resolver': importResolver,
+      'import/core-modules': coreModules,
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
@@ -155,6 +165,7 @@ export default [
     },
   },
 
+  // untyped TS
   {
     files: untypedTsGlobs,
     languageOptions: {
@@ -166,19 +177,8 @@ export default [
     },
     settings: {
       'import/internal-regex': '^(@\\/|@nuvens\\/)',
-      'import/resolver': {
-        node: { extensions: ['.ts', '.tsx', '.js', '.jsx'] },
-        typescript: {
-          alwaysTryTypes: true,
-          project: existingProjectTsconfigs,
-        },
-      },
-      'import/core-modules': [
-        'virtual:react-router/server-build',
-        '@nuvens/brand-ui',
-        '@nuvens/brand-ui/styles.css',
-        '@nuvens/ui/styles.css',
-      ],
+      'import/resolver': importResolver,
+      'import/core-modules': coreModules,
     },
     rules: {
       '@typescript-eslint/ban-ts-comment': 'off',
@@ -239,6 +239,7 @@ export default [
     },
   },
 
+  // storefront client code restrictions
   {
     files: ['apps/storefront/app/**/*.{ts,tsx,js,jsx}'],
     ignores: ['apps/storefront/app/server/**/*.{ts,tsx,js,jsx}'],
@@ -270,23 +271,25 @@ export default [
     },
   },
 
+  // storefront tests
   {
     files: ['apps/storefront/app/**/*.test.*'],
-    rules: {
-      'no-restricted-imports': 'off',
-    },
+    rules: { 'no-restricted-imports': 'off' },
   },
 
+  // storefront server code
   {
     files: ['apps/storefront/app/server/**/*.{ts,tsx,js,jsx}'],
     rules: { 'no-restricted-imports': 'off' },
   },
 
+  // any *.server.* file
   {
     files: ['**/*.server.*'],
     rules: { 'no-restricted-imports': 'off' },
   },
 
+  // ui package restrictions
   {
     files: ['packages/ui/src/**/*.{ts,tsx}'],
     rules: {
@@ -321,26 +324,85 @@ export default [
     },
   },
 
+  // tool configs
   {
     files: ['**/tailwind*.{js,ts}', '**/postcss.config.{js,ts}'],
-    languageOptions: {
-      parserOptions: { project: null },
-    },
-    rules: {
-      '@typescript-eslint/naming-convention': 'off',
-    },
+    languageOptions: { parserOptions: { project: null } },
+    rules: { '@typescript-eslint/naming-convention': 'off' },
   },
 
+  // scripts
   {
     files: ['scripts/**/*.{js,mjs,ts}'],
     languageOptions: { globals: { ...globals.node } },
     rules: { 'no-console': 'off' },
   },
 
+  // base unresolved rule; ignore CSS and ?url
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     rules: {
       'import/no-unresolved': ['error', { ignore: ['\\?url$', '\\.css$'] }],
+    },
+  },
+
+  // ui tests (use dedicated tsconfig if present)
+  {
+    files: [
+      'packages/ui/vitest.setup.ts',
+      'packages/ui/**/*.test.{ts,tsx}',
+      'packages/ui/**/__tests__/**/*.{ts,tsx}',
+    ],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        ecmaFeatures: { jsx: true },
+        ...(hasUiTestTsconfig ? { project: [uiTestTsconfig] } : {}),
+      },
+      globals: { ...globals.vitest },
+    },
+    settings: {
+      'import/internal-regex': '^(@\\/|@nuvens\\/)',
+      'import/resolver': importResolver,
+      'import/core-modules': coreModules,
+    },
+  },
+
+  // project-wide test files: enable vitest globals
+  {
+    files: [
+      '**/*.test.{ts,tsx,js,jsx}',
+      '**/*.spec.{ts,tsx,js,jsx}',
+      '**/__tests__/**/*.{ts,tsx,js,jsx}',
+    ],
+    languageOptions: { globals: { ...globals.vitest } },
+  },
+
+  // type-only setup files
+  {
+    files: ['packages/ui/setup-tests.d.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        project: null,
+        ecmaFeatures: { jsx: true },
+      },
+    },
+  },
+
+  // vitest config files: allow `vitest/config` subpath
+  {
+    files: ['vitest.config.{ts,js,mjs,cjs}', '**/vitest.config.{ts,js,mjs,cjs}'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: { project: null },
+      globals: { ...globals.node },
+    },
+    settings: {
+      'import/resolver': importResolver,
+      'import/core-modules': coreModules,
     },
   },
 ];

@@ -8,7 +8,8 @@ type RatingStarsProps = {
 };
 
 export function RatingStars({ value, className, ariaLabel }: RatingStarsProps) {
-  const safe = Number.isFinite(value) ? Math.min(Math.max(value, 0), 5) : 0;
+  const n = Number(value);
+  const safe = Number.isNaN(n) ? 0 : Math.min(Math.max(n, 0), 5);
   const percent = useMemo(() => Math.round((safe / 5) * 100), [safe]);
 
   return (

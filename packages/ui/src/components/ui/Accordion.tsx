@@ -223,5 +223,3 @@ export function Accordion(props: AccordionProps) {
     />
   );
 }
-
-export default Accordion;
