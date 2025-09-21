@@ -41,23 +41,28 @@ export function normalizeResources(input: unknown): NsFirst {
 }
 
 export function mergeResources(lang: string, ...inputs: Array<unknown>) {
-  const l = toLang(lang || brandDefaultLocale);
+  const desiredFull = toLang(lang || brandDefaultLocale);
+  const desiredBase = desiredFull.split('-')[0];
+  const fallbackFull = toLang(brandDefaultLocale);
+  const fallbackBase = fallbackFull.split('-')[0];
+
   const nsFirst: NsFirst = {};
   for (const res of inputs) {
     const n = normalizeResources(res);
     for (const [ns, byLang] of Object.entries(n)) {
-      const src = byLang[l] ?? byLang[toLang(brandDefaultLocale)];
+      const src =
+        byLang[desiredFull] ?? byLang[desiredBase] ?? byLang[fallbackFull] ?? byLang[fallbackBase];
       if (!isObj(src)) continue;
       nsFirst[ns] ||= {};
-      nsFirst[ns][l] = {
-        ...(nsFirst[ns][l] || {}),
+      nsFirst[ns][desiredFull] = {
+        ...(nsFirst[ns][desiredFull] || {}),
         ...src,
       };
     }
   }
   const out: Record<string, Dict> = {};
   for (const [ns, byLang] of Object.entries(nsFirst)) {
-    const bundle = byLang[l];
+    const bundle = byLang[desiredFull];
     if (isObj(bundle)) out[ns] = bundle;
   }
   return out;

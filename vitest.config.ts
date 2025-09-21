@@ -106,6 +106,7 @@ export default defineConfig({
       exclude: [
         '**/node_modules/**',
         '**/*.d.ts',
+        '**/*.interface.ts',
         '**/*.test.{ts,tsx}',
         '**/__tests__/**',
         '**/__mocks__/**',
