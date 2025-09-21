@@ -47,8 +47,8 @@ export function Footer() {
         </Suspense>
 
         <div className="grid items-end gap-6 border-t border-neutral-0/10 py-8 md:grid-cols-3 md:flex-row md:gap-8">
-          <div className="text-center">
-            <LocalizedNavLink prefetch="intent" to="/" end aria-label="Home">
+          <div className="text-center md:text-left">
+            <LocalizedNavLink prefetch="intent" to="/" aria-label="Home">
               <Brand />
             </LocalizedNavLink>
           </div>
