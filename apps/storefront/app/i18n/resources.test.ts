@@ -1,6 +1,6 @@
 import { brandDefaultLocale } from '@nuvens/brand-ui';
 import { expect, test } from 'vitest';
-import { getAppResources, getBrandBundleResources } from './resources';
+import { loadAppDictionaries, loadBrandDictionaries } from './resources';
 
 function rec(pairs: Array<[string, any]>) {
   const o: Record<string, any> = {};
@@ -8,7 +8,7 @@ function rec(pairs: Array<[string, any]>) {
   return o;
 }
 
-test('getAppResources merges only matching locale and namespaces', () => {
+test('loadAppDictionaries merges only matching locale and namespaces', () => {
   const frOutside = { default: { common: { hello: 'Bonjour' }, nav: { home: 'Accueil' } } };
   const frInside = {
     default: { common: { welcome: 'Bienvenue' }, footer: { contact: 'Contact' } },
@@ -20,7 +20,7 @@ test('getAppResources merges only matching locale and namespaces', () => {
     ['/abs/outside/locales/en/index.ts', { default: { common: { hello: 'Hello' } } }],
   ]);
 
-  const out = getAppResources('fr', mods);
+  const out = loadAppDictionaries('fr', mods);
   expect(out.common.hello).toBe('Bonjour');
   expect(out.common.welcome).toBe('Bienvenue');
   expect(out.nav.home).toBe('Accueil');
@@ -28,7 +28,7 @@ test('getAppResources merges only matching locale and namespaces', () => {
   expect(out.common.hello).not.toBe('Hello');
 });
 
-test('getBrandBundleResources picks requested locale or falls back to brand default', () => {
+test('loadBrandDictionaries picks requested locale or falls back to brand default', () => {
   const bundleA = {
     default: {
       ns: 'common',
@@ -53,11 +53,11 @@ test('getBrandBundleResources picks requested locale or falls back to brand defa
     ['/brand/b/header.i18n.ts', bundleB],
   ]);
 
-  const fr = getBrandBundleResources('fr', brandMods);
+  const fr = loadBrandDictionaries('fr', brandMods);
   expect(fr.common.ok).toBe("D'accord");
   expect(fr.header.title).toBe('Boutique');
 
-  const es = getBrandBundleResources('es', brandMods);
+  const es = loadBrandDictionaries('es', brandMods);
   expect(brandDefaultLocale).toBe('en');
   expect(es.common.ok).toBe('OK');
   expect(es.header.title).toBe('Shop');

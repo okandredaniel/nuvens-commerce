@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import { queryHeader } from '../queries/header';
 import { queryFooter } from '../queries/footer';
+import { queryHeader } from '../queries/header';
 
 export async function loadCriticalData(
   args: LoaderFunctionArgs,
@@ -13,10 +13,16 @@ export async function loadCriticalData(
 
 export function loadDeferredData(args: LoaderFunctionArgs, language: string, country: string) {
   const footer = queryFooter(args, language, country);
-  const { context } = args;
+  const c: any = args.context;
+
+  const cart =
+    typeof c?.cart?.get === 'function' ? c.cart.get() : (Promise.resolve(null) as Promise<unknown>);
+  const isLoggedIn =
+    typeof c?.customerAccount?.isLoggedIn === 'function' ? c.customerAccount.isLoggedIn() : false;
+
   return {
-    cart: context.cart.get(),
-    isLoggedIn: context.customerAccount.isLoggedIn(),
+    cart,
+    isLoggedIn,
     footer,
   };
 }

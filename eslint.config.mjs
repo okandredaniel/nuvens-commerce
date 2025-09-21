@@ -248,7 +248,12 @@ export default [
         {
           patterns: [
             {
-              group: ['@/server/*', '**/apps/storefront/app/server/**'],
+              group: [
+                '@/server/*',
+                '@/**/*.server',
+                'apps/storefront/app/server/*',
+                '**/apps/storefront/app/server/**',
+              ],
               message: 'Server-only modules must not be imported in client code',
             },
             {
@@ -262,6 +267,13 @@ export default [
           ],
         },
       ],
+    },
+  },
+
+  {
+    files: ['apps/storefront/app/**/*.test.*'],
+    rules: {
+      'no-restricted-imports': 'off',
     },
   },
 

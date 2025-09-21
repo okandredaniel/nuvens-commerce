@@ -6,9 +6,10 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "shopify hydrogen dev --path apps/storefront --codegen",
-    "build": "shopify hydrogen build --path apps/storefront --codegen",
-    "preview": "shopify hydrogen preview --path apps/storefront --build",
+    "dev": "pnpm -F @nuvens/storefront dev",
+    "build": "pnpm -F @nuvens/storefront build",
+    "preview": "pnpm -F @nuvens/storefront preview",
+    "codegen": "pnpm -F @nuvens/storefront codegen",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "locale:add": "node scripts/add-locale-namespace.mjs",

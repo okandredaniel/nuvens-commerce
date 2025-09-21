@@ -1,15 +1,27 @@
 import { CartMain } from '@/components/cart';
-import { cartAction, cartLoader } from '@/lib/cart/route.server';
 import { Container, Heading } from '@nuvens/ui';
-import { type HeadersFunction, type MetaFunction } from '@shopify/remix-oxygen';
+import type {
+  ActionFunctionArgs,
+  HeadersFunction,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
 
 export const meta: MetaFunction = () => [{ title: 'Cart' }];
+
 export const headers: HeadersFunction = ({ actionHeaders }) => actionHeaders;
 
-export const action = cartAction;
-export const loader = cartLoader;
+export async function loader(args: LoaderFunctionArgs) {
+  const mod = await import('@/lib/cart/route.server');
+  return mod.cartLoader(args);
+}
+
+export async function action(args: ActionFunctionArgs) {
+  const mod = await import('@/lib/cart/route.server');
+  return mod.cartAction(args);
+}
 
 export default function Cart() {
   const cart = useLoaderData<typeof loader>();

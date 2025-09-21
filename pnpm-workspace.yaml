@@ -6,5 +6,6 @@ onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'
   - esbuild
+  - simple-git-hooks
   - unrs-resolver
   - workerd

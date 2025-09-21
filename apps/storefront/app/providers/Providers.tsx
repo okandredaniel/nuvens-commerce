@@ -1,6 +1,6 @@
 import { createI18n } from '@/i18n/createInstance';
 import { getEffectiveLang } from '@/i18n/effective';
-import { getAppResources } from '@/i18n/resources';
+import { loadAppDictionaries } from '@/i18n/resources';
 import { resolvePolicyPath } from '@/lib/routing/paths';
 import type { RootLoader } from '@/root';
 import { coreI18n } from '@nuvens/core';
@@ -22,7 +22,7 @@ export function Providers({ children }: ProvidersProps) {
 
   const lang = getEffectiveLang(data);
 
-  const appRes = getAppResources(lang);
+  const appRes = loadAppDictionaries(lang);
   const coreRes = (coreI18n?.resources?.[lang] ?? {}) as Record<string, any>;
   const serverRes = (data?.i18n?.resources ?? {}) as Record<string, any>;
 

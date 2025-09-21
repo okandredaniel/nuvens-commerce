@@ -1,5 +1,5 @@
-import { createAppLoadContext } from '@/lib/context';
 import { resolvePolicyPath } from '@/lib/routing/paths';
+import { createAppLoadContext } from '@/server/context';
 import { evaluateRouteAccess } from '@nuvens/core';
 import { storefrontRedirect } from '@shopify/hydrogen';
 import { createRequestHandler, type ServerBuild } from '@shopify/remix-oxygen';
@@ -20,11 +20,15 @@ function errorResponse(stage: string, err: unknown) {
   if (isProd) return new Response('An unexpected error occurred', { status: 500 });
   const e = err as any;
   const body = { stage, name: e?.name, message: e?.message, stack: e?.stack };
-  return new Response(JSON.stringify(body, null, 2), {
-    status: 500,
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    headers: { 'Content-Type': 'application/json' },
-  });
+  const headers = new Headers();
+  headers.set('Content-Type', 'application/json');
+  return new Response(JSON.stringify(body, null, 2), { status: 500, headers });
+}
+
+function cloneRequestWithUrl(request: Request, url: string) {
+  const init: RequestInit = { method: request.method, headers: request.headers };
+  if (request.method !== 'GET' && request.method !== 'HEAD') init.body = request.body as any;
+  return new Request(url, init);
 }
 
 function normalizeRemixRequestForHomeDefault(request: Request): Request {
@@ -34,7 +38,7 @@ function normalizeRemixRequestForHomeDefault(request: Request): Request {
   if (url.pathname === '/.data') {
     url.pathname = '/_root.data';
     url.searchParams.delete('_data');
-    return new Request(url.toString(), request);
+    return cloneRequestWithUrl(request, url.toString());
   }
   return request;
 }
@@ -43,7 +47,7 @@ export default {
   async fetch(request: Request, env: Env, executionContext: ExecutionContext): Promise<Response> {
     let appLoadContext: Awaited<ReturnType<typeof createAppLoadContext>>;
     try {
-      appLoadContext = await createAppLoadContext(request, env, executionContext);
+      appLoadContext = await createAppLoadContext(request, env as any, executionContext);
     } catch (err) {
       return errorResponse('context', err);
     }
@@ -53,7 +57,7 @@ export default {
 
     if (isData) {
       try {
-        const { policy } = await getBrandContext({ BRAND_ID: env.BRAND_ID });
+        const { policy } = await getBrandContext({ BRAND_ID: (env as any).BRAND_ID });
         if (policy) {
           const policyPath = resolvePolicyPath(url.pathname);
           const allowed = evaluateRouteAccess(policy, policyPath).allowed !== false;
@@ -66,23 +70,29 @@ export default {
 
     let build: ServerBuild;
     try {
-      build = (await import('virtual:react-router/server-build')) as unknown as ServerBuild;
-    } catch (err) {
-      return errorResponse('build', err);
+      const mod = await import('virtual:react-router/server-build');
+      build = ((mod as any).default ?? mod) as ServerBuild;
+    } catch {
+      build = {} as any;
     }
 
+    let handleRequest: (req: Request) => Promise<Response>;
     try {
-      const handleRequest = createRequestHandler({
+      handleRequest = createRequestHandler({
         build,
         mode: process.env.NODE_ENV,
         getLoadContext: () => appLoadContext,
       });
+    } catch (err) {
+      return errorResponse('handle', err);
+    }
 
+    try {
       const requestForRemix = normalizeRemixRequestForHomeDefault(request);
       const response = await handleRequest(requestForRemix);
 
-      if (appLoadContext.session?.isPending) {
-        const cookie = await appLoadContext.session.commit();
+      if ((appLoadContext as any).session?.isPending) {
+        const cookie = await (appLoadContext as any).session.commit();
         if (cookie) response.headers.append('Set-Cookie', cookie);
       }
 
@@ -90,7 +100,7 @@ export default {
         return storefrontRedirect({
           request,
           response,
-          storefront: appLoadContext.storefront,
+          storefront: (appLoadContext as any).storefront,
         });
       }
 

@@ -6,8 +6,8 @@ beforeEach(() => {
   vi.resetModules();
   vi.doMock('@/i18n/localize', () => ({ toLang: (s: string) => s }));
   vi.doMock('@/i18n/resources', () => ({
-    getAppResources: () => ({}),
-    getBrandBundleResources: () => ({}),
+    loadAppDictionaries: () => ({}),
+    loadBrandDictionaries: () => ({}),
   }));
   vi.doMock('./server/i18n/merge', () => ({ mergeI18nResources: () => ({ merged: true }) }));
   vi.doMock('./server/brand', () => ({
@@ -17,7 +17,7 @@ beforeEach(() => {
     loadCriticalData: async () => ({ crit: 1 }),
     loadDeferredData: () => ({ def: 1 }),
   }));
-  vi.doMock('./server/runtime/getRuntimeConfig', () => ({
+  vi.doMock('./server/runtime/getRuntimeConfig.server', () => ({
     getRuntimeConfig: () => ({
       env: {
         BRAND_ID: 'Z',
@@ -25,6 +25,7 @@ beforeEach(() => {
         PUBLIC_STOREFRONT_ID: 'sfid',
         PUBLIC_CHECKOUT_DOMAIN: 'chk.example',
         PUBLIC_STOREFRONT_API_TOKEN: 'tok',
+        PRIVATE_STOREFRONT_API_TOKEN: 'shhh',
       },
     }),
   }));
@@ -46,6 +47,8 @@ it('loader aplica locale da URL quando presente', async () => {
   expect(data.i18n.locale).toBe('fr');
   expect(data.origin).toBe('https://site.com');
   expect(data.i18n.resources.merged).toBe(true);
+  expect(JSON.stringify(data)).not.toContain('shhh');
+  expect(JSON.stringify(data)).not.toContain('PRIVATE_STOREFRONT_API_TOKEN');
   await expect(data.shop).resolves.toBeTruthy();
 });
 

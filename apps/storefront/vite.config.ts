@@ -56,8 +56,8 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tailwindcss(),
       hydrogen(),
-      oxygen(),
       reactRouter(),
+      oxygen(),
       tsconfigPaths(),
       brandEntryPlugin(appDir, BRAND_ID),
     ],

@@ -1,6 +1,6 @@
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { toLang } from '@/i18n/localize';
-import { getAppResources, getBrandBundleResources } from '@/i18n/resources';
+import { loadAppDictionaries, loadBrandDictionaries } from '@/i18n/resources';
 import { Layout } from '@/layouts/Layout';
 import { buildMetaLinks } from '@/lib/seo';
 import { getShopAnalytics } from '@shopify/hydrogen';
@@ -17,7 +17,7 @@ export { shouldRevalidate } from './server/routing/shouldRevalidate';
 export { ErrorBoundary, headers, Layout, links };
 
 export async function loader(args: LoaderFunctionArgs) {
-  const { getRuntimeConfig } = await import('./server/runtime/getRuntimeConfig');
+  const { getRuntimeConfig } = await import('./server/runtime/getRuntimeConfig.server');
 
   const origin = new URL(args.request.url).origin;
   const { storefront } = args.context;
@@ -37,9 +37,9 @@ export async function loader(args: LoaderFunctionArgs) {
   const deferredData = loadDeferredData(args, lang, country);
   const criticalData = await loadCriticalData(args, lang, country);
 
-  const appRes = getAppResources(lang);
-  const brandBundleRes = getBrandBundleResources(lang);
-  const resources = mergeI18nResources(lang, brandI18n, brandBundleRes, appRes);
+  const appRes = loadAppDictionaries(lang);
+  const brandRes = loadBrandDictionaries(lang);
+  const resources = mergeI18nResources(lang, brandI18n, brandRes, appRes);
 
   return {
     ...deferredData,

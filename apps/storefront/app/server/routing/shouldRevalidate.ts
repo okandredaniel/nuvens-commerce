@@ -1,4 +1,4 @@
-import type { ShouldRevalidateFunction } from '@remix-run/router';
+import type { ShouldRevalidateFunction } from 'react-router';
 
 export const shouldRevalidate: ShouldRevalidateFunction = ({ formMethod, currentUrl, nextUrl }) => {
   if (formMethod && formMethod !== 'GET') return true;
