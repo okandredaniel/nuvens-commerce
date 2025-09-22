@@ -19,25 +19,26 @@ const GOOGLEVIDEO = 'https://*.googlevideo.com';
 const DEV_HTTP = ['http://localhost:*'];
 const DEV_WS = ['ws://localhost:*', 'ws://127.0.0.1:*', 'ws://*.tryhydrogen.dev:*'];
 
-const uniq = (a: string[]) => Array.from(new Set(a));
+const isString = (x: unknown): x is string => typeof x === 'string' && x.length > 0;
+const uniqSorted = (a: Array<string | undefined>) => Array.from(new Set(a.filter(isString))).sort();
 
 export function buildCspSources(env: EnvLike) {
   const isDev = env?.NODE_ENV !== 'production';
-  const store = env.PUBLIC_STORE_DOMAIN ? `https://${env.PUBLIC_STORE_DOMAIN}` : '';
-  const checkout = env.PUBLIC_CHECKOUT_DOMAIN ? `https://${env.PUBLIC_CHECKOUT_DOMAIN}` : '';
+  const store = env.PUBLIC_STORE_DOMAIN ? `https://${env.PUBLIC_STORE_DOMAIN}` : undefined;
+  const checkout = env.PUBLIC_CHECKOUT_DOMAIN ? `https://${env.PUBLIC_CHECKOUT_DOMAIN}` : undefined;
 
   return {
     shop: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN || '',
       storeDomain: env.PUBLIC_STORE_DOMAIN || '',
     },
-    frameSrc: uniq([SELF, ...YOUTUBE]),
-    imgSrc: uniq([SELF, DATA, BLOB, SHOPIFY_CDN, ...YT_IMG]),
-    mediaSrc: uniq([SELF, BLOB, SHOPIFY_CDN, GOOGLEVIDEO]),
-    fontSrc: uniq([SELF, SHOPIFY_CDN, DATA]),
-    styleSrc: uniq([SELF, SHOPIFY_CDN]),
-    scriptSrc: uniq([SELF, SHOPIFY_CDN, ...(isDev ? ["'unsafe-eval'"] : [])]),
-    connectSrc: uniq([
+    frameSrc: uniqSorted([SELF, ...YOUTUBE]),
+    imgSrc: uniqSorted([SELF, DATA, BLOB, SHOPIFY_CDN, ...YT_IMG]),
+    mediaSrc: uniqSorted([SELF, BLOB, SHOPIFY_CDN, GOOGLEVIDEO]),
+    fontSrc: uniqSorted([SELF, SHOPIFY_CDN, DATA]),
+    styleSrc: uniqSorted([SELF, SHOPIFY_CDN]),
+    scriptSrc: uniqSorted([SELF, SHOPIFY_CDN, ...(isDev ? ["'unsafe-eval'"] : [])]),
+    connectSrc: uniqSorted([
       SELF,
       SHOPIFY_CDN,
       SHOPIFY_MAIN,
