@@ -1,4 +1,3 @@
-// apps/storefront/app/i18n/storefront.server.test.ts
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const hoistedBrand = vi.hoisted(() => ({

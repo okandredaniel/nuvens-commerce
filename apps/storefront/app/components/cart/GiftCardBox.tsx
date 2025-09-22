@@ -1,4 +1,3 @@
-// GiftCardBox.tsx
 import { Button, Card, CardContent, Input } from '@nuvens/ui';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
