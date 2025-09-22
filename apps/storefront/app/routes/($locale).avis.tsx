@@ -96,8 +96,12 @@ export default function ReviewsPage() {
               Découvrez ce que nos clients pensent de nos produits et services
             </p>
             <div className="space-x-6">
-              <Button variant="white">Voir tous les avis</Button>
-              <Button variant="primary">Partagez votre expérience</Button>
+              <Button variant="primary" surface="dark">
+                Voir tous les avis
+              </Button>
+              <Button variant="outline" surface="dark">
+                Partagez votre expérience
+              </Button>
             </div>
           </div>
         </Container>

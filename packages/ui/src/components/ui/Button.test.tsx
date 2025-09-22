@@ -139,8 +139,7 @@ describe('Button', () => {
 
   it.each([
     ['primary', 'bg-primary-600'],
-    ['secondary', 'bg-neutral-400'],
-    ['white', 'bg-neutral-0'],
+    ['secondary', 'bg-neutral-200'],
     ['outline', 'border-neutral-600/20'],
     ['ghost', 'bg-transparent'],
   ] as const)('applies variant classes on light surface: %s', (variant, expected) => {
@@ -154,6 +153,17 @@ describe('Button', () => {
     const btn = screen.getByRole('button', { name: 'Go' });
     expect(btn.className).toContain('bg-primary-600/5');
     expect(btn.className).toContain('hover:bg-primary-600/10');
+  });
+
+  it('adapts variant classes on dark surface (primary)', () => {
+    render(
+      <Button variant="primary" surface="dark">
+        Go
+      </Button>,
+    );
+    const btn = screen.getByRole('button', { name: 'Go' });
+    expect(btn.className).toContain('bg-primary-50');
+    expect(btn.className).toContain('text-primary-600');
   });
 
   it('adapts variant classes on dark surface (outline)', () => {

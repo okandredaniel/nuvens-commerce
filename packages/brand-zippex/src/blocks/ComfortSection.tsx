@@ -22,7 +22,7 @@ export function ComfortSection({ headingId, Image }: { headingId: string; Image:
             <li>{t('comfort.items.2')}</li>
           </ul>
           <div>
-            <Button asChild variant="white">
+            <Button asChild variant="primary" surface="dark">
               <a href="/collections/all">{t('cta.buy')}</a>
             </Button>
           </div>

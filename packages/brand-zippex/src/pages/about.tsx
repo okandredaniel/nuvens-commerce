@@ -181,7 +181,7 @@ export function AboutPage() {
           </Heading>
           <p className="mb-8 text-xl opacity-90">{t('cta.subtitle')}</p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" variant="white">
+            <Button asChild size="lg" variant="primary" surface="dark">
               <Link to="/">{t('cta.primary')}</Link>
             </Button>
             <Button asChild size="lg" variant="outline">

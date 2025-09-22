@@ -83,7 +83,7 @@ export function Hero() {
               <span className="text-neutral-0/90">{t('rating.text')}</span>
             </div>
 
-            <Button variant="white" size="lg" asChild>
+            <Button variant="primary" surface="dark" size="lg" asChild>
               <Link to="/products/matelas-zippex">{t('cta')}</Link>
             </Button>
           </div>

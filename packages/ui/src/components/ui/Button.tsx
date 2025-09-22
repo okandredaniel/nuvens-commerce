@@ -12,16 +12,14 @@ const base = cn(
 
 const variantsDefault: Record<Variant, string> = {
   primary: 'bg-primary-600 text-neutral-0 hover:bg-primary-700',
-  secondary: 'bg-neutral-400 text-neutral-0 hover:bg-neutral-500',
-  white: 'bg-neutral-0 text-neutral-600 hover:bg-primary-100 hover:text-neutral-600',
+  secondary: 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300',
   outline: 'border-neutral-600/20 bg-primary-600/5 hover:bg-primary-600/10 text-neutral-900',
   ghost: 'bg-transparent hover:bg-neutral-100 text-neutral-900',
 };
 
 const variantsOnDark: Record<Variant, string> = {
-  primary: 'bg-primary-600 text-neutral-0 hover:bg-primary-700',
-  secondary: 'bg-neutral-400 text-neutral-0 hover:bg-neutral-500',
-  white: 'bg-neutral-0 text-neutral-800 hover:bg-primary-100',
+  primary: 'bg-primary-50 text-primary-600 hover:bg-primary-100',
+  secondary: 'bg-neutral-0 text-neutral-900 hover:bg-neutral-50',
   outline: 'border-neutral-50/20 bg-neutral-50/10 hover:bg-neutral-50/20 text-neutral-0',
   ghost: 'bg-transparent hover:bg-neutral-50/10 text-neutral-0',
 };
