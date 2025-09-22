@@ -1,4 +1,3 @@
-// packages/ui/src/components/ui/Select.tsx
 import type {
   SelectContentProps as RSelectContentProps,
   SelectItemProps as RSelectItemProps,
@@ -16,9 +15,9 @@ import type { Size } from '../../interfaces/ui.interface';
 import { cn } from '../../utils/cn';
 
 function sizeClasses(size: Size = 'md') {
-  if (size === 'sm') return 'h-9 text-sm px-3';
-  if (size === 'lg') return 'h-11 text-base px-4';
-  return 'h-10 text-sm px-3';
+  if (size === 'sm') return 'ui-form-elements-height-sm text-sm px-3';
+  if (size === 'lg') return 'ui-form-elements-height-lg text-base px-4';
+  return 'ui-form-elements-height text-sm px-3';
 }
 
 const transition = { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };

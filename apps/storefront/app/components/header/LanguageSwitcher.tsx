@@ -1,7 +1,7 @@
 import { languageInfo } from '@/i18n/languageLabel';
 import { toLang } from '@/i18n/localize';
 import { brandDefaultLocale } from '@nuvens/brand-ui';
-import { DropdownMenu, IconButton, Tooltip } from '@nuvens/ui';
+import { Button, DropdownMenu, Tooltip } from '@nuvens/ui';
 import { Globe } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -51,14 +51,15 @@ export function LanguageSwitcher({ options, current }: Props) {
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
           <DropdownMenu.Trigger asChild>
-            <IconButton
+            <Button
               aria-label={a11yCurrent}
               variant="outline"
+              surface="dark"
               className="w-auto px-3 gap-2 uppercase text-xs font-semibold"
             >
               <Globe className="h-4 w-4 text-primary-400" aria-hidden />
               <span>{activeInfo.code.toUpperCase()}</span>
-            </IconButton>
+            </Button>
           </DropdownMenu.Trigger>
         </Tooltip.Trigger>
         <Tooltip.Portal>

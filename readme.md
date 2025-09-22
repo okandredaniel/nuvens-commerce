@@ -103,7 +103,6 @@ Card.tsx
 Checkbox.tsx
 Container.tsx
 Heading.tsx
-IconButton.tsx
 Input.tsx
 Label.tsx
 Link.tsx

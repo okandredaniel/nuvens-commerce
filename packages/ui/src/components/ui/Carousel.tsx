@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { IconButton } from './IconButton';
+import { Button } from './Button';
 
 function cn(...classes: Array<string | undefined | false | null>) {
   return classes.filter(Boolean).join(' ');
@@ -254,7 +254,7 @@ export function Carousel({
 
       {showNav && (
         <>
-          <IconButton
+          <Button
             type="button"
             variant="outline"
             aria-label={i18n.previous}
@@ -263,8 +263,8 @@ export function Carousel({
             className="absolute left-3 top-1/2 -translate-y-1/2"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden />
-          </IconButton>
-          <IconButton
+          </Button>
+          <Button
             type="button"
             variant="outline"
             aria-label={i18n.next}
@@ -273,7 +273,7 @@ export function Carousel({
             className="absolute right-3 top-1/2 -translate-y-1/2"
           >
             <ChevronRight className="h-5 w-5" aria-hidden />
-          </IconButton>
+          </Button>
         </>
       )}
 

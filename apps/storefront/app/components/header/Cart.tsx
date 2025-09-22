@@ -1,5 +1,5 @@
 import { useCart } from '@/providers/AppContexts';
-import { Badge, IconButton, Tooltip, useAside } from '@nuvens/ui';
+import { Badge, Button, Tooltip, useAside } from '@nuvens/ui';
 import { type CartViewPayload, useAnalytics, useOptimisticCart } from '@shopify/hydrogen';
 import { ShoppingCart } from 'lucide-react';
 import { Suspense } from 'react';
@@ -35,9 +35,10 @@ function CartBadge({ count }: { count: number | null }) {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
-        <IconButton
+        <Button
           aria-label={openLabel}
           variant="outline"
+          surface="dark"
           onClick={(e) => {
             e.preventDefault();
             open('cart');
@@ -52,12 +53,12 @@ function CartBadge({ count }: { count: number | null }) {
           <div className="relative">
             <ShoppingCart className="h-5 w-5" />
             {typeof count === 'number' && count > 0 ? (
-              <Badge className="absolute -top-3 -right-3 min-w-[1.25rem] h-5 px-1.5 text-[10px] leading-5 text-center">
+              <Badge className="absolute -top-4 -right-6 min-w-[1.25rem] h-5 px-1.5 text-[10px] leading-5 text-center">
                 {count}
               </Badge>
             ) : null}
           </div>
-        </IconButton>
+        </Button>
       </Tooltip.Trigger>
       <Tooltip.Content sideOffset={8}>
         {label}

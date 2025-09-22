@@ -1,9 +1,7 @@
 import { Slot } from '@radix-ui/react-slot';
 import React, { forwardRef } from 'react';
-import type { Size } from '../../interfaces/ui.interface';
+import type { Size, Surface, Variant } from '../../interfaces/ui.interface';
 import { cn } from '../../utils/cn';
-
-type Variant = 'primary' | 'secondary' | 'white' | 'outline' | 'ghost';
 
 const base = cn(
   'inline-flex items-center justify-center font-semibold ui-radius transition',
@@ -12,29 +10,45 @@ const base = cn(
   'disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none',
 );
 
-const variants: Record<Variant, string> = {
+const variantsDefault: Record<Variant, string> = {
   primary: 'bg-primary-600 text-neutral-0 hover:bg-primary-700',
   secondary: 'bg-neutral-400 text-neutral-0 hover:bg-neutral-500',
   white: 'bg-neutral-0 text-neutral-600 hover:bg-primary-100 hover:text-neutral-600',
-  outline: ' border-neutral-600/50 bg-transparent hover:bg-neutral-50/20',
-  ghost: 'bg-transparent hover:bg-neutral-100',
+  outline: 'border-neutral-600/20 bg-primary-600/5 hover:bg-primary-600/10 text-neutral-900',
+  ghost: 'bg-transparent hover:bg-neutral-100 text-neutral-900',
+};
+
+const variantsOnDark: Record<Variant, string> = {
+  primary: 'bg-primary-600 text-neutral-0 hover:bg-primary-700',
+  secondary: 'bg-neutral-400 text-neutral-0 hover:bg-neutral-500',
+  white: 'bg-neutral-0 text-neutral-800 hover:bg-primary-100',
+  outline: 'border-neutral-50/20 bg-neutral-50/10 hover:bg-neutral-50/20 text-neutral-0',
+  ghost: 'bg-transparent hover:bg-neutral-50/10 text-neutral-0',
 };
 
 const sizes: Record<Size, string> = {
-  sm: 'h-9 px-3 text-sm',
-  md: 'h-10 px-5 text-sm',
-  lg: 'h-11 px-6 text-base',
+  sm: 'ui-form-elements-height-sm px-3 text-sm',
+  md: 'ui-form-elements-height px-5 text-sm',
+  lg: 'ui-form-elements-height-lg px-6 text-base',
+};
+
+const iconSizes: Record<Size, string> = {
+  sm: 'ui-form-elements-height-sm aspect-square p-0 text-sm',
+  md: 'ui-form-elements-height aspect-square p-0 text-sm',
+  lg: 'ui-form-elements-height-lg aspect-square p-0 text-base',
 };
 
 type CommonProps = {
   variant?: Variant;
   size?: Size;
+  surface?: Surface;
   asChild?: boolean;
   className?: string;
   disabled?: boolean;
   href?: string;
   target?: React.HTMLAttributeAnchorTarget;
   rel?: string;
+  icon?: boolean;
 };
 
 type PolymorphicProps<E extends React.ElementType> = CommonProps &
@@ -58,15 +72,21 @@ export const Button = forwardRef(function Button<E extends React.ElementType = '
     as,
     asChild,
     className,
-    variant = 'primary',
     size,
     type,
     rel,
     target,
     disabled,
     onClick,
+    icon,
+    variant = 'primary',
+    surface = 'light',
     ...rest
-  } = props as PolymorphicProps<E> & { disabled?: boolean; onClick?: React.MouseEventHandler };
+  } = props as PolymorphicProps<E> & {
+    disabled?: boolean;
+    onClick?: React.MouseEventHandler;
+    icon?: boolean;
+  };
 
   let Comp: React.ElementType = 'button';
   if (asChild) Comp = Slot;
@@ -74,7 +94,9 @@ export const Button = forwardRef(function Button<E extends React.ElementType = '
   else if (hasHref(rest)) Comp = 'a';
 
   const s: Size = size ?? 'md';
-  const merged = cn(base, variants[variant], sizes[s], className);
+  const sizeClasses = icon ? iconSizes[s] : sizes[s];
+  const toneClasses = surface === 'dark' ? variantsOnDark[variant] : variantsDefault[variant];
+  const merged = cn(base, toneClasses, sizeClasses, className);
   const isNativeButton = !asChild && (Comp === 'button' || as === 'button');
   const finalType = isNativeButton ? (type ?? 'button') : undefined;
   const finalRel = target === '_blank' && !rel ? 'noopener noreferrer' : rel;

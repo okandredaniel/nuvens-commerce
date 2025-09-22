@@ -141,21 +141,62 @@ describe('Button', () => {
     ['primary', 'bg-primary-600'],
     ['secondary', 'bg-neutral-400'],
     ['white', 'bg-neutral-0'],
-    ['outline', 'border-neutral-600/50'],
+    ['outline', 'border-neutral-600/20'],
     ['ghost', 'bg-transparent'],
-  ] as const)('applies variant classes: %s', (variant, expected) => {
-    render(<Button variant={variant}>Go</Button>);
+  ] as const)('applies variant classes on light surface: %s', (variant, expected) => {
+    render(<Button variant={variant as any}>Go</Button>);
     const btn = screen.getByRole('button', { name: 'Go' });
     expect(btn.className).toContain(expected);
   });
 
+  it('includes outline light-surface background helpers', () => {
+    render(<Button variant="outline">Go</Button>);
+    const btn = screen.getByRole('button', { name: 'Go' });
+    expect(btn.className).toContain('bg-primary-600/5');
+    expect(btn.className).toContain('hover:bg-primary-600/10');
+  });
+
+  it('adapts variant classes on dark surface (outline)', () => {
+    render(
+      <Button variant="outline" surface="dark">
+        Go
+      </Button>,
+    );
+    const btn = screen.getByRole('button', { name: 'Go' });
+    expect(btn.className).toContain('border-neutral-50/20');
+    expect(btn.className).toContain('bg-neutral-50/10');
+    expect(btn.className).toContain('text-neutral-0');
+  });
+
+  it('adapts variant classes on dark surface (ghost)', () => {
+    render(
+      <Button variant="ghost" surface="dark">
+        Go
+      </Button>,
+    );
+    const btn = screen.getByRole('button', { name: 'Go' });
+    expect(btn.className).toContain('text-neutral-0');
+    expect(btn.className).toContain('hover:bg-neutral-50/10');
+  });
+
   it.each([
-    ['sm', 'h-9'],
-    ['md', 'h-10'],
-    ['lg', 'h-11'],
+    ['sm', 'ui-form-elements-height-sm'],
+    ['md', 'ui-form-elements-height'],
+    ['lg', 'ui-form-elements-height-lg'],
   ] as const)('applies size classes: %s', (size, expected) => {
     render(<Button size={size as any}>Go</Button>);
     const btn = screen.getByRole('button', { name: 'Go' });
     expect(btn.className).toContain(expected);
+  });
+
+  it('applies icon sizing when icon is true', () => {
+    render(
+      <Button size="md" icon>
+        Go
+      </Button>,
+    );
+    const btn = screen.getByRole('button', { name: 'Go' });
+    expect(btn.className).toContain('aspect-square');
+    expect(btn.className).not.toContain('px-5');
   });
 });

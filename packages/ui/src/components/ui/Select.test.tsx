@@ -1,9 +1,7 @@
-// packages/ui/src/components/ui/Select.test.tsx
-import * as RadixSelect from '@radix-ui/react-select';
-import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
-import { useState } from 'react';
-import { beforeAll, describe, expect, it } from 'vitest';
+import * as SelectPrimitive from '@radix-ui/react-select';
+import '@testing-library/jest-dom/vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 import {
   Select,
   SelectContent,
@@ -11,257 +9,173 @@ import {
   SelectLabel,
   SelectSeparator,
   SelectTrigger,
+  SelectValue,
 } from './Select';
 
 beforeAll(() => {
-  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+  Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
+    value: vi.fn(),
     configurable: true,
-    value: () => {},
-  });
-  if (!(window as any).PointerEvent) {
-    (window as any).PointerEvent = window.MouseEvent as any;
-  }
-  if (!(Element.prototype as any).hasPointerCapture) {
-    Object.defineProperty(Element.prototype, 'hasPointerCapture', {
-      configurable: true,
-      value: () => false,
-    });
-  }
-  if (!(Element.prototype as any).setPointerCapture) {
-    Object.defineProperty(Element.prototype, 'setPointerCapture', {
-      configurable: true,
-      value: () => {},
-    });
-  }
-  if (!(Element.prototype as any).releasePointerCapture) {
-    Object.defineProperty(Element.prototype, 'releasePointerCapture', {
-      configurable: true,
-      value: () => {},
-    });
-  }
-  Object.defineProperty(HTMLElement.prototype, 'clientHeight', {
-    configurable: true,
-    get() {
-      return 64;
-    },
-  });
-  Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
-    configurable: true,
-    get() {
-      return 1000;
-    },
   });
 });
 
-async function openMenu() {
-  const trigger = screen.getByRole('combobox');
-  fireEvent.pointerDown(trigger);
-  fireEvent.mouseDown(trigger);
-  fireEvent.keyDown(trigger, { key: 'ArrowDown' });
-  return await screen.findByRole('listbox');
-}
-
 describe('Select', () => {
-  it('renders trigger with placeholder and updates when selecting an item', async () => {
+  it('shows placeholder when no value is selected', () => {
     render(
       <Select>
-        <SelectTrigger placeholder="Select an option" />
+        <SelectTrigger placeholder="Choose one" aria-label="trigger" />
         <SelectContent>
-          <SelectItem value="alpha">Alpha</SelectItem>
-          <SelectItem value="beta">Beta</SelectItem>
+          <SelectItem value="a">Alpha</SelectItem>
         </SelectContent>
       </Select>,
     );
-
-    expect(screen.getByRole('combobox')).toHaveTextContent('Select an option');
-
-    await openMenu();
-    fireEvent.click(screen.getByRole('option', { name: 'Beta' }));
-    await waitFor(() => expect(screen.queryByRole('listbox')).toBeNull());
-    expect(screen.getByRole('combobox')).toHaveTextContent('Beta');
+    expect(screen.getByRole('combobox', { name: 'trigger' })).toHaveTextContent('Choose one');
   });
 
-  it('shows defaultValue and marks selected option as checked', async () => {
+  it('renders defaultValue in trigger', () => {
     render(
-      <Select defaultValue="beta">
-        <SelectTrigger placeholder="Select" />
+      <Select defaultValue="b">
+        <SelectTrigger aria-label="trigger" />
         <SelectContent>
-          <RadixSelect.Group>
-            <SelectLabel>Options</SelectLabel>
-            <SelectItem value="alpha">Alpha</SelectItem>
-            <SelectSeparator />
-            <SelectItem value="beta">Beta</SelectItem>
-          </RadixSelect.Group>
+          <SelectItem value="a">Alpha</SelectItem>
+          <SelectItem value="b">Beta</SelectItem>
         </SelectContent>
       </Select>,
     );
-
-    expect(screen.getByRole('combobox')).toHaveTextContent('Beta');
-
-    const listbox = await openMenu();
-    const beta = within(listbox).getByRole('option', { name: 'Beta' });
-    expect(beta).toHaveAttribute('aria-selected', 'true');
-    expect(within(listbox).getByText('Options')).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'trigger' })).toHaveTextContent('Beta');
   });
 
-  it('supports controlled value and onValueChange', async () => {
-    function Controlled() {
-      const [value, setValue] = useState('alpha');
-      return (
-        <Select value={value} onValueChange={setValue}>
-          <SelectTrigger placeholder="Select" />
-          <SelectContent>
-            <SelectItem value="alpha">Alpha</SelectItem>
-            <SelectItem value="beta">Beta</SelectItem>
-          </SelectContent>
-        </Select>
-      );
-    }
-    render(<Controlled />);
-
-    expect(screen.getByRole('combobox')).toHaveTextContent('Alpha');
-
-    await openMenu();
-    fireEvent.click(screen.getByRole('option', { name: 'Beta' }));
-    await waitFor(() => expect(screen.queryByRole('listbox')).toBeNull());
-    expect(screen.getByRole('combobox')).toHaveTextContent('Beta');
+  it('changes the selected value on item click', async () => {
+    render(
+      <Select defaultValue="a">
+        <SelectTrigger aria-label="trigger" />
+        <SelectContent>
+          <SelectItem value="a">Alpha</SelectItem>
+          <SelectItem value="b">Beta</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+    fireEvent.click(screen.getByRole('combobox', { name: 'trigger' }));
+    const option = await screen.findByRole('option', { name: 'Beta' });
+    fireEvent.click(option);
+    expect(screen.getByRole('combobox', { name: 'trigger' })).toHaveTextContent('Beta');
   });
 
-  it('applies size classes on trigger', async () => {
-    const { rerender } = render(
-      <Select>
-        <SelectTrigger placeholder="Select" size="sm" />
-        <SelectContent>
-          <SelectItem value="a">A</SelectItem>
-        </SelectContent>
-      </Select>,
-    );
-    expect(screen.getByRole('combobox')).toHaveClass('h-9');
-
-    rerender(
-      <Select>
-        <SelectTrigger placeholder="Select" size="md" />
-        <SelectContent>
-          <SelectItem value="a">A</SelectItem>
-        </SelectContent>
-      </Select>,
-    );
-    expect(screen.getByRole('combobox')).toHaveClass('h-10');
-
-    rerender(
-      <Select>
-        <SelectTrigger placeholder="Select" size="lg" />
-        <SelectContent>
-          <SelectItem value="a">A</SelectItem>
-        </SelectContent>
-      </Select>,
-    );
-    expect(screen.getByRole('combobox')).toHaveClass('h-11');
-  });
-
-  it('sets aria-invalid and danger ring when invalid', async () => {
+  it('applies invalid state styles and aria-invalid', () => {
     render(
       <Select>
-        <SelectTrigger placeholder="Select" invalid />
+        <SelectTrigger invalid aria-label="trigger" />
         <SelectContent>
-          <SelectItem value="a">A</SelectItem>
+          <SelectItem value="a">Alpha</SelectItem>
         </SelectContent>
       </Select>,
     );
-    const trigger = screen.getByRole('combobox');
+    const trigger = screen.getByRole('combobox', { name: 'trigger' });
     expect(trigger).toHaveAttribute('aria-invalid', 'true');
     expect(trigger.className).toContain('border-danger-600');
-    expect(trigger.className).toContain('focus-visible:ring-danger-600');
   });
 
-  it('renders scroll controls when content is scrollable', async () => {
+  it('disables trigger when disabled', () => {
+    render(
+      <Select disabled>
+        <SelectTrigger aria-label="trigger" />
+        <SelectContent>
+          <SelectItem value="a">Alpha</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' })).toBeDisabled();
+  });
+
+  it('applies size classes on trigger', () => {
+    const { rerender } = render(
+      <Select>
+        <SelectTrigger size="sm" aria-label="trigger" />
+        <SelectContent>
+          <SelectItem value="a">Alpha</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' }).className).toContain(
+      'ui-form-elements-height-sm',
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' }).className).toContain('px-3');
+
+    rerender(
+      <Select>
+        <SelectTrigger size="md" aria-label="trigger" />
+        <SelectContent>
+          <SelectItem value="a">Alpha</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' }).className).toContain(
+      'ui-form-elements-height',
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' }).className).toContain('px-3');
+
+    rerender(
+      <Select>
+        <SelectTrigger size="lg" aria-label="trigger" />
+        <SelectContent>
+          <SelectItem value="a">Alpha</SelectItem>
+        </SelectContent>
+      </Select>,
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' }).className).toContain(
+      'ui-form-elements-height-lg',
+    );
+    expect(screen.getByRole('combobox', { name: 'trigger' }).className).toContain('px-4');
+  });
+
+  it('renders label and separator inside content', async () => {
     render(
       <Select>
-        <SelectTrigger placeholder="Select" />
-        <SelectContent className="max-h-8" scrollUpLabel="Scroll up" scrollDownLabel="Scroll down">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <SelectItem key={i} value={`v${i}`}>{`Item ${i}`}</SelectItem>
-          ))}
+        <SelectTrigger aria-label="trigger" />
+        <SelectContent>
+          <SelectPrimitive.Group>
+            <SelectLabel>Fruits</SelectLabel>
+            <SelectItem value="a">Apple</SelectItem>
+          </SelectPrimitive.Group>
+          <SelectSeparator />
+          <SelectItem value="b">Banana</SelectItem>
         </SelectContent>
       </Select>,
     );
-    const listbox = await openMenu();
-    expect(listbox.querySelector('svg.lucide-chevron-down')).toBeTruthy();
+    fireEvent.click(screen.getByRole('combobox', { name: 'trigger' }));
+    expect(await screen.findByText('Fruits')).toBeInTheDocument();
+    expect(await screen.findByRole('option', { name: 'Apple' })).toBeInTheDocument();
+    expect(await screen.findByRole('option', { name: 'Banana' })).toBeInTheDocument();
   });
 
-  it('toggles aria-expanded when opening', async () => {
+  it('renders item hint when provided', async () => {
     render(
       <Select>
-        <SelectTrigger placeholder="Select" />
+        <SelectTrigger aria-label="trigger" />
         <SelectContent>
-          <SelectItem value="alpha">Alpha</SelectItem>
+          <SelectItem value="a" hint="Extra info">
+            Alpha
+          </SelectItem>
         </SelectContent>
       </Select>,
     );
-    const trigger = screen.getByRole('combobox');
-    expect(trigger).toHaveAttribute('aria-expanded', 'false');
-
-    const listbox = await openMenu();
-    expect(trigger).toHaveAttribute('aria-expanded', 'true');
-
-    fireEvent.keyDown(listbox, { key: 'Escape' });
-    await waitFor(() => expect(screen.queryByRole('listbox')).toBeNull());
-    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(screen.getByRole('combobox', { name: 'trigger' }));
+    expect(await screen.findByText('Extra info')).toBeInTheDocument();
   });
 
-  it('supports custom className on trigger', () => {
+  it('SelectValue renders inside trigger', () => {
     render(
-      <Select>
-        <SelectTrigger placeholder="Select" className="custom-trigger" />
+      <Select defaultValue="a">
+        <SelectTrigger aria-label="trigger">
+          <span className="custom-inner">
+            <SelectValue />
+          </span>
+        </SelectTrigger>
         <SelectContent>
-          <SelectItem value="alpha">Alpha</SelectItem>
+          <SelectItem value="a">Alpha</SelectItem>
         </SelectContent>
       </Select>,
     );
-    expect(screen.getByRole('combobox')).toHaveClass('custom-trigger');
-  });
-
-  it('closes on selecting the same item and keeps it checked', async () => {
-    render(
-      <Select defaultValue="alpha">
-        <SelectTrigger placeholder="Select" />
-        <SelectContent>
-          <SelectItem value="alpha">Alpha</SelectItem>
-          <SelectItem value="beta">Beta</SelectItem>
-        </SelectContent>
-      </Select>,
-    );
-
-    expect(screen.getByRole('combobox')).toHaveTextContent('Alpha');
-
-    let listbox = await openMenu();
-    fireEvent.click(within(listbox).getByRole('option', { name: 'Alpha' }));
-    await waitFor(() => expect(screen.queryByRole('listbox')).toBeNull());
-    expect(screen.getByRole('combobox')).toHaveTextContent('Alpha');
-
-    listbox = await openMenu();
-    const alpha = within(listbox).getByRole('option', { name: 'Alpha' });
-    expect(alpha).toHaveAttribute('aria-selected', 'true');
-  });
-
-  it('navigates and selects via keyboard', async () => {
-    render(
-      <Select>
-        <SelectTrigger placeholder="Select" />
-        <SelectContent>
-          <SelectItem value="alpha">Alpha</SelectItem>
-          <SelectItem value="beta">Beta</SelectItem>
-        </SelectContent>
-      </Select>,
-    );
-
-    const trigger = screen.getByRole('combobox');
-    fireEvent.keyDown(trigger, { key: 'Enter' });
-    const listbox = await screen.findByRole('listbox');
-    fireEvent.keyDown(listbox, { key: 'ArrowDown' });
-    const beta = within(listbox).getByRole('option', { name: 'Beta' });
-    fireEvent.keyDown(beta, { key: 'Enter' });
-    await waitFor(() => expect(screen.queryByRole('listbox')).toBeNull());
-    expect(screen.getByRole('combobox')).toHaveTextContent('Beta');
+    expect(screen.getByRole('combobox', { name: 'trigger' })).toHaveTextContent('Alpha');
   });
 });

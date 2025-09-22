@@ -11,7 +11,6 @@ export * from './components/ui/Container';
 export * from './components/ui/Dialog';
 export * as DropdownMenu from './components/ui/DropdownMenu';
 export * from './components/ui/Heading';
-export * from './components/ui/IconButton';
 export * from './components/ui/Input';
 export * from './components/ui/Label';
 export * from './components/ui/ProductGallery';
@@ -26,7 +25,7 @@ export * from './components/ui/VideoPreviewWithModal';
 
 // interfaces
 export type { DesignTokens, Palette, SemanticColors } from './interfaces/tokens.interface';
-export type { ButtonVariant, Size } from './interfaces/ui.interface';
+export type { Size, Variant } from './interfaces/ui.interface';
 
 // utils
 export * from './utils/cn';

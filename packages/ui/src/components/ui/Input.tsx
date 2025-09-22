@@ -13,9 +13,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   const base =
     'w-full ui-radius border border-neutral-200 bg-neutral-0 text-neutral-900 placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 focus:ring-offset-neutral-0 transition';
   const sizes: Record<Size, string> = {
-    sm: 'h-9 px-3 text-sm',
-    md: 'h-10 px-3 text-sm',
-    lg: 'h-11 px-4 text-base',
+    sm: 'ui-form-elements-height-sm px-3 text-sm',
+    md: 'ui-form-elements-height px-3 text-sm',
+    lg: 'ui-form-elements-height-lg px-4 text-base',
   };
   const s: Size = size ?? 'md';
 

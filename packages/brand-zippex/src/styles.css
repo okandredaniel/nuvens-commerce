@@ -36,12 +36,12 @@
   --color-neutral-900: #2d3b4e;
 }
 
-@utility ui-radius {
-  @apply rounded-full;
-}
-@utility ui-radius-sm {
-  @apply rounded-lg;
-}
-@utility ui-radius-lg {
-  @apply rounded-3xl;
-}
+/* Border radius */
+@utility ui-radius { @apply rounded-full; }
+@utility ui-radius-sm { @apply rounded-lg; }
+@utility ui-radius-lg { @apply rounded-3xl; }
+
+/* Form elements */
+@utility ui-form-elements-height { @apply h-12; }
+@utility ui-form-elements-height-sm { @apply h-10; }
+@utility ui-form-elements-height-lg { @apply h-14; }
