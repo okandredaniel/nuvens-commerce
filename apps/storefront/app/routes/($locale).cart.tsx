@@ -30,7 +30,9 @@ export default function Cart() {
   return (
     <section className="py-8">
       <Container>
-        <Heading className="mb-8">{t('title')}</Heading>
+        <Heading as="h1" className="mb-8">
+          {t('title')}
+        </Heading>
         <CartMain layout="page" cart={cart} />
       </Container>
     </section>

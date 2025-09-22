@@ -24,7 +24,9 @@ export function ComfortCTA({ Image, imageAlt, imageSrc, title, text, cta }: Prop
             className="h-56 w-full object-cover sm:h-72 md:h-full"
           />
           <div className="p-6 md:p-8">
-            <Heading id="product-title">{title}</Heading>
+            <Heading as="h2" id="product-title">
+              {title}
+            </Heading>
             <p className="my-4">{text}</p>
             <Button>{cta}</Button>
           </div>

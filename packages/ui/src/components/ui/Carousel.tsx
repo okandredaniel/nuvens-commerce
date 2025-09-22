@@ -44,10 +44,11 @@ type CarouselProps = {
 };
 
 function resolveAt(v: ResponsiveNumber | undefined, width: number, fallback: number) {
-  if (typeof v === 'number') return v;
-  if (!v) return fallback;
+  if (typeof v === 'number' && Number.isFinite(v)) return v;
+  if (!v || typeof v !== 'object') return fallback;
   const pairs = Object.entries(v)
     .map(([k, val]) => [Number(k), Number(val)] as const)
+    .filter(([bp, val]) => Number.isFinite(bp) && Number.isFinite(val))
     .sort((a, b) => a[0] - b[0]);
   let current = fallback;
   for (const [bp, val] of pairs) if (width >= bp) current = val;
@@ -56,9 +57,11 @@ function resolveAt(v: ResponsiveNumber | undefined, width: number, fallback: num
 
 function buildBreakpoints(spv: ResponsiveNumber | undefined, gap: ResponsiveNumber | undefined) {
   const set = new Set<number>();
-  if (typeof spv !== 'number' && spv) for (const k of Object.keys(spv)) set.add(Number(k));
-  if (typeof gap !== 'number' && gap) for (const k of Object.keys(gap)) set.add(Number(k));
-  const arr = Array.from(set).sort((a, b) => a - b);
+  if (spv && typeof spv !== 'number') for (const k of Object.keys(spv)) set.add(Number(k));
+  if (gap && typeof gap !== 'number') for (const k of Object.keys(gap)) set.add(Number(k));
+  const arr = Array.from(set)
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
   const obj: Record<string, any> = {};
   for (const bp of arr) {
     obj[`(min-width: ${bp}px)`] = {
@@ -202,8 +205,8 @@ export function Carousel({
         {
           ['--bleed-left' as any]: `${layout.bleedL}px`,
           ['--bleed-right' as any]: `${layout.bleedR}px`,
-          ['--edge-left' as any]: `${layout.edgeL}px`,
-          ['--edge-right' as any]: `${layout.edgeR}px`,
+          ['--edge-left' as any]: `${layout.bleedL === 0 ? layout.edgeL : layout.edgeL}px`,
+          ['--edge-right' as any]: `${layout.bleedR === 0 ? layout.edgeR : layout.edgeR}px`,
         } as CSSProperties
       }
       role="region"

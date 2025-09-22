@@ -7,13 +7,13 @@ type Size = 'display' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 type Align = 'left' | 'center' | 'right';
 type Tone = 'default' | 'muted' | 'onPrimary';
 
-type Props<T extends HeadingTag = 'h2'> = {
-  as?: T;
+type Props<T extends HeadingTag> = {
+  as: T;
   size?: Size;
   align?: Align;
   tone?: Tone;
   className?: string;
-} & Omit<React.ComponentPropsWithoutRef<T>, 'className'>;
+} & Omit<React.ComponentPropsWithoutRef<T>, 'className' | 'children'>;
 
 const base = 'block font-bold tracking-tight antialiased';
 const tones: Record<Tone, string> = {
@@ -44,14 +44,21 @@ const defaultSizeByTag: Record<HeadingTag, Size> = {
   h6: 'h6',
 };
 
-function HeadingInner<T extends HeadingTag = 'h2'>(
-  { as, size, align = 'left', tone = 'default', className, children, ...rest }: Props<T>,
+function HeadingInner<T extends HeadingTag>(
+  {
+    as,
+    size,
+    align = 'left',
+    tone = 'default',
+    className,
+    children,
+    ...rest
+  }: Props<T> & { children?: React.ReactNode },
   ref: React.Ref<HTMLHeadingElement>,
 ) {
-  const Tag = (as || 'h2') as HeadingTag;
-  const visual = size || defaultSizeByTag[Tag];
+  const Tag = as as HeadingTag;
+  const visual = size ?? defaultSizeByTag[Tag];
   const cls = cn(base, sizes[visual], alignments[align], tones[tone], className);
-
   return (
     <Tag ref={ref as any} className={cls} {...(rest as any)}>
       {children}
@@ -59,8 +66,8 @@ function HeadingInner<T extends HeadingTag = 'h2'>(
   );
 }
 
-type HeadingComponent = <T extends HeadingTag = 'h2'>(
-  props: Props<T> & { ref?: React.Ref<HTMLHeadingElement> },
+type HeadingComponent = <T extends HeadingTag>(
+  props: Props<T> & { ref?: React.Ref<HTMLHeadingElement>; children?: React.ReactNode },
 ) => React.ReactElement | null;
 
 export const Heading = forwardRef(HeadingInner) as HeadingComponent;

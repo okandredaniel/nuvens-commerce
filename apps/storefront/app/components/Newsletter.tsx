@@ -21,7 +21,7 @@ export function Newsletter({ tone = 'onDark' }: { tone?: Tone }) {
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-6 text-center">
-      <Heading className={`${headingCls}`} align="center">
+      <Heading as="h2" className={`${headingCls}`} align="center">
         {t('title')}
       </Heading>
 

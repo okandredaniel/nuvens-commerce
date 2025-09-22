@@ -12,7 +12,15 @@ type ContentProps = RT.TooltipContentProps & {
 };
 
 export const Content = forwardRef<HTMLDivElement, ContentProps>(function Content(
-  { className, sideOffset = 8, collisionPadding = 8, variant = 'default', children, ...props },
+  {
+    className,
+    sideOffset = 8,
+    collisionPadding = 8,
+    variant = 'default',
+    children,
+    side,
+    ...props
+  },
   ref,
 ) {
   const inverted = variant === 'inverted';
@@ -34,10 +42,12 @@ export const Content = forwardRef<HTMLDivElement, ContentProps>(function Content
   return (
     <RT.Content
       ref={ref}
+      side={side}
       sideOffset={sideOffset}
       collisionPadding={collisionPadding}
       avoidCollisions
       align="center"
+      data-side={side}
       className={cn(
         'group/tt ui-radius z-50 max-w-xs border px-2.5 py-1.5 text-xs outline-none',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',

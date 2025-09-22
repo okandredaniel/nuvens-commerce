@@ -17,7 +17,7 @@ export function WhyZippex({ image: Image }: Props) {
 
   return (
     <Container className="py-16 text-center">
-      <Heading id="why-zippex-heading" className="mb-4" align="center">
+      <Heading as="h2" id="why-zippex-heading" className="mb-4" align="center">
         {t('why.heading')}
       </Heading>
 

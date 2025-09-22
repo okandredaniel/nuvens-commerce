@@ -21,7 +21,7 @@ export function PersonalizeSection({ Image, layersSrc, eyebrow, title, cta }: Pr
           >
             {eyebrow}
           </Heading>
-          <Heading tone="onPrimary" className="w-full">
+          <Heading as="h2" tone="onPrimary" className="w-full">
             {title}
           </Heading>
           <Button variant="primary" surface="dark" className="mt-8">

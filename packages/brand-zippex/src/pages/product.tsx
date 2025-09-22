@@ -117,7 +117,7 @@ export function ProductPage({
       {meta.videoYoutubeId ? (
         <section className="py-16" aria-labelledby="video-heading">
           <Container>
-            <Heading id="video-heading" className="mb-8" align="center">
+            <Heading as="h2" id="video-heading" className="mb-8" align="center">
               {t('videoHeading')}
             </Heading>
             <VideoPreviewWithModal previewSrc={meta.videoPreview} youtubeId={meta.videoYoutubeId} />
@@ -146,7 +146,9 @@ export function ProductPage({
 
       <section className="py-16">
         <Container>
-          <Heading className="mb-8">{t('detailsHeading')}</Heading>
+          <Heading as="h2" className="mb-8">
+            {t('detailsHeading')}
+          </Heading>
           <Accordion
             type="single"
             items={meta.faqItems ?? []}

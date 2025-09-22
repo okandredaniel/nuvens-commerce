@@ -24,7 +24,9 @@ export function TrustedByCarousel({ heading, youtubeIds }: Props) {
   return (
     <section className="py-16 bg-primary-50">
       <Container>
-        <Heading className="mb-8">{heading}</Heading>
+        <Heading as="h2" className="mb-8">
+          {heading}
+        </Heading>
         <Carousel
           className="mx-auto w-full"
           nav={false}
