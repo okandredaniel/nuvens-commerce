@@ -49,7 +49,7 @@ export function NotFoundView() {
               prefetch="intent"
               aria-label={t('cards.contact.title')}
             >
-              <Card className="ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
+              <Card className="h-full ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <MessageCircle className="mb-3 h-8 w-8 text-accent-600" aria-hidden />
@@ -63,7 +63,7 @@ export function NotFoundView() {
             </LocalizedLink>
 
             <LocalizedLink to="/search" prefetch="intent" aria-label={t('cards.search.title')}>
-              <Card className="ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
+              <Card className="h-full ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
                 <CardContent className="p-6">
                   <div className="flex flex-col items-center text-center">
                     <Search className="mb-3 h-8 w-8 text-accent-600" aria-hidden />
@@ -76,7 +76,7 @@ export function NotFoundView() {
               </Card>
             </LocalizedLink>
 
-            <Card className="ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
+            <Card className="h-full ui-radius transition-shadow hover:shadow-md focus-within:ring-2 focus-within:ring-primary-600 focus-within:ring-offset-2 focus-within:ring-offset-neutral-0">
               <CardContent className="p-6">
                 <button
                   type="button"
