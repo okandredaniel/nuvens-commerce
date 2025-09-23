@@ -1,4 +1,4 @@
-import { Container } from '@nuvens/ui';
+import { Container, Heading } from '@nuvens/ui';
 
 type Page = { id: string; handle: string; title: string; body: string };
 
@@ -11,12 +11,9 @@ export function DefaultPageTemplate({ page }: PageTemplateProps) {
     <main id="content" role="main" className="bg-[color:var(--color-surface)]">
       <header>
         <Container className="py-8 md:py-10 border-b border-[color:var(--color-border)]">
-          <h1
-            className="text-2xl md:text-3xl font-semibold tracking-tight text-[color:var(--color-on-surface)]"
-            data-page-handle={page.handle}
-          >
+          <Heading as="h1" data-page-handle={page.handle}>
             {page.title}
-          </h1>
+          </Heading>
         </Container>
       </header>
 

@@ -1,4 +1,5 @@
 import { type ImageProps } from '@nuvens/core';
+import { LocalizedNavLink } from '@nuvens/shopify';
 import {
   Button,
   Carousel,
@@ -100,8 +101,8 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
                     name={r.name}
                     text={r.body}
                     rating={r.rating}
-                    ratingLabel={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
                     Image={Image}
+                    ratingLabel={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
                     logoSrc={trustpilotLogo}
                     verified={r.verified}
                     verifiedLabel={t('reviews.verified', { defaultValue: 'Verified' })}
@@ -120,8 +121,8 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
               name={r.name}
               text={r.body}
               rating={r.rating}
-              ratingLabel={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
               Image={Image}
+              ratingLabel={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
               logoSrc={trustpilotLogo}
               verified={r.verified}
               verifiedLabel={t('reviews.verified', { defaultValue: 'Verified' })}
@@ -133,7 +134,7 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
 
       <div className="flex justify-center">
         <Button asChild>
-          <a href="/avis">{t('reviews.cta')}</a>
+          <LocalizedNavLink to="/pages/reviews">{t('reviews.cta')}</LocalizedNavLink>
         </Button>
       </div>
     </div>

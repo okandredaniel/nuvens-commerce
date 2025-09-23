@@ -1,4 +1,5 @@
 import { type ImageProps } from '@nuvens/core';
+import { LocalizedNavLink } from '@nuvens/shopify';
 import { Button, Heading } from '@nuvens/ui';
 import { useTranslation } from 'react-i18next';
 import couple from '../assets/couple-lying-on-a-zippex-bed.png';
@@ -23,7 +24,7 @@ export function ComfortSection({ headingId, Image }: { headingId: string; Image:
           </ul>
           <div>
             <Button asChild variant="primary" surface="dark">
-              <a href="/collections/all">{t('cta.buy')}</a>
+              <LocalizedNavLink to="/products/matelas-zippex">{t('cta.buy')}</LocalizedNavLink>
             </Button>
           </div>
         </div>

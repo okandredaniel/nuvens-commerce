@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "badge": "Nuestra historia",
+    "title": {
+      "prefix": "Encantados de conocerte — somos",
+      "brand": "Zippex"
+    },
+    "subtitle": "Las mejores historias empiezan con un problema. La nuestra no es la excepción.",
+    "pills": {
+      "design": "Diseño centrado en las personas",
+      "sleep": "Mejor descanso",
+      "innovation": "Innovación ante todo"
+    }
+  },
+  "start": {
+    "heading": "Todo empezó en 2020.",
+    "p1": "Nuestro fundador estaba cansado de soluciones genéricas que no atendían las necesidades reales. Era hora de crear algo mejor.",
+    "p2": "Si un solo producto no puede servir a todos, creemos un enfoque flexible que se adapte a cada persona.",
+    "p3": "Con más determinación que horas de sueño, decidimos inventar lo que todavía no existía."
+  },
+  "journey": {
+    "heading": "Nuestro recorrido"
+  },
+  "timeline": {
+    "2020": {
+      "title": "Nace la idea",
+      "text": "15 meses de investigación y pruebas, y decenas de prototipos para dar con la solución adecuada."
+    },
+    "2022": {
+      "title": "Primeros hitos",
+      "text": "Reconocimiento internacional y premios de innovación. Nuestra solución se convierte en referente."
+    },
+    "2024": {
+      "title": "Expansión europea",
+      "text": "Llegamos a Francia con un equipo local decidido a reinventar la experiencia del cliente."
+    }
+  },
+  "values": {
+    "heading": "Nuestros valores",
+    "subtitle": "Lo que nos guía cada día en la misión de crear soluciones excepcionales.",
+    "passion": {
+      "title": "Pasión",
+      "text": "Ponemos el corazón en cada proyecto, porque la excelencia nace de la pasión."
+    },
+    "quality": {
+      "title": "Calidad",
+      "text": "Nunca comprometemos la calidad. Cada detalle cuenta."
+    },
+    "proximity": {
+      "title": "Cercanía con el cliente",
+      "text": "Construimos relaciones genuinas basadas en la confianza y la escucha activa."
+    }
+  },
+  "commitments": {
+    "heading": "Nuestros compromisos",
+    "subtitle": "Principios que orientan cada decisión.",
+    "european": {
+      "title": "Artesanía europea",
+      "text": "Todos nuestros productos se fabrican en Europa con socios cuidadosamente seleccionados que comparten nuestros estándares."
+    },
+    "fairPrices": {
+      "title": "Precios justos",
+      "text": "Eliminamos lo innecesario para ofrecer productos de alta calidad a precios justos."
+    },
+    "satisfaction": {
+      "title": "Garantía de satisfacción",
+      "text": "Confiamos tanto en nuestros productos que ofrecemos una garantía integral de satisfacción."
+    },
+    "environment": {
+      "title": "Impacto medioambiental",
+      "text": "Trabajamos para reducir nuestra huella mediante decisiones conscientes del día a día."
+    }
+  },
+  "cta": {
+    "heading": "¿Listo para experimentar un confort real?",
+    "subtitle": "Únete a miles de personas que confían en nosotros para un confort y un soporte sin concesiones.",
+    "primary": "Descubrir el colchón Zippex",
+    "secondary": "Contactar"
+  }
+}

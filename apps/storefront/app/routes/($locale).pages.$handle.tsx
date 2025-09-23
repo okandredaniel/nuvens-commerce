@@ -1,9 +1,10 @@
 import { redirectIfHandleIsLocalized } from '@/lib/redirect';
 import { guardedLoader } from '@/lib/routing/guard';
 import { pageTemplates as brandPageTemplates } from '@nuvens/brand-ui';
+import { Image } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { useLoaderData, type MetaFunction } from 'react-router';
-import { pageTemplates } from '../pages';
+import { pageTemplates } from '../pages/PageTemplates';
 
 type LoaderData = {
   page: {
@@ -88,7 +89,7 @@ export default function Page() {
     StorefrontTemplate ||
     (brandPageTemplates as any)?.default ||
     (pageTemplates as any)?.default;
-  return <Template page={page} />;
+  return <Template page={page} Image={Image} />;
 }
 
 const PAGE_QUERY = `#graphql

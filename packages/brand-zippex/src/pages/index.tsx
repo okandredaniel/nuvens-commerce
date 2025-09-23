@@ -1,11 +1,15 @@
-import { AboutPage } from './about';
+import type { ImageProps, PageTemplateProps } from '@nuvens/core';
+import { AboutPageTemplate } from './AboutPageTemplate';
+import { ContactSupportTemplate } from './ContactSupportTemplate';
+import { FAQPageTemplate } from './FAQPageTemplate';
+import ReviewsPageTemplate from './ReviewsPageTemplate';
 
-type Page = { id: string; handle: string; title: string; body: string };
-type PageTemplateProps = { page: Page };
-
-export const pageTemplates: Record<string, (props: PageTemplateProps) => JSX.Element> = {
+export const pageTemplates: Record<string, (props: PageTemplateProps & any) => JSX.Element> = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  'about-us': () => <AboutPage />,
+  'about-us': () => <AboutPageTemplate />,
+  contact: (props: PageTemplateProps) => <ContactSupportTemplate {...props} />,
+  faq: () => <FAQPageTemplate />,
+  reviews: (props: PageTemplateProps & { Image: ImageProps }) => <ReviewsPageTemplate {...props} />,
 };
 
 export * from './home';

@@ -20,6 +20,7 @@ export { ensureVariantFirst, isValidImage } from './utils/gallery';
 export type { GalleryImage } from './interfaces/gallery.interface';
 export type { ProductGalleryProps } from './interfaces/product-gallery.interface';
 export type { BrandCtx, RoutingPolicy, StoreCtx, UserCtx } from './types/contexts.types';
+export type { PageTemplateProps } from './types/page.types';
 export type { ImageProps, ProductTemplateProps, ProductTemplateSlots } from './types/product.types';
 
 // mock

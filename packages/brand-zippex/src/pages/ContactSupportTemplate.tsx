@@ -1,3 +1,4 @@
+import type { PageTemplateProps } from '@nuvens/core';
 import { Container } from '@nuvens/ui';
 import { ChannelsGrid } from './contact/ChannelsGrid';
 import { CompanyInfo } from './contact/CompanyInfo';
@@ -7,10 +8,7 @@ import { ReturnsPortal } from './contact/ReturnsPortal';
 import { SelfServiceGrid } from './contact/SelfServiceGrid';
 import { SupportHours } from './contact/SupportHours';
 
-type Page = { id: string; handle: string; title: string; body: string };
-type PageTemplateProps = { page: Page };
-
-export function ContactSupportTemplate({ page }: PageTemplateProps) {
+export function ContactSupportTemplate(page: PageTemplateProps) {
   return (
     <main id="content" role="main" className="bg-neutral-0">
       <div className="border-b border-neutral-200 py-8">

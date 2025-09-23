@@ -77,8 +77,8 @@ export default function Blog() {
         <PaginatedResourceSection connection={articles}>
           {({ node: article, index }) => (
             <ArticleItem
-              article={article}
-              key={article.id}
+              article={article as any}
+              key={(article as any).id}
               loading={index < 2 ? 'eager' : 'lazy'}
             />
           )}

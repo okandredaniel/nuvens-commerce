@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "badge": "Notre histoire",
+    "title": {
+      "prefix": "Ravis de vous rencontrer — nous sommes",
+      "brand": "Zippex"
+    },
+    "subtitle": "Les meilleures histoires commencent par un problème. La nôtre ne fait pas exception.",
+    "pills": {
+      "design": "Conception centrée sur l'humain",
+      "sleep": "Meilleur sommeil",
+      "innovation": "L'innovation d'abord"
+    }
+  },
+  "start": {
+    "heading": "Tout a commencé en 2020.",
+    "p1": "Notre fondateur en avait assez des solutions passe-partout qui ignoraient les besoins réels. Il était temps de créer mieux.",
+    "p2": "Si un seul produit ne convient pas à tous, créons une approche flexible qui s'adapte à chacun.",
+    "p3": "Avec plus de détermination que d'heures de sommeil, nous avons choisi d'inventer ce qui n'existait pas encore."
+  },
+  "journey": {
+    "heading": "Notre parcours"
+  },
+  "timeline": {
+    "2020": {
+      "title": "L'idée est née",
+      "text": "15 mois de recherche et de tests, et des dizaines de prototypes pour aboutir à la bonne solution."
+    },
+    "2022": {
+      "title": "Premiers jalons",
+      "text": "Reconnaissance internationale et prix d'innovation. Notre solution devient une référence."
+    },
+    "2024": {
+      "title": "Expansion européenne",
+      "text": "Nous nous implantons en France avec une équipe locale déterminée à réinventer l'expérience client."
+    }
+  },
+  "values": {
+    "heading": "Nos valeurs",
+    "subtitle": "Ce qui nous guide chaque jour pour créer des solutions d'exception.",
+    "passion": {
+      "title": "Passion",
+      "text": "Nous mettons du cœur dans chaque projet, convaincus que l'excellence naît de la passion."
+    },
+    "quality": {
+      "title": "Qualité",
+      "text": "Jamais de compromis sur la qualité. Chaque détail compte."
+    },
+    "proximity": {
+      "title": "Proximité client",
+      "text": "Nous construisons des relations authentiques fondées sur la confiance et l'écoute active."
+    }
+  },
+  "commitments": {
+    "heading": "Nos engagements",
+    "subtitle": "Des principes qui orientent chaque décision.",
+    "european": {
+      "title": "Savoir-faire européen",
+      "text": "Tous nos produits sont fabriqués en Europe avec des partenaires soigneusement sélectionnés qui partagent nos standards."
+    },
+    "fairPrices": {
+      "title": "Prix justes",
+      "text": "Nous supprimons le superflu pour offrir des produits de haute qualité à un prix juste."
+    },
+    "satisfaction": {
+      "title": "Garantie de satisfaction",
+      "text": "Nous avons une telle confiance dans nos produits que nous proposons une garantie de satisfaction complète."
+    },
+    "environment": {
+      "title": "Impact environnemental",
+      "text": "Nous réduisons notre empreinte grâce à des choix quotidiens réfléchis."
+    }
+  },
+  "cta": {
+    "heading": "Prêt à vivre un confort véritable ?",
+    "subtitle": "Rejoignez des milliers de clients qui nous font confiance pour un confort et un soutien sans compromis.",
+    "primary": "Découvrir le matelas Zippex",
+    "secondary": "Nous contacter"
+  }
+}

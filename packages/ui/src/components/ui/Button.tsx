@@ -18,8 +18,8 @@ const variantsDefault: Record<Variant, string> = {
 };
 
 const variantsOnDark: Record<Variant, string> = {
-  primary: 'bg-primary-50 text-primary-600 hover:bg-primary-100',
-  secondary: 'bg-neutral-0 text-neutral-900 hover:bg-neutral-50',
+  primary: 'bg-primary-50 text-primary-600 hover:bg-primary-100 hover:text-primary-600',
+  secondary: 'bg-neutral-50 text-neutral-900 hover:bg-neutral-50',
   outline: 'border-neutral-50/20 bg-neutral-50/10 hover:bg-neutral-50/20 text-neutral-0',
   ghost: 'bg-transparent hover:bg-neutral-50/10 text-neutral-0',
 };

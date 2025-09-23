@@ -1,3 +1,4 @@
+import { type ImageProps } from '@nuvens/core';
 import {
   Badge,
   Button,
@@ -13,11 +14,10 @@ import {
   SelectTrigger,
   trustpilotLogo,
 } from '@nuvens/ui';
-import { Image } from '@shopify/hydrogen';
 import { Award, Filter, Star, TrendingUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export default function ReviewsPage() {
+export default function ReviewsPageTemplate({ Image }: { Image: ImageProps }) {
   const { i18n } = useTranslation('home');
 
   const reviews = [
@@ -226,10 +226,10 @@ export default function ReviewsPage() {
                 text={review.text}
                 rating={review.rating}
                 ratingLabel={`${review.rating}/5`}
-                Image={Image}
                 logoSrc={trustpilotLogo}
                 verified={review.verified}
                 verifiedLabel="Verified"
+                Image={Image}
                 date={
                   review.date ? new Date(review.date).toLocaleDateString(i18n.language) : undefined
                 }

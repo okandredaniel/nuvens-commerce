@@ -1,8 +1,9 @@
-import { Badge, Button, Card, CardContent, Container, Heading, Link } from '@nuvens/ui';
+import { LocalizedNavLink } from '@nuvens/shopify';
+import { Badge, Button, Card, CardContent, Container, Heading } from '@nuvens/ui';
 import { Award, Globe, Heart, Lightbulb, Shield, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export function AboutPage() {
+export function AboutPageTemplate() {
   const { t } = useTranslation('about');
 
   const timeline = [
@@ -66,7 +67,7 @@ export function AboutPage() {
 
   return (
     <div className="min-h-screen bg-white text-zinc-950">
-      <section aria-labelledby="about-hero" className="relative bg-zinc-50 py-24 px-4">
+      <section aria-labelledby="about-hero" className="relative bg-neutral-50 py-24 px-4">
         <Container className="flex flex-col text-center">
           <Badge className="m-auto">{t('hero.badge')}</Badge>
           <Heading id="about-hero" as="h1" align="center">
@@ -182,10 +183,10 @@ export function AboutPage() {
           <p className="mb-8 text-xl opacity-90">{t('cta.subtitle')}</p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button asChild size="lg" variant="primary" surface="dark">
-              <Link to="/">{t('cta.primary')}</Link>
+              <LocalizedNavLink to="/products/matelas-zippex">{t('cta.primary')}</LocalizedNavLink>
             </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/pages/contact">{t('cta.secondary')}</Link>
+            <Button asChild size="lg" variant="outline" surface="dark">
+              <LocalizedNavLink to="/pages/contact">{t('cta.secondary')}</LocalizedNavLink>
             </Button>
           </div>
         </Container>

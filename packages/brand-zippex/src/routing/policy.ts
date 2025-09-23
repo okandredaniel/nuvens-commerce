@@ -5,7 +5,6 @@ export const routeAccessPolicy: RouteAccessPolicy = {
   expose: [
     '/',
     '/pages',
-    '/avis',
     '/cart',
     '/pages/:handle',
     '/products/:handle',
