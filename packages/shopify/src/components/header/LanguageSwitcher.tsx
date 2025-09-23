@@ -58,7 +58,7 @@ export function LanguageSwitcher({ options, current }: Props) {
               surface="dark"
               className="w-full max-w-12 md:max-w-none"
             >
-              <Globe className="h-4 w-4 text-primary-400" aria-hidden />
+              <Globe className="h-4 w-4 text-primary-400 mr-2" aria-hidden />
               <span>{activeInfo.code.toUpperCase()}</span>
             </Button>
           </DropdownMenu.Trigger>

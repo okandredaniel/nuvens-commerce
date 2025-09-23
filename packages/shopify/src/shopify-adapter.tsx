@@ -5,12 +5,14 @@ import type { ElementType, ReactNode } from 'react';
 import { Fragment, createContext, useContext } from 'react';
 import type { To } from 'react-router';
 
+export type AnyCart = OptimisticCart<any> | Promise<any> | null;
+
 export type ShopifyAdapter = CoreAdapter & {
   Brand: ElementType;
   defaultLocale: string;
   locales: string[];
-  useCart: () => OptimisticCart<any>;
-  useCartMaybe?: () => OptimisticCart<any> | null | undefined;
+  useCart: () => AnyCart;
+  useCartMaybe?: () => AnyCart | undefined;
   useLocalizedHref: () => (value: To) => To;
   useStore: () => StoreCtx<any, any>;
   useVariantUrl: (handle: string, selectedOptions?: SelectedOption[]) => string;
@@ -43,7 +45,7 @@ const defaults: Required<
   Brand: DefaultBrand,
   defaultLocale: 'en',
   locales: ['en'],
-  useCart: () => ({}) as OptimisticCart<any>,
+  useCart: () => null,
   useCartMaybe: () => undefined,
   useLocalizedHref: () => (v: To) => v,
   useStore: () => ({}) as any,
