@@ -1,4 +1,4 @@
-import type { ImageProps } from '../types/product';
+import type { ImageProps } from '../types/product.types';
 import type { GalleryImage } from './gallery.interface';
 
 export type ProductGalleryProps = {

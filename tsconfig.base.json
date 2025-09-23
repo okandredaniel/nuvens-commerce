@@ -10,9 +10,10 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
+      "@nuvens/brand-ui": ["apps/storefront/app/brand-ui.generated.ts"],
       "@nuvens/core": ["packages/core/src/index.ts"],
-      "@nuvens/ui": ["packages/ui/src/index.ts"],
-      "@nuvens/brand-ui": ["apps/storefront/app/brand-ui.generated.ts"]
+      "@nuvens/shopify": ["packages/shopify/src/index.ts"],
+      "@nuvens/ui": ["packages/ui/src/index.ts"]
     },
     "types": ["node"]
   },

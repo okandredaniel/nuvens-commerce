@@ -70,10 +70,10 @@ export default {
 
     let build: ServerBuild;
     try {
-      const mod = await import('virtual:react-router/server-build');
-      build = ((mod as any).default ?? mod) as ServerBuild;
-    } catch {
-      build = {} as any;
+      const mod: any = await import('virtual:react-router/server-build');
+      build = (mod?.default ?? mod) as ServerBuild;
+    } catch (err) {
+      return errorResponse('build', err);
     }
 
     let handleRequest: (req: Request) => Promise<Response>;

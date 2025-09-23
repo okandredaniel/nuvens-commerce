@@ -19,7 +19,8 @@ export { ensureVariantFirst, isValidImage } from './utils/gallery';
 // interfaces
 export type { GalleryImage } from './interfaces/gallery.interface';
 export type { ProductGalleryProps } from './interfaces/product-gallery.interface';
-export type { ImageProps, ProductTemplateProps, ProductTemplateSlots } from './types/product';
+export type { BrandCtx, RoutingPolicy, StoreCtx, UserCtx } from './types/contexts.types';
+export type { ImageProps, ProductTemplateProps, ProductTemplateSlots } from './types/product.types';
 
 // mock
 export * from './mocks/pdp';

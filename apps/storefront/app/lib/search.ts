@@ -1,4 +1,4 @@
-import type { PredictiveSearchQuery, RegularSearchQuery } from 'storefrontapi.generated';
+import type { PredictiveSearchQuery, RegularSearchQuery } from '@nuvens/shopify';
 
 type ResultWithItems<Type extends 'predictive' | 'regular', Items> = {
   type: Type;

@@ -1,8 +1,6 @@
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { toLang } from '@/i18n/localize';
-import { loadAppDictionaries, loadBrandDictionaries } from '@/i18n/resources';
 import { Layout } from '@/layouts/Layout';
 import { buildMetaLinks } from '@/lib/seo';
+import { ErrorBoundary, loadAppDictionaries, loadBrandDictionaries, toLang } from '@nuvens/shopify';
 import { getShopAnalytics } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { Outlet } from 'react-router';
@@ -30,16 +28,17 @@ export async function loader(args: LoaderFunctionArgs) {
   const languageCtx = storefront.i18n.language.toLowerCase();
   const countryCtx = storefront.i18n.country.toLowerCase();
 
-  const lang = toLang(urlLang ?? languageCtx);
+  const language = toLang(urlLang ?? languageCtx);
   const country = countryCtx;
   const localeRegion = `${languageCtx}-${countryCtx}`;
 
-  const deferredData = loadDeferredData(args, lang, country);
-  const criticalData = await loadCriticalData(args, lang, country);
+  const deferredData = loadDeferredData(args, language, country);
+  const criticalData = await loadCriticalData(args, language, country);
 
-  const appRes = loadAppDictionaries(lang);
-  const brandRes = loadBrandDictionaries(lang);
-  const resources = mergeI18nResources(lang, brandI18n, brandRes, appRes);
+  const appSources = import.meta.glob('../locales/*/index.{ts,js,json}', { eager: true });
+  const appRes = loadAppDictionaries(language, appSources);
+  const brandRes = loadBrandDictionaries(language);
+  const resources = mergeI18nResources(language, brandI18n, brandRes, appRes);
 
   return {
     ...deferredData,
@@ -47,7 +46,7 @@ export async function loader(args: LoaderFunctionArgs) {
     origin,
     brand,
     i18n: {
-      locale: lang,
+      locale: language,
       resources,
     },
     publicStoreDomain: cfg.env.PUBLIC_STORE_DOMAIN,
@@ -59,8 +58,8 @@ export async function loader(args: LoaderFunctionArgs) {
       checkoutDomain: cfg.env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: cfg.env.PUBLIC_STOREFRONT_API_TOKEN,
       withPrivacyBanner: false,
-      country: storefront.i18n.country,
-      language: storefront.i18n.language,
+      country,
+      language,
     },
     localeRegion,
   };

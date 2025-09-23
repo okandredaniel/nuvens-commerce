@@ -19,10 +19,7 @@ function normalizeForTs(fromFile: string, toAbsPath: string) {
 }
 
 function ensureDir(dir: string) {
-  if (!fs.existsSync(dir))
-    fs.mkdirSync(dir, {
-      recursive: true,
-    });
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
 function brandEntryPlugin(appDir: string, brandId: string): Plugin {
@@ -51,6 +48,7 @@ export default defineConfig(({ mode }) => {
   const appDir = __dirname;
   const brandSrcDir = path.resolve(appDir, `../../packages/brand-${BRAND_ID}/src`);
   const brandCssPath = path.resolve(brandSrcDir, 'styles.css');
+  const brandFaviconPng = path.resolve(brandSrcDir, 'favicon.png');
 
   return {
     plugins: [
@@ -63,41 +61,21 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: [
-        {
-          find: '@',
-          replacement: r('app'),
-        },
-        {
-          find: /^@nuvens\/brand-ui\/styles\.css\?url$/,
-          replacement: `${brandCssPath}?url`,
-        },
-        {
-          find: /^@nuvens\/brand-ui\/styles\.css$/,
-          replacement: brandCssPath,
-        },
-        {
-          find: '@nuvens/brand-ui',
-          replacement: r('app/brand-ui.generated.ts'),
-        },
-        {
-          find: '@nuvens/core',
-          replacement: r('../../packages/core/src'),
-        },
-        {
-          find: '@nuvens/ui',
-          replacement: r('../../packages/ui/src'),
-        },
+        { find: '@', replacement: r('app') },
+        { find: /^@nuvens\/brand-ui\/styles\.css\?url$/, replacement: `${brandCssPath}?url` },
+        { find: /^@nuvens\/brand-ui\/styles\.css$/, replacement: brandCssPath },
+        { find: /^@nuvens\/brand-ui\/favicon\.png\?url$/, replacement: `${brandFaviconPng}?url` },
+        { find: '@nuvens/brand-ui', replacement: r('app/brand-ui.generated.ts') },
+        { find: '@nuvens/core', replacement: r('../../packages/core/src') },
+        { find: '@nuvens/ui', replacement: r('../../packages/ui/src') },
+        { find: '@nuvens/shopify', replacement: r('../../packages/shopify/src') },
       ],
       dedupe: ['react', 'react-dom', 'i18next', 'react-i18next'],
     },
     server: {
-      fs: {
-        allow: [r('.'), r('app'), r('../../packages'), r('../..')],
-      },
+      fs: { allow: [r('.'), r('app'), r('../../packages'), r('../..')] },
     },
-    build: {
-      assetsInlineLimit: 0,
-    },
+    build: { assetsInlineLimit: 0 },
     optimizeDeps: {
       include: [
         'react',
@@ -109,18 +87,21 @@ export default defineConfig(({ mode }) => {
         '@radix-ui/react-dialog',
         '@radix-ui/react-dropdown-menu',
         'keen-slider',
+        '@shopify/hydrogen',
       ],
     },
     ssr: {
       optimizeDeps: {
-        include: ['path-to-regexp', 'html-parse-stringify', 'void-elements'],
+        include: ['path-to-regexp', 'html-parse-stringify', 'void-elements', '@shopify/hydrogen'],
       },
       noExternal: [
+        '@nuvens/brand-ui',
+        '@nuvens/core',
+        '@nuvens/shopify',
+        '@nuvens/ui',
         '@radix-ui/react-dialog',
         '@radix-ui/react-dropdown-menu',
-        '@nuvens/core',
-        '@nuvens/ui',
-        '@nuvens/brand-ui',
+        '@shopify/hydrogen',
         'keen-slider',
       ],
     },

@@ -3,6 +3,7 @@
 @import 'keen-slider/keen-slider.min.css';
 
 @source "../../../packages/ui/src/**/*.{ts,tsx,js,jsx}";
+@source "../../../packages/shopify/src/**/*.{ts,tsx,js,jsx}";
 @source "../../../apps/storefront/app/**/*.{ts,tsx,js,jsx}";
 @source "../../../packages/brand-*/src/**/*.{ts,tsx,js,jsx}";
 
@@ -75,16 +76,27 @@
   --color-danger-900: #7f1d1d;
 }
 
-
 /* Border radius */
-@utility ui-radius { @apply rounded-lg; }
-@utility ui-radius-sm { @apply rounded-md; }
-@utility ui-radius-lg { @apply rounded-2xl; }
+@utility ui-radius {
+  @apply rounded-lg;
+}
+@utility ui-radius-sm {
+  @apply rounded-md;
+}
+@utility ui-radius-lg {
+  @apply rounded-2xl;
+}
 
 /* Form elements */
-@utility ui-form-elements-height { @apply h-10; }
-@utility ui-form-elements-height-sm { @apply h-9; }
-@utility ui-form-elements-height-lg { @apply h-11; }
+@utility ui-form-elements-height {
+  @apply h-10;
+}
+@utility ui-form-elements-height-sm {
+  @apply h-9;
+}
+@utility ui-form-elements-height-lg {
+  @apply h-11;
+}
 
 body {
   @apply text-neutral-900 bg-neutral-0;

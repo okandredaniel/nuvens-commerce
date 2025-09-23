@@ -14,7 +14,8 @@
     "src/**/*.spec.ts",
     "src/**/*.spec.tsx",
     "src/**/__tests__/**",
-    "vitest.setup.ts"
+    "vitest.setup.ts",
+    "vitest.config.ts"
   ],
   "references": [{ "path": "../core" }]
 }

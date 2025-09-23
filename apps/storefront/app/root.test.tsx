@@ -4,11 +4,22 @@ import { beforeEach, expect, it, vi } from 'vitest';
 
 beforeEach(() => {
   vi.resetModules();
-  vi.doMock('@/i18n/localize', () => ({ toLang: (s: string) => s }));
-  vi.doMock('@/i18n/resources', () => ({
+
+  vi.doMock('@nuvens/shopify', () => ({
+    ErrorBoundary: ({ children }: any) => <>{children}</>,
     loadAppDictionaries: () => ({}),
     loadBrandDictionaries: () => ({}),
+    toLang: (s: string) => s,
   }));
+
+  // Mock the links module so Vite doesn't need to resolve `?url` assets
+  vi.doMock('./server/http/links', () => ({
+    links: () => [
+      { rel: 'icon', type: 'image/svg+xml', href: '/test-favicon.png' },
+      { rel: 'stylesheet', href: '/brand-ui.css' },
+    ],
+  }));
+
   vi.doMock('./server/i18n/merge', () => ({ mergeI18nResources: () => ({ merged: true }) }));
   vi.doMock('./server/brand', () => ({
     getBrandContext: async () => ({ brandI18n: {}, brand: { id: 'b' } }),
@@ -29,15 +40,18 @@ beforeEach(() => {
       },
     }),
   }));
-  vi.doMock('./lib/seo', () => ({ buildMetaLinks: () => 'META' }));
+  vi.doMock('@/lib/seo', () => ({ buildMetaLinks: () => 'META' }));
   vi.doMock('@shopify/hydrogen', () => ({ getShopAnalytics: () => Promise.resolve({}) }));
   vi.doMock('react-router', () => ({
     // eslint-disable-next-line @typescript-eslint/naming-convention
     Outlet: () => React.createElement('div', { 'data-testid': 'outlet' }),
   }));
+  vi.doMock('./server/routing/resolvePathname', () => ({
+    resolvePathname: (r: Request) => new URL(r.url).pathname,
+  }));
 });
 
-it('loader aplica locale da URL quando presente', async () => {
+it('loader applies locale from URL when present', async () => {
   const mod = await import('./root');
   const args: any = {
     request: new Request('https://site.com/fr/products'),
@@ -52,7 +66,7 @@ it('loader aplica locale da URL quando presente', async () => {
   await expect(data.shop).resolves.toBeTruthy();
 });
 
-it('loader usa locale do contexto quando URL não tem prefixo', async () => {
+it('loader uses context locale when URL has no prefix', async () => {
   const mod = await import('./root');
   const args: any = {
     request: new Request('https://site.com/products'),
@@ -62,7 +76,7 @@ it('loader usa locale do contexto quando URL não tem prefixo', async () => {
   expect(data.i18n.locale).toBe('en');
 });
 
-it('meta delega para buildMetaLinks', async () => {
+it('meta delegates to buildMetaLinks', async () => {
   const mod = await import('./root');
   const res = mod.meta({
     data: { header: { shop: { primaryDomain: { url: 'https://base.com' } } } },
@@ -71,7 +85,7 @@ it('meta delega para buildMetaLinks', async () => {
   expect(res).toBe('META');
 });
 
-it('App renderiza Outlet', async () => {
+it('App renders Outlet', async () => {
   const mod = await import('./root');
   render(React.createElement(mod.default));
   expect(screen.getByTestId('outlet')).toBeTruthy();

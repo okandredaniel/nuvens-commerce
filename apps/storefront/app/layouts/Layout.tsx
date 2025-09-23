@@ -1,10 +1,12 @@
-import { CartAside } from '@/components/cart';
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
-import { MobileMenuAside } from '@/components/MobileMenuAside';
-import { getEffectiveLang } from '@/i18n/effective';
 import { BrandStyleTag, Providers } from '@/providers/Providers';
+import { CartContainer } from '@/shell/CartContainer';
+import { FooterContainer } from '@/shell/FooterContainer';
+import { HeaderContainer } from '@/shell/HeaderContainer';
+import { Brand, brandDefaultLocale } from '@nuvens/brand-ui';
+import { getEffectiveLang, MobileMenuAside } from '@nuvens/shopify';
 import { useNonce } from '@shopify/hydrogen';
+import type { PropsWithChildren } from 'react';
+import { Component } from 'react';
 import {
   Links,
   Meta,
@@ -26,14 +28,23 @@ function useHeaderPref(): HeaderPref | undefined {
   return undefined;
 }
 
-export function Layout({ children }: { children?: React.ReactNode }) {
+class SafeBoundary extends Component<PropsWithChildren, { hasError: boolean }> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    return this.state.hasError ? null : this.props.children;
+  }
+}
+
+export function Layout({ children }: PropsWithChildren) {
   const nonce = useNonce();
+  const rootData = useRouteLoaderData('root') as any;
+  const locale = getEffectiveLang(brandDefaultLocale, rootData);
   const headerPref = useHeaderPref();
   const wantsTransparent = headerPref === 'transparent';
   const mainPadding = wantsTransparent ? 'pt-0' : 'pt-16';
-
-  const rootData = useRouteLoaderData('root') as any;
-  const locale = getEffectiveLang(rootData);
 
   return (
     <html lang={locale}>
@@ -46,11 +57,13 @@ export function Layout({ children }: { children?: React.ReactNode }) {
       <body>
         <Providers>
           <BrandStyleTag />
-          <CartAside />
+          <SafeBoundary>
+            <CartContainer />
+          </SafeBoundary>
           <MobileMenuAside />
-          <Header pref={headerPref} />
+          <HeaderContainer headerPref={headerPref} Brand={Brand} />
           <main className={mainPadding}>{children}</main>
-          <Footer />
+          <FooterContainer Brand={Brand} />
         </Providers>
         <ScrollRestoration nonce={nonce} />
         <Scripts nonce={nonce} />

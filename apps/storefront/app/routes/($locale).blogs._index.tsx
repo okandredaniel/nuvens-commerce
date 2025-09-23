@@ -1,4 +1,4 @@
-import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
+import { PaginatedResourceSection } from '@nuvens/shopify';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Link, useLoaderData, type MetaFunction } from 'react-router';

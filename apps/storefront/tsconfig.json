@@ -1,6 +1,13 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx", ".react-router/types/**/*", "types/**/*"],
+  "include": [
+    "./**/*.d.ts",
+    "./**/*.ts",
+    "./**/*.tsx",
+    ".react-router/types/**/*",
+    "types/**/*",
+    "../../packages/shopify/src/types/**/*.d.ts"
+  ],
   "exclude": ["node_modules", "build", "dist"],
   "compilerOptions": {
     "baseUrl": ".",
@@ -25,9 +32,10 @@
     ],
     "paths": {
       "@/*": ["app/*"],
+      "@nuvens/brand-ui": ["app/brand-ui.generated.ts"],
       "@nuvens/core": ["../../packages/core/src/index.ts"],
-      "@nuvens/ui": ["../../packages/ui/src/index.ts"],
-      "@nuvens/brand-ui": ["app/brand-ui.generated.ts"]
+      "@nuvens/shopify": ["../../packages/shopify/src/index.ts"],
+      "@nuvens/ui": ["../../packages/ui/src/index.ts"]
     },
     "rootDirs": [".", ".react-router/types"],
     "noEmit": true

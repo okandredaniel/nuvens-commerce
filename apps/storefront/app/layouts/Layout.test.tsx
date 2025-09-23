@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -5,14 +6,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const rr = vi.hoisted(() => ({
   useMatches: vi.fn<() => any[]>(() => []),
   useRouteLoaderData: vi.fn<() => any>(() => undefined),
-  useLocation: vi.fn<() => { pathname: string; search: string }>(() => ({
-    pathname: '/',
-    search: '',
-  })),
   Links: (props: any) => <link data-testid="links" {...props} />,
   Meta: (props: any) => <meta data-testid="meta" {...props} />,
   Scripts: ({ nonce }: any) => <div data-testid="scripts" data-nonce={nonce} />,
   ScrollRestoration: ({ nonce }: any) => <div data-testid="scroll" data-nonce={nonce} />,
+  Await: ({ resolve, children }: any) =>
+    typeof children === 'function' ? children(resolve) : null,
 }));
 vi.mock('react-router', () => rr);
 
@@ -21,16 +20,28 @@ const hyd = vi.hoisted(() => ({
 }));
 vi.mock('@shopify/hydrogen', () => hyd);
 
-vi.mock('@/components/cart', () => ({ CartAside: () => <div data-testid="cart" /> }));
-vi.mock('@/components/footer', () => ({ Footer: () => <footer data-testid="footer" /> }));
-vi.mock('@/components/header', () => ({
+const shop = vi.hoisted(() => ({
+  getEffectiveLang: vi.fn(() => 'en'),
+}));
+vi.mock('@nuvens/shopify', () => ({
+  CartAside: ({ heading }: any) => <div data-testid="cart" data-h={heading} />,
+  Footer: () => <footer data-testid="footer" />,
   Header: ({ pref }: { pref?: 'transparent' | 'solid' }) => (
     <header data-testid="header" data-pref={pref || ''} />
   ),
-}));
-vi.mock('@/components/MobileMenuAside', () => ({
   MobileMenuAside: () => <div data-testid="mobile-menu" />,
+  getEffectiveLang: shop.getEffectiveLang,
 }));
+
+vi.mock('@nuvens/brand-ui', () => ({
+  Brand: (props: any) => <div data-testid="brand" {...props} />,
+  brandDefaultLocale: 'en-US',
+}));
+
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (k: string) => k }),
+}));
+
 vi.mock('@/providers/Providers', () => ({
   Providers: ({ children }: { children?: React.ReactNode }) => (
     <div data-testid="providers">{children}</div>
@@ -38,10 +49,23 @@ vi.mock('@/providers/Providers', () => ({
   BrandStyleTag: () => <style data-testid="brand-style" />,
 }));
 
-const eff = vi.hoisted(() => ({
-  getEffectiveLang: vi.fn(() => 'en'),
+const ctx = vi.hoisted(() => ({
+  useCart: vi.fn(() => ({ id: 'cart' })),
+  useRoutingPolicy: vi.fn(() => ({ recommendedFallback: '/' })),
+  useStore: vi.fn(() => ({
+    publicStoreDomain: 'shop.example',
+    header: {
+      shop: { primaryDomain: { url: 'https://base.com' }, name: 'Brand' },
+      menu: { items: [] },
+    },
+    footer: { menu: { items: [] } },
+  })),
 }));
-vi.mock('@/i18n/effective', () => eff);
+vi.mock('@/providers/AppContexts', () => ({
+  useCart: ctx.useCart,
+  useRoutingPolicy: ctx.useRoutingPolicy,
+  useStore: ctx.useStore,
+}));
 
 async function importLayout() {
   vi.resetModules();
@@ -53,12 +77,22 @@ beforeEach(() => {
   rr.useMatches.mockReturnValue([]);
   rr.useRouteLoaderData.mockReturnValue({ i18n: { locale: 'en' } });
   hyd.useNonce.mockReturnValue('NONCE-123');
-  eff.getEffectiveLang.mockReturnValue('en');
+  shop.getEffectiveLang.mockReturnValue('en');
+  ctx.useCart.mockReturnValue({ id: 'cart' });
+  ctx.useRoutingPolicy.mockReturnValue({ recommendedFallback: '/' });
+  ctx.useStore.mockReturnValue({
+    publicStoreDomain: 'shop.example',
+    header: {
+      shop: { primaryDomain: { url: 'https://base.com' }, name: 'Brand' },
+      menu: { items: [] },
+    },
+    footer: { menu: { items: [] } },
+  });
 });
 
 describe('Layout', () => {
-  it('sets html lang from getEffectiveLang and renders children', async () => {
-    eff.getEffectiveLang.mockReturnValue('it');
+  it('sets html lang using getEffectiveLang and renders shell', async () => {
+    shop.getEffectiveLang.mockReturnValue('it');
     const { Layout } = await importLayout();
     const { container } = render(
       <Layout>
@@ -74,7 +108,7 @@ describe('Layout', () => {
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
 
-  it('uses header pref=transparent to remove main top padding', async () => {
+  it('applies transparent header preference and removes main top padding', async () => {
     rr.useMatches.mockReturnValue([
       { handle: { header: 'solid' } },
       { handle: { header: 'transparent' } },
@@ -86,7 +120,7 @@ describe('Layout', () => {
     expect(screen.getByTestId('header')).toHaveAttribute('data-pref', 'transparent');
   });
 
-  it('uses header pref=solid to apply default main padding', async () => {
+  it('applies solid header preference and keeps default top padding', async () => {
     rr.useMatches.mockReturnValue([{ handle: { header: 'solid' } }]);
     const { Layout } = await importLayout();
     const { container } = render(<Layout />);
@@ -95,7 +129,7 @@ describe('Layout', () => {
     expect(screen.getByTestId('header')).toHaveAttribute('data-pref', 'solid');
   });
 
-  it('applies default padding when no header pref is provided', async () => {
+  it('uses default padding when no header preference is provided', async () => {
     rr.useMatches.mockReturnValue([{}, {}] as any);
     const { Layout } = await importLayout();
     const { container } = render(<Layout />);

@@ -7,10 +7,10 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "pnpm exec shopify hydrogen dev --path apps/storefront --codegen",
-    "build": "shopify hydrogen build --path apps/storefront --codegen",
+    "dev": "pnpm exec shopify hydrogen dev --path apps/storefront --codegen --codegen-config-path ./packages/shopify/codegen.ts",
+    "build": "shopify hydrogen build --path apps/storefront --codegen --codegen-config-path ./packages/shopify/codegen.ts",
     "preview": "shopify hydrogen preview --path apps/storefront --build",
-    "codegen": "shopify hydrogen codegen --path apps/storefront",
+    "codegen": "shopify hydrogen codegen --path apps/storefront --codegen-config-path ./packages/shopify/codegen.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "locale:add": "node scripts/add-locale-namespace.mjs",
@@ -23,7 +23,7 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged",
-    "pre-push": "pnpm -r --if-present typecheck && pnpm -w test:ci"
+    "pre-push": "pnpm -w codegen && pnpm -r --if-present typecheck && pnpm -w test:ci"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": "eslint --fix",

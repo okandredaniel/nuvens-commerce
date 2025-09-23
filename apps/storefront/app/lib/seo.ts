@@ -1,6 +1,6 @@
-import { toLang } from '@/i18n/localize';
 import { brandDefaultLocale, brandLocales } from '@nuvens/brand-ui';
 import { stripLocale } from '@nuvens/core';
+import { toLang } from '@nuvens/shopify';
 
 const DEFAULT_LANG = toLang(brandDefaultLocale);
 

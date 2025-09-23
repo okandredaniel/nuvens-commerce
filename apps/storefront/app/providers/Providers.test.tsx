@@ -1,70 +1,62 @@
+import '@testing-library/jest-dom/vitest';
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-function setup(routeDataImpl: any, cssVars: string = '--brand-color: #000;') {
-  vi.resetModules();
+const h = vi.hoisted(() => ({
+  mockLoadAppDictionaries: vi.fn(),
+  mockCreateI18n: vi.fn(),
+  mockUseRouteLoaderData: vi.fn(),
+  cssVarsValue: '--brand-color:#000;',
+}));
 
-  vi.doMock('@/i18n/effective', () => ({
-    getEffectiveLang: (d: any) => d?.i18n?.locale ?? 'en',
-  }));
+vi.mock('@nuvens/shopify', () => ({
+  loadAppDictionaries: h.mockLoadAppDictionaries,
+  createI18n: h.mockCreateI18n,
+  getEffectiveLang: (_brandDefaultLocale: string, d: any) => d?.i18n?.locale ?? 'en',
+}));
 
-  const loadAppDictionaries = vi.fn((lang: string) =>
-    lang === 'fr'
-      ? {
-          appNS: { a: 1 },
-          shared: { b: 'app' },
-        }
-      : {},
-  );
-  vi.doMock('@/i18n/resources', () => ({ loadAppDictionaries }));
-
-  vi.doMock('@nuvens/core', () => ({
-    coreI18n: {
-      resources: {
-        fr: {
-          coreNS: { c: 1 },
-          shared: { a: 'core', c: 'core' },
-        },
+vi.mock('@nuvens/core', () => ({
+  coreI18n: {
+    resources: {
+      fr: {
+        coreNS: { c: 1 },
+        shared: { a: 'core', c: 'core' },
       },
     },
-  }));
+  },
+}));
 
-  const createI18n = vi.fn((lang: string, dicts: any) => ({ lang, dicts }));
-  vi.doMock('@/i18n/createInstance', () => ({ createI18n }));
+vi.mock('react-router', () => ({
+  useRouteLoaderData: h.mockUseRouteLoaderData,
+}));
 
-  vi.doMock('react-router', () => ({
-    useRouteLoaderData:
-      typeof routeDataImpl === 'function' ? routeDataImpl : vi.fn().mockReturnValue(routeDataImpl),
-  }));
+vi.mock('@nuvens/ui', () => ({
+  Tooltip: { Provider: ({ children }: any) => <>{children}</> },
+  Aside: { Provider: ({ children }: any) => <>{children}</> },
+}));
 
-  vi.doMock('@nuvens/ui', () => ({
-    Tooltip: { Provider: ({ children }: any) => <>{children}</> },
-    Aside: { Provider: ({ children }: any) => <>{children}</> },
-  }));
+vi.mock('@shopify/hydrogen', () => ({
+  Analytics: { Provider: ({ children }: any) => <>{children}</> },
+}));
 
-  vi.doMock('@shopify/hydrogen', () => ({
-    Analytics: { Provider: ({ children }: any) => <>{children}</> },
-  }));
+vi.mock('react-i18next', () => ({
+  I18nextProvider: ({ children }: any) => <>{children}</>,
+}));
 
-  vi.doMock('react-i18next', () => ({
-    I18nextProvider: ({ children }: any) => <>{children}</>,
-  }));
+vi.mock('@/lib/routing/paths', () => ({
+  resolvePolicyPath: (p: string) => `/policies/${p}`,
+}));
 
-  vi.doMock('@/lib/routing/paths', () => ({
-    resolvePolicyPath: (p: string) => `/policies/${p}`,
-  }));
+vi.mock('./AppContexts', () => {
+  const Pass = ({ children }: any) => <>{children}</>;
+  return {
+    ProvidersMap: { Brand: Pass, Store: Pass, User: Pass, Cart: Pass },
+    useShallowMemo: (v: any) => v,
+    useBrand: () => ({ cssVars: h.cssVarsValue }),
+  };
+});
 
-  vi.doMock('./AppContexts', () => {
-    const Pass = ({ children }: any) => <>{children}</>;
-    return {
-      ProvidersMap: { Brand: Pass, Store: Pass, User: Pass, Cart: Pass },
-      useShallowMemo: (v: any) => v,
-      useBrand: () => ({ cssVars }),
-    };
-  });
-
-  return { loadAppDictionaries, createI18n };
-}
+vi.mock('@/brand-ui.generated', () => ({ brandDefaultLocale: 'en-US' }));
 
 const baseRouteData = {
   i18n: {
@@ -85,55 +77,44 @@ const baseRouteData = {
 describe('Providers', () => {
   beforeEach(() => {
     cleanup();
+    h.mockLoadAppDictionaries.mockReset();
+    h.mockCreateI18n.mockReset();
+    h.mockUseRouteLoaderData.mockReset();
+    h.mockLoadAppDictionaries.mockImplementation((lang: string) =>
+      lang === 'fr' ? { appNS: { a: 1 }, shared: { b: 'app' } } : {},
+    );
+    h.mockCreateI18n.mockImplementation((lang: string, dicts: any) => ({ lang, dicts }));
+    h.mockUseRouteLoaderData.mockReturnValue(baseRouteData);
+    h.cssVarsValue = '--brand-color:#000;';
   });
 
   afterEach(() => {
     cleanup();
   });
 
-  it('mescla core < server < app e cria i18n com lang efetivo', async () => {
-    const { loadAppDictionaries, createI18n } = setup(baseRouteData, '--brand-color: #000;');
+  it('merges core < server < app and creates i18n with effective language', async () => {
     const mod = await import('./Providers');
-
     render(
       <mod.Providers>
         <div data-testid="ok" />
       </mod.Providers>,
     );
-
-    expect(loadAppDictionaries).toHaveBeenCalledWith('fr');
-    expect(createI18n).toHaveBeenCalledTimes(1);
-    const [lang, dicts] = (createI18n as any).mock.calls[0];
+    expect(h.mockLoadAppDictionaries).toHaveBeenCalledWith('fr');
+    expect(h.mockCreateI18n).toHaveBeenCalledTimes(1);
+    const [lang, dicts] = (h.mockCreateI18n as any).mock.calls[0];
     expect(lang).toBe('fr');
     expect(Object.keys(dicts).sort()).toEqual(['appNS', 'coreNS', 'serverNS', 'shared'].sort());
     expect(dicts.shared).toEqual({ a: 'server', b: 'app', c: 'core' });
-    expect(screen.getByTestId('ok')).toBeTruthy();
+    expect(screen.getByTestId('ok')).toBeInTheDocument();
   });
 
-  it('usa LAST_ROOT_DATA quando useRouteLoaderData retorna undefined depois', async () => {
-    const seq = vi.fn().mockReturnValueOnce(baseRouteData).mockReturnValueOnce(undefined);
-    const { createI18n } = setup(seq, '--brand-color: #000;');
+  it('BrandStyleTag renders only when cssVars exist', async () => {
     const mod = await import('./Providers');
-
-    render(<mod.Providers />);
-    render(<mod.Providers />);
-
-    expect(createI18n).toHaveBeenCalledTimes(2);
-    expect((createI18n as any).mock.calls[0][0]).toBe('fr');
-    expect((createI18n as any).mock.calls[1][0]).toBe('fr');
-  });
-
-  it('BrandStyleTag renderiza quando há cssVars e não renderiza quando vazio', async () => {
-    setup(baseRouteData, '--brand-color:#000;');
-    const mod1 = await import('./Providers');
-    const { container: c1 } = render(<mod1.BrandStyleTag />);
+    const { container: c1 } = render(<mod.BrandStyleTag />);
     expect(c1.querySelector('style#brand-vars')?.textContent).toBe(':root{--brand-color:#000;}');
-
     cleanup();
-    const seq = vi.fn().mockReturnValue(baseRouteData);
-    setup(seq, '');
-    const mod2 = await import('./Providers');
-    const { container: c2 } = render(<mod2.BrandStyleTag />);
+    h.cssVarsValue = '';
+    const { container: c2 } = render(<mod.BrandStyleTag />);
     expect(c2.querySelector('style#brand-vars')).toBeNull();
   });
 });

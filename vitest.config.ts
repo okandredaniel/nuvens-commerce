@@ -73,10 +73,11 @@ export default defineConfig({
   plugins: [stubRemixBuild, brandEntryForVitest, brandCssVirtual],
   resolve: {
     alias: [
-      { find: /^@nuvens\/brand-ui$/, replacement: brandEntryPath },
-      { find: '@nuvens/core', replacement: r('./packages/core/src') },
-      { find: '@nuvens/ui', replacement: r('./packages/ui/src') },
       { find: '@', replacement: r('./apps/storefront/app/') },
+      { find: '@nuvens/core', replacement: r('./packages/core/src') },
+      { find: '@nuvens/shopify', replacement: r('./packages/shopify/src') },
+      { find: '@nuvens/ui', replacement: r('./packages/ui/src') },
+      { find: /^@nuvens\/brand-ui$/, replacement: brandEntryPath },
     ],
     dedupe: ['react', 'react-dom', 'i18next', 'react-i18next'],
   },
@@ -107,6 +108,7 @@ export default defineConfig({
         '**/node_modules/**',
         '**/*.d.ts',
         '**/*.interface.ts',
+        '**/*.types.ts',
         '**/*.test.{ts,tsx}',
         '**/__tests__/**',
         '**/__mocks__/**',

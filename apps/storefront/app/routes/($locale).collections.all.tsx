@@ -1,6 +1,5 @@
-import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
-import { ProductItem } from '@/components/ProductItem';
 import { guardedLoader } from '@/lib/routing/guard';
+import { PaginatedResourceSection, ProductItem } from '@nuvens/shopify';
 import { Container } from '@nuvens/ui';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';

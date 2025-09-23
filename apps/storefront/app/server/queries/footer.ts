@@ -1,6 +1,6 @@
 import { FOOTER_QUERY } from '@/lib/fragments';
+import type { FooterQuery } from '@nuvens/shopify';
 import type { LoaderFunctionArgs } from '@shopify/remix-oxygen';
-import type { FooterQuery } from 'storefrontapi.generated';
 
 export function queryFooter(args: LoaderFunctionArgs, language: string, country: string) {
   const handle = (args.context.env as Env).FOOTER_MENU_HANDLE;

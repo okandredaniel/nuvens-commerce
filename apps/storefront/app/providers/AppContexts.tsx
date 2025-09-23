@@ -1,29 +1,12 @@
 import { resolvePolicyPath as resolvePolicyPathPure } from '@/lib/routing/paths';
+import type { BrandCtx, StoreCtx, UserCtx } from '@nuvens/core';
+import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from '@nuvens/shopify';
 import { createContext, useContext, useMemo, useRef } from 'react';
-import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from 'storefrontapi.generated';
 
-type StoreCtx = {
-  publicStoreDomain?: string;
-  primaryDomainUrl?: string;
-  footer?: Promise<FooterQuery | null> | null;
-  header?: HeaderQuery | null;
-  routing?: {
-    isAllowed?: (path: string) => boolean;
-    resolvePolicyPath?: (path: string) => string;
-    recommendedFallback?: string;
-    candidates?: string[];
-  };
-};
-
-type CartCtx = {
-  cart: Promise<CartApiQueryFragment | null> | null;
-};
-
-type UserCtx = { isLoggedIn: boolean };
-type BrandCtx = { brandId?: string; cssVars?: string };
-
-const StoreContext = createContext<StoreCtx | undefined>(undefined);
-const CartContext = createContext<CartCtx | undefined>(undefined);
+const StoreContext = createContext<StoreCtx<HeaderQuery, FooterQuery> | undefined>(undefined);
+const CartContext = createContext<Promise<CartApiQueryFragment | null> | null | undefined>(
+  undefined,
+);
 const UserContext = createContext<UserCtx | undefined>(undefined);
 const BrandContext = createContext<BrandCtx | undefined>(undefined);
 
@@ -36,26 +19,29 @@ export const ProvidersMap = {
 
 export function useStore() {
   const v = useContext(StoreContext);
-  if (!v) throw new Error('useStore must be used within Providers');
+  if (v === undefined) throw new Error('useStore must be used within Providers');
   return v;
 }
 export function useCart() {
   const v = useContext(CartContext);
-  if (!v) throw new Error('useCart must be used within Providers');
+  if (v === undefined) throw new Error('useCart must be used within Providers');
   return v;
+}
+export function useCartMaybe() {
+  return useContext(CartContext);
 }
 export function useUser() {
   const v = useContext(UserContext);
-  if (!v) throw new Error('useUser must be used within Providers');
+  if (v === undefined) throw new Error('useUser must be used within Providers');
   return v;
 }
 export function useBrand() {
   const v = useContext(BrandContext);
-  if (!v) throw new Error('useBrand must be used within Providers');
+  if (v === undefined) throw new Error('useBrand must be used within Providers');
   return v;
 }
 
-export function useShallowMemo<T extends Record<string, any>>(obj: T): T {
+export function useShallowMemo<T extends Record<string, unknown>>(obj: T): T {
   const ref = useRef<T>(obj);
   const prev = ref.current;
   const prevKeys = Object.keys(prev);

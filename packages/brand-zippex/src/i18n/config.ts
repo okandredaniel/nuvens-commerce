@@ -3,7 +3,7 @@ import en from './locales/en';
 import es from './locales/es';
 import fr from './locales/fr';
 
-export const brandLocales = [Language.French, Language.English, Language.Spanish] as const;
+export const brandLocales = [Language.French, Language.English, Language.Spanish];
 export type BrandLocale = (typeof brandLocales)[number];
 
 export const brandDefaultLocale: BrandLocale = Language.English;

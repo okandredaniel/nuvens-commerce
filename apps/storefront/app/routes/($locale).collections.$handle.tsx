@@ -1,8 +1,7 @@
-import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
-import { ProductItem } from '@/components/ProductItem';
 import { PAGE_SIZE } from '@/lib/constants';
 import { PRODUCT_CARD_FRAGMENT } from '@/lib/fragments/catalog';
 import { guardedLoader } from '@/lib/routing/guard';
+import { PaginatedResourceSection, ProductItem } from '@nuvens/shopify';
 import { Container } from '@nuvens/ui';
 import { getPaginationVariables } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';

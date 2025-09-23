@@ -1,14 +1,13 @@
-import { LocalizedLink } from '@/components/LocalizedLink';
-import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
 import { PAGE_SIZE } from '@/lib/constants';
 import { COLLECTION_CARD_FRAGMENT } from '@/lib/fragments/catalog';
 import { guardedLoader } from '@/lib/routing/guard';
+import type { CollectionCardFragment } from '@nuvens/shopify';
+import { LocalizedLink, PaginatedResourceSection } from '@nuvens/shopify';
 import { Card, CardContent, Container } from '@nuvens/ui';
 import { getPaginationVariables, Image } from '@shopify/hydrogen';
 import type { LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';
 import { useLoaderData } from 'react-router';
-import type { CollectionCardFragment } from 'storefrontapi.generated';
 
 export const meta: MetaFunction<typeof loader> = () => [{ title: 'Collections' }];
 

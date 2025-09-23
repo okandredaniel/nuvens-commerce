@@ -1,13 +1,10 @@
-import { ProductForm } from '@/components/ProductForm';
-import { ProductPrice } from '@/components/ProductPrice';
-import ProductRating from '@/components/ProductRating';
-import { RichText } from '@/components/RichText';
 import { PRODUCT_QUERY } from '@/lib/fragments';
 import { redirectIfHandleIsLocalized } from '@/lib/redirect';
 import { buildCanonical } from '@/lib/seo';
 import type { RootLoader } from '@/root';
 import { ProductPage } from '@nuvens/brand-ui';
 import { getPdpMetaMock, type ProductTemplateSlots } from '@nuvens/core';
+import { ProductForm, ProductPrice, ProductRating, RichText } from '@nuvens/shopify';
 import { ProductGallery } from '@nuvens/ui';
 import {
   Analytics,

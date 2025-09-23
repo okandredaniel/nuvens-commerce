@@ -1,4 +1,3 @@
-import { SearchForm } from '@/components/SearchForm';
 import { SearchResults } from '@/components/SearchResults';
 import { guardedLoader } from '@/lib/routing/guard';
 import {
@@ -6,6 +5,7 @@ import {
   type PredictiveSearchReturn,
   type RegularSearchReturn,
 } from '@/lib/search';
+import { SearchForm } from '@nuvens/shopify';
 import { Button, Container, Input } from '@nuvens/ui';
 import { Analytics, getPaginationVariables } from '@shopify/hydrogen';
 import { type ActionFunctionArgs, type LoaderFunctionArgs } from '@shopify/remix-oxygen';

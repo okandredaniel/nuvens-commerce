@@ -1,10 +1,15 @@
+import { CART_QUERY_FRAGMENT } from '@/lib/fragments';
+import { AppSession } from '@/lib/session';
+import { createHydrogenContext } from '@shopify/hydrogen';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createAppLoadContext } from './context';
+import { getLocaleFromRequest } from './storefront.server';
 
 vi.mock('@/lib/fragments', () => ({
   CART_QUERY_FRAGMENT: 'fragment CartFields on Cart { id }',
 }));
 
-vi.mock('@/i18n/storefront.server', () => ({
+vi.mock('./storefront.server', () => ({
   getLocaleFromRequest: vi.fn(() => ({ language: 'EN', country: 'US' })),
 }));
 
@@ -15,12 +20,6 @@ vi.mock('@/lib/session', () => ({
 vi.mock('@shopify/hydrogen', () => ({
   createHydrogenContext: vi.fn((opts: any) => ({ ...opts, __tag: 'ctx' })),
 }));
-
-import { getLocaleFromRequest } from '@/i18n/storefront.server';
-import { CART_QUERY_FRAGMENT } from '@/lib/fragments';
-import { AppSession } from '@/lib/session';
-import { createHydrogenContext } from '@shopify/hydrogen';
-import { createAppLoadContext } from './context';
 
 describe('createAppLoadContext', () => {
   let cachesOpenMock: any;

@@ -1,5 +1,5 @@
-import { PolicyCard } from '@/components/PolicyCard';
 import { POLICIES_QUERY } from '@/lib/fragments';
+import { PolicyCard } from '@nuvens/shopify';
 import { Container, Heading } from '@nuvens/ui';
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from '@shopify/remix-oxygen';
 import { useTranslation } from 'react-i18next';

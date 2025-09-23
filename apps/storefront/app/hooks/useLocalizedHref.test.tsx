@@ -7,7 +7,7 @@ const router = vi.hoisted(() => ({
 }));
 vi.mock('react-router', () => router);
 
-const lz = vi.hoisted(() => ({
+const shopify = vi.hoisted(() => ({
   localizeTo: vi.fn((to: any, lang?: string) => {
     const t =
       typeof to === 'string'
@@ -16,7 +16,7 @@ const lz = vi.hoisted(() => ({
     return `HREF[${lang ?? ''}]:${t}`;
   }),
 }));
-vi.mock('@/i18n/localize', () => lz);
+vi.mock('@nuvens/shopify', () => shopify);
 
 async function importHook() {
   vi.resetModules();
@@ -45,7 +45,7 @@ describe('useLocalizedHref', () => {
     const { useLocalizedHref } = await importHook();
     const out = renderProbe(useLocalizedHref, '/x?q=1');
     expect(out).toBe('HREF[fr]:/x?q=1');
-    expect(lz.localizeTo).toHaveBeenCalledWith('/x?q=1', 'fr');
+    expect(shopify.localizeTo).toHaveBeenCalledWith('/x?q=1', 'fr');
   });
 
   it('uses route loader i18n.locale when path has no language', async () => {
@@ -54,7 +54,7 @@ describe('useLocalizedHref', () => {
     const { useLocalizedHref } = await importHook();
     const out = renderProbe(useLocalizedHref, { pathname: '/y', search: '?p=2' });
     expect(out).toBe('HREF[pt-BR]:/y?p=2');
-    expect(lz.localizeTo).toHaveBeenCalledWith({ pathname: '/y', search: '?p=2' }, 'pt-BR');
+    expect(shopify.localizeTo).toHaveBeenCalledWith({ pathname: '/y', search: '?p=2' }, 'pt-BR');
   });
 
   it('handles uppercase path segment and normalizes to lower', async () => {
@@ -62,7 +62,7 @@ describe('useLocalizedHref', () => {
     const { useLocalizedHref } = await importHook();
     const out = renderProbe(useLocalizedHref, '/z');
     expect(out).toBe('HREF[en]:/z');
-    expect(lz.localizeTo).toHaveBeenCalledWith('/z', 'en');
+    expect(shopify.localizeTo).toHaveBeenCalledWith('/z', 'en');
   });
 
   it('passes undefined lang when neither path nor data provide one', async () => {
@@ -71,6 +71,6 @@ describe('useLocalizedHref', () => {
     const { useLocalizedHref } = await importHook();
     const out = renderProbe(useLocalizedHref, { pathname: '/a', hash: '#h' });
     expect(out).toBe('HREF[]:/a#h');
-    expect(lz.localizeTo).toHaveBeenCalledWith({ pathname: '/a', hash: '#h' }, undefined);
+    expect(shopify.localizeTo).toHaveBeenCalledWith({ pathname: '/a', hash: '#h' }, undefined);
   });
 });

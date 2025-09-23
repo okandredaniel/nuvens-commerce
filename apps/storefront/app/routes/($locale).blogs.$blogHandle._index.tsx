@@ -1,9 +1,9 @@
-import { PaginatedResourceSection } from '@/components/PaginatedResourceSection';
 import { redirectIfHandleIsLocalized } from '@/lib/redirect';
+import type { ArticleItemFragment } from '@nuvens/shopify';
+import { PaginatedResourceSection } from '@nuvens/shopify';
 import { Image, getPaginationVariables } from '@shopify/hydrogen';
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen';
 import { Link, useLoaderData, type MetaFunction } from 'react-router';
-import type { ArticleItemFragment } from 'storefrontapi.generated';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   return [{ title: `Hydrogen | ${data?.blog.title ?? ''} blog` }];

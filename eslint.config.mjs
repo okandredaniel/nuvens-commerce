@@ -57,13 +57,15 @@ const importResolver = {
 };
 
 const coreModules = [
-  'virtual:react-router/server-build',
   '@nuvens/brand-ui',
   '@nuvens/brand-ui/styles.css',
   '@nuvens/brand-ui/styles.css?url',
+  '@nuvens/core',
+  '@nuvens/shopify',
   '@nuvens/ui/styles.css',
-  'vitest/config',
   '@testing-library/jest-dom/vitest',
+  'virtual:react-router/server-build',
+  'vitest/config',
 ];
 
 export default [
@@ -403,6 +405,20 @@ export default [
     settings: {
       'import/resolver': importResolver,
       'import/core-modules': coreModules,
+    },
+  },
+
+  {
+    files: ['packages/shopify/**/*.{ts,tsx,js,jsx}'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: ['@nuvens/brand-*'] }],
+    },
+    settings: {
+      'import/resolver': {
+        typescript: { project: 'packages/shopify/tsconfig.json' },
+        node: {},
+      },
+      'import/core-modules': ['@shopify/hydrogen/storefront-api-types'],
     },
   },
 ];

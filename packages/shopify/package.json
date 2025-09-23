@@ -1,0 +1,29 @@
+{
+  "name": "@nuvens/shopify",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@nuvens/core": "workspace:*",
+    "@nuvens/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "@shopify/hydrogen": "^2025.5.0",
+    "@shopify/hydrogen-codegen": "^0.3.3",
+    "i18next": "^25",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-i18next": "^15",
+    "react-router": "7.6.0"
+  }
+}
