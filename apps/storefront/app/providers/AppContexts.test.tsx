@@ -11,8 +11,8 @@ afterEach(() => {
   cleanup();
 });
 
-describe('AppContexts hooks básicos', () => {
-  it('useStore/useCart/useUser/useBrand lançam erro fora dos Providers', async () => {
+describe('AppContexts basic hooks', () => {
+  it('useStore/useCart/useUser/useBrand throw outside Providers', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -41,7 +41,7 @@ describe('AppContexts hooks básicos', () => {
 });
 
 describe('useShallowMemo', () => {
-  it('mantém a mesma referência quando raso igual', async () => {
+  it('keeps the same reference when shallow-equal', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -60,7 +60,7 @@ describe('useShallowMemo', () => {
     expect(refs[1]).toBe(refs[0]);
   });
 
-  it('troca a referência quando algum valor muda ou chaves mudam', async () => {
+  it('changes the reference when a value or keys change', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -82,7 +82,7 @@ describe('useShallowMemo', () => {
 });
 
 describe('useRoutingPolicy', () => {
-  it('usa defaults quando não há routing no store', async () => {
+  it('uses defaults when store has no routing', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -106,7 +106,7 @@ describe('useRoutingPolicy', () => {
     expect(captured.recommendedFallback).toBe('/x');
   });
 
-  it('respeita funções fornecidas pelo store.routing', async () => {
+  it('respects functions provided by store.routing', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -139,7 +139,7 @@ describe('useRoutingPolicy', () => {
     expect(captured.recommendedFallback).toBe('/policies');
   });
 
-  it('prioriza recommendedFallback fornecido', async () => {
+  it('prioritizes provided recommendedFallback', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -169,7 +169,7 @@ describe('useRoutingPolicy', () => {
     expect(captured.recommendedFallback).toBe('/forced');
   });
 
-  it('usa candidates passados ao hook quando store não define candidates', async () => {
+  it('uses hook candidates when store does not define candidates', async () => {
     vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
     const mod = await import('./AppContexts');
 
@@ -189,5 +189,35 @@ describe('useRoutingPolicy', () => {
     );
 
     expect(captured.recommendedFallback).toBe('/b');
+  });
+});
+
+describe('HMR', () => {
+  it('preserves context identity across module re-imports', async () => {
+    vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
+    const mod1 = await import('./AppContexts');
+
+    const store: any = { foo: 'bar' };
+    function Wrapper({ children }: { children: any }) {
+      return <mod1.ProvidersMap.Store value={store}>{children}</mod1.ProvidersMap.Store>;
+    }
+
+    vi.resetModules();
+    vi.doMock('@/lib/routing/paths', () => ({ resolvePolicyPath: (p: string) => `/pure/${p}` }));
+    const mod2 = await import('./AppContexts');
+
+    let got: any = null;
+    function Probe() {
+      got = mod2.useStore();
+      return null;
+    }
+
+    render(
+      <Wrapper>
+        <Probe />
+      </Wrapper>,
+    );
+
+    expect(got).toBe(store);
   });
 });

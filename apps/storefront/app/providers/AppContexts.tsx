@@ -3,12 +3,23 @@ import type { BrandCtx, StoreCtx, UserCtx } from '@nuvens/core';
 import type { CartApiQueryFragment, FooterQuery, HeaderQuery } from '@nuvens/shopify';
 import { createContext, useContext, useMemo, useRef } from 'react';
 
-const StoreContext = createContext<StoreCtx<HeaderQuery, FooterQuery> | undefined>(undefined);
-const CartContext = createContext<Promise<CartApiQueryFragment | null> | null | undefined>(
-  undefined,
-);
-const UserContext = createContext<UserCtx | undefined>(undefined);
-const BrandContext = createContext<BrandCtx | undefined>(undefined);
+const g = globalThis as any;
+
+const StoreContext: React.Context<StoreCtx<HeaderQuery, FooterQuery> | undefined> =
+  g.__StoreContext ??
+  (g.__StoreContext = createContext<StoreCtx<HeaderQuery, FooterQuery> | undefined>(undefined));
+
+const CartContext: React.Context<Promise<CartApiQueryFragment | null> | null | undefined> =
+  g.__CartContext ??
+  (g.__CartContext = createContext<Promise<CartApiQueryFragment | null> | null | undefined>(
+    undefined,
+  ));
+
+const UserContext: React.Context<UserCtx | undefined> =
+  g.__UserContext ?? (g.__UserContext = createContext<UserCtx | undefined>(undefined));
+
+const BrandContext: React.Context<BrandCtx | undefined> =
+  g.__BrandContext ?? (g.__BrandContext = createContext<BrandCtx | undefined>(undefined));
 
 export const ProvidersMap = {
   Store: StoreContext.Provider,
