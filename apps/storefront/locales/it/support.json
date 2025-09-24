@@ -43,7 +43,7 @@
       "desc": "Scrivici — rispondiamo entro 24–48 h.",
       "href": "mailto:hello@example.com"
     },
-    "phone": { "title": "Telefono", "desc": "Lun–Ven, 10:00–17:00.", "href": "tel:+33980806025" },
+    "phone": { "title": "Telefono", "desc": "Lun–Ven, 10:00–17:00.", "href": "#" },
     "actions": {
       "openChat": "Apri chat",
       "openWhatsApp": "Apri WhatsApp",
