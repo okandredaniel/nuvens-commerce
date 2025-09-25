@@ -1,4 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src", "codegen.ts", "../../types/**/*.d.ts"]
+  "include": ["src", "codegen.ts", "codegen.test.ts", "../../types/**/*.d.ts"],
+  "compilerOptions": {
+    "types": ["vite/client", "node"]
+  }
 }
