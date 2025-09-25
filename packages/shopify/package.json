@@ -17,6 +17,9 @@
     "@nuvens/core": "workspace:*",
     "@nuvens/ui": "workspace:*"
   },
+  "devDependencies": {
+    "@graphql-codegen/cli": "5.0.7"
+  },
   "peerDependencies": {
     "@shopify/hydrogen": "^2025.5.0",
     "@shopify/hydrogen-codegen": "^0.3.3",

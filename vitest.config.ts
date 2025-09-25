@@ -95,7 +95,7 @@ export default defineConfig({
       ['packages/brand-*/**', 'jsdom'],
       ['packages/core/**', 'node'],
     ],
-    setupFiles: ['apps/storefront/vitest.setup.ts', 'packages/ui/vitest.setup.ts'],
+    setupFiles: ['vitest.setup.ts'],
     globals: true,
     reporters: isCI ? ['dot'] : ['default'],
     coverage: {

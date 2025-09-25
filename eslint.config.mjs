@@ -23,7 +23,15 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-const PKGS = ['core', 'ui', 'brand-cosmos', 'brand-naturalex', 'brand-wooly', 'brand-zippex'];
+const PKGS = [
+  'core',
+  'ui',
+  'shopify',
+  'brand-cosmos',
+  'brand-naturalex',
+  'brand-wooly',
+  'brand-zippex',
+];
 
 const tsconfigOf = (rel) => path.resolve(__dirname, rel);
 const pkgTsconfig = (pkg) => tsconfigOf(`packages/${pkg}/tsconfig.json`);
