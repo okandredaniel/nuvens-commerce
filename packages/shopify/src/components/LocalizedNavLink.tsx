@@ -1,6 +1,6 @@
 import { cn } from '@nuvens/ui';
 import { NavLink as RRNavLink, type NavLinkProps as RRNavLinkProps } from 'react-router';
-import { useShopifyAdapter } from '../shopify-adapter';
+import { useShopifyAdapter } from '../adapter';
 
 export function LocalizedNavLink({ to, className, ...rest }: RRNavLinkProps) {
   const { useLocalizedHref } = useShopifyAdapter();

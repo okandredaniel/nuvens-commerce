@@ -5,7 +5,7 @@ import { Trash2 } from 'lucide-react';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import { useShopifyAdapter } from '../../shopify-adapter';
+import { useShopifyAdapter } from '../../adapter';
 import { type CartApiQueryFragment } from '../../types/storefrontapi.generated';
 import { ProductPrice } from '../ProductPrice';
 import type { CartLayout } from './cart.interface';

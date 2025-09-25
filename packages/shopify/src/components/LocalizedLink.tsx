@@ -1,5 +1,5 @@
 import { NavLink as RRLink, type LinkProps as RRLinkProps } from 'react-router';
-import { useShopifyAdapter } from '../shopify-adapter';
+import { useShopifyAdapter } from '../adapter';
 
 export function LocalizedLink({ to, ...rest }: RRLinkProps) {
   const { useLocalizedHref } = useShopifyAdapter();

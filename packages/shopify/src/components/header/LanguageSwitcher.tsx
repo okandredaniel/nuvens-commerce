@@ -3,8 +3,8 @@ import { Globe } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router';
+import { useShopifyAdapter } from '../../adapter';
 import { toLang } from '../../i18n/localize';
-import { useShopifyAdapter } from '../../shopify-adapter';
 import type { LanguageOption } from './header.interfaces';
 
 type Props = { options: LanguageOption[]; current?: string };

@@ -32,7 +32,7 @@ export * from './i18n/resources';
 export * from './i18n/useLanguageOptions';
 
 // Adapter
-export * from './shopify-adapter';
+export * from './adapter';
 
 // Storefront API generated
 export type * from './types/storefrontapi.generated';

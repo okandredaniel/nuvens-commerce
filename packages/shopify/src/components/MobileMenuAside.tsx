@@ -1,5 +1,5 @@
 import { Aside } from '@nuvens/ui';
-import { useShopifyAdapter } from '../shopify-adapter';
+import { useShopifyAdapter } from '../adapter';
 import { HeaderMenu } from './header';
 
 export function MobileMenuAside() {

@@ -1,5 +1,5 @@
 import { Image, Money } from '@shopify/hydrogen';
-import { useShopifyAdapter } from '../shopify-adapter';
+import { useShopifyAdapter } from '../adapter';
 import type { CollectionItemFragment, ProductCardFragment } from '../types/storefrontapi.generated';
 import { LocalizedLink } from './LocalizedLink';
 

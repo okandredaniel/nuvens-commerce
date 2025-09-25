@@ -4,7 +4,7 @@ import { useAnalytics } from '@shopify/hydrogen';
 import { ShoppingCart } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useShopifyAdapter } from '../../shopify-adapter';
+import { useShopifyAdapter } from '../../adapter';
 
 function isPromiseLike(x: unknown): x is Promise<any> {
   return !!x && typeof (x as any).then === 'function';
