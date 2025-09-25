@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@nuvens/core": "workspace:*",
-    "@nuvens/ui": "workspace:*",
     "@nuvens/shopify": "workspace:*",
+    "@nuvens/ui": "workspace:*",
     "@shopify/hydrogen": "2025.5.0",
     "@shopify/hydrogen-react": "^2025.5.0",
     "@shopify/remix-oxygen": "^3.0.0",
@@ -26,6 +26,7 @@
     "void-elements": "^3.1.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "5.0.7",
     "@parcel/watcher": "^2.5.1",
     "@react-router/dev": "7.6.0",
     "@react-router/fs-routes": "7.6.0",
