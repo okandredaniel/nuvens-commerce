@@ -1,19 +1,88 @@
 import { Button, DropdownMenu, Tooltip } from '@nuvens/ui';
 import { Globe } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router';
-import { languageInfo } from '../../i18n/languageLabel';
 import { toLang } from '../../i18n/localize';
 import { useShopifyAdapter } from '../../shopify-adapter';
 import type { LanguageOption } from './header.interfaces';
 
 type Props = { options: LanguageOption[]; current?: string };
 
+const storefrontCommonBundles = import.meta.glob('../../locales/**/common.json');
+const loaded = new Set<string>();
+const dnCache = new Map<string, Intl.DisplayNames | null>();
+
+const endonymFallback: Record<string, Record<string, string>> = {
+  en: { en: 'English', fr: 'French', pt: 'Portuguese', es: 'Spanish', it: 'Italian' },
+  fr: { en: 'anglais', fr: 'français', pt: 'portugais', es: 'espagnol', it: 'italien' },
+  pt: { en: 'inglês', fr: 'francês', pt: 'português', es: 'espanhol', it: 'italiano' },
+  es: { en: 'inglés', fr: 'francés', pt: 'portugués', es: 'español', it: 'italiano' },
+  it: { en: 'inglese', fr: 'francese', pt: 'portoghese', es: 'spagnolo', it: 'italiano' },
+};
+
+const switchToTemplate: Record<string, string> = {
+  en: 'Switch to {{value}}',
+  fr: 'Passer en {{value}}',
+  pt: 'Mudar para {{value}}',
+  es: 'Cambiar a {{value}}',
+  it: 'Passare a {{value}}',
+};
+
+function endonym(codeRaw: string, displayLocaleRaw: string) {
+  const code = toLang(codeRaw);
+  const display = toLang(displayLocaleRaw);
+  const key = `${display}::${code}`;
+  let dn = dnCache.get(key);
+  if (dn === undefined) {
+    try {
+      dn = new Intl.DisplayNames([display], { type: 'language' });
+    } catch {
+      dn = null;
+    }
+    dnCache.set(key, dn);
+  }
+  const name = dn ? dn.of(code) : undefined;
+  if (name) return name;
+  const map = endonymFallback[display] || endonymFallback.en;
+  return map[code] || code;
+}
+
+function tSwitchTo(i18n: import('i18next').i18n, target: string, langName: string) {
+  const lng = toLang(target);
+  const exists = !!i18n.getResource(lng, 'common', 'nav.switchTo');
+  if (exists) return i18n.getFixedT(lng, 'common')('nav.switchTo', { value: langName });
+  const tpl = switchToTemplate[lng] || switchToTemplate.en;
+  return tpl.replace('{{value}}', langName);
+}
+
+async function ensureBundle(i18n: import('i18next').i18n, lang: string) {
+  const lng = toLang(lang);
+  if (
+    loaded.has(lng) ||
+    (typeof i18n.hasResourceBundle === 'function' && i18n.hasResourceBundle(lng, 'common'))
+  ) {
+    loaded.add(lng);
+    return;
+  }
+  const matcher = new RegExp(`/locales/${lng}/common\\.json$`);
+  const entry = Object.entries(storefrontCommonBundles).find(([p]) =>
+    matcher.test(p.replace(/\\/g, '/')),
+  );
+  if (entry) {
+    const [, loader] = entry;
+    const mod = (await loader()) as any;
+    const json = mod.default || mod;
+    i18n.addResourceBundle(lng, 'common', json, true, true);
+    loaded.add(lng);
+  }
+}
+
 export function LanguageSwitcher({ options, current }: Props) {
   const { defaultLocale } = useShopifyAdapter();
   const { i18n, t } = useTranslation('common');
   const { pathname } = useLocation();
+  const [ready, setReady] = useState(0);
 
   const seg = pathname.split('/').filter(Boolean)[0] ?? '';
   const pathLang = /^[a-z]{2}$/i.test(seg) ? seg.toLowerCase() : undefined;
@@ -38,13 +107,18 @@ export function LanguageSwitcher({ options, current }: Props) {
     return options.filter((_, i) => i !== activeIndex);
   }, [options, idx, active]);
 
+  useEffect(() => {
+    const langs = others.map((o) => toLang(o.isoCode));
+    Promise.all(langs.map((l) => ensureBundle(i18n, l))).then(() => setReady((x) => x + 1));
+  }, [i18n, others]);
+
   if (!options?.length || !active) return null;
 
   const labelChange = t('nav.changeLanguage');
-  const activeInfo = languageInfo(active.isoCode, i18n.language, active.label);
+  const activeLabel = endonym(active.isoCode, active.isoCode);
   const a11yCurrent = t('a11y.current', {
     target: t('nav.language').toLowerCase(),
-    value: activeInfo.label,
+    value: activeLabel,
   });
 
   return (
@@ -59,7 +133,7 @@ export function LanguageSwitcher({ options, current }: Props) {
               className="w-full max-w-12 md:max-w-none"
             >
               <Globe className="h-4 w-4 text-primary-400 mr-2" aria-hidden />
-              <span>{activeInfo.code.toUpperCase()}</span>
+              <span>{toLang(active.isoCode).toUpperCase()}</span>
             </Button>
           </DropdownMenu.Trigger>
         </Tooltip.Trigger>
@@ -76,15 +150,13 @@ export function LanguageSwitcher({ options, current }: Props) {
           <DropdownMenu.Content sideOffset={8}>
             <div className="px-3 py-2 text-xs uppercase opacity-60">{labelChange}</div>
             {others.map((o) => {
-              const info = languageInfo(o.isoCode, i18n.language, o.label);
+              const target = toLang(o.isoCode);
+              const langName = endonym(target, target);
+              const label = tSwitchTo(i18n, target, langName);
               return (
                 <DropdownMenu.Item key={o.isoCode} asChild>
-                  <NavLink
-                    to={o.href}
-                    prefetch="intent"
-                    aria-label={t('nav.switchTo', { value: info.label })}
-                  >
-                    {t('nav.switchTo', { value: info.label })}
+                  <NavLink to={o.href} prefetch="none" aria-label={label}>
+                    {label}
                   </NavLink>
                 </DropdownMenu.Item>
               );
