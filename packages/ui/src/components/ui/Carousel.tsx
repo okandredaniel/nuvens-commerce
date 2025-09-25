@@ -193,9 +193,9 @@ export function Carousel({
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [last, instanceRef]);
 
-  const dotsCount = Math.max(last + 1, slidesCount || 1);
+  const pages = mounted ? Math.max(1, last + 1) : Math.max(1, Math.ceil(slidesCount / baseSpv));
   const showNav = nav && mounted && last > 0;
-  const showDots = dots && dotsCount > 1;
+  const showDots = dots && pages > 1;
 
   return (
     <div
@@ -287,7 +287,7 @@ export function Carousel({
             role="tablist"
             aria-label={i18n.label}
           >
-            {Array.from({ length: dotsCount }).map((_, i) => (
+            {Array.from({ length: pages }).map((_, i) => (
               <button
                 key={i}
                 type="button"
@@ -307,7 +307,7 @@ export function Carousel({
       )}
 
       <span className="sr-only" aria-live="polite" aria-atomic="true">
-        {i18n.status(current + 1, dotsCount)}
+        {i18n.status(current + 1, pages)}
       </span>
     </div>
   );
