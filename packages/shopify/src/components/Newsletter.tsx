@@ -50,7 +50,10 @@ export function Newsletter({ tone = 'onDark' }: { tone?: Tone }) {
           <Button
             type="submit"
             variant="primary"
-            className="absolute right-1 top-1 hidden sm:inline-flex"
+            className="absolute right-1 top-[50%] hidden sm:inline-flex"
+            style={{
+              transform: 'translateY(-50%)',
+            }}
             aria-label={t('cta')}
             title={t('cta')}
           >
