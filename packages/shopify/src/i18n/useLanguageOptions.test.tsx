@@ -3,12 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 type LanguageOption = { isoCode: string; href: string; label: string };
 
-const brand = vi.hoisted(() => ({
-  brandDefaultLocale: 'en-US' as string,
-  brandLocales: ['en-US'] as string[],
-}));
-vi.mock('@nuvens/brand-ui', () => brand);
-
 const router = vi.hoisted(() => ({
   useLocation: vi.fn<() => { pathname: string; search: string }>(() => ({
     pathname: '/',
@@ -18,28 +12,37 @@ const router = vi.hoisted(() => ({
 }));
 vi.mock('react-router', () => router);
 
-vi.mock('@/i18n/localize', () => {
+vi.mock('./localize', () => {
   const toLang = vi.fn((s: any) =>
     String(s || 'en')
       .trim()
       .toLowerCase()
       .replace(/_/g, '-'),
   );
-  (globalThis as any).__toLang = toLang;
   return { toLang };
 });
 
-async function importHook() {
+async function fresh() {
   vi.resetModules();
-  return await import('./useLanguageOptions');
+  const hook = await import('./useLanguageOptions');
+  const adapter = await import('../adapter');
+  return { hook, adapter };
 }
 
-function renderProbe(useLanguageOptions: any) {
+function renderWithAdapter(
+  useLanguageOptions: any,
+  Provider: any,
+  providerValue: { defaultLocale: string; locales: string[] },
+) {
   const Probe = () => {
     const result = useLanguageOptions();
     return <pre data-testid="out">{JSON.stringify(result)}</pre>;
   };
-  render(<Probe />);
+  render(
+    <Provider value={providerValue}>
+      <Probe />
+    </Provider>,
+  );
   return JSON.parse(screen.getByTestId('out').textContent || '{}') as {
     options: LanguageOption[];
     current: string;
@@ -48,14 +51,13 @@ function renderProbe(useLanguageOptions: any) {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  brand.brandDefaultLocale = 'en-US';
-  brand.brandLocales = ['en-US'];
   router.useLocation.mockReturnValue({ pathname: '/', search: '' });
   router.useRouteLoaderData.mockReturnValue(undefined);
 });
 
 describe('useLanguageOptions', () => {
   it('returns provided languages from route data and current from path', async () => {
+    const { hook, adapter } = await fresh();
     router.useLocation.mockReturnValue({ pathname: '/es/products', search: '?q=a' });
     const provided: LanguageOption[] = [
       { isoCode: 'fr', href: '/fr/products?q=a', label: 'FR' },
@@ -63,20 +65,23 @@ describe('useLanguageOptions', () => {
     ];
     router.useRouteLoaderData.mockReturnValue({ languages: provided });
 
-    const { useLanguageOptions } = await importHook();
-    const out = renderProbe(useLanguageOptions);
+    const out = renderWithAdapter(hook.useLanguageOptions, adapter.ShopifyAdapterProvider, {
+      defaultLocale: 'en-US',
+      locales: ['en-US', 'fr-FR', 'es-ES'],
+    });
 
     expect(out.current).toBe('es');
     expect(out.options).toStrictEqual(provided);
   });
 
-  it('builds options from brandLocales and composes hrefs with prefix replacement', async () => {
-    brand.brandDefaultLocale = 'pt-BR';
-    brand.brandLocales = ['pt-BR', 'en-US', 'es-ES'];
+  it('builds options from locales and replaces prefix for default language', async () => {
+    const { hook, adapter } = await fresh();
     router.useLocation.mockReturnValue({ pathname: '/pt/catalog/1', search: '?x=1' });
 
-    const { useLanguageOptions } = await importHook();
-    const out = renderProbe(useLanguageOptions);
+    const out = renderWithAdapter(hook.useLanguageOptions, adapter.ShopifyAdapterProvider, {
+      defaultLocale: 'pt-BR',
+      locales: ['pt-BR', 'en-US', 'es-ES'],
+    });
 
     expect(out.current).toBe('pt');
     expect(out.options).toStrictEqual([
@@ -87,12 +92,13 @@ describe('useLanguageOptions', () => {
   });
 
   it('adds language prefix when path has no prefix and preserves search', async () => {
-    brand.brandDefaultLocale = 'en-US';
-    brand.brandLocales = ['en-US', 'fr-FR'];
+    const { hook, adapter } = await fresh();
     router.useLocation.mockReturnValue({ pathname: '/', search: '?p=1' });
 
-    const { useLanguageOptions } = await importHook();
-    const out = renderProbe(useLanguageOptions);
+    const out = renderWithAdapter(hook.useLanguageOptions, adapter.ShopifyAdapterProvider, {
+      defaultLocale: 'en-US',
+      locales: ['en-US', 'fr-FR'],
+    });
 
     expect(out.options).toStrictEqual([
       { isoCode: 'en-us', href: '/?p=1', label: 'EN-US' },
@@ -100,13 +106,14 @@ describe('useLanguageOptions', () => {
     ]);
   });
 
-  it('replaces existing two-letter prefix with target iso when switching to non-default', async () => {
-    brand.brandDefaultLocale = 'en-US';
-    brand.brandLocales = ['en-US', 'it-IT'];
+  it('replaces existing two-letter prefix when switching to non-default', async () => {
+    const { hook, adapter } = await fresh();
     router.useLocation.mockReturnValue({ pathname: '/en/deals', search: '' });
 
-    const { useLanguageOptions } = await importHook();
-    const out = renderProbe(useLanguageOptions);
+    const out = renderWithAdapter(hook.useLanguageOptions, adapter.ShopifyAdapterProvider, {
+      defaultLocale: 'en-US',
+      locales: ['en-US', 'it-IT'],
+    });
 
     expect(out.options).toStrictEqual([
       { isoCode: 'en-us', href: '/deals', label: 'EN-US' },

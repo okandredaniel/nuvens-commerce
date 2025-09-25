@@ -61,7 +61,11 @@ describe('attachI18nDiagnostics', () => {
   });
 
   it('uses instance.language or brandDefaultLocale when lngs are missing', async () => {
-    const { attachI18nDiagnostics } = await importLogger();
+    vi.resetModules();
+    const { setShopifyAdapter } = await import('../adapter');
+    setShopifyAdapter({ defaultLocale: 'en-US' });
+    const { attachI18nDiagnostics } = await import('./logger');
+
     const inst = createFakeI18n(undefined);
     attachI18nDiagnostics(inst, 100);
     inst.emitMissingKey(undefined, 'ns', 'keyX');

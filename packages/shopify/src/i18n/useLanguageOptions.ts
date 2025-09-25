@@ -1,6 +1,6 @@
 import { useLocation, useRouteLoaderData } from 'react-router';
+import { useShopifyAdapter } from '../adapter';
 import { type LanguageOption } from '../components/header';
-import { useShopifyAdapter } from '../shopify-adapter';
 import { toLang } from './localize';
 
 const replaceLangInPath = (pathname: string, target: string, defaultLang: string) => {

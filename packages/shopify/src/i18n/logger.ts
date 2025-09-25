@@ -1,11 +1,13 @@
 import type { i18n } from 'i18next';
-import { getShopifyAdapter } from '../shopify-adapter';
+import { getShopifyAdapter } from '../adapter';
 
 const attached = new WeakSet<i18n>();
 
-export function attachI18nDiagnostics(instance: i18n, windowMs = 1200) {
-  const { defaultLocale } = getShopifyAdapter();
+function getDefaultLocale() {
+  return getShopifyAdapter().defaultLocale;
+}
 
+export function attachI18nDiagnostics(instance: i18n, windowMs = 1200) {
   if (attached.has(instance)) return;
   attached.add(instance);
 
@@ -13,7 +15,8 @@ export function attachI18nDiagnostics(instance: i18n, windowMs = 1200) {
   const timers = new Map<string, number | ReturnType<typeof setTimeout>>();
 
   instance.on('missingKey', (lngs, ns, key) => {
-    const lang = Array.isArray(lngs) ? lngs[0] : lngs || instance.language || defaultLocale;
+    const lang =
+      (Array.isArray(lngs) ? lngs[0] : lngs) || instance.language || getDefaultLocale() || '';
     const id = `${lang}|${ns}|${key}`;
     counts.set(id, (counts.get(id) || 0) + 1);
     if (!timers.has(id)) {
@@ -35,6 +38,7 @@ export function createI18nextLogger() {
 
   function emit(level: 'log' | 'warn' | 'error', args: any[]) {
     const str = args.map((a) => (typeof a === 'string' ? a : String(a))).join(' ');
+    if (/i18next::translator:\s*missingKey\b/.test(str)) return;
     const now = Date.now();
     const last = seen.get(str) || 0;
     if (now - last < ttl) return;

@@ -1,5 +1,5 @@
 import { Language } from '@nuvens/core';
-import { getShopifyAdapter } from '../shopify-adapter';
+import { getShopifyAdapter } from '../adapter';
 
 export const isExternal = (href: string): boolean => {
   if (!href) return false;
@@ -49,5 +49,12 @@ export function localizeTo(
   return { ...to, pathname };
 }
 
-export const toLang = (tag?: string) => (tag?.split?.('-')[0] ?? '').toLowerCase();
+export const toLang = (tag?: string) => {
+  const t = String(tag ?? '')
+    .trim()
+    .toLowerCase();
+  const base = t.split('-')[0];
+  return base || Language.English;
+};
+
 export const localizeHref = localizeTo;

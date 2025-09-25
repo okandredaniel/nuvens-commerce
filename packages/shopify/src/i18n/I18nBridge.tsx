@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useRouteLoaderData } from 'react-router';
-import { useShopifyAdapter } from '../shopify-adapter';
+import { useShopifyAdapter } from '../adapter';
 
 export function I18nBridge() {
   const { defaultLocale } = useShopifyAdapter();

@@ -1,5 +1,5 @@
-import type { I18nBundle, Language } from '@nuvens/core';
-import { getShopifyAdapter } from '../shopify-adapter';
+import type { I18nBundle } from '@nuvens/core';
+import { getShopifyAdapter } from '../adapter';
 import { toLang } from './localize';
 
 function asBundle(m: unknown): I18nBundle | null {
@@ -34,7 +34,11 @@ export function loadAppDictionaries(lang: string, sources?: Record<string, unkno
 
 export function loadBrandBundleDictionaries(lang: string, sources?: Record<string, unknown>) {
   const { defaultLocale } = getShopifyAdapter();
-  const l = toLang(lang) as Language;
+  const want = toLang(lang);
+  const wantBase = want.split('-')[0];
+  const def = defaultLocale ? toLang(defaultLocale) : null;
+  const defBase = def ? def.split('-')[0] : null;
+
   const mods =
     sources ??
     import.meta.glob('../../../../packages/brand-*/src/**/*.i18n.{ts,js}', { eager: true });
@@ -43,10 +47,18 @@ export function loadBrandBundleDictionaries(lang: string, sources?: Record<strin
   for (const [, mod] of Object.entries(mods)) {
     const bundle = asBundle(mod);
     if (!bundle) continue;
-    const bag = bundle.resources as Partial<Record<Language, Record<string, any>>>;
-    const dict = bag[l] || bag[defaultLocale as Language] || {};
-    if (!dict || typeof dict !== 'object') continue;
-    out[bundle.ns] = { ...(out[bundle.ns] || {}), ...dict };
+    const bag = bundle.resources as Record<string, Record<string, any> | undefined>;
+
+    const candidate =
+      bag[want] ??
+      bag[wantBase] ??
+      (def ? bag[def] : undefined) ??
+      (defBase ? bag[defBase] : undefined);
+
+    if (!candidate || typeof candidate !== 'object' || Object.keys(candidate).length === 0)
+      continue;
+
+    out[bundle.ns] = { ...(out[bundle.ns] || {}), ...candidate };
   }
   return out;
 }
@@ -58,16 +70,17 @@ export function loadBrandLocaleDictionaries(language: string) {
     eager: true,
   });
   const want = toLang(language).split('-')[0];
-  const fallback = defaultLocale?.split('-')[0];
+  const fallback = defaultLocale ? toLang(defaultLocale).split('-')[0] : null;
 
   for (const [path, mod] of Object.entries(mods)) {
     const m = (mod as any).default as Record<string, any> | undefined;
     if (!m) continue;
     const match = path.match(/locales\/([^/]+)\/index\.(?:ts|js)$/);
     if (!match) continue;
-    const lang = match[1].split('-')[0];
+    const lang = toLang(match[1]).split('-')[0];
     if (lang !== want && lang !== fallback) continue;
     for (const [ns, dict] of Object.entries(m)) {
+      if (!dict || typeof dict !== 'object' || Object.keys(dict).length === 0) continue;
       out[ns] = out[ns] || {};
       Object.assign(out[ns], dict as object);
     }

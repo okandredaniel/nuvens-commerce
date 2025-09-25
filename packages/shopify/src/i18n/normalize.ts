@@ -1,14 +1,16 @@
-import { getShopifyAdapter } from '../shopify-adapter';
+import { getShopifyAdapter } from '../adapter';
 import { toLang } from './localize';
 
 type Dict = Record<string, any>;
 type NsFirst = Record<string, Record<string, Dict>>;
 
-const { defaultLocale } = getShopifyAdapter();
-
 const isObj = (v: unknown): v is Record<string, any> =>
   v !== null && typeof v === 'object' && !Array.isArray(v);
 const isLang = (k: string) => /^[a-z]{2}$/i.test(k);
+
+function getDefaultLocale() {
+  return getShopifyAdapter().defaultLocale;
+}
 
 export function normalizeResources(input: unknown): NsFirst {
   const out: NsFirst = {};
@@ -35,7 +37,7 @@ export function normalizeResources(input: unknown): NsFirst {
         (out[ns] ||= {})[toLang(lKey)] = bundle;
       }
     } else {
-      const def = toLang(defaultLocale);
+      const def = toLang(String(getDefaultLocale() || ''));
       (out[ns] ||= {})[def] = byLangOrBundle as Dict;
     }
   }
@@ -43,9 +45,10 @@ export function normalizeResources(input: unknown): NsFirst {
 }
 
 export function mergeResources(lang: string, ...inputs: Array<unknown>) {
-  const desiredFull = toLang(lang || defaultLocale);
+  const def = String(getDefaultLocale() || '');
+  const desiredFull = toLang(lang || def);
   const desiredBase = desiredFull.split('-')[0];
-  const fallbackFull = toLang(defaultLocale);
+  const fallbackFull = toLang(def);
   const fallbackBase = fallbackFull.split('-')[0];
 
   const nsFirst: NsFirst = {};
@@ -56,10 +59,7 @@ export function mergeResources(lang: string, ...inputs: Array<unknown>) {
         byLang[desiredFull] ?? byLang[desiredBase] ?? byLang[fallbackFull] ?? byLang[fallbackBase];
       if (!isObj(src)) continue;
       nsFirst[ns] ||= {};
-      nsFirst[ns][desiredFull] = {
-        ...(nsFirst[ns][desiredFull] || {}),
-        ...src,
-      };
+      nsFirst[ns][desiredFull] = { ...(nsFirst[ns][desiredFull] || {}), ...src };
     }
   }
   const out: Record<string, Dict> = {};
