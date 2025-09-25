@@ -1,9 +1,4 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": [
-    "src",
-    "../../types/**/*.d.ts",
-    "vitest.config.ts",
-    "../../apps/storefront/app/pages/PageTemplates.tsx"
-  ]
+  "include": ["src", "../../types/**/*.d.ts"]
 }
