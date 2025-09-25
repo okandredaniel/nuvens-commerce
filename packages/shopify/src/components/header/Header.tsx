@@ -24,28 +24,32 @@ export function Header({ pref, Brand, menu, primaryDomainUrl, publicStoreDomain 
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const lastYRef = useRef(0);
-  const tickingRef = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY || 0;
-      if (!tickingRef.current) {
-        window.requestAnimationFrame(() => {
-          const last = lastYRef.current;
-          const delta = y - last;
-          const threshold = 6;
-          if (Math.abs(delta) > threshold) {
-            setVisible(delta < 0 || y < 80);
-            lastYRef.current = y;
-          }
-          setScrolled(y > 100);
-          tickingRef.current = false;
-        });
-        tickingRef.current = true;
+    const readY = () =>
+      typeof window !== 'undefined'
+        ? (Number.isFinite(window.scrollY) ? window.scrollY : window.pageYOffset) || 0
+        : 0;
+
+    const applyFrom = (y: number) => {
+      const last = lastYRef.current;
+      const delta = y - last;
+      const threshold = 6;
+      if (Math.abs(delta) > threshold) {
+        setVisible(delta < 0 || y < 80);
+        lastYRef.current = y;
       }
+      setScrolled(y > 100);
     };
-    lastYRef.current = window.scrollY || 0;
-    onScroll();
+
+    const initialY = readY();
+    lastYRef.current = initialY;
+    applyFrom(initialY);
+
+    const onScroll = () => {
+      applyFrom(readY());
+    };
+
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);

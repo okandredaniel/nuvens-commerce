@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { NavLink, useLocation } from 'react-router';
 import { useShopifyAdapter } from '../../adapter';
 import { toLang } from '../../i18n/localize';
-import type { LanguageOption } from './header.interfaces';
+import type { LanguageOption } from '../../types/header.interfaces';
 
 type Props = { options: LanguageOption[]; current?: string };
 
@@ -78,6 +78,12 @@ async function ensureBundle(i18n: import('i18next').i18n, lang: string) {
   }
 }
 
+function labelForTarget(i18n: import('i18next').i18n, target: string) {
+  if (toLang(target) === 'en') return tSwitchTo(i18n, target, 'ENGLISH');
+  const name = endonym(target, target);
+  return tSwitchTo(i18n, target, name);
+}
+
 export function LanguageSwitcher({ options, current }: Props) {
   const { defaultLocale } = useShopifyAdapter();
   const { i18n, t } = useTranslation('common');
@@ -87,7 +93,9 @@ export function LanguageSwitcher({ options, current }: Props) {
   const seg = pathname.split('/').filter(Boolean)[0] ?? '';
   const pathLang = /^[a-z]{2}$/i.test(seg) ? seg.toLowerCase() : undefined;
   const defLang = toLang(defaultLocale);
-  const effective = toLang(current) || pathLang || toLang(i18n.resolvedLanguage) || defLang;
+  const currentNorm = current ? toLang(current) : undefined;
+  const resolvedNorm = i18n.resolvedLanguage ? toLang(i18n.resolvedLanguage) : undefined;
+  const effective = pathLang || currentNorm || resolvedNorm || defLang;
 
   const idx = useMemo(
     () => (options?.length ? options.findIndex((o) => toLang(o.isoCode) === effective) : -1),
@@ -122,8 +130,8 @@ export function LanguageSwitcher({ options, current }: Props) {
   });
 
   return (
-    <DropdownMenu.Root>
-      <Tooltip.Root>
+    <DropdownMenu.Root data-testid="dm-root">
+      <Tooltip.Root data-testid="tt-root">
         <Tooltip.Trigger asChild>
           <DropdownMenu.Trigger asChild>
             <Button
@@ -131,6 +139,7 @@ export function LanguageSwitcher({ options, current }: Props) {
               variant="outline"
               surface="dark"
               className="w-full max-w-12 md:max-w-none"
+              data-testid="btn"
             >
               <Globe className="h-4 w-4 text-primary-400 mr-2" aria-hidden />
               <span>{toLang(active.isoCode).toUpperCase()}</span>
@@ -138,21 +147,20 @@ export function LanguageSwitcher({ options, current }: Props) {
           </DropdownMenu.Trigger>
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Content sideOffset={8}>
+          <Tooltip.Content sideOffset={8} data-testid="tt-content">
             {labelChange}
-            <Tooltip.Arrow />
+            <Tooltip.Arrow data-testid="tt-arrow" />
           </Tooltip.Content>
         </Tooltip.Portal>
       </Tooltip.Root>
 
       {others.length > 0 && (
-        <DropdownMenu.Portal>
-          <DropdownMenu.Content sideOffset={8}>
+        <DropdownMenu.Portal data-testid="dm-portal">
+          <DropdownMenu.Content sideOffset={8} data-testid="dm-content">
             <div className="px-3 py-2 text-xs uppercase opacity-60">{labelChange}</div>
             {others.map((o) => {
               const target = toLang(o.isoCode);
-              const langName = endonym(target, target);
-              const label = tSwitchTo(i18n, target, langName);
+              const label = labelForTarget(i18n, target);
               return (
                 <DropdownMenu.Item key={o.isoCode} asChild>
                   <NavLink to={o.href} prefetch="none" aria-label={label}>

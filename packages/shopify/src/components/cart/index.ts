@@ -1,5 +1,5 @@
+export type * from '../../types/cart.interface';
 export * from './AddToCartButton';
-export type * from './cart.interface';
 export * from './CartAside';
 export * from './CartEmpty';
 export * from './CartLineItem';

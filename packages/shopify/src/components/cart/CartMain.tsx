@@ -1,8 +1,8 @@
 import { cn } from '@nuvens/ui';
 import { type OptimisticCart } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
+import type { CartLayout } from '../../types/cart.interface';
 import { type CartApiQueryFragment } from '../../types/storefrontapi.generated';
-import type { CartLayout } from './cart.interface';
 import { CartEmpty } from './CartEmpty';
 import { CartLineItem } from './CartLineItem';
 import { CartSummaryPanel } from './CartSummaryPanel';

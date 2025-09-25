@@ -5,23 +5,18 @@ import { LocalizedLink } from './LocalizedLink';
 
 type PolicyItem = { id: string; title: string; handle: string };
 
-const ICONS: Record<string, LucideIcon> = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  'privacy-policy': Shield,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  'shipping-policy': Truck,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  'refund-policy': RotateCcw,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  'terms-of-service': ScrollText,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  'subscription-policy': FileText,
-};
+const ICONS = new Map<string, LucideIcon>([
+  ['privacy-policy', Shield],
+  ['shipping-policy', Truck],
+  ['refund-policy', RotateCcw],
+  ['terms-of-service', ScrollText],
+  ['subscription-policy', FileText],
+]);
 
 export function PolicyCard({ policy }: { policy: PolicyItem }) {
   const { t } = useTranslation('policies');
   const handle = (policy.handle || '').toLowerCase();
-  const Icon = ICONS[handle] ?? FileText;
+  const Icon = ICONS.get(handle) ?? FileText;
   const aria = t('cards.read', { title: policy.title });
 
   return (

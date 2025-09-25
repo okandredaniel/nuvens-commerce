@@ -58,7 +58,6 @@ const untypedTsGlobs = [
   'types/**/*.{ts,tsx,d.ts}',
 ];
 
-// shared settings
 const importResolver = {
   node: { extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'] },
   typescript: { alwaysTryTypes: true, project: existingProjectTsconfigs },
@@ -154,7 +153,6 @@ export default [
     ),
   ).map((c) => ({ ...c, files: ['**/*.{ts,tsx}'] })),
 
-  // typed TS
   {
     files: typedTsGlobs,
     languageOptions: {
@@ -176,7 +174,6 @@ export default [
     },
   },
 
-  // untyped TS
   {
     files: untypedTsGlobs,
     languageOptions: {
@@ -250,7 +247,6 @@ export default [
     },
   },
 
-  // storefront client code restrictions
   {
     files: ['apps/storefront/app/**/*.{ts,tsx,js,jsx}'],
     ignores: ['apps/storefront/app/server/**/*.{ts,tsx,js,jsx}'],
@@ -282,25 +278,21 @@ export default [
     },
   },
 
-  // storefront tests
   {
     files: ['apps/storefront/app/**/*.test.*'],
     rules: { 'no-restricted-imports': 'off' },
   },
 
-  // storefront server code
   {
     files: ['apps/storefront/app/server/**/*.{ts,tsx,js,jsx}'],
     rules: { 'no-restricted-imports': 'off' },
   },
 
-  // any *.server.* file
   {
     files: ['**/*.server.*'],
     rules: { 'no-restricted-imports': 'off' },
   },
 
-  // ui package restrictions
   {
     files: ['packages/ui/src/**/*.{ts,tsx}'],
     rules: {
@@ -335,21 +327,18 @@ export default [
     },
   },
 
-  // tool configs
   {
     files: ['**/tailwind*.{js,ts}', '**/postcss.config.{js,ts}'],
     languageOptions: { parserOptions: { project: null } },
     rules: { '@typescript-eslint/naming-convention': 'off' },
   },
 
-  // scripts
   {
     files: ['scripts/**/*.{js,mjs,ts}'],
     languageOptions: { globals: { ...globals.node } },
     rules: { 'no-console': 'off' },
   },
 
-  // base unresolved rule; ignore CSS and ?url
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     rules: {
@@ -357,7 +346,6 @@ export default [
     },
   },
 
-  // ui tests (use dedicated tsconfig if present)
   {
     files: [
       'packages/ui/vitest.setup.ts',
@@ -380,7 +368,6 @@ export default [
     },
   },
 
-  // project-wide test files: enable vitest globals
   {
     files: [
       '**/*.test.{ts,tsx,js,jsx}',
@@ -390,7 +377,6 @@ export default [
     languageOptions: { globals: { ...globals.vitest } },
   },
 
-  // type-only setup files
   {
     files: ['packages/ui/setup-tests.d.ts'],
     languageOptions: {
@@ -403,7 +389,6 @@ export default [
     },
   },
 
-  // vitest config files: allow `vitest/config` subpath
   {
     files: ['vitest.config.{ts,js,mjs,cjs}', '**/vitest.config.{ts,js,mjs,cjs}'],
     languageOptions: {

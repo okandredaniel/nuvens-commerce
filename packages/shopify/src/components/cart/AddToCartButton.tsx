@@ -2,7 +2,7 @@ import { Button, cn } from '@nuvens/ui';
 import { CartForm, type OptimisticCartLineInput } from '@shopify/hydrogen';
 import { Check, Loader2, ShoppingCart } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { type FetcherState } from './cart.interface';
+import { type FetcherState } from '../../types/cart.interface';
 
 type AddToCartButtonProps = {
   ariaLabel: string;

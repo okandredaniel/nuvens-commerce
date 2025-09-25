@@ -6,9 +6,9 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 import { useShopifyAdapter } from '../../adapter';
+import type { CartLayout } from '../../types/cart.interface';
 import { type CartApiQueryFragment } from '../../types/storefrontapi.generated';
 import { ProductPrice } from '../ProductPrice';
-import type { CartLayout } from './cart.interface';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 

@@ -1,8 +1,8 @@
 import { Card, CardContent } from '@nuvens/ui';
 import { Money, type OptimisticCart } from '@shopify/hydrogen';
 import { useTranslation } from 'react-i18next';
+import type { CartLayout } from '../../types/cart.interface';
 import { type CartApiQueryFragment } from '../../types/storefrontapi.generated';
-import type { CartLayout } from './cart.interface';
 
 type CartSummaryProps = {
   cart: OptimisticCart<CartApiQueryFragment>;

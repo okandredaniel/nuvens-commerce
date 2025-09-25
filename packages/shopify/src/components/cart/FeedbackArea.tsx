@@ -18,10 +18,18 @@ export function FeedbackArea({
   errorText: string;
 }) {
   const { t } = useTranslation('common');
-  const serverErrors: string[] =
-    (fetcher.data?.errors as string[]) ||
-    (fetcher.data?.errors?.map?.((e: { message: string }) => e.message) as string[]) ||
-    [];
+
+  const raw = (fetcher as any)?.data?.errors;
+  let serverErrors: string[] = [];
+  if (Array.isArray(raw)) {
+    serverErrors = raw
+      .map((e: any) => (typeof e === 'string' ? e : e?.message))
+      .filter((v: unknown): v is string => typeof v === 'string' && v.length > 0);
+  } else if (typeof raw === 'string') {
+    serverErrors = [raw];
+  } else if (raw && typeof raw === 'object' && typeof (raw as any).message === 'string') {
+    serverErrors = [(raw as any).message];
+  }
 
   if (loading) {
     return (
