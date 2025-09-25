@@ -107,6 +107,10 @@ export default defineConfig({
       all: true,
       include: ['apps/**/*.{ts,tsx}', 'packages/**/*.{ts,tsx}'],
       exclude: [
+        // project folders (maybe, remove in the future)
+        '**/fragments/**',
+        '**/routes/**',
+        // rest
         '**/node_modules/**',
         '**/*.d.ts',
         '**/*.interface.ts',

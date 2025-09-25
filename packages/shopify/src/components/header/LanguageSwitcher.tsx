@@ -79,7 +79,7 @@ async function ensureBundle(i18n: import('i18next').i18n, lang: string) {
 }
 
 function labelForTarget(i18n: import('i18next').i18n, target: string) {
-  if (toLang(target) === 'en') return tSwitchTo(i18n, target, 'ENGLISH');
+  if (toLang(target) === 'en') return tSwitchTo(i18n, target, 'English');
   const name = endonym(target, target);
   return tSwitchTo(i18n, target, name);
 }

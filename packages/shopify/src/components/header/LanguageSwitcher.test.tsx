@@ -146,7 +146,7 @@ describe('LanguageSwitcher', () => {
     const btn = screen.getByTestId('btn');
     expect(btn).toHaveTextContent('FR');
 
-    const en = screen.getByRole('link', { name: 'Switch to ENGLISH' }) as HTMLAnchorElement;
+    const en = screen.getByRole('link', { name: 'Switch to English' }) as HTMLAnchorElement;
     expect(en).toHaveAttribute('href', '/en');
   });
 
@@ -165,7 +165,7 @@ describe('LanguageSwitcher', () => {
     const btn = screen.getByTestId('btn');
     expect(btn).toHaveTextContent('PT');
 
-    const en = screen.getByRole('link', { name: 'Switch to ENGLISH' }) as HTMLAnchorElement;
+    const en = screen.getByRole('link', { name: 'Switch to English' }) as HTMLAnchorElement;
     expect(en).toHaveAttribute('href', '/en');
   });
 
