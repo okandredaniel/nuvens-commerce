@@ -20,8 +20,9 @@ export function CartEmpty({ fallback }: { fallback: string }) {
       <h2 className="text-lg font-semibold text-neutral-900">{t('empty.title')}</h2>
       <p className="mt-2 text-sm text-neutral-600">{t('empty.body')}</p>
 
-      <ul className="mt-3 flex list-none flex-col items-center gap-1 text-xs text-neutral-600">
+      <ul className="flex items-center justify-center gap-2 text-xs text-neutral-600 mt-4">
         <li>{t('empty.benefit_easy_returns')}</li>
+        <li aria-hidden>•</li>
         <li>{t('empty.benefit_secure_checkout')}</li>
       </ul>
 
