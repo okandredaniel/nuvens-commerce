@@ -63,6 +63,7 @@ const coreModules = [
   '@nuvens/core',
   '@nuvens/shopify',
   '@nuvens/ui/styles.css',
+  '@nuvens/ui/styles.css?url',
   '@testing-library/jest-dom/vitest',
   'virtual:react-router/server-build',
   'vitest/config',

@@ -8,8 +8,7 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles.css": "./src/styles.css",
-    "./favicon.png": "./src/favicon.png"
+    "./styles.css": "./src/styles.css"
   },
   "dependencies": {
     "@nuvens/core": "workspace:*",

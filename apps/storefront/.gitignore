@@ -1,1 +1,5 @@
 .shopify
+
+# vite config copies the right favicon files from brands
+public/favicon.png
+public/favicon.svg

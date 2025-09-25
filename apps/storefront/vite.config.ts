@@ -22,6 +22,10 @@ function ensureDir(dir: string) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
+function copyIfExists(src: string, dest: string) {
+  if (fs.existsSync(src)) fs.copyFileSync(src, dest);
+}
+
 function brandEntryPlugin(appDir: string, brandId: string): Plugin {
   const entryPath = path.resolve(appDir, 'app/brand-ui.generated.ts');
   const target = path.resolve(appDir, `../../packages/brand-${brandId}/src`);
@@ -40,6 +44,34 @@ function brandEntryPlugin(appDir: string, brandId: string): Plugin {
   };
 }
 
+function brandFaviconsPlugin(appDir: string, brandId: string): Plugin {
+  const outDir = path.resolve(appDir, 'public');
+  const srcRoot = path.resolve(appDir, `../../packages/brand-${brandId}`);
+  const srcInSrc = path.resolve(srcRoot, 'src');
+  const candidates = {
+    svg: [path.resolve(srcRoot, 'favicon.svg'), path.resolve(srcInSrc, 'favicon.svg')],
+    png: [path.resolve(srcRoot, 'favicon.png'), path.resolve(srcInSrc, 'favicon.png')],
+  };
+  const copy = () => {
+    ensureDir(outDir);
+    for (const c of candidates.svg) copyIfExists(c, path.resolve(outDir, 'favicon.svg'));
+    for (const c of candidates.png) copyIfExists(c, path.resolve(outDir, 'favicon.png'));
+  };
+  return {
+    name: 'brand-favicons',
+    apply: 'serve',
+    configureServer(server) {
+      copy();
+      server.watcher.add([...candidates.svg, ...candidates.png]);
+      server.watcher.on('add', copy);
+      server.watcher.on('change', copy);
+    },
+    buildStart() {
+      copy();
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname, '');
   const BRAND_ID = env.BRAND_ID || process.env.BRAND_ID;
@@ -48,7 +80,6 @@ export default defineConfig(({ mode }) => {
   const appDir = __dirname;
   const brandSrcDir = path.resolve(appDir, `../../packages/brand-${BRAND_ID}/src`);
   const brandCssPath = path.resolve(brandSrcDir, 'styles.css');
-  const brandFaviconPng = path.resolve(brandSrcDir, 'favicon.png');
 
   return {
     plugins: [
@@ -58,13 +89,13 @@ export default defineConfig(({ mode }) => {
       oxygen(),
       tsconfigPaths(),
       brandEntryPlugin(appDir, BRAND_ID),
+      brandFaviconsPlugin(appDir, BRAND_ID),
     ],
     resolve: {
       alias: [
         { find: '@', replacement: r('app') },
         { find: /^@nuvens\/brand-ui\/styles\.css\?url$/, replacement: `${brandCssPath}?url` },
         { find: /^@nuvens\/brand-ui\/styles\.css$/, replacement: brandCssPath },
-        { find: /^@nuvens\/brand-ui\/favicon\.png\?url$/, replacement: `${brandFaviconPng}?url` },
         { find: '@nuvens/brand-ui', replacement: r('app/brand-ui.generated.ts') },
         { find: '@nuvens/core', replacement: r('../../packages/core/src') },
         { find: '@nuvens/ui', replacement: r('../../packages/ui/src') },
