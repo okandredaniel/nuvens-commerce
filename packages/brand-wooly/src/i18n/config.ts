@@ -1,6 +1,12 @@
 import { Language } from '@nuvens/core';
 
-export const brandLocales = [Language.French, Language.English, Language.Spanish] as const;
+export const brandLocales = [
+  Language.English,
+  Language.French,
+  Language.Italian,
+  Language.Portuguese,
+  Language.Spanish,
+] as const;
 export type BrandLocale = (typeof brandLocales)[number];
 
 export const brandDefaultLocale: BrandLocale = Language.English;

@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
   "dependencies": {
     "@nuvens/core": "workspace:*",
     "@nuvens/ui": "workspace:*"
@@ -14,10 +19,5 @@
     "react-dom": "^18",
     "i18next": "^25",
     "react-i18next": "^15"
-  },
-  "tailwind": {
-    "content": [
-      "./src/**/*.{ts,tsx,js,jsx,mdx}"
-    ]
   }
 }
