@@ -38,10 +38,11 @@
     ]
   },
   "reviews": {
-    "title": "Las opiniones hablan por sí solas.",
-    "summary": "¡Más de 1.500 opiniones de 5 estrellas!*",
-    "ratingLabel": "Puntuación {rating}",
-    "cta": "Ver todas las opiniones"
+    "title": "Las reseñas hablan por sí solas.",
+    "summary": "¡Más de 1.500 reseñas de cinco estrellas!*",
+    "ratingLabel": "Valoración {rating}",
+    "cta": "Ver todas nuestras reseñas",
+    "verified": "Verificado"
   },
   "support": {
     "title": "Soporte",

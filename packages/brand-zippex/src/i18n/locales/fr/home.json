@@ -38,10 +38,11 @@
     ]
   },
   "reviews": {
-    "title": "Les avis parlent d’eux-mêmes.",
-    "summary": "Plus de 1.500 avis 5 étoiles !*",
+    "title": "Les avis parlent d'eux-mêmes.",
+    "summary": "Plus de 1 500 avis cinq étoiles !*",
     "ratingLabel": "Note {rating}",
-    "cta": "Voir tous nos avis"
+    "cta": "Voir tous nos avis",
+    "verified": "Vérifié"
   },
   "support": {
     "title": "Support",

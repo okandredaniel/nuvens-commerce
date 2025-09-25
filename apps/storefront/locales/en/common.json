@@ -49,5 +49,11 @@
   "errors": {
     "title": "Something went wrong"
   },
+  "carousel": {
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "goTo": "Go to slide {{index}}",
+    "status": "Slide {{current}} of {{total}}"
+  },
   "copyright": "© {{year}} {{brand}}. All rights reserved."
 }

@@ -57,11 +57,11 @@ const reviews = [
 ];
 
 export function ReviewsSection({ headingId, Image }: { headingId: string; Image: ImageProps }) {
-  const { t, i18n } = useTranslation('home');
+  const { t: tHome, i18n } = useTranslation('home');
   const { t: tCommon } = useTranslation('common');
 
   const i18nCarousel = {
-    label: t('reviews.title'),
+    label: tHome('reviews.title'),
     previous: tCommon('carousel.previous'),
     next: tCommon('carousel.next'),
     goTo: (index: number) => tCommon('carousel.goTo', { index }),
@@ -72,11 +72,11 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
     <div>
       <div className="flex flex-col items-center gap-2">
         <Heading id={headingId} as="h2" className="text-primary-600 text-4xl" align="center">
-          {t('reviews.title')}
+          {tHome('reviews.title')}
         </Heading>
         <div className="flex items-center gap-4" aria-live="polite">
           <RatingStars value={5} />
-          <span className="text-neutral-700">{t('reviews.summary')}</span>
+          <span className="text-neutral-700">{tHome('reviews.summary')}</span>
         </div>
       </div>
 
@@ -102,10 +102,10 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
                     text={r.body}
                     rating={r.rating}
                     Image={Image}
-                    ratingLabel={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
+                    ratingLabel={tHome('reviews.ratingLabel', { rating: `${r.rating}/5` })}
                     logoSrc={trustpilotLogo}
                     verified={r.verified}
-                    verifiedLabel={t('reviews.verified', { defaultValue: 'Verified' })}
+                    verifiedLabel={tHome('reviews.verified', { defaultValue: 'Verified' })}
                     date={r.date ? new Date(r.date).toLocaleDateString(i18n.language) : undefined}
                   />
                 </div>
@@ -122,10 +122,10 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
               text={r.body}
               rating={r.rating}
               Image={Image}
-              ratingLabel={t('reviews.ratingLabel', { rating: `${r.rating}/5` })}
+              ratingLabel={tHome('reviews.ratingLabel', { rating: `${r.rating}/5` })}
               logoSrc={trustpilotLogo}
               verified={r.verified}
-              verifiedLabel={t('reviews.verified', { defaultValue: 'Verified' })}
+              verifiedLabel={tHome('reviews.verified', { defaultValue: 'Verified' })}
               date={r.date ? new Date(r.date).toLocaleDateString(i18n.language) : undefined}
             />
           ))}
@@ -134,7 +134,7 @@ export function ReviewsSection({ headingId, Image }: { headingId: string; Image:
 
       <div className="flex justify-center">
         <Button asChild>
-          <LocalizedNavLink to="/pages/reviews">{t('reviews.cta')}</LocalizedNavLink>
+          <LocalizedNavLink to="/pages/reviews">{tHome('reviews.cta')}</LocalizedNavLink>
         </Button>
       </div>
     </div>

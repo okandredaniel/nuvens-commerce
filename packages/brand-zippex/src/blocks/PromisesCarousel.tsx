@@ -10,20 +10,21 @@ const items = [
 ];
 
 export function PromisesCarousel({ headingId }: { headingId: string }) {
-  const { t } = useTranslation('home');
+  const { t: tHome } = useTranslation('home');
+  const { t: tCommon } = useTranslation('common');
 
   const i18n = {
-    label: t('promise.aria'),
-    previous: t('carousel.previous'),
-    next: t('carousel.next'),
-    goTo: (index: number) => t('carousel.goTo', { index }),
-    status: (current: number, total: number) => t('carousel.status', { current, total }),
+    label: tHome('promise.aria'),
+    previous: tCommon('carousel.previous'),
+    next: tCommon('carousel.next'),
+    goTo: (index: number) => tCommon('carousel.goTo', { index }),
+    status: (current: number, total: number) => tCommon('carousel.status', { current, total }),
   };
 
   return (
     <section aria-labelledby={headingId} className="w-full">
       <Heading id={headingId} as="h2" tone="onPrimary" align="center" className="mb-16">
-        {t('promise.title')}
+        {tHome('promise.title')}
       </Heading>
 
       <Carousel
@@ -42,9 +43,9 @@ export function PromisesCarousel({ headingId }: { headingId: string }) {
               <CardContent className="flex h-full flex-col items-center text-center">
                 <Icon className="mb-4 h-16 w-16 text-neutral-400" strokeWidth={1} aria-hidden />
                 <Heading as="h3" align="center" className="my-3 text-primary-600">
-                  {t(titleKey)}
+                  {tHome(titleKey)}
                 </Heading>
-                <p className="text-neutral-700">{t(bodyKey)}</p>
+                <p className="text-neutral-700">{tHome(bodyKey)}</p>
               </CardContent>
             </Card>
           </CarouselSlide>

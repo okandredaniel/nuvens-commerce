@@ -41,7 +41,8 @@
     "title": "The reviews speak for themselves.",
     "summary": "Over 1,500 five-star reviews!*",
     "ratingLabel": "Rating {rating}",
-    "cta": "See all our reviews"
+    "cta": "See all our reviews",
+    "verified": "Verified"
   },
   "support": {
     "title": "Support",
