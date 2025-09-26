@@ -415,4 +415,10 @@ export default [
       'import/core-modules': ['@shopify/hydrogen/storefront-api-types'],
     },
   },
+
+  {
+    rules: {
+      'jsx-a11y/media-has-caption': 'off',
+    },
+  },
 ];

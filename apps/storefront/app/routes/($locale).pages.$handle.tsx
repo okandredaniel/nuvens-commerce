@@ -18,29 +18,25 @@ type LoaderData = {
   templateKey: string;
 };
 
+function regKeys(reg: any): string[] {
+  if (!reg) return [];
+  return reg instanceof Map ? Array.from(reg.keys()) : Object.keys(reg);
+}
+
+function regGet<T>(reg: any, key: string): T | undefined {
+  return reg instanceof Map ? reg.get(key) : reg?.[key];
+}
+
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const title = data?.page?.seo?.title || data?.page?.title || 'Page';
   const desc = data?.page?.seo?.description || undefined;
-  return [
-    { title },
-    ...(desc
-      ? [
-          {
-            name: 'description',
-            content: desc,
-          },
-        ]
-      : []),
-  ];
+  return [{ title }, ...(desc ? [{ name: 'description', content: desc }] : [])];
 };
 
 export const loader = guardedLoader(async (args: LoaderFunctionArgs) => {
   const critical = await loadCriticalData(args);
   const deferred = loadDeferredData(args);
-  return {
-    ...deferred,
-    ...critical,
-  };
+  return { ...deferred, ...critical };
 });
 
 async function loadCriticalData({ context, request, params }: LoaderFunctionArgs) {
@@ -51,10 +47,7 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
   const { page } = await storefront.query(PAGE_QUERY, { variables: { handle } });
   if (!page) throw new Response('Not Found', { status: 404 });
 
-  redirectIfHandleIsLocalized(request, {
-    handle,
-    data: page,
-  });
+  redirectIfHandleIsLocalized(request, { handle, data: page });
 
   const normalize = (v?: string | null) =>
     (v || '')
@@ -64,16 +57,10 @@ async function loadCriticalData({ context, request, params }: LoaderFunctionArgs
       .replace(/^-+|-+$/g, '');
 
   const candidates = [normalize(page.templateMeta?.value), normalize(page.handle)].filter(Boolean);
-  const available = new Set([
-    ...Object.keys(pageTemplates),
-    ...Object.keys(brandPageTemplates || {}),
-  ]);
+  const available = new Set<string>([...regKeys(pageTemplates), ...regKeys(brandPageTemplates)]);
   const templateKey = candidates.find((c) => available.has(c)) || 'default';
 
-  return {
-    page,
-    templateKey,
-  } satisfies LoaderData;
+  return { page, templateKey } satisfies LoaderData;
 }
 
 function loadDeferredData(_: LoaderFunctionArgs) {
@@ -82,13 +69,11 @@ function loadDeferredData(_: LoaderFunctionArgs) {
 
 export default function Page() {
   const { page, templateKey } = useLoaderData<typeof loader>();
-  const BrandTemplate = (brandPageTemplates as any)?.[templateKey];
-  const StorefrontTemplate = (pageTemplates as any)?.[templateKey];
-  const Template =
-    BrandTemplate ||
-    StorefrontTemplate ||
-    (brandPageTemplates as any)?.default ||
-    (pageTemplates as any)?.default;
+  const BrandTemplate = regGet<any>(brandPageTemplates, templateKey);
+  const StorefrontTemplate = regGet<any>(pageTemplates, templateKey);
+  const DefaultBrand = regGet<any>(brandPageTemplates, 'default');
+  const DefaultStorefront = regGet<any>(pageTemplates, 'default');
+  const Template = BrandTemplate || StorefrontTemplate || DefaultBrand || DefaultStorefront;
   return <Template page={page} Image={Image} />;
 }
 

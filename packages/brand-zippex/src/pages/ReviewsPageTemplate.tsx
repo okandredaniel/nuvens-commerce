@@ -17,7 +17,7 @@ import {
 import { Award, Filter, Star, TrendingUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export default function ReviewsPageTemplate({ Image }: { Image: ImageProps }) {
+export function ReviewsPageTemplate({ Image }: { Image: ImageProps }) {
   const { i18n } = useTranslation('home');
 
   const reviews = [

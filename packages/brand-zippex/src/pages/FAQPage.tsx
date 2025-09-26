@@ -1,9 +1,10 @@
+import { type PageTemplateProps } from '@nuvens/core';
 import { LocalizedNavLink } from '@nuvens/shopify';
 import { Accordion, Badge, Button, Container, Heading } from '@nuvens/ui';
 import { Heart, Moon, Phone, RefreshCw, Shield, Truck } from 'lucide-react';
 import { faqItems } from '../../../core/src/mocks/questions';
 
-export function FAQPageTemplate() {
+export function FAQPageTemplate(page: PageTemplateProps) {
   const features = [
     { icon: Moon, title: '100-Night Trial', description: 'Sleep on it risk-free' },
     { icon: Shield, title: '10-Year Warranty', description: 'Full coverage protection' },

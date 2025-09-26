@@ -1,9 +1,10 @@
+import { type PageTemplateProps } from '@nuvens/core';
 import { LocalizedNavLink } from '@nuvens/shopify';
 import { Badge, Button, Card, CardContent, Container, Heading } from '@nuvens/ui';
 import { Award, Globe, Heart, Lightbulb, Shield, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export function AboutPageTemplate() {
+export function AboutPageTemplate(page: PageTemplateProps) {
   const { t } = useTranslation('about');
 
   const timeline = [

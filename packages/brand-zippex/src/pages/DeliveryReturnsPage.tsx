@@ -1,3 +1,4 @@
+import { type PageTemplateProps } from '@nuvens/core';
 import { LocalizedNavLink } from '@nuvens/shopify';
 import {
   Accordion,
@@ -15,7 +16,7 @@ import {
 } from '@nuvens/ui';
 import { Clock, Heart, HelpCircle, Mail, MessageSquare, RotateCcw } from 'lucide-react';
 
-export default function DeliveryReturnsPage() {
+export function DeliveryReturnsPage(page: PageTemplateProps) {
   return (
     <div className="min-h-screen">
       <section
