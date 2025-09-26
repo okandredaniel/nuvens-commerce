@@ -12,7 +12,7 @@ export function FAQPageTemplate() {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen">
       <section aria-labelledby="faq-hero" className="relative bg-neutral-50 py-24 px-4">
         <Container className="text-center">
           <Badge className="mx-auto mb-6">Frequently Asked Questions</Badge>
